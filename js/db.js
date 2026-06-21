@@ -1,689 +1,161 @@
-let db = null;
+let initialized = false;
 
-export function initDB() {
-  return new Promise((resolve, reject) => {
-    if (db) {
-      resolve(db);
-      return;
+const SUPABASE_URL = 'https://gvgyaxlbpkvpvwpqxjwc.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_2raJHpiyV55SbGDghEUL5A_2UgIecMn';
+
+async function supabaseRequest(method, table, opts = {}) {
+  const { where, body, order } = opts;
+  let url = `${SUPABASE_URL}/rest/v1/${table}?select=*`;
+  if (where) {
+    for (const [k, v] of Object.entries(where)) {
+      url += `&${k}=eq.${encodeURIComponent(String(v))}`;
     }
-    // Upgraded to version 4 to include characters store
-    const request = indexedDB.open('KitobTestDB', 4);
+  }
+  if (order) url += `&order=${order}`;
 
-    request.onerror = (e) => {
-      console.error('Database error:', e.target.error);
-      reject(e.target.error);
-    };
+  const headers = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  };
 
-    request.onsuccess = async (e) => {
-      db = e.target.result;
-      try {
-        await seedDatabaseIfNeeded();
-        resolve(db);
-      } catch (err) {
-        console.error("Database seeding failed:", err);
-        resolve(db); // Still resolve db even if seeding fails
-      }
-    };
-
-    request.onupgradeneeded = (e) => {
-      const database = e.target.result;
-
-      // Users store
-      if (!database.objectStoreNames.contains('users')) {
-        const userStore = database.createObjectStore('users', { keyPath: 'id' });
-        userStore.createIndex('username', 'username', { unique: true });
-      }
-
-      // Results store
-      if (!database.objectStoreNames.contains('results')) {
-        const resultStore = database.createObjectStore('results', { keyPath: 'id' });
-        resultStore.createIndex('userId', 'userId', { unique: false });
-        resultStore.createIndex('bookId', 'bookId', { unique: false });
-        resultStore.createIndex('completedAt', 'completedAt', { unique: false });
-      }
-
-      // Comments store
-      if (!database.objectStoreNames.contains('comments')) {
-        const commentStore = database.createObjectStore('comments', { keyPath: 'id' });
-        commentStore.createIndex('bookId', 'bookId', { unique: false });
-        commentStore.createIndex('userId', 'userId', { unique: false });
-        commentStore.createIndex('createdAt', 'createdAt', { unique: false });
-      }
-
-      // Books store (New in v2)
-      if (!database.objectStoreNames.contains('books')) {
-        database.createObjectStore('books', { keyPath: 'id' });
-      }
-
-      // Questions store (New in v2)
-      if (!database.objectStoreNames.contains('questions')) {
-        const questionStore = database.createObjectStore('questions', { keyPath: 'id' });
-        questionStore.createIndex('bookId', 'bookId', { unique: false });
-      }
-
-      // Arena matches store (New in v3)
-      if (!database.objectStoreNames.contains('arena_matches')) {
-        const arenaStore = database.createObjectStore('arena_matches', { keyPath: 'id' });
-        arenaStore.createIndex('userId', 'userId', { unique: false });
-        arenaStore.createIndex('completedAt', 'completedAt', { unique: false });
-      }
-
-      // Characters store (New in v3 / v4)
-      if (!database.objectStoreNames.contains('characters')) {
-        database.createObjectStore('characters', { keyPath: 'id' });
-      }
-    };
-  });
+  const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  if (!res.ok) {
+    if (res.status === 409 && method === 'POST') {
+      throw new Error("Bu ma'lumot allaqachon mavjud");
+    }
+    let msg = `Supabase xatosi (${table}): ${res.status}`;
+    try { const t = await res.text(); if (t) msg += ' ' + t; } catch {}
+    throw new Error(msg);
+  }
+  if (method === 'DELETE') return true;
+  const data = await res.json();
+  if (method === 'GET') {
+    if (where) return data[0] || null;
+    return data;
+  }
+  if (method === 'POST') return data[0] || body;
+  if (method === 'PATCH') return data[0] || body;
+  return data;
 }
 
-async function seedDatabaseIfNeeded() {
-  const booksCount = await new Promise((resolve) => {
-    try {
-      const store = getStore('books', 'readonly');
-      const req = store.count();
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => resolve(0);
-    } catch {
-      resolve(0);
-    }
-  });
-
-  const hasAtomOdatlar = await new Promise((resolve) => {
-    try {
-      const store = getStore('books', 'readonly');
-      const req = store.get('atom-odatlar');
-      req.onsuccess = () => resolve(!!req.result);
-      req.onerror = () => resolve(false);
-    } catch {
-      resolve(false);
-    }
-  });
-
-  // Upgraded check: seed if count is less than 50 or if the new trending book is missing
-  if (booksCount < 50 || !hasAtomOdatlar) {
-    console.log("Seeding/Reseeding database with 50 trending default books and questions...");
-    const { books: initialBooks, questions: initialQuestions } = await import('./data.js');
-
-    // Add/overwrite books
-    const bookStore = getStore('books', 'readwrite');
-    bookStore.clear(); // Clear old books
-    for (const b of initialBooks) {
-      bookStore.put(b);
-    }
-
-    // Add/overwrite questions
-    const questionStore = getStore('questions', 'readwrite');
-    questionStore.clear(); // Clear old questions
-    for (const q of initialQuestions) {
-      questionStore.put(q);
-    }
-    console.log("Seeding completed successfully!");
+export async function initDB() {
+  if (initialized) return;
+  try {
+    await supabaseRequest('GET', 'users', { where: { id: 'ping' } });
+  } catch {
+    // ignore ping
+  }
+  initialized = true;
+  try {
+    await seedDatabaseIfNeeded();
+  } catch (err) {
+    console.error('Database seeding error:', err);
   }
 }
 
-function getStore(storeName, mode = 'readonly') {
-  if (!db) throw new Error("Database not initialized. Call initDB first.");
-  const transaction = db.transaction(storeName, mode);
-  return transaction.objectStore(storeName);
-}
+async function seedDatabaseIfNeeded() {
+  const existing = await supabaseRequest('GET', 'books', { where: { id: 'otkan-kunlar' } });
+  if (existing) return;
 
-// User CRUD
-export function addUser(userData) {
-  return new Promise((resolve, reject) => {
+  const { books, questions } = await import('./data.js');
+
+  for (const b of books) {
     try {
-      const store = getStore('users', 'readwrite');
-      const request = store.add(userData);
-      request.onsuccess = () => resolve(userData);
-      request.onerror = (e) => {
-        if (e.target.error.name === 'ConstraintError') {
-          reject(new Error("Ushbu foydalanuvchi nomi band!"));
-        } else {
-          reject(e.target.error);
-        }
-      };
+      await supabaseRequest('POST', 'books', { body: b });
     } catch (err) {
-      reject(err);
+      if (!err.message.includes('409')) console.warn('Book seed skip:', b.id, err.message);
     }
-  });
-}
-
-export function getUserByUsername(username) {
-  return new Promise((resolve, reject) => {
+  }
+  for (const q of questions) {
     try {
-      const store = getStore('users', 'readonly');
-      const index = store.index('username');
-      const request = index.get(username);
-      request.onsuccess = (e) => resolve(e.target.result || null);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
+      await supabaseRequest('POST', 'questions', { body: q });
+    } catch {}
+  }
+  console.log('Ma\'lumotlar supabase\'ga yuklandi');
 }
 
-export function getUserById(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('users', 'readonly');
-      const request = store.get(id);
-      request.onsuccess = (e) => resolve(e.target.result || null);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
+function supabaseGet(table, where) {
+  return supabaseRequest('GET', table, { where });
 }
 
-export function updateUser(id, updates) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const user = await getUserById(id);
-      if (!user) {
-        reject(new Error("Foydalanuvchi topilmadi"));
-        return;
-      }
-      const updatedUser = { ...user, ...updates };
-      const store = getStore('users', 'readwrite');
-      const request = store.put(updatedUser);
-      request.onsuccess = () => resolve(updatedUser);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
+function supabaseList(table, order) {
+  return supabaseRequest('GET', table, { order });
 }
 
-export function deleteUser(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('users', 'readwrite');
-      const request = store.delete(id);
-      request.onsuccess = () => resolve(true);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
+async function supabaseAdd(table, data) {
+  await supabaseRequest('POST', table, { body: data });
+  return data;
 }
 
-export function getAllUsers() {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('users', 'readonly');
-      const request = store.getAll();
-      request.onsuccess = (e) => resolve(e.target.result || []);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
+async function supabaseUpdate(table, id, updates) {
+  return supabaseRequest('PATCH', table, { where: { id }, body: updates });
 }
 
-// Dynamic Books CRUD
-export function addBook(bookData) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('books', 'readwrite');
-      const request = store.add(bookData);
-      request.onsuccess = () => resolve(bookData);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
+async function supabaseDelete(table, id) {
+  return supabaseRequest('DELETE', table, { where: { id } });
 }
 
-export function updateBook(id, updates) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const store = getStore('books', 'readwrite');
-      const getReq = store.get(id);
-      getReq.onsuccess = (e) => {
-        const book = e.target.result;
-        if (!book) {
-          reject(new Error("Kitob topilmadi"));
-          return;
-        }
-        const updated = { ...book, ...updates };
-        const putReq = store.put(updated);
-        putReq.onsuccess = () => resolve(updated);
-        putReq.onerror = (err) => reject(err.target.error);
-      };
-      getReq.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
+export function addUser(d) { return supabaseAdd('users', d); }
+export function getUserByUsername(username) { return supabaseGet('users', { username }); }
+export function getUserById(id) { return supabaseGet('users', { id }); }
+export function updateUser(id, updates) { return supabaseUpdate('users', id, updates); }
+export function deleteUser(id) { return supabaseDelete('users', id); }
+export function getAllUsers() { return supabaseList('users', 'createdAt'); }
+
+export function addBook(d) { return supabaseAdd('books', d); }
+export function updateBook(id, updates) { return supabaseUpdate('books', id, updates); }
+export function deleteBook(id) { return supabaseDelete('books', id); }
+export function getBookById(id) { return supabaseGet('books', { id }); }
+export function getAllBooks() { return supabaseList('books'); }
+
+export function addQuestion(d) { return supabaseAdd('questions', d); }
+export function updateQuestion(id, updates) { return supabaseUpdate('questions', id, updates); }
+export function deleteQuestion(id) { return supabaseDelete('questions', id); }
+export function getQuestionsByBook(bookId) { return supabaseRequest('GET', 'questions', { where: { bookId } }); }
+export function getAllQuestions() { return supabaseList('questions'); }
+
+export function addResult(d) { return supabaseAdd('results', d); }
+export function getResultsByUser(userId) { return supabaseRequest('GET', 'results', { where: { userId }, order: 'completedAt.desc' }); }
+export function getResultById(id) { return supabaseGet('results', { id }); }
+export function getAllResults() { return supabaseRequest('GET', 'results', { order: 'completedAt.desc' }); }
+
+export function addComment(d) { return supabaseAdd('comments', d); }
+export function getCommentsByBook(bookId) { return supabaseRequest('GET', 'comments', { where: { bookId }, order: 'createdAt.desc' }); }
+export function getAllComments() { return supabaseRequest('GET', 'comments', { order: 'createdAt.desc' }); }
+export function updateComment(id, updates) { return supabaseUpdate('comments', id, updates); }
+export function deleteComment(id) { return supabaseDelete('comments', id); }
+
+export function addArenaMatch(d) { return supabaseAdd('arena_matches', d); }
+export function getArenaMatchesByUser(userId) { return supabaseRequest('GET', 'arena_matches', { where: { userId }, order: 'completedAt.desc' }); }
+export function getAllArenaMatches() { return supabaseRequest('GET', 'arena_matches', { order: 'completedAt.desc' }); }
+
+export function addCharacter(d) { return supabaseAdd('characters', d); }
+export function getAllCharacters() { return supabaseList('characters'); }
+export function updateCharacter(id, updates) { return supabaseUpdate('characters', id, updates); }
+export function deleteCharacter(id) { return supabaseDelete('characters', id); }
+
+export async function updateUserStreak(userId) {
+  const user = await getUserById(userId);
+  if (!user) throw new Error("Foydalanuvchi topilmadi");
+  if (!user.stats) {
+    user.stats = { testsCompleted: 0, avgScore: 0, bestScore: 0, currentStreak: 0, maxStreak: 0, lastQuizDate: '' };
+  }
+  if (user.stats.currentStreak === undefined) user.stats.currentStreak = 0;
+  if (user.stats.maxStreak === undefined) user.stats.maxStreak = 0;
+  if (user.stats.lastQuizDate === undefined) user.stats.lastQuizDate = '';
+
+  const today = new Date().toLocaleDateString('en-CA');
+  if (user.stats.lastQuizDate === today) return user;
+
+  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-CA');
+  if (user.stats.lastQuizDate === yesterday) {
+    user.stats.currentStreak += 1;
+  } else {
+    user.stats.currentStreak = 1;
+  }
+  user.stats.maxStreak = Math.max(user.stats.maxStreak, user.stats.currentStreak);
+  user.stats.lastQuizDate = today;
+  return updateUser(userId, { stats: user.stats });
 }
-
-export function deleteBook(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('books', 'readwrite');
-      const request = store.delete(id);
-      request.onsuccess = () => resolve(true);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getBookById(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('books', 'readonly');
-      const request = store.get(id);
-      request.onsuccess = (e) => resolve(e.target.result || null);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getAllBooks() {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('books', 'readonly');
-      const request = store.getAll();
-      request.onsuccess = (e) => resolve(e.target.result || []);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-// Dynamic Questions CRUD
-export function addQuestion(qData) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('questions', 'readwrite');
-      const request = store.add(qData);
-      request.onsuccess = () => resolve(qData);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function updateQuestion(id, updates) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const store = getStore('questions', 'readwrite');
-      const getReq = store.get(id);
-      getReq.onsuccess = (e) => {
-        const q = e.target.result;
-        if (!q) {
-          reject(new Error("Savol topilmadi"));
-          return;
-        }
-        const updated = { ...q, ...updates };
-        const putReq = store.put(updated);
-        putReq.onsuccess = () => resolve(updated);
-        putReq.onerror = (err) => reject(err.target.error);
-      };
-      getReq.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function deleteQuestion(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('questions', 'readwrite');
-      const request = store.delete(id);
-      request.onsuccess = () => resolve(true);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getQuestionsByBook(bookId) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('questions', 'readonly');
-      const index = store.index('bookId');
-      const request = index.getAll(bookId);
-      request.onsuccess = (e) => resolve(e.target.result || []);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getAllQuestions() {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('questions', 'readonly');
-      const request = store.getAll();
-      request.onsuccess = (e) => resolve(e.target.result || []);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-// Results CRUD
-export function addResult(resultData) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('results', 'readwrite');
-      const request = store.add(resultData);
-      request.onsuccess = () => resolve(resultData);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getResultsByUser(userId) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('results', 'readonly');
-      const index = store.index('userId');
-      const request = index.getAll(userId);
-      request.onsuccess = (e) => {
-        const results = e.target.result || [];
-        results.sort((a, b) => b.completedAt - a.completedAt);
-        resolve(results);
-      };
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getResultById(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('results', 'readonly');
-      const request = store.get(id);
-      request.onsuccess = (e) => resolve(e.target.result || null);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getAllResults() {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('results', 'readonly');
-      const request = store.getAll();
-      request.onsuccess = (e) => {
-        const results = e.target.result || [];
-        results.sort((a, b) => b.completedAt - a.completedAt);
-        resolve(results);
-      };
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-// Comments CRUD
-export function addComment(commentData) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('comments', 'readwrite');
-      const request = store.add(commentData);
-      request.onsuccess = () => resolve(commentData);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getCommentsByBook(bookId) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('comments', 'readonly');
-      const index = store.index('bookId');
-      const request = index.getAll(bookId);
-      request.onsuccess = (e) => {
-        const comments = e.target.result || [];
-        comments.sort((a, b) => b.createdAt - a.createdAt);
-        resolve(comments);
-      };
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getAllComments() {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('comments', 'readonly');
-      const request = store.getAll();
-      request.onsuccess = (e) => {
-        const comments = e.target.result || [];
-        comments.sort((a, b) => b.createdAt - a.createdAt);
-        resolve(comments);
-      };
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function updateComment(id, updates) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('comments', 'readwrite');
-      const getReq = store.get(id);
-      getReq.onsuccess = (e) => {
-        const comment = e.target.result;
-        if (!comment) {
-          reject(new Error("Comment topilmadi"));
-          return;
-        }
-        const updated = { ...comment, ...updates };
-        const putReq = store.put(updated);
-        putReq.onsuccess = () => resolve(updated);
-        putReq.onerror = (err) => reject(err.target.error);
-      };
-      getReq.onerror = (err) => reject(err.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function deleteComment(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('comments', 'readwrite');
-      const request = store.delete(id);
-      request.onsuccess = () => resolve(true);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-// Arena Matches CRUD
-export function addArenaMatch(matchData) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('arena_matches', 'readwrite');
-      const request = store.add(matchData);
-      request.onsuccess = () => resolve(matchData);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getArenaMatchesByUser(userId) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('arena_matches', 'readonly');
-      const index = store.index('userId');
-      const request = index.getAll(userId);
-      request.onsuccess = (e) => {
-        const matches = e.target.result || [];
-        matches.sort((a, b) => b.completedAt - a.completedAt);
-        resolve(matches);
-      };
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getAllArenaMatches() {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('arena_matches', 'readonly');
-      const request = store.getAll();
-      request.onsuccess = (e) => {
-        const matches = e.target.result || [];
-        matches.sort((a, b) => b.completedAt - a.completedAt);
-        resolve(matches);
-      };
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-// Characters CRUD
-export function addCharacter(charData) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('characters', 'readwrite');
-      const request = store.add(charData);
-      request.onsuccess = () => resolve(charData);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function getAllCharacters() {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('characters', 'readonly');
-      const request = store.getAll();
-      request.onsuccess = (e) => resolve(e.target.result || []);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function updateCharacter(id, updates) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const store = getStore('characters', 'readwrite');
-      const getReq = store.get(id);
-      getReq.onsuccess = (e) => {
-        const char = e.target.result;
-        if (!char) {
-          reject(new Error("Qahramon topilmadi"));
-          return;
-        }
-        const updated = { ...char, ...updates };
-        const putReq = store.put(updated);
-        putReq.onsuccess = () => resolve(updated);
-        putReq.onerror = (err) => reject(err.target.error);
-      };
-      getReq.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-export function deleteCharacter(id) {
-  return new Promise((resolve, reject) => {
-    try {
-      const store = getStore('characters', 'readwrite');
-      const request = store.delete(id);
-      request.onsuccess = () => resolve(true);
-      request.onerror = (e) => reject(e.target.error);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
-// User Streak management
-export function updateUserStreak(userId) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const user = await getUserById(userId);
-      if (!user) {
-        reject(new Error("Foydalanuvchi topilmadi"));
-        return;
-      }
-
-      if (!user.stats) {
-        user.stats = {
-          testsCompleted: 0,
-          avgScore: 0,
-          bestScore: 0,
-          currentStreak: 0,
-          maxStreak: 0,
-          lastQuizDate: ''
-        };
-      }
-
-      // Initialize streak properties if they don't exist
-      if (user.stats.currentStreak === undefined) user.stats.currentStreak = 0;
-      if (user.stats.maxStreak === undefined) user.stats.maxStreak = 0;
-      if (user.stats.lastQuizDate === undefined) user.stats.lastQuizDate = '';
-
-      const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
-      const lastDate = user.stats.lastQuizDate;
-
-      if (lastDate === today) {
-        // Already completed a test today, no need to update streak
-        resolve(user);
-        return;
-      }
-
-      const yesterdayObj = new Date();
-      yesterdayObj.setDate(yesterdayObj.getDate() - 1);
-      const yesterday = yesterdayObj.toLocaleDateString('en-CA');
-
-      if (lastDate === yesterday) {
-        user.stats.currentStreak += 1;
-      } else {
-        user.stats.currentStreak = 1;
-      }
-
-      user.stats.maxStreak = Math.max(user.stats.maxStreak, user.stats.currentStreak);
-      user.stats.lastQuizDate = today;
-
-      const updatedUser = await updateUser(userId, { stats: user.stats });
-      resolve(updatedUser);
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
-
