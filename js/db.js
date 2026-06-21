@@ -110,10 +110,12 @@ export function updateBook(id, updates) { return supabaseUpdate('books', id, upd
 export function deleteBook(id) { return supabaseDelete('books', id); }
 export function getBookById(id) { return supabaseGet('books', { id }); }
 export async function getAllBooks() {
-  const books = await supabaseList('books');
-  if (books && books.length > 0) return books;
-  const { books: fallback } = await import('./data.js');
-  return fallback;
+  const [dbBooks, { books: defaults }] = await Promise.all([supabaseList('books').catch(() => []), import('./data.js')]);
+  if (!dbBooks || dbBooks.length === 0) return defaults;
+  const map = {};
+  for (const b of defaults) map[b.id] = b;
+  for (const b of dbBooks) map[b.id] = b;
+  return Object.values(map);
 }
 
 export function addQuestion(d) { return supabaseAdd('questions', d); }
@@ -121,10 +123,12 @@ export function updateQuestion(id, updates) { return supabaseUpdate('questions',
 export function deleteQuestion(id) { return supabaseDelete('questions', id); }
 export function getQuestionsByBook(bookId) { return supabaseRequest('GET', 'questions', { where: { bookId } }); }
 export async function getAllQuestions() {
-  const questions = await supabaseList('questions');
-  if (questions && questions.length > 0) return questions;
-  const { questions: fallback } = await import('./data.js');
-  return fallback;
+  const [dbQuestions, { questions: defaults }] = await Promise.all([supabaseList('questions').catch(() => []), import('./data.js')]);
+  if (!dbQuestions || dbQuestions.length === 0) return defaults;
+  const map = {};
+  for (const q of defaults) map[q.id] = q;
+  for (const q of dbQuestions) map[q.id] = q;
+  return Object.values(map);
 }
 
 export function addResult(d) { return supabaseAdd('results', d); }
