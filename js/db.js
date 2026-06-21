@@ -94,7 +94,11 @@ export const getAllUsers = safeListFn('users');
 export const addBook = (d) => supabaseRequest('POST', 'books', { body: d }).then(() => d).catch(e => { throw e; });
 export const updateBook = (id, updates) => supabaseRequest('PATCH', 'books', { where: { id }, body: updates }).catch(() => null);
 export const deleteBook = (id) => supabaseRequest('DELETE', 'books', { where: { id } }).catch(() => false);
-export const getBookById = safeGetFn('books');
+export async function getBookById(id) {
+  const [all, { books }] = await Promise.all([safeList('books'), import('./data.js')]);
+  const dbBook = all ? all.find(b => b.id === id) : null;
+  return dbBook || books.find(b => b.id === id) || null;
+}
 
 export async function getAllBooks() {
   const [db, { books: fallback }] = await Promise.all([safeList('books'), import('./data.js')]);
@@ -109,7 +113,11 @@ export async function getAllBooks() {
 export const addQuestion = (d) => supabaseRequest('POST', 'questions', { body: d }).then(() => d).catch(e => { throw e; });
 export const updateQuestion = (id, updates) => supabaseRequest('PATCH', 'questions', { where: { id }, body: updates }).catch(() => null);
 export const deleteQuestion = (id) => supabaseRequest('DELETE', 'questions', { where: { id } }).catch(() => false);
-export const getQuestionsByBook = (bookId) => safeList('questions').then(qs => (qs || []).filter(q => q.bookId === bookId));
+
+export async function getQuestionsByBook(bookId) {
+  const all = await getAllQuestions();
+  return all.filter(q => q.bookId === bookId);
+}
 
 export async function getAllQuestions() {
   const [db, { questions: fallback }] = await Promise.all([safeList('questions'), import('./data.js')]);
@@ -123,7 +131,10 @@ export async function getAllQuestions() {
 // Results
 export const addResult = (d) => supabaseRequest('POST', 'results', { body: d }).then(() => d).catch(e => { throw e; });
 export const getResultsByUser = (userId) => safeList('results').then(r => (r || []).filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
-export const getResultById = safeGetFn('results');
+export async function getResultById(id) {
+  const r = await getAllResults();
+  return r.find(x => x.id === id) || null;
+}
 export const getAllResults = safeListFn('results');
 
 // Comments
