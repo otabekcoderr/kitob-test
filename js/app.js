@@ -217,7 +217,7 @@ function renderRegister(container) {
   });
 }
 
-function renderDashboard(container) {
+async function renderDashboard(container) {
   const user = getCurrentUser();
   if (!user) {
     navigate('/login');
@@ -231,7 +231,7 @@ function renderDashboard(container) {
     </div>
   `;
 
-  import('./db.js').then(async (db) => {
+  const db = await import('./db.js');
     try {
       let dbUser = await db.getUserById(user.id);
       if (dbUser) {

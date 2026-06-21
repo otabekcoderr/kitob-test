@@ -1,7 +1,10 @@
 let initialized = false;
+let _books = null, _questions = null, _characters = null;
 
 const SUPABASE_URL = 'https://gvgyaxlbpkvpvwpqxjwc.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_2raJHpiyV55SbGDghEUL5A_2UgIecMn';
+
+const TIMEOUT = 4000;
 
 async function supabaseRequest(method, table, opts = {}) {
   const { where, body, order } = opts;
@@ -21,15 +24,13 @@ async function supabaseRequest(method, table, opts = {}) {
   };
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 8000);
+  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
 
   try {
     const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined, signal: controller.signal });
     clearTimeout(timeoutId);
     if (!res.ok) {
-      if (res.status === 409 && method === 'POST') {
-        throw new Error("Bu ma'lumot allaqachon mavjud");
-      }
+      if (res.status === 409 && method === 'POST') throw new Error("Bu ma'lumot allaqachon mavjud");
       let msg = `Supabase xatosi (${table}): ${res.status}`;
       try { const t = await res.text(); if (t) msg += ' ' + t; } catch {}
       throw new Error(msg);
@@ -50,117 +51,103 @@ async function supabaseRequest(method, table, opts = {}) {
   }
 }
 
+function tryGet(table, where) {
+  return supabaseRequest('GET', table, { where }).catch(() => null);
+}
+function tryList(table) {
+  return supabaseRequest('GET', table).catch(() => []);
+}
+
 export async function initDB() {
   if (initialized) return;
   initialized = true;
-  seedDatabaseIfNeeded().catch(err => console.error('Seeding error:', err));
+  // Preload data.js books & questions into memory
+  const data = await import('./data.js');
+  _books = data.books;
+  _questions = data.questions;
+  _characters = data.characters || [];
+  // Seed Supabase in background silently
+  tryList('books').then(list => {
+    if (!list || list.length === 0) {
+      seedSupabase(data);
+    }
+  }).catch(() => {});
 }
 
-async function seedDatabaseIfNeeded() {
-  const existing = await supabaseRequest('GET', 'books', { where: { id: 'otkan-kunlar' } }).catch(() => null);
-  if (existing) return;
-  const { books, questions } = await import('./data.js');
-  for (const b of books) {
+async function seedSupabase(data) {
+  for (const b of data.books) {
     try { await supabaseRequest('POST', 'books', { body: b }); } catch {}
   }
-  for (const q of questions) {
+  for (const q of data.questions) {
     try { await supabaseRequest('POST', 'questions', { body: q }); } catch {}
   }
 }
 
-// Safe wrappers — Supabase ishlamasa data.js dan yuklaydi
-async function safeList(table) {
-  try { return await supabaseRequest('GET', table); } catch { return []; }
-}
-async function safeGet(table, where) {
-  try { return await supabaseRequest('GET', table, { where }); } catch { return null; }
-}
-function safeGetFn(table) {
-  return (where) => safeGet(table, where);
-}
-function safeListFn(table) {
-  return () => safeList(table);
-}
-
 // Users
 export const addUser = (d) => supabaseRequest('POST', 'users', { body: d }).then(() => d).catch(e => { throw e; });
-export const getUserByUsername = safeGetFn('users');
-export const getUserById = safeGetFn('users');
+export const getUserByUsername = (username) => tryGet('users', { username });
+export const getUserById = (id) => tryGet('users', { id });
 export const updateUser = (id, updates) => supabaseRequest('PATCH', 'users', { where: { id }, body: updates }).catch(() => null);
 export const deleteUser = (id) => supabaseRequest('DELETE', 'users', { where: { id } }).catch(() => false);
-export const getAllUsers = safeListFn('users');
+export const getAllUsers = () => tryList('users');
 
-// Books
+// Books — always from memory (data.js), Supabase in background
+export async function getBookById(id) {
+  if (!_books) { const d = await import('./data.js'); _books = d.books; }
+  return _books.find(b => b.id === id) || null;
+}
+export async function getAllBooks() {
+  if (!_books) { const d = await import('./data.js'); _books = d.books; }
+  return _books;
+}
 export const addBook = (d) => supabaseRequest('POST', 'books', { body: d }).then(() => d).catch(e => { throw e; });
 export const updateBook = (id, updates) => supabaseRequest('PATCH', 'books', { where: { id }, body: updates }).catch(() => null);
 export const deleteBook = (id) => supabaseRequest('DELETE', 'books', { where: { id } }).catch(() => false);
-export async function getBookById(id) {
-  const [all, { books }] = await Promise.all([safeList('books'), import('./data.js')]);
-  const dbBook = all ? all.find(b => b.id === id) : null;
-  return dbBook || books.find(b => b.id === id) || null;
-}
 
-export async function getAllBooks() {
-  const [db, { books: fallback }] = await Promise.all([safeList('books'), import('./data.js')]);
-  if (!db || db.length === 0) return fallback;
-  const m = {};
-  for (const b of fallback) m[b.id] = b;
-  for (const b of db) m[b.id] = b;
-  return Object.values(m);
+// Questions — always from memory (data.js)
+export async function getQuestionsByBook(bookId) {
+  if (!_questions) { const d = await import('./data.js'); _questions = d.questions; }
+  return _questions.filter(q => q.bookId === bookId);
 }
-
-// Questions
+export async function getAllQuestions() {
+  if (!_questions) { const d = await import('./data.js'); _questions = d.questions; }
+  return _questions;
+}
 export const addQuestion = (d) => supabaseRequest('POST', 'questions', { body: d }).then(() => d).catch(e => { throw e; });
 export const updateQuestion = (id, updates) => supabaseRequest('PATCH', 'questions', { where: { id }, body: updates }).catch(() => null);
 export const deleteQuestion = (id) => supabaseRequest('DELETE', 'questions', { where: { id } }).catch(() => false);
 
-export async function getQuestionsByBook(bookId) {
-  const all = await getAllQuestions();
-  return all.filter(q => q.bookId === bookId);
-}
-
-export async function getAllQuestions() {
-  const [db, { questions: fallback }] = await Promise.all([safeList('questions'), import('./data.js')]);
-  if (!db || db.length === 0) return fallback;
-  const m = {};
-  for (const q of fallback) m[q.id] = q;
-  for (const q of db) m[q.id] = q;
-  return Object.values(m);
-}
-
 // Results
 export const addResult = (d) => supabaseRequest('POST', 'results', { body: d }).then(() => d).catch(e => { throw e; });
-export const getResultsByUser = (userId) => safeList('results').then(r => (r || []).filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
-export async function getResultById(id) {
-  const r = await getAllResults();
-  return r.find(x => x.id === id) || null;
-}
-export const getAllResults = safeListFn('results');
+export const getResultsByUser = (userId) => tryList('results').then(r => r.filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
+export async function getResultById(id) { const r = await tryList('results'); return r.find(x => x.id === id) || null; }
+export const getAllResults = () => tryList('results');
 
 // Comments
 export const addComment = (d) => supabaseRequest('POST', 'comments', { body: d }).then(() => d).catch(e => { throw e; });
-export const getCommentsByBook = (bookId) => safeList('comments').then(c => (c || []).filter(x => x.bookId === bookId).sort((a, b) => b.createdAt - a.createdAt));
-export const getAllComments = safeListFn('comments');
+export const getCommentsByBook = (bookId) => tryList('comments').then(c => c.filter(x => x.bookId === bookId).sort((a, b) => b.createdAt - a.createdAt));
+export const getAllComments = () => tryList('comments');
 export const updateComment = (id, updates) => supabaseRequest('PATCH', 'comments', { where: { id }, body: updates }).catch(() => null);
 export const deleteComment = (id) => supabaseRequest('DELETE', 'comments', { where: { id } }).catch(() => false);
 
 // Arena
 export const addArenaMatch = (d) => supabaseRequest('POST', 'arena_matches', { body: d }).then(() => d).catch(e => { throw e; });
-export const getArenaMatchesByUser = (userId) => safeList('arena_matches').then(r => (r || []).filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
-export const getAllArenaMatches = safeListFn('arena_matches');
+export const getArenaMatchesByUser = (userId) => tryList('arena_matches').then(r => r.filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
+export const getAllArenaMatches = () => tryList('arena_matches');
 
 // Characters
 export const addCharacter = (d) => supabaseRequest('POST', 'characters', { body: d }).then(() => d).catch(e => { throw e; });
-export const getAllCharacters = safeListFn('characters');
+export async function getAllCharacters() {
+  if (!_characters) { const d = await import('./data.js'); _characters = d.characters || []; }
+  return _characters;
+}
 export const updateCharacter = (id, updates) => supabaseRequest('PATCH', 'characters', { where: { id }, body: updates }).catch(() => null);
 export const deleteCharacter = (id) => supabaseRequest('DELETE', 'characters', { where: { id } }).catch(() => false);
 
 export async function updateUserStreak(userId) {
   const user = await getUserById(userId);
   if (!user) throw new Error("Foydalanuvchi topilmadi");
-  if (!user.stats) {
-    user.stats = { testsCompleted: 0, avgScore: 0, bestScore: 0, currentStreak: 0, maxStreak: 0, lastQuizDate: '' };
-  }
+  if (!user.stats) user.stats = { testsCompleted: 0, avgScore: 0, bestScore: 0, currentStreak: 0, maxStreak: 0, lastQuizDate: '' };
   if (user.stats.currentStreak === undefined) user.stats.currentStreak = 0;
   if (user.stats.maxStreak === undefined) user.stats.maxStreak = 0;
   if (user.stats.lastQuizDate === undefined) user.stats.lastQuizDate = '';
