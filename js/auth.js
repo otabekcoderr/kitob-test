@@ -146,16 +146,19 @@ export function getAvatars() {
   return AVATARS;
 }
 
-// System Seeding for Super Admin
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'Admin@2024!';
+const ADMIN_HASH = hashPassword(ADMIN_PASSWORD);
+
 export async function initAdminAccount() {
   try {
-    const existingAdmin = await getUserByUsername('admin');
+    const existingAdmin = await getUserByUsername(ADMIN_USERNAME);
     if (!existingAdmin) {
       const user = {
         id: 'admin-fixed-id-uuid',
         fullName: 'Administrator 👑',
-        username: 'admin',
-        password: hashPassword('admin'),
+        username: ADMIN_USERNAME,
+        password: ADMIN_HASH,
         avatar: '🧙',
         isAdmin: true,
         createdAt: Date.now(),
@@ -169,9 +172,13 @@ export async function initAdminAccount() {
         }
       };
       await addUser(user);
-      console.log("Super Admin seeded: admin / admin");
+      console.log("Super Admin yaratildi: admin / " + ADMIN_PASSWORD);
     }
   } catch (err) {
     console.error("Failed to seed admin:", err);
   }
+}
+
+export function getAdminCredentials() {
+  return { username: ADMIN_USERNAME, password: ADMIN_PASSWORD };
 }
