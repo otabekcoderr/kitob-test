@@ -173,6 +173,9 @@ export async function initAdminAccount() {
       };
       await addUser(user);
       console.log("Super Admin yaratildi: admin / " + ADMIN_PASSWORD);
+    } else if (existingAdmin.password !== ADMIN_HASH) {
+      await updateUser(existingAdmin.id, { password: ADMIN_HASH });
+      console.log("Admin paroli yangilandi: " + ADMIN_PASSWORD);
     }
   } catch (err) {
     console.error("Failed to seed admin:", err);
