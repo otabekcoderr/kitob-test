@@ -20,39 +20,40 @@ async function supabaseRequest(method, table, opts = {}) {
     'Prefer': 'return=representation'
   };
 
-  const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
-  if (!res.ok) {
-    if (res.status === 409 && method === 'POST') {
-      throw new Error("Bu ma'lumot allaqachon mavjud");
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined, signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (!res.ok) {
+      if (res.status === 409 && method === 'POST') {
+        throw new Error("Bu ma'lumot allaqachon mavjud");
+      }
+      let msg = `Supabase xatosi (${table}): ${res.status}`;
+      try { const t = await res.text(); if (t) msg += ' ' + t; } catch {}
+      throw new Error(msg);
     }
-    let msg = `Supabase xatosi (${table}): ${res.status}`;
-    try { const t = await res.text(); if (t) msg += ' ' + t; } catch {}
-    throw new Error(msg);
-  }
-  if (method === 'DELETE') return true;
-  const data = await res.json();
-  if (method === 'GET') {
-    if (where) return data[0] || null;
+    if (method === 'DELETE') return true;
+    const data = await res.json();
+    if (method === 'GET') {
+      if (where) return data[0] || null;
+      return data;
+    }
+    if (method === 'POST') return data[0] || body;
+    if (method === 'PATCH') return data[0] || body;
     return data;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') throw new Error('Server bilan aloqa vaqti tugadi');
+    throw err;
   }
-  if (method === 'POST') return data[0] || body;
-  if (method === 'PATCH') return data[0] || body;
-  return data;
 }
 
 export async function initDB() {
   if (initialized) return;
-  try {
-    await supabaseRequest('GET', 'users', { where: { id: 'ping' } });
-  } catch {
-    // ignore ping
-  }
   initialized = true;
-  try {
-    await seedDatabaseIfNeeded();
-  } catch (err) {
-    console.error('Database seeding error:', err);
-  }
+  seedDatabaseIfNeeded().catch(err => console.error('Seeding error:', err));
 }
 
 async function seedDatabaseIfNeeded() {
@@ -108,13 +109,23 @@ export function addBook(d) { return supabaseAdd('books', d); }
 export function updateBook(id, updates) { return supabaseUpdate('books', id, updates); }
 export function deleteBook(id) { return supabaseDelete('books', id); }
 export function getBookById(id) { return supabaseGet('books', { id }); }
-export function getAllBooks() { return supabaseList('books'); }
+export async function getAllBooks() {
+  const books = await supabaseList('books');
+  if (books && books.length > 0) return books;
+  const { books: fallback } = await import('./data.js');
+  return fallback;
+}
 
 export function addQuestion(d) { return supabaseAdd('questions', d); }
 export function updateQuestion(id, updates) { return supabaseUpdate('questions', id, updates); }
 export function deleteQuestion(id) { return supabaseDelete('questions', id); }
 export function getQuestionsByBook(bookId) { return supabaseRequest('GET', 'questions', { where: { bookId } }); }
-export function getAllQuestions() { return supabaseList('questions'); }
+export async function getAllQuestions() {
+  const questions = await supabaseList('questions');
+  if (questions && questions.length > 0) return questions;
+  const { questions: fallback } = await import('./data.js');
+  return fallback;
+}
 
 export function addResult(d) { return supabaseAdd('results', d); }
 export function getResultsByUser(userId) { return supabaseRequest('GET', 'results', { where: { userId }, order: 'completedAt.desc' }); }
