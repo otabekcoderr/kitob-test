@@ -128,6 +128,9 @@ export async function updateProfile(updates) {
   }
 
   const updatedUser = await updateUser(currentUser.id, updates);
+  if (!updatedUser) {
+    throw new Error("Profilni yangilashda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+  }
   
   const newSessionUser = {
     id: updatedUser.id,

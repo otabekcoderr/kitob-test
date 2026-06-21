@@ -57,99 +57,92 @@ export async function initDB() {
 }
 
 async function seedDatabaseIfNeeded() {
-  const existing = await supabaseRequest('GET', 'books', { where: { id: 'otkan-kunlar' } });
+  const existing = await supabaseRequest('GET', 'books', { where: { id: 'otkan-kunlar' } }).catch(() => null);
   if (existing) return;
-
   const { books, questions } = await import('./data.js');
-
   for (const b of books) {
-    try {
-      await supabaseRequest('POST', 'books', { body: b });
-    } catch (err) {
-      if (!err.message.includes('409')) console.warn('Book seed skip:', b.id, err.message);
-    }
+    try { await supabaseRequest('POST', 'books', { body: b }); } catch {}
   }
   for (const q of questions) {
-    try {
-      await supabaseRequest('POST', 'questions', { body: q });
-    } catch {}
+    try { await supabaseRequest('POST', 'questions', { body: q }); } catch {}
   }
-  console.log('Ma\'lumotlar supabase\'ga yuklandi');
 }
 
-function supabaseGet(table, where) {
-  return supabaseRequest('GET', table, { where });
+// Safe wrappers — Supabase ishlamasa data.js dan yuklaydi
+async function safeList(table) {
+  try { return await supabaseRequest('GET', table); } catch { return []; }
+}
+async function safeGet(table, where) {
+  try { return await supabaseRequest('GET', table, { where }); } catch { return null; }
+}
+function safeGetFn(table) {
+  return (where) => safeGet(table, where);
+}
+function safeListFn(table) {
+  return () => safeList(table);
 }
 
-function supabaseList(table, order) {
-  return supabaseRequest('GET', table, { order });
-}
+// Users
+export const addUser = (d) => supabaseRequest('POST', 'users', { body: d }).then(() => d).catch(e => { throw e; });
+export const getUserByUsername = safeGetFn('users');
+export const getUserById = safeGetFn('users');
+export const updateUser = (id, updates) => supabaseRequest('PATCH', 'users', { where: { id }, body: updates }).catch(() => null);
+export const deleteUser = (id) => supabaseRequest('DELETE', 'users', { where: { id } }).catch(() => false);
+export const getAllUsers = safeListFn('users');
 
-async function supabaseAdd(table, data) {
-  await supabaseRequest('POST', table, { body: data });
-  return data;
-}
+// Books
+export const addBook = (d) => supabaseRequest('POST', 'books', { body: d }).then(() => d).catch(e => { throw e; });
+export const updateBook = (id, updates) => supabaseRequest('PATCH', 'books', { where: { id }, body: updates }).catch(() => null);
+export const deleteBook = (id) => supabaseRequest('DELETE', 'books', { where: { id } }).catch(() => false);
+export const getBookById = safeGetFn('books');
 
-async function supabaseUpdate(table, id, updates) {
-  return supabaseRequest('PATCH', table, { where: { id }, body: updates });
-}
-
-async function supabaseDelete(table, id) {
-  return supabaseRequest('DELETE', table, { where: { id } });
-}
-
-export function addUser(d) { return supabaseAdd('users', d); }
-export function getUserByUsername(username) { return supabaseGet('users', { username }); }
-export function getUserById(id) { return supabaseGet('users', { id }); }
-export function updateUser(id, updates) { return supabaseUpdate('users', id, updates); }
-export function deleteUser(id) { return supabaseDelete('users', id); }
-export function getAllUsers() { return supabaseList('users', 'createdAt'); }
-
-export function addBook(d) { return supabaseAdd('books', d); }
-export function updateBook(id, updates) { return supabaseUpdate('books', id, updates); }
-export function deleteBook(id) { return supabaseDelete('books', id); }
-export function getBookById(id) { return supabaseGet('books', { id }); }
 export async function getAllBooks() {
-  const [dbBooks, { books: defaults }] = await Promise.all([supabaseList('books').catch(() => []), import('./data.js')]);
-  if (!dbBooks || dbBooks.length === 0) return defaults;
-  const map = {};
-  for (const b of defaults) map[b.id] = b;
-  for (const b of dbBooks) map[b.id] = b;
-  return Object.values(map);
+  const [db, { books: fallback }] = await Promise.all([safeList('books'), import('./data.js')]);
+  if (!db || db.length === 0) return fallback;
+  const m = {};
+  for (const b of fallback) m[b.id] = b;
+  for (const b of db) m[b.id] = b;
+  return Object.values(m);
 }
 
-export function addQuestion(d) { return supabaseAdd('questions', d); }
-export function updateQuestion(id, updates) { return supabaseUpdate('questions', id, updates); }
-export function deleteQuestion(id) { return supabaseDelete('questions', id); }
-export function getQuestionsByBook(bookId) { return supabaseRequest('GET', 'questions', { where: { bookId } }); }
+// Questions
+export const addQuestion = (d) => supabaseRequest('POST', 'questions', { body: d }).then(() => d).catch(e => { throw e; });
+export const updateQuestion = (id, updates) => supabaseRequest('PATCH', 'questions', { where: { id }, body: updates }).catch(() => null);
+export const deleteQuestion = (id) => supabaseRequest('DELETE', 'questions', { where: { id } }).catch(() => false);
+export const getQuestionsByBook = (bookId) => safeList('questions').then(qs => (qs || []).filter(q => q.bookId === bookId));
+
 export async function getAllQuestions() {
-  const [dbQuestions, { questions: defaults }] = await Promise.all([supabaseList('questions').catch(() => []), import('./data.js')]);
-  if (!dbQuestions || dbQuestions.length === 0) return defaults;
-  const map = {};
-  for (const q of defaults) map[q.id] = q;
-  for (const q of dbQuestions) map[q.id] = q;
-  return Object.values(map);
+  const [db, { questions: fallback }] = await Promise.all([safeList('questions'), import('./data.js')]);
+  if (!db || db.length === 0) return fallback;
+  const m = {};
+  for (const q of fallback) m[q.id] = q;
+  for (const q of db) m[q.id] = q;
+  return Object.values(m);
 }
 
-export function addResult(d) { return supabaseAdd('results', d); }
-export function getResultsByUser(userId) { return supabaseRequest('GET', 'results', { where: { userId }, order: 'completedAt.desc' }); }
-export function getResultById(id) { return supabaseGet('results', { id }); }
-export function getAllResults() { return supabaseRequest('GET', 'results', { order: 'completedAt.desc' }); }
+// Results
+export const addResult = (d) => supabaseRequest('POST', 'results', { body: d }).then(() => d).catch(e => { throw e; });
+export const getResultsByUser = (userId) => safeList('results').then(r => (r || []).filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
+export const getResultById = safeGetFn('results');
+export const getAllResults = safeListFn('results');
 
-export function addComment(d) { return supabaseAdd('comments', d); }
-export function getCommentsByBook(bookId) { return supabaseRequest('GET', 'comments', { where: { bookId }, order: 'createdAt.desc' }); }
-export function getAllComments() { return supabaseRequest('GET', 'comments', { order: 'createdAt.desc' }); }
-export function updateComment(id, updates) { return supabaseUpdate('comments', id, updates); }
-export function deleteComment(id) { return supabaseDelete('comments', id); }
+// Comments
+export const addComment = (d) => supabaseRequest('POST', 'comments', { body: d }).then(() => d).catch(e => { throw e; });
+export const getCommentsByBook = (bookId) => safeList('comments').then(c => (c || []).filter(x => x.bookId === bookId).sort((a, b) => b.createdAt - a.createdAt));
+export const getAllComments = safeListFn('comments');
+export const updateComment = (id, updates) => supabaseRequest('PATCH', 'comments', { where: { id }, body: updates }).catch(() => null);
+export const deleteComment = (id) => supabaseRequest('DELETE', 'comments', { where: { id } }).catch(() => false);
 
-export function addArenaMatch(d) { return supabaseAdd('arena_matches', d); }
-export function getArenaMatchesByUser(userId) { return supabaseRequest('GET', 'arena_matches', { where: { userId }, order: 'completedAt.desc' }); }
-export function getAllArenaMatches() { return supabaseRequest('GET', 'arena_matches', { order: 'completedAt.desc' }); }
+// Arena
+export const addArenaMatch = (d) => supabaseRequest('POST', 'arena_matches', { body: d }).then(() => d).catch(e => { throw e; });
+export const getArenaMatchesByUser = (userId) => safeList('arena_matches').then(r => (r || []).filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
+export const getAllArenaMatches = safeListFn('arena_matches');
 
-export function addCharacter(d) { return supabaseAdd('characters', d); }
-export function getAllCharacters() { return supabaseList('characters'); }
-export function updateCharacter(id, updates) { return supabaseUpdate('characters', id, updates); }
-export function deleteCharacter(id) { return supabaseDelete('characters', id); }
+// Characters
+export const addCharacter = (d) => supabaseRequest('POST', 'characters', { body: d }).then(() => d).catch(e => { throw e; });
+export const getAllCharacters = safeListFn('characters');
+export const updateCharacter = (id, updates) => supabaseRequest('PATCH', 'characters', { where: { id }, body: updates }).catch(() => null);
+export const deleteCharacter = (id) => supabaseRequest('DELETE', 'characters', { where: { id } }).catch(() => false);
 
 export async function updateUserStreak(userId) {
   const user = await getUserById(userId);
@@ -160,10 +153,8 @@ export async function updateUserStreak(userId) {
   if (user.stats.currentStreak === undefined) user.stats.currentStreak = 0;
   if (user.stats.maxStreak === undefined) user.stats.maxStreak = 0;
   if (user.stats.lastQuizDate === undefined) user.stats.lastQuizDate = '';
-
   const today = new Date().toLocaleDateString('en-CA');
   if (user.stats.lastQuizDate === today) return user;
-
   const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-CA');
   if (user.stats.lastQuizDate === yesterday) {
     user.stats.currentStreak += 1;

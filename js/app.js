@@ -233,7 +233,6 @@ function renderDashboard(container) {
 
   import('./db.js').then(async (db) => {
     try {
-      // Refresh and validate streak on dashboard load
       let dbUser = await db.getUserById(user.id);
       if (dbUser) {
         if (!dbUser.stats) {
@@ -258,7 +257,7 @@ function renderDashboard(container) {
         }
         
         if (streakReset) {
-          await db.updateUser(user.id, { stats: dbUser.stats });
+          await db.updateUser(user.id, { stats: dbUser.stats }).catch(() => {});
           const sessionUser = JSON.parse(localStorage.getItem('kitobtest_session') || '{}');
           sessionUser.stats = dbUser.stats;
           localStorage.setItem('kitobtest_session', JSON.stringify(sessionUser));
@@ -413,61 +412,49 @@ function renderDashboard(container) {
       `;
 
       // Load Mini Leaderboard
-      db.getAllUsers().then(users => {
-        users = users.filter(u => u.username !== 'admin');
-        db.getAllResults().then(allResultsList => {
-          const stats = users.map(u => {
-            const userResults = allResultsList.filter(r => r.userId === u.id);
-            let avg = 0;
-            if (userResults.length > 0) {
-              avg = Math.round(userResults.reduce((acc, r) => acc + r.score, 0) / userResults.length);
-            }
-            return { ...u, avg, count: userResults.length };
-          })
-          .filter(u => u.count > 0)
-          .sort((a, b) => b.avg - a.avg || b.count - a.count)
-          .slice(0, 3);
+      const [users, allResultsList] = await Promise.all([db.getAllUsers(), db.getAllResults()]);
+      const filteredUsers = (users || []).filter(u => u.username !== 'admin');
+      const stats = (filteredUsers || []).map(u => {
+        const userResults = (allResultsList || []).filter(r => r.userId === u.id);
+        let avg = 0;
+        if (userResults.length > 0) {
+          avg = Math.round(userResults.reduce((acc, r) => acc + r.score, 0) / userResults.length);
+        }
+        return { ...u, avg, count: userResults.length };
+      });
+      const topUsers = stats.filter(u => u.count > 0).sort((a, b) => b.avg - a.avg || b.count - a.count).slice(0, 3);
 
-          const leaderEl = document.getElementById('dashboard-leaderboard');
-          if (!leaderEl) return;
+      const leaderEl = document.getElementById('dashboard-leaderboard');
+      if (!leaderEl) return;
 
-          if (stats.length === 0) {
-            leaderEl.innerHTML = `
-              <div class="text-center" style="padding: 30px 20px; color: var(--text-secondary);">
-                Hozircha reyting jadvali bo'sh.
+      leaderEl.innerHTML = topUsers.length === 0 ? `
+        <div class="text-center" style="padding: 30px 20px; color: var(--text-secondary);">
+          Hozircha reyting jadvali bo'sh.
+        </div>
+      ` : `
+        <div style="display: flex; flex-direction: column;">
+          ${topUsers.map((u, i) => {
+            const rankEmoji = ['🥇', '🥈', '🥉'][i] || '';
+            return `
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-color);">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span style="font-size: 1.25rem;">${rankEmoji}</span>
+                  <span style="font-size: 1.25rem;">${u.avatar}</span>
+                  <div>
+                    <span style="font-weight: 600; font-size: 0.95rem;">${u.fullName}</span>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">@${u.username} • ${u.count} marta</p>
+                  </div>
+                </div>
+                <span style="font-weight: 700; color: var(--color-secondary);">${u.avg}%</span>
               </div>
             `;
-            return;
-          }
-
-          leaderEl.innerHTML = `
-            <div style="display: flex; flex-direction: column;">
-              ${stats.map((u, i) => {
-                let rankEmoji = '🥇';
-                if (i === 1) rankEmoji = '🥈';
-                if (i === 2) rankEmoji = '🥉';
-                return `
-                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-color);">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                      <span style="font-size: 1.25rem;">${rankEmoji}</span>
-                      <span style="font-size: 1.25rem;">${u.avatar}</span>
-                      <div>
-                        <span style="font-weight: 600; font-size: 0.95rem;">${u.fullName}</span>
-                        <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">@${u.username} • ${u.count} marta</p>
-                      </div>
-                    </div>
-                    <span style="font-weight: 700; color: var(--color-secondary);">${u.avg}%</span>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          `;
-        });
-      });
+          }).join('')}
+        </div>
+      `;
 
     } catch (err) {
       console.error(err);
-      showNotification("Xatolik yuz berdi", "error");
+      showNotification(err.message || "Xatolik yuz berdi", "error");
     }
   });
 }

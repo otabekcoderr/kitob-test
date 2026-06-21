@@ -18,9 +18,9 @@ export async function renderAdminPanel(container) {
 
   try {
     const books = await getAllBooks();
-    const users = await getAllUsers();
-    const results = await getAllResults();
-    const comments = await getAllComments();
+    const users = (await getAllUsers()) || [];
+    const results = (await getAllResults()) || [];
+    const comments = (await getAllComments()) || [];
 
     container.innerHTML = `
       <div class="fade-in">

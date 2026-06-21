@@ -130,7 +130,7 @@ export async function renderResultDetail(container, resultId) {
 
   } catch (err) {
     console.error(err);
-    showNotification("Ma'lumotlarni yuklashda xatolik yuz berdi", "error");
+    showNotification(err.message || "Ma'lumotlarni yuklashda xatolik", "error");
   }
 }
 
@@ -145,9 +145,9 @@ export async function renderResultsHistory(container) {
   `;
 
   try {
-    const results = await getResultsByUser(currentUser.id);
+    const results = await getResultsByUser(currentUser.id) || [];
 
-    if (results.length === 0) {
+    if (!results || results.length === 0) {
       container.innerHTML = `
         <div class="fade-in">
           <div class="page-header">
@@ -228,7 +228,7 @@ export async function renderResultsHistory(container) {
 
   } catch (err) {
     console.error(err);
-    showNotification("Xatolik yuz berdi", "error");
+    showNotification(err.message || "Xatolik yuz berdi", "error");
   }
 }
 
@@ -241,12 +241,13 @@ export async function renderLeaderboard(container) {
   `;
 
   try {
-    const allUsers = (await getAllUsers()).filter(u => u.username !== 'admin');
-    const allResults = await getAllResults();
+    const allUsers = (await getAllUsers()) || [];
+    const allResults = await getAllResults() || [];
+    const filteredUsers = allUsers.filter(u => u.username !== 'admin');
     const currentUser = getCurrentUser();
 
     // Calculate ranking statistics for all users
-    const usersStats = allUsers.map(user => {
+    const usersStats = filteredUsers.map(user => {
       const userResults = allResults.filter(r => r.userId === user.id);
       const testsCompleted = userResults.length;
       
