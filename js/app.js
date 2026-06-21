@@ -414,6 +414,7 @@ function renderDashboard(container) {
 
       // Load Mini Leaderboard
       db.getAllUsers().then(users => {
+        users = users.filter(u => u.username !== 'admin');
         db.getAllResults().then(allResultsList => {
           const stats = users.map(u => {
             const userResults = allResultsList.filter(r => r.userId === u.id);

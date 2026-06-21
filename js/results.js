@@ -241,7 +241,7 @@ export async function renderLeaderboard(container) {
   `;
 
   try {
-    const allUsers = await getAllUsers();
+    const allUsers = (await getAllUsers()).filter(u => u.username !== 'admin');
     const allResults = await getAllResults();
     const currentUser = getCurrentUser();
 
