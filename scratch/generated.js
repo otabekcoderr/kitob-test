@@ -1,0 +1,3603 @@
+[
+
+  {
+    id: 'q-hamsa-1',
+    bookId: 'hamsa',
+    question: '"Hamsa" so\'zi nimani anglatadi?',
+    options: ['Uch', 'Besh', 'Yetti', 'To\'qqiz'],
+    correctAnswer: 1,
+    explanation: '"Hamsa" arabchada "besh" ma\'nosini bildiradi, Navoiyning 5 dostonidan iborat.'
+  },
+
+  {
+    id: 'q-hamsa-2',
+    bookId: 'hamsa',
+    question: 'Navoiyning "Hamsa"siga kirmagan doston qaysi?',
+    options: ['Hayrat ul-abror', 'Farhod va Shirin', 'Layli va Majnun', 'Lison ut-tayr'],
+    correctAnswer: 3,
+    explanation: '"Lison ut-tayr" alohida asar, "Hamsa" tarkibiga kirmaydi.'
+  },
+
+  {
+    id: 'q-hamsa-3',
+    bookId: 'hamsa',
+    question: '"Farhod va Shirin" dostonining bosh qahramoni kim?',
+    options: ['Iskandar', 'Farhod', 'Majnum', 'Shirin'],
+    correctAnswer: 1,
+    explanation: 'Farhod - mehnatkash, ishqiy va vafodor qahramon, Shirinni sevadi.'
+  },
+
+  {
+    id: 'q-hamsa-4',
+    bookId: 'hamsa',
+    question: '"Layli va Majnun" dostonida Majnunning asl ismi nima?',
+    options: ['Farhod', 'Qays ibn al-Mulavvah', 'Ibn Salom', 'Salam'],
+    correctAnswer: 1,
+    explanation: 'Qays ibn al-Mulavvah - Layliga muhabbati tufayli "Majnun" (devona) nomini olgan.'
+  },
+
+  {
+    id: 'q-hamsa-5',
+    bookId: 'hamsa',
+    question: '"Sab\'ai sayyor" dostoni mavzusi nima?',
+    options: ['Bog\'bon', 'Shoh Bahrom va 7 go\'zal haqida', 'Dehqon', 'Baliqchi'],
+    correctAnswer: 1,
+    explanation: 'Shoh Bahromning 7 iqlimdagi 7 go\'zal bilan bog\'liq 7 hikoyasi.'
+  },
+
+  {
+    id: 'q-hamsa-6',
+    bookId: 'hamsa',
+    question: '"Saddi Iskandariy" dostoni qahramoni?',
+    options: ['Iskandar Zulqarnayn', 'Farhod', 'Majnum', 'Shirin'],
+    correctAnswer: 0,
+    explanation: 'Iskandar Zulqarnayn obrazi orqali komil inson timsoli yaratilgan.'
+  },
+
+  {
+    id: 'q-hamsa-7',
+    bookId: 'hamsa',
+    question: 'Navoiy "Hamsa"ni qaysi tilda yozgan?',
+    options: ['Fors', 'Arab', 'Turkiy (Chig\'atoy)', 'Mo\'g\'ul'],
+    correctAnswer: 2,
+    explanation: 'O\'zbek tilining chig\'atoy lahjasida, turkiy xalqlar tushunishi uchun.'
+  },
+
+  {
+    id: 'q-hamsa-8',
+    bookId: 'hamsa',
+    question: '"Hayrat ul-abror" nimadan iborat?',
+    options: ['Roman', 'She\'rlar', '20 maqolat (hikmatli so\'z)', 'Hikoyalar'],
+    correctAnswer: 2,
+    explanation: '20 maqolatdan iborat falsafiy-didaktik doston.'
+  },
+
+  {
+    id: 'q-hamsa-9',
+    bookId: 'hamsa',
+    question: 'Navoiy "Hamsa"ni kimga taqlid qilib yozgan?',
+    options: ['Firdavsiy', 'Jomiy', 'Nizomiy Ganjaviy', 'Sa\'diy'],
+    correctAnswer: 2,
+    explanation: 'Fors shoiri Nizomiy Ganjaviy (XII asr) "Panj ganj" (Besh xazina)siga taqlid.'
+  },
+
+  {
+    id: 'q-hamsa-10',
+    bookId: 'hamsa',
+    question: 'Asar necha baytdan iborat?',
+    options: ['15 000', '25 000', '35 000', '50 000'],
+    correctAnswer: 3,
+    explanation: 'Taxminan 50 000 bayt, turkiy adabiyotning ulkan yodgorligi.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-1',
+    bookId: 'lison-ut-tayr',
+    question: '"Lison ut-tayr" ma\'nosi?',
+    options: ['Qushlar tili', 'Go\'zal bog\'', 'Uchar kitob', 'Sehrli dunyo'],
+    correctAnswer: 0,
+    explanation: '"Qushlar tili" - qushlar tilidan yozilgan falsafiy-tasavvufiy doston.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-2',
+    bookId: 'lison-ut-tayr',
+    question: 'Asosiy syujet?',
+    options: ['Odamlar sayohati', 'Qushlarning Simurg\'ni izlashi', 'Hayvonlar jangi', 'Sevgi hikoyasi'],
+    correctAnswer: 1,
+    explanation: 'Qushlar podshoh Simurg\'ni izlab, 7 vodiydan o\'tadilar.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-3',
+    bookId: 'lison-ut-tayr',
+    question: 'Nechta vodiy?',
+    options: ['5', '6', '7', '9'],
+    correctAnswer: 2,
+    explanation: '7 vodiy: Talab, Ishq, Ma\'rifat, Istig\'no, Tavhid, Hayrat, Faqr va Fano.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-4',
+    bookId: 'lison-ut-tayr',
+    question: 'Qushlar Simurg\'ni qayerda topadilar?',
+    options: ['Dengizda', 'Osmonda', 'O\'zlarida (30 ta qush)', 'Yer ostida'],
+    correctAnswer: 2,
+    explanation: 'Simurg\'ni o\'zlarida topadilar - "Si mur g\'" (forscha 30 ta qush) so\'z o\'yini.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-5',
+    bookId: 'lison-ut-tayr',
+    question: 'Navoiy bu asarni kimning asari asosida yozgan?',
+    options: ['Rumiy', 'Attor', 'Jomiy', 'Nizomiy'],
+    correctAnswer: 1,
+    explanation: 'Farididdin Attorning "Mantiq ut-tayr" asari asosida (Attor 40 vodiysini 7 ga qisqartirgan).'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-6',
+    bookId: 'lison-ut-tayr',
+    question: 'Asosiy falsafiy g\'oya?',
+    options: ['Sevgi', 'Inson o\'zida Haqiqatni topishi mumkin', 'Boylik', 'Do\'stlik'],
+    correctAnswer: 1,
+    explanation: 'Haqiqatni tashqaridan emas, o\'z ichingdan izlash kerak.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-7',
+    bookId: 'lison-ut-tayr',
+    question: 'G\'unaysh (dudak) nomli qush nega Simurg\'ga bora olmaydi?',
+    options: ['Qo\'rqadi', 'Yo\'l bilmaydi', 'Haddan oshgan muhabbati to\'sig\'i', 'Kasal'],
+    correctAnswer: 2,
+    explanation: 'Haddan oshgan muhabbati tufayli Simurg\'ga yetisha olmaydi.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-8',
+    bookId: 'lison-ut-tayr',
+    question: 'Navoiy asarni qachon yozgan?',
+    options: ['1485', '1499', '1501', '1510'],
+    correctAnswer: 1,
+    explanation: '1499 yil.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-9',
+    bookId: 'lison-ut-tayr',
+    question: 'Asar uzunligi?',
+    options: ['1000', '2000', '3000', '4000'],
+    correctAnswer: 3,
+    explanation: 'Taxminan 3500 bayt.'
+  },
+
+  {
+    id: 'q-lison-ut-tayr-10',
+    bookId: 'lison-ut-tayr',
+    question: 'Navoiy bu asarni kimga bag\'ishlagan?',
+    options: ['Sulton Husayn Boyqaro', 'Jomiy', 'Nizomiy', 'Bobur'],
+    correctAnswer: 0,
+    explanation: 'Sulton Husayn Boyqaroga bag\'ishlagan.'
+  },
+
+  {
+    id: 'q-boburnoma-1',
+    bookId: 'boburnoma',
+    question: '"Boburnoma" muallifi?',
+    options: ['Alisher Navoiy', 'Zahiriddin Muhammad Bobur', 'Mirzo Ulug\'bek', 'Pirimqul Qodirov'],
+    correctAnswer: 1,
+    explanation: 'Boburning o\'zi tomonidan yozilgan memuar.'
+  },
+
+  {
+    id: 'q-boburnoma-2',
+    bookId: 'boburnoma',
+    question: 'Asar qaysi tilda yozilgan?',
+    options: ['Fors', 'Turkiy (Chig\'atoy)', 'Arab', 'Hind'],
+    correctAnswer: 1,
+    explanation: 'Turkiy tilning chig\'atoy lahjasida, Boburning ona tilida.'
+  },
+
+  {
+    id: 'q-boburnoma-3',
+    bookId: 'boburnoma',
+    question: 'Bobur "Boburnoma"da qaysi davrni tasvirlaydi?',
+    options: ['Faqat Hindiston', '1494 dan 1529 gacha', 'Faqat Bolalik', 'Faqat harbiy yurishlar'],
+    correctAnswer: 1,
+    explanation: '1494 (otasining o\'limi) dan 1529 gacha bo\'lgan voqealar.'
+  },
+
+  {
+    id: 'q-boburnoma-4',
+    bookId: 'boburnoma',
+    question: '"Boburnoma" qanday janr?',
+    options: ['Tarixiy roman', 'Memuar (avtobiografik asar)', 'She\'riy to\'plam', 'Ilmiy risola'],
+    correctAnswer: 1,
+    explanation: 'Tarixiy-geografik va avtobiografik memuar.'
+  },
+
+  {
+    id: 'q-boburnoma-5',
+    bookId: 'boburnoma',
+    question: 'Bobur asarda qaysi jangni batafsil tasvirlaydi?',
+    options: ['Panipat jangi', 'Borodino jangi', 'Sohra jangi', 'Karbalo jangi'],
+    correctAnswer: 0,
+    explanation: 'Panipat jangi (1526) - Hindistondagi birinchi yirik jang.'
+  },
+
+  {
+    id: 'q-boburnoma-6',
+    bookId: 'boburnoma',
+    question: 'Asarda Hindistonning qanday xususiyatlari qayd etilgan?',
+    options: ['Dini', 'Tabiati, iqlimi, hayvonot dunyosi', 'Siyosati', 'Tarixi'],
+    correctAnswer: 1,
+    explanation: 'Bobur hind tabiati, iqlimi, o\'simlik va hayvonot dunyosini kuzatgan.'
+  },
+
+  {
+    id: 'q-boburnoma-7',
+    bookId: 'boburnoma',
+    question: 'Boburning Farg\'onadagi yillari qanday tasvirlangan?',
+    options: ['Tinch', 'Doimiy kurash va taxt talashlar', 'Boylik', 'Shon-sharaf'],
+    correctAnswer: 1,
+    explanation: 'Doimiy kurash va taxt talashlari, qiyin davr.'
+  },
+
+  {
+    id: 'q-boburnoma-8',
+    bookId: 'boburnoma',
+    question: '"Boburnoma" necha bobdan iborat?',
+    options: ['1 bob', '3 bob', '10 bob', '4 bob'],
+    correctAnswer: 3,
+    explanation: '10 bob (ba\'zi nusxalarda farqlanadi).'
+  },
+
+  {
+    id: 'q-boburnoma-9',
+    bookId: 'boburnoma',
+    question: 'Asarning jahon adabiyotidagi o\'rni?',
+    options: ['Oddiy kundalik', 'Nodir avtobiografik asar, qimmatli tarixiy manba', 'Fantastika', 'Diniy'],
+    correctAnswer: 1,
+    explanation: 'Nodir avtobiografik asar, Markaziy va Janubiy Osiyo tarixi uchun muhim manba.'
+  },
+
+  {
+    id: 'q-boburnoma-10',
+    bookId: 'boburnoma',
+    question: 'Bobur qachon vafot etgan?',
+    options: ['1526', '1530', '1535', '1540'],
+    correctAnswer: 1,
+    explanation: '1530 yil 26 dekabr, Agra shahrida.'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-1',
+    bookId: 'qutadgu-bilig',
+    question: 'Muallifi?',
+    options: ['Mahmud Qashg\'ariy', 'Yusuf Xos Hojib', 'Ahmad Yassaviy', 'Rabg\'uziy'],
+    correctAnswer: 1,
+    explanation: 'Yusuf Xos Hojib (Yusuf Balasoguni).'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-2',
+    bookId: 'qutadgu-bilig',
+    question: '"Qutadg\'u bilig" ma\'nosi?',
+    options: ['Quvvatli bilim', 'Saodatli bilim yoki baxt keltiruvchi bilim', 'Qadimgi bilim', 'Ko\'p bilim'],
+    correctAnswer: 1,
+    explanation: '"Saodatli bilim" yoki "Baxt keltiruvchi bilim".'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-3',
+    bookId: 'qutadgu-bilig',
+    question: 'Asarda nechta ramziy qahramon?',
+    options: ['2', '3', '4', '5'],
+    correctAnswer: 2,
+    explanation: '4 ta: Kuntug\'di (adolat), Oytoldi (baxt), O\'gdulmish (aql), O\'gdur mish (qanoat).'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-4',
+    bookId: 'qutadgu-bilig',
+    question: 'Qahramonlar qanday ramz?',
+    options: ['Hayvonlar', 'Insoniy fazilatlar va tushunchalar', 'O\'simliklar', 'Samoviy jismlar'],
+    correctAnswer: 1,
+    explanation: 'Adolat, davlat, aql va qanoat kabi tushunchalar ramziy ifodasi.'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-5',
+    bookId: 'qutadgu-bilig',
+    question: 'Asar necha bayt?',
+    options: ['3 000', '6 000', '6 645', '10 000'],
+    correctAnswer: 2,
+    explanation: '6 645 bayt (13 000 misra).'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-6',
+    bookId: 'qutadgu-bilig',
+    question: 'Qaysi tilda yozilgan?',
+    options: ['Arab', 'Fors', 'Turkiy', 'Mo\'g\'ul'],
+    correctAnswer: 2,
+    explanation: 'Turkiy tilda - islomiy turkiy adabiyotning ilk yodgorligi.'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-7',
+    bookId: 'qutadgu-bilig',
+    question: 'Qaysi shaharda yozilgan?',
+    options: ['Samarqand', 'Qashg\'ar', 'Buxoro', 'Bag\'dod'],
+    correctAnswer: 1,
+    explanation: 'Qashg\'ar shahrida.'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-8',
+    bookId: 'qutadgu-bilig',
+    question: 'Kimga taqdim etilgan?',
+    options: ['Sulton Mahmud Qashg\'ariy', 'Tabg\'ach Bug\'raxon', 'Alp Arslon', 'Malikshoh'],
+    correctAnswer: 1,
+    explanation: 'Qashg\'ar hukmdori Tabg\'ach Bug\'raxonga.'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-9',
+    bookId: 'qutadgu-bilig',
+    question: 'Asosiy mavzusi?',
+    options: ['Sevgi va sadoqat', 'Adolatli davlat boshqaruvi va baxtli hayot', 'Harbiy yurishlar', 'Tibbiyot'],
+    correctAnswer: 1,
+    explanation: 'Adolatli boshqaruv, baxtli hayot va komil inson tarbiyasi.'
+  },
+
+  {
+    id: 'q-qutadgu-bilig-10',
+    bookId: 'qutadgu-bilig',
+    question: 'Qachon yozilgan?',
+    options: ['1069', '1070', '1074', '1080'],
+    correctAnswer: 0,
+    explanation: '1069-1070 yillarda.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-1',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Muallifi?',
+    options: ['Yusuf Xos Hojib', 'Mahmud Qashg\'ariy', 'Alisher Navoiy', 'Kaykovus'],
+    correctAnswer: 1,
+    explanation: 'Mahmud ibn Husayn ibn Muhammad Qashg\'ariy.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-2',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Asar mazmuni?',
+    options: ['Faqat she\'r', 'Turkiy xalqlarning ilk qomusi, lug\'at va ensiklopediya', 'Faqat grammatika', 'Diniy asar'],
+    correctAnswer: 1,
+    explanation: 'Turkiy qabilalar tili, adabiyoti, geografiyasi va madaniyati haqida.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-3',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Asarda nechta turkiy qabila tiliga oid so\'z bor?',
+    options: ['5 000', '7 500', '9 000', '10 000'],
+    correctAnswer: 2,
+    explanation: '9 000 dan ortiq so\'z va iboralar.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-4',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Qaysi tilda yozilgan?',
+    options: ['Turkcha', 'Arab', 'Fors', 'Mo\'g\'ul'],
+    correctAnswer: 1,
+    explanation: 'Arab tilida, arablarga turkiy tillarni o\'rgatish maqsadida.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-5',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Asarda birinchi marta nima tasvirlangan?',
+    options: ['Xarita', 'Turkiy xalqlar xaritasi', 'Samoviy jismlar', 'Hayvonlar'],
+    correctAnswer: 1,
+    explanation: 'Dunyodagi birinchi turkiy xalqlar xaritasi.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-6',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Qachon yozilgan?',
+    options: ['1069', '1070', '1072-1074', '1080'],
+    correctAnswer: 2,
+    explanation: '1072-1074 yillarda, Bag\'dodda.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-7',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Kimga bag\'ishlangan?',
+    options: ['Sulton Malikshoh', 'Abbosiy xalifa Muqtadir billoh', 'Tabg\'ach Bug\'raxon', 'Alp Arslon'],
+    correctAnswer: 1,
+    explanation: 'Abbosiy xalifa Muqtadir billohga.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-8',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Asarning yana bir nomi?',
+    options: ['Turkiy so\'zlar devoni', 'Qomus', 'Lug\'at', 'Majmua'],
+    correctAnswer: 0,
+    explanation: '"Turkiy so\'zlar devoni" deb ham ataladi.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-9',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Mahmud Qashg\'ariy qayerdan edi?',
+    options: ['Samarqand', 'Buxoro', 'Qashg\'ar', 'Bag\'dod'],
+    correctAnswer: 2,
+    explanation: 'Qashg\'ardan, turkiy qabilalardan biri.'
+  },
+
+  {
+    id: 'q-devonu-lugotit-turk-10',
+    bookId: 'devonu-lugotit-turk',
+    question: 'Asar necha bob?',
+    options: ['4 bob', '7 bob', '8 bob', '10 bob'],
+    correctAnswer: 2,
+    explanation: '8 bob, ot, fe\'l va boshqa qismlarga bo\'linadi.'
+  },
+
+  {
+    id: 'q-alpomish-1',
+    bookId: 'alpomish',
+    question: 'Alpomish qahramoni kim?',
+    options: ['Toxir ibn Asad', 'Hakimbek (Alpomish)', 'Yusuf', 'Tohir'],
+    correctAnswer: 1,
+    explanation: 'Hakimbek - Alpomish nomi bilan mashhur qahramon.'
+  },
+
+  {
+    id: 'q-alpomish-2',
+    bookId: 'alpomish',
+    question: 'Alpomishning sevgilisi kim?',
+    options: ['Qorajon', 'Barchin', 'Oysa', 'Kumush'],
+    correctAnswer: 1,
+    explanation: 'Barchin - Alpomishning sevgilisi va rafiqasi.'
+  },
+
+  {
+    id: 'q-alpomish-3',
+    bookId: 'alpomish',
+    question: 'Alpomish qayerda asirlikda bo\'ladi?',
+    options: ['Misr', 'Qorajon (Kalmak) yurtida', 'Hindiston', 'Rum'],
+    correctAnswer: 1,
+    explanation: 'Qorajon yurtida 7 yil asirlikda.'
+  },
+
+  {
+    id: 'q-alpomish-4',
+    bookId: 'alpomish',
+    question: 'Doston qanday mavzuda?',
+    options: ['Sevgi fojiasi', 'Vatanparvarlik, jasorat va sadoqat', 'Boylik', 'Ilm'],
+    correctAnswer: 1,
+    explanation: 'Vatanparvarlik, jasorat, do\'stlik va sevgiga sadoqat.'
+  },
+
+  {
+    id: 'q-alpomish-5',
+    bookId: 'alpomish',
+    question: 'Alpomishning quroli?',
+    options: ['Qilich', 'Kamon va nayza', 'To\'qmoq', 'Tayoq'],
+    correctAnswer: 0,
+    explanation: 'Qilich va kamon, ayniqsa mashhur nayzasi.'
+  },
+
+  {
+    id: 'q-alpomish-6',
+    bookId: 'alpomish',
+    question: 'Alpomish qaysi elat vakili?',
+    options: ['Qo\'ng\'irot', 'Qarluq', 'O\'g\'uz', 'Qipchoq'],
+    correctAnswer: 0,
+    explanation: 'Qo\'ng\'irot elatining baxshi va qo\'shiqchilari orqali yetib kelgan.'
+  },
+
+  {
+    id: 'q-alpomish-7',
+    bookId: 'alpomish',
+    question: 'Barchinning Alpomishga sadoqati qanday namoyon?',
+    options: ['Urushadi', '7 yil kutadi va o\'z joniga qasd qilmaydi', 'Qochadi', 'Sovchi yuboradi'],
+    correctAnswer: 1,
+    explanation: 'Alpomish 7 yil asirlikda, Barchin unga sodiq qoladi.'
+  },
+
+  {
+    id: 'q-alpomish-8',
+    bookId: 'alpomish',
+    question: 'Doston taxminan qachon yaratilgan?',
+    options: ['500', '1000', '1200', '1500'],
+    correctAnswer: 1,
+    explanation: 'Taxminan 1000 yil atrofida, xalq og\'zaki ijodi.'
+  },
+
+  {
+    id: 'q-alpomish-9',
+    bookId: 'alpomish',
+    question: 'Alpomishni asirlikdan kim qutqaradi?',
+    options: ['Barchin', 'Otasi', 'Do\'sti Qorajon', 'O\'zi qochadi'],
+    correctAnswer: 3,
+    explanation: 'Qorajonning qizi orqali qochishga muvaffaq bo\'ladi.'
+  },
+
+  {
+    id: 'q-alpomish-10',
+    bookId: 'alpomish',
+    question: 'Doston o\'zbek xalqining qanday fazilatini ulug\'laydi?',
+    options: ['Boylik', 'Jasorat, vafo va vatanparvarlik', 'Ayyorlik', 'Kuch'],
+    correctAnswer: 1,
+    explanation: 'Jasorat, vafo, vatanparvarlik va do\'stlik.'
+  },
+
+  {
+    id: 'q-gorogli-1',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'li turkumi qanday doston?',
+    options: ['Bir doston', 'Dostonlar turkumi', 'Roman', 'She\'r'],
+    correctAnswer: 1,
+    explanation: 'Turkum dostonlar - Go\'ro\'g\'li va uning qahramonlari haqida.'
+  },
+
+  {
+    id: 'q-gorogli-2',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'lining yurti?',
+    options: ['Buxoro', 'Samarqand', 'Chambil', 'Xiva'],
+    correctAnswer: 2,
+    explanation: 'Chambil yurti - afsonaviy makon.'
+  },
+
+  {
+    id: 'q-gorogli-3',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'lining oti?',
+    options: ['Rosinant', 'G\'irot', 'Boychibor', 'Duldul'],
+    correctAnswer: 1,
+    explanation: 'G\'irot - Go\'ro\'g\'lining afsonaviy oti.'
+  },
+
+  {
+    id: 'q-gorogli-4',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'lining asosiy maqsadi?',
+    options: ['Boylik', 'Adolat va ozodlik', 'Shon-sharaf', 'Sevgi'],
+    correctAnswer: 1,
+    explanation: 'Adolat va ozodlik uchun kurash.'
+  },
+
+  {
+    id: 'q-gorogli-5',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'lining eng mashhur do\'sti?',
+    options: ['Maston', 'Alpomish', 'Yusuf', 'Tohir'],
+    correctAnswer: 0,
+    explanation: 'Maston - yaqin do\'sti va safdoshi.'
+  },
+
+  {
+    id: 'q-gorogli-6',
+    bookId: 'gorogli',
+    question: 'Dostonlarda qanday voqealar tasvirlangan?',
+    options: ['Tinch hayot', 'Harbiy yurishlar va sarguzashtlar', 'Siyosat', 'Savdo'],
+    correctAnswer: 1,
+    explanation: 'Harbiy yurishlar, sarguzasht va jasoratli voqealar.'
+  },
+
+  {
+    id: 'q-gorogli-7',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'li obrzining o\'zbek xalqidagi o\'rni?',
+    options: ['Kamsitilgan', 'Xalq qahramoni va adolat himoyachisi', 'Yovuz qahramon', 'Oddiy odam'],
+    correctAnswer: 1,
+    explanation: 'Xalq qahramoni, adolat himoyachisi va ideal hukmdor timsoli.'
+  },
+
+  {
+    id: 'q-gorogli-8',
+    bookId: 'gorogli',
+    question: 'Doston turkumi qachon yaratilgan?',
+    options: ['500', '1000', '1500', '1700'],
+    correctAnswer: 1,
+    explanation: 'Taxminan 1000 yil atrofida paydo bo\'lgan.'
+  },
+
+  {
+    id: 'q-gorogli-9',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'lining dushmanlari?',
+    options: ['Do\'stlar', 'Adolatsiz hukmdorlar va bosqinchilar', 'Odamlar', 'Hayvonlar'],
+    correctAnswer: 1,
+    explanation: 'Adolatsiz hukmdorlar va zolim bosqinchilar.'
+  },
+
+  {
+    id: 'q-gorogli-10',
+    bookId: 'gorogli',
+    question: 'Go\'ro\'g\'lining Chambil yurti qanday makon?',
+    options: ['Haqiqiy', 'Afsonaviy ideal davlat', 'Tarixiy', 'Yo\'qolgan'],
+    correctAnswer: 1,
+    explanation: 'Afsonaviy, erkin va adolatli ideal davlat makoni.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-1',
+    bookId: 'qissasi-rabguziy',
+    question: 'Muallifi?',
+    options: ['Mahmud Qashg\'ariy', 'Rabg\'uziy (Nosiruddin)', 'Yusuf Xos Hojib', 'Kaykovus'],
+    correctAnswer: 1,
+    explanation: 'Rabg\'uziy (Nosiruddin Burhonuddin Rabg\'uziy).'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-2',
+    bookId: 'qissasi-rabguziy',
+    question: 'Asar mazmuni?',
+    options: ['Sevgi hikoyasi', 'Payg\'ambarlar hayoti haqidagi hikoyalar', 'Ilmiy asar', 'Lug\'at'],
+    correctAnswer: 1,
+    explanation: 'Payg\'ambarlar hayoti va sarguzashtlari haqidagi hikoyalar.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-3',
+    bookId: 'qissasi-rabguziy',
+    question: 'Asar turkiy adabiyotda qanday o\'rin tutadi?',
+    options: ['Ilmiy asar', 'Ilk turkiy nasriy asarlardan biri', 'Yagona asar', 'Zamonaviy'],
+    correctAnswer: 1,
+    explanation: 'Ilk turkiy nasriy asarlardan biri.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-4',
+    bookId: 'qissasi-rabguziy',
+    question: 'Qachon yozilgan?',
+    options: ['1300', '1310', '1320', '1350'],
+    correctAnswer: 1,
+    explanation: '1310 yil.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-5',
+    bookId: 'qissasi-rabguziy',
+    question: 'Asar qaysi tilda?',
+    options: ['Fors', 'Arab', 'Turkiy', 'Mo\'g\'ul'],
+    correctAnswer: 2,
+    explanation: 'Turkiy tilda.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-6',
+    bookId: 'qissasi-rabguziy',
+    question: '"Rabg\'uziy" taxallusi qayerdan olingan?',
+    options: ['Tug\'ilgan shahardan', 'Rabg\'uz - tug\'ilgan joy nomidan', 'Otasidan', 'Maktabdan'],
+    correctAnswer: 1,
+    explanation: 'Rabg\'uz shahridan (hozirgi Qozog\'iston).'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-7',
+    bookId: 'qissasi-rabguziy',
+    question: 'Asar necha qismdan iborat?',
+    options: ['30', '50', '72', '100'],
+    correctAnswer: 2,
+    explanation: '72 (ba\'zi manbalarda 75) qissa.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-8',
+    bookId: 'qissasi-rabguziy',
+    question: 'Kim uchun yozilgan?',
+    options: ['Sulton', 'Oddiy xalq tushunishi uchun', 'Olimlar', 'Arab sayohatchilar'],
+    correctAnswer: 1,
+    explanation: 'Oddiy turkiy xalq tushunishi uchun.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-9',
+    bookId: 'qissasi-rabguziy',
+    question: 'Qissalar asosan qanday mavzuda?',
+    options: ['Sevgi', 'Payg\'ambarlar mo\'jizalari va ibratli hayoti', 'Sarguzasht', 'Harbiy'],
+    correctAnswer: 1,
+    explanation: 'Payg\'ambarlar hayoti va ibratli voqealar.'
+  },
+
+  {
+    id: 'q-qissasi-rabguziy-10',
+    bookId: 'qissasi-rabguziy',
+    question: 'Asarning yana bir nomi?',
+    options: ['Hamsa', 'Qissai Rabg\'uziy yoki Rabg\'uziy qissalari', 'Boburnoma', 'Guliston'],
+    correctAnswer: 1,
+    explanation: '"Qissai Rabg\'uziy" yoki "Qisasi Rabg\'uziy".'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-1',
+    bookId: 'sahih-buxoriy',
+    question: 'Muallifi?',
+    options: ['Imom Muslim', 'Imom Buxoriy', 'Imom Termiziy', 'Imom Nasoiy'],
+    correctAnswer: 1,
+    explanation: 'Muhammad ibn Ismoil al-Buxoriy (Imom Buxoriy).'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-2',
+    bookId: 'sahih-buxoriy',
+    question: '"Al-Jome as-Sahih" mazmuni?',
+    options: ['Falosafiy asar', 'Eng ishonchli hadislar to\'plami', 'Tarixiy asar', 'Lug\'at'],
+    correctAnswer: 1,
+    explanation: 'Eng sahih (ishonchli) hadislar to\'plami.'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-3',
+    bookId: 'sahih-buxoriy',
+    question: 'Nechta hadisni o\'z ichiga oladi?',
+    options: ['2 000', '7 275', '10 000', '15 000'],
+    correctAnswer: 1,
+    explanation: '7 275 hadis (takrorlarni hisobga olmaganda).'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-4',
+    bookId: 'sahih-buxoriy',
+    question: 'Imom Buxoriy necha yil davomida asarni yozgan?',
+    options: ['10', '16', '20', '25'],
+    correctAnswer: 1,
+    explanation: '16 yil davomida (846 yilda tugallangan).'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-5',
+    bookId: 'sahih-buxoriy',
+    question: 'Hadislarni tanlash mezoni?',
+    options: ['Tasodifiy', 'Qattiq ishonchlilik talabi - 300 000 hadisdan 7 275 ni tanlab olgan', 'Barcha hadislarni kiritgan', 'Faqat oshkora'],
+    correctAnswer: 1,
+    explanation: '300 000 hadisdan faqat eng ishonchlilarini qattiq mezon bilan tanlagan.'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-6',
+    bookId: 'sahih-buxoriy',
+    question: 'Imom Buxoriy qayerda tug\'ilgan?',
+    options: ['Samarqand', 'Buxoro', 'Termiz', 'Nishopur'],
+    correctAnswer: 1,
+    explanation: 'Buxoro shahrida (809 yil 20 iyul).'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-7',
+    bookId: 'sahih-buxoriy',
+    question: 'Asarning islom olamidagi o\'rni?',
+    options: ['Oddiy kitob', 'Qur\'ondan keyin ikkinchi eng muhim manba', 'Ilmiy asar', 'Tarixiy'],
+    correctAnswer: 1,
+    explanation: 'Qur\'oni Karimdan keyin eng sahih manba hisoblanadi.'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-8',
+    bookId: 'sahih-buxoriy',
+    question: 'Necha kitob (bob) dan iborat?',
+    options: ['50', '97', '100', '150'],
+    correctAnswer: 1,
+    explanation: '97 kitob (bob) dan iborat.'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-9',
+    bookId: 'sahih-buxoriy',
+    question: 'Asar nechada tugallangan?',
+    options: ['840', '844', '846', '850'],
+    correctAnswer: 2,
+    explanation: '846 yil (hijriy 232).'
+  },
+
+  {
+    id: 'q-sahih-buxoriy-10',
+    bookId: 'sahih-buxoriy',
+    question: 'Imom Buxoriy qayerda vafot etgan?',
+    options: ['Buxoro', 'Samarqand', 'Termiz', 'Nishopur'],
+    correctAnswer: 0,
+    explanation: 'Buxoro yaqinidagi Xartang qishlog\'ida (870 yil).'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-1',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Muallifi?',
+    options: ['Imom Buxoriy', 'Imom al-Gazzoliy', 'Imom Termiziy', 'Imom Gazzoliy'],
+    correctAnswer: 1,
+    explanation: 'Imom al-Gazzoliy (Abu Homid Muhammad al-Gazzoliy).'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-2',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Asar mazmuni?',
+    options: ['Hadislar', 'Qalblarni poklash, ruh tarbiyasi va diniy odoblar', 'Lug\'at', 'Tarix'],
+    correctAnswer: 1,
+    explanation: 'Qalblarni poklash va ruh tarbiyasi, islomiy odoblar.'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-3',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Asarning to\'liq nomi?',
+    options: ['Al-Jome as-Sahih', 'Ihyo ulumid-din (Diniy ilmlarni tiriltirish)', 'Qutadg\'u bilig', 'Guliston'],
+    correctAnswer: 1,
+    explanation: '"Ihyo ulumid-din" - Diniy ilmlarni tiriltirish.'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-4',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Nechta jild?',
+    options: ['2', '3', '4', '5'],
+    correctAnswer: 2,
+    explanation: '4 jild.'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-5',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Har bir jild necha bob?',
+    options: ['5', '10', '10 (jami 40 bob)', '8'],
+    correctAnswer: 2,
+    explanation: 'Har bir jild 10 bob, jami 40 bob.'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-6',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Asar qaysi tilda?',
+    options: ['Fors', 'Arab', 'Turkiy', 'Mo\'g\'ul'],
+    correctAnswer: 1,
+    explanation: 'Arab tilida.'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-7',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Gazzoliy qaysi asrda yashagan?',
+    options: ['IX', 'X', 'XI-XII', 'XIII'],
+    correctAnswer: 2,
+    explanation: '1058-1111 yillarda (XI-XII asrlar).'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-8',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Asosiy mavzu?',
+    options: ['Tibbiyot', 'Nafsni poklash, xulq va ruhiy kamolot', 'Astronomiya', 'Arxitektura'],
+    correctAnswer: 1,
+    explanation: 'Nafsni poklash, to\'g\'ri xulq va ruhiy kamolot.'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-9',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Gazzoliy qanday sohada mashhur?',
+    options: ['Tibbiyot', 'Falsafa va islom ilohiyoti', 'Astronomiya', 'Matematika'],
+    correctAnswer: 1,
+    explanation: 'Falsafa va islom ilohiyoti, "Islom hujjati" deb ulug\'lanadi.'
+  },
+
+  {
+    id: 'q-ruhiy-tarbiya-10',
+    bookId: 'ruhiy-tarbiya',
+    question: 'Asar nechanchi yilda yozilgan?',
+    options: ['1095', '1100', '1105', '1111'],
+    correctAnswer: 2,
+    explanation: '1105 yil atrofida.'
+  },
+
+  {
+    id: 'q-hamlet-1',
+    bookId: 'hamlet',
+    question: '"Hamlet" tragediyasida qirol Klavdiy Hamletga nisbatan kim bo\'ladi?',
+    options: ['Amakisi', 'Otasi', 'Akasi', 'Buvasi'],
+    correctAnswer: 0,
+    explanation: 'Klavdiy Hamletning amakisi bo\'lib, u Hamletning otasini o\'ldirib, taxt va qirolichaga ega chiqadi.'
+  },
+
+  {
+    id: 'q-hamlet-2',
+    bookId: 'hamlet',
+    question: 'Hamlet "Yoki bo\'lmoq, yoki bo\'lmaslik" monologini qayerda aytadi?',
+    options: ['Qasr devorida', 'Qabristonda', 'Saroy zalida', 'Onasining xonasida'],
+    correctAnswer: 1,
+    explanation: 'Hamlet bu monologni qabristonda, bosh suyagiga qarab hayot va o\'lim haqida mulohaza yuritayotganda aytadi.'
+  },
+
+  {
+    id: 'q-hamlet-3',
+    bookId: 'hamlet',
+    question: 'Hamlet sevgan qiz Poloniyning qizi kim?',
+    options: ['Ofeliya', 'Gertruda', 'Yorik', 'Yuliy'],
+    correctAnswer: 0,
+    explanation: 'Ofeliya - Poloniyning qizi va Hamletning sevgilisi. U otasining o\'limidan keyin aqldan ozadi.'
+  },
+
+  {
+    id: 'q-hamlet-4',
+    bookId: 'hamlet',
+    question: '"Spektakl ichida spektakl" sahnasining maqsadi nima?',
+    options: ['Shohona tomosha', 'Klavdiyning aybini fosh etish', 'Ofeliyani sevish', 'Aqldan ozganlikni ko\'rsatish'],
+    correctAnswer: 1,
+    explanation: 'Hamlet aktyorlar yordamida otasining o\'ldirilishi sahnalashtirilgan spektaklni qo\'yib, Klavdiyning reaksiyasini kuzatadi.'
+  },
+
+  {
+    id: 'q-hamlet-5',
+    bookId: 'hamlet',
+    question: 'Hamletning eng yaqin do\'sti kim?',
+    options: ['Rozenkrans', 'Gildenstern', 'Horatsiy', 'Laert'],
+    correctAnswer: 2,
+    explanation: 'Horatsiy Hamletning eng sodiq do\'sti bo\'lib, u asar oxirida tirik qoladi.'
+  },
+
+  {
+    id: 'q-hamlet-6',
+    bookId: 'hamlet',
+    question: '"Hamlet" asosiy mavzusi nima?',
+    options: ['Sevgi va sadoqat', 'Qasos va ikkilanish', 'Boylik va hokimiyat', 'Do\'stlik va xiyonat'],
+    correctAnswer: 1,
+    explanation: 'Asosiy mavzu - qasos va ikkilanish, Hamlet otasining o\'limi uchun qasos olishda ikkilanadi.'
+  },
+
+  {
+    id: 'q-hamlet-7',
+    bookId: 'hamlet',
+    question: 'Ofeliyaning o\'limi qanday?',
+    options: ['Qilich bilan o\'ldiriladi', 'Zahar ichadi', 'Daryoga cho\'kib ketadi', 'Saroy devoridan yiqiladi'],
+    correctAnswer: 2,
+    explanation: 'Ofeliya aqldan ozgan holda daryo bo\'yida gulchambarlar to\'qib yurganida suvga tushib cho\'kadi.'
+  },
+
+  {
+    id: 'q-hamlet-8',
+    bookId: 'hamlet',
+    question: 'Hamlet otasining sharpasini qayerda ko\'radi?',
+    options: ['Saroyda', 'Qasr devori ustida', 'Qabristonda', 'O\'rmonda'],
+    correctAnswer: 1,
+    explanation: 'Qirolning sharpasi birinchi marta qasr devori ustida, tungi soqchilarga ko\'rinadi.'
+  },
+
+  {
+    id: 'q-hamlet-9',
+    bookId: 'hamlet',
+    question: 'Qirolicha Gertruda kimga turmushga chiqadi?',
+    options: ['Hamletning otasiga', 'Klavdiyga', 'Poloniyga', 'Laertga'],
+    correctAnswer: 1,
+    explanation: 'Gertruda - Hamletning onasi, eri vafot etgach, uning ukasi Klavdiyga turmushga chiqadi.'
+  },
+
+  {
+    id: 'q-hamlet-10',
+    bookId: 'hamlet',
+    question: 'Asar oxirida nima yuz beradi?',
+    options: ['Hamlet qirol bo\'ladi', 'Hamlet va dushmanlari halok bo\'ladi', 'Hamlet Ofeliyaga uylanadi', 'Hamlet Angliyaga ketadi'],
+    correctAnswer: 1,
+    explanation: 'Asar oxirida zaharli qilich va sharob tufayli Gertruda, Laert, Klavdiy va Hamlet ham halok bo\'ladi.'
+  },
+
+  {
+    id: 'q-romeo-juliet-1',
+    bookId: 'romeo-juliet',
+    question: 'Asar voqealari qaysi shaharda?',
+    options: ['Venetsiya', 'Verona', 'Florensiya', 'Milan'],
+    correctAnswer: 1,
+    explanation: 'Verona shahri.'
+  },
+
+  {
+    id: 'q-romeo-juliet-2',
+    bookId: 'romeo-juliet',
+    question: 'Ruhoniy Romeo va Julietni kim nikohlab qo\'yadi?',
+    options: ['Lavrentiy', 'Benedikt', 'Franchisko', 'Antonio'],
+    correctAnswer: 0,
+    explanation: 'Ruhoniy Lavrentiy ularning yashirin nikohini o\'qib beradi.'
+  },
+
+  {
+    id: 'q-romeo-juliet-3',
+    bookId: 'romeo-juliet',
+    question: 'Romeo nega Veronadan haydaladi?',
+    options: ['O\'g\'rilik', 'Tibaltni o\'ldirgani', 'Qirolga qarshi chiqqani', 'Sevgi sirlarini oshkor qilgani'],
+    correctAnswer: 1,
+    explanation: 'Romeo Julietning amakivachchasi Tibaltni o\'ldirgani uchun haydaladi.'
+  },
+
+  {
+    id: 'q-romeo-juliet-4',
+    bookId: 'romeo-juliet',
+    question: 'Juliet qanday hiyla ishlatadi?',
+    options: ['Erkak kiyimida yashirinadi', 'O\'limga o\'xshash uyqu dorisi', 'Shahardan qochadi', 'Ruhoniyga yashirinadi'],
+    correctAnswer: 1,
+    explanation: 'Ruhoniy Lavrentiy Julietga uni 42 soatga o\'likdek uyquga olib ketadigan dori beradi.'
+  },
+
+  {
+    id: 'q-romeo-juliet-5',
+    bookId: 'romeo-juliet',
+    question: 'Romeo va Juliet qayerda uchrashadilar?',
+    options: ['Bo\'zorda', 'Kapulettilar ziyofatida', 'Cherkovda', 'Bog\'da'],
+    correctAnswer: 1,
+    explanation: 'Maskarad ziyofatida.'
+  },
+
+  {
+    id: 'q-romeo-juliet-6',
+    bookId: 'romeo-juliet',
+    question: 'Balkon sahnasi qayerda?',
+    options: ['Saroyda', 'Kapulettilar bog\'ida', 'Maydonda', 'Cherkovda'],
+    correctAnswer: 1,
+    explanation: 'Romeo Kapulettilar bog\'iga kiradi va Julietni balkonda sevgi izhor qilayotganini eshitadi.'
+  },
+
+  {
+    id: 'q-romeo-juliet-7',
+    bookId: 'romeo-juliet',
+    question: 'Merkutsiy kim?',
+    options: ['Romeoning ukasi', 'Eng yaqin do\'sti', 'Dushmani', 'Otasi'],
+    correctAnswer: 1,
+    explanation: 'Romeoning eng yaqin do\'sti, Tibalt bilan jangda halok bo\'ladi.'
+  },
+
+  {
+    id: 'q-romeo-juliet-8',
+    bookId: 'romeo-juliet',
+    question: '"Star-crossed lovers" ma\'nosi?',
+    options: ['Boy edilar', 'Taqdiri fojiali', 'Mashhur edi', 'Uzoq yashadilar'],
+    correctAnswer: 1,
+    explanation: 'Taqdiri yulduzlar tomonidan belgilangan, sevgisi fojiali yakunga mahkum.'
+  },
+
+  {
+    id: 'q-romeo-juliet-9',
+    bookId: 'romeo-juliet',
+    question: 'Asar oxirida oilalar?',
+    options: ['Urush davom etadi', 'Yarashadilar', 'Monteki ketadi', 'Kapuletti hukmronlik qiladi'],
+    correctAnswer: 1,
+    explanation: 'Farzandlarining o\'limidan so\'ng ikki oila adovatni to\'xtatadi.'
+  },
+
+  {
+    id: 'q-romeo-juliet-10',
+    bookId: 'romeo-juliet',
+    question: 'Romeo o\'z joniga qasd qilgan joy?',
+    options: ['O\'z uyida', 'Cherkovda', 'Kapulettilar qabrida', 'Maydonda'],
+    correctAnswer: 2,
+    explanation: 'Kapulettilar oila qabrida zahar ichib.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-1',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Bosh qahramon kim?',
+    options: ['Porfiriy', 'Razumixin', 'Rodion Raskolnikov', 'Svidrigaylov'],
+    correctAnswer: 2,
+    explanation: 'Rodion Romanovich Raskolnikov - sobiq huquqshunos talaba.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-2',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Raskolnikov kimlarni o\'ldiradi?',
+    options: ['Savdogarni', 'Kampir sudxo\'r va singlisini', 'Amaldorni', 'Ruhoniyni'],
+    correctAnswer: 1,
+    explanation: 'Keksa kampir sudxo\'r Alena Ivanovna va uning singlisi Lizavetani.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-3',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Jinoyatini kimga tan oladi?',
+    options: ['Porfiriyga', 'Onasiga', 'Sonya Marmeladovaga', 'Razumixinga'],
+    correctAnswer: 2,
+    explanation: 'Sonyaga, chunki u ham "jinoyat" qilgan - oilasini boqish uchun fohishalik.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-4',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Raskolnikovning nazariyasi?',
+    options: ['Barcha teng', 'Odamlar oddiy va yuqori toifalarga bo\'linadi', 'Jinoyat jazolanadi', 'Pul hamma narsa'],
+    correctAnswer: 1,
+    explanation: '"Yuqori" odamlar qonundan ustun, "oddiy" odamlar esa bo\'ysunadi.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-5',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Tergovchi Porfiriy?',
+    options: ['Darhol qamaydi', 'Aybdorligini biladi, tan olishini kutadi', 'O\'zini oqlaydi', 'Shubhalanmaydi'],
+    correctAnswer: 1,
+    explanation: 'Porfiriy Petrovich aqlli tergovchi, psixologik jihatdan tan olishga majbur qiladi.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-6',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Asar qaysi shaharda?',
+    options: ['Moskva', 'Kiyev', 'Peterburg', 'Novgorod'],
+    correctAnswer: 2,
+    explanation: 'Peterburg. Dostoevskiy shaharning iflos va ma\'yus ko\'chalarini tasvirlaydi.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-7',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Dunya kimga turmushga chiqmoqchi?',
+    options: ['Svidrigaylovga', 'Lujinga', 'Razumixinga', 'Porfiriyga'],
+    correctAnswer: 1,
+    explanation: 'Boy va nomaqbul amaldor Lujinga, akasi Raskolnikovning ta\'limi uchun.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-8',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Raskolnikov qanday jazo oladi?',
+    options: ['O\'lim', 'Sibirga 8 yil katorga', '15 yil qamoq', 'Ozodlik'],
+    correctAnswer: 1,
+    explanation: 'Ixtiyoriy ravishda jinoyatini tan oladi va Sibirga katorgaga hukm qilinadi.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-9',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Romanning asosiy g\'oyasi?',
+    options: ['Jinoyat foydali', 'Vijdon azobi bilan jazolanadi', 'Boylik hamma narsa', 'Huquq muhim emas'],
+    correctAnswer: 1,
+    explanation: 'Har qanday jinoyat, "oliy maqsad" uchun bo\'lsa ham, vijdon azobiga mahkum qiladi.'
+  },
+
+  {
+    id: 'q-jinoyat-va-jazo-10',
+    bookId: 'jinoyat-va-jazo',
+    question: 'Sonya maslahati?',
+    options: ['Qochish', 'Tan olmaslik', 'Jinoyatni tan olib tavba qilish', 'O\'z joniga qasd qilish'],
+    correctAnswer: 2,
+    explanation: 'Ommaviy tan olish va tavba qilish, u buni qilganda ruhiy tinchlik topadi.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-1',
+    bookId: 'urush-va-tinchlik',
+    question: 'Qaysi urush davri?',
+    options: ['Birinchi jahon', 'Napoleon urushlari', 'Fuqarolar', 'Yetti yillik'],
+    correctAnswer: 1,
+    explanation: 'Napoleon Bonapartning Rossiyaga bostirib kelishi (1812) va undan oldingi davr.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-2',
+    bookId: 'urush-va-tinchlik',
+    question: 'Per Bezuxov qanday meros oladi?',
+    options: ['Kichik mulk', 'Katta boylik va unvon', 'Qarz', 'Yer'],
+    correctAnswer: 1,
+    explanation: 'Graf Bezuxovning noqonuniy o\'g\'li, otasining o\'limidan keyin katta boylik va graf unvonini oladi.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-3',
+    bookId: 'urush-va-tinchlik',
+    question: 'Natasha Rostova xarakteri?',
+    options: ['Jim va sokin', 'Jonli, hissiyotli va jo\'shqin', 'Mantiqiy sovuq', 'Ochko\'z'],
+    correctAnswer: 1,
+    explanation: 'Hayotga to\'la, hissiyotli, jonli va ichki go\'zallikka ega, Tolstoyning sevimli qahramoni.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-4',
+    bookId: 'urush-va-tinchlik',
+    question: 'Andrey Bolkonskiy qayerda yaralanadi?',
+    options: ['Moskvada', 'Borodino jangida', 'Peterburgda', 'Fransiyada'],
+    correctAnswer: 1,
+    explanation: 'Borodino jangida og\'ir yaralanadi va vafot etadi.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-5',
+    bookId: 'urush-va-tinchlik',
+    question: 'Asar necha jild?',
+    options: ['2 jild', '4 jild va epilog', '3 jild', '5 jild'],
+    correctAnswer: 1,
+    explanation: '4 jild va epilog, 500 dan ortiq qahramon.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-6',
+    bookId: 'urush-va-tinchlik',
+    question: 'Perning Napoleonga munosabati?',
+    options: ['Yomon ko\'rardi', 'Qoyil edi, keyin hafsalasi pir bo\'ldi', 'Befarq', 'Jang qilishni istamadi'],
+    correctAnswer: 1,
+    explanation: 'Dastlab qoyil, keyin shafqatsizligini ko\'rib hafsalasi pir bo\'ladi.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-7',
+    bookId: 'urush-va-tinchlik',
+    question: 'Andrey Austerlitsda nima kashf qiladi?',
+    options: ['G\'alaba', 'Shon-shuhrat ma\'nosizligini tushunadi', 'Napoleon bilan uchrashadi', 'O\'z qo\'shinini topadi'],
+    correctAnswer: 1,
+    explanation: 'Osmonga qarab, shon-shuhrat va urushning behudaligini his qiladi.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-8',
+    bookId: 'urush-va-tinchlik',
+    question: 'Napoleonning Moskvaga kirishi?',
+    options: ['Tantana bilan kutib oladi', 'Moskva tashlab ketiladi va yonadi', 'Ruslar taslim bo\'ladi', 'Napoleon Moskvada qoladi'],
+    correctAnswer: 1,
+    explanation: 'Ruslar Moskvani tashlab ketadi, shahar yonib ketadi.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-9',
+    bookId: 'urush-va-tinchlik',
+    question: 'Natasha kimga uylanadi?',
+    options: ['Andreyga', 'Anatol Kuraginga', 'Per Bezuxovga', 'Nikolay Rostovga'],
+    correctAnswer: 2,
+    explanation: 'Sinovlardan so\'ng Per Bezuxovga uylanadi, 4 farzandli bo\'ladi.'
+  },
+
+  {
+    id: 'q-urush-va-tinchlik-10',
+    bookId: 'urush-va-tinchlik',
+    question: 'Platon Karatayev nimani ifodalaydi?',
+    options: ['Rus zodagonini', 'Xalq donishmandligini', 'Fransuz ofitserini', 'Dehqon qo\'zg\'olonchisini'],
+    correctAnswer: 1,
+    explanation: 'Oddiy rus xalq donishmandligi, soddalik, sabr-toqat va hayotni sevish.'
+  },
+
+  {
+    id: 'q-anna-karenina-1',
+    bookId: 'anna-karenina',
+    question: 'Mashhur birinchi jumla?',
+    options: ['"Vaqt o\'tadi..."', '"Baxtli oilalar bir-biriga o\'xshaydi..."', '"Bir paytlar..."', '"Rossiya buyuk davlat..."'],
+    correctAnswer: 1,
+    explanation: '"Baxtli oilalar bir-biriga o\'xshaydi, har bir baxtsiz oila o\'zicha baxtsizdir."'
+  },
+
+  {
+    id: 'q-anna-karenina-2',
+    bookId: 'anna-karenina',
+    question: 'Annaning eri?',
+    options: ['Vronskiy', 'Karenin', 'Levin', 'Stiva'],
+    correctAnswer: 1,
+    explanation: 'Aleksey Aleksandrovich Karenin, yuqori martabali davlat amaldori, sovuq va rasmiy.'
+  },
+
+  {
+    id: 'q-anna-karenina-3',
+    bookId: 'anna-karenina',
+    question: 'Anna Vronskiy bilan qayerda tanishadi?',
+    options: ['Peterburg balida', 'Moskva vokzalida', 'O\'z uyida', 'Teatrda'],
+    correctAnswer: 1,
+    explanation: 'Moskva vokzalida, bir odam poyezd ostida qolib o\'ladi.'
+  },
+
+  {
+    id: 'q-anna-karenina-4',
+    bookId: 'anna-karenina',
+    question: 'Anna jamiyatda qanday munosabatga duch keladi?',
+    options: ['Qo\'llab-quvvatlanadi', 'Tahqir va chetlashish', 'Befarq qaraladi', 'Mukofotlanadi'],
+    correctAnswer: 1,
+    explanation: 'Yuqori jamiyat Annani ijtimoiy tadbirlardan chetlashtiradi.'
+  },
+
+  {
+    id: 'q-anna-karenina-5',
+    bookId: 'anna-karenina',
+    question: 'Levin obrazi kimning aksi?',
+    options: ['Zodagonlarnikini', 'Tolstoyning o\'z qarashlari', 'Dehqonlarnikini', 'Amaldorlarnikini'],
+    correctAnswer: 1,
+    explanation: 'Avtobiografik xususiyatga ega, Tolstoyning qishloq hayoti haqidagi qarashlari.'
+  },
+
+  {
+    id: 'q-anna-karenina-6',
+    bookId: 'anna-karenina',
+    question: 'Anna o\'z joniga qanday qasd qiladi?',
+    options: ['Zahar ichadi', 'Daryoga tashlanadi', 'Poyezd ostiga tashlanadi', 'O\'zini osadi'],
+    correctAnswer: 2,
+    explanation: 'Poyezd ostiga o\'zini tashlab.'
+  },
+
+  {
+    id: 'q-anna-karenina-7',
+    bookId: 'anna-karenina',
+    question: 'Anna va Kareninning o\'g\'li?',
+    options: ['Seryoja', 'Petya', 'Ivan', 'Aleksey'],
+    correctAnswer: 0,
+    explanation: 'Seryoja (Sergey). Anna uni juda sevadi, ajrashgandan keyin ko\'rolmaydi.'
+  },
+
+  {
+    id: 'q-anna-karenina-8',
+    bookId: 'anna-karenina',
+    question: 'Kitty kimga turmushga chiqadi?',
+    options: ['Vronskiyga', 'Stivaga', 'Levinga', 'Kareninga'],
+    correctAnswer: 2,
+    explanation: 'Konstantin Levinga baxtli oila qurib, qishloqda hayot kechiradi.'
+  },
+
+  {
+    id: 'q-anna-karenina-9',
+    bookId: 'anna-karenina',
+    question: 'Levin va Kitty munosabati?',
+    options: ['Fojiali', 'Baxtli oila', 'Ajrashishadi', 'Birga qochishadi'],
+    correctAnswer: 1,
+    explanation: 'Anna va Vronskiy fojiasiga qarama-qarshi - baxtli oila namunasi.'
+  },
+
+  {
+    id: 'q-anna-karenina-10',
+    bookId: 'anna-karenina',
+    question: 'Roman janri?',
+    options: ['Tarixiy', 'Psixologik roman', 'Sarguzasht', 'Detektiv'],
+    correctAnswer: 1,
+    explanation: 'Chuqur psixologik roman, qahramonlarning ichki dunyosi tahlil qilinadi.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-1',
+    bookId: 'robinzon-kruzo',
+    question: 'Asar muallifi kim?',
+    options: ['Jonatan Svift', 'Daniel Defoe', 'Robert Lyuis Stivenson', 'Jules Vern'],
+    correctAnswer: 1,
+    explanation: 'Daniel Defoe, 1719.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-2',
+    bookId: 'robinzon-kruzo',
+    question: 'Robinzon orolda necha yil?',
+    options: ['15', '20', '28', '35'],
+    correctAnswer: 2,
+    explanation: '28 yil, 2 oy va 19 kun.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-3',
+    bookId: 'robinzon-kruzo',
+    question: 'Mahalliy aholi vakiliga qanday ism beradi?',
+    options: ['Piter', 'Juma', 'Tom', 'Ben'],
+    correctAnswer: 1,
+    explanation: 'Juma (Friday) - haftaning shu kunida topgani uchun.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-4',
+    bookId: 'robinzon-kruzo',
+    question: 'Birinchi nima o\'zlashtiradi?',
+    options: ['Baliq ovlash', 'Ovchilik', 'Bug\'doy yetishtirish', 'Uy qurish'],
+    correctAnswer: 2,
+    explanation: 'Kemadan topgan bug\'doy donalarini ekib hosil yetishtiradi.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-5',
+    bookId: 'robinzon-kruzo',
+    question: 'Oroldan qanday qutuladi?',
+    options: ['Kema yasaydi', 'O\'tib ketayotgan kema oladi', 'Juma bilan qayiqda suzadi', 'Vertolyot keladi'],
+    correctAnswer: 1,
+    explanation: 'Ingliz kemasi bilan bog\'lanib, qo\'zg\'olonni bostirishga yordam beradi.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-6',
+    bookId: 'robinzon-kruzo',
+    question: 'Jumaga qanday til o\'rgatadi?',
+    options: ['Fransuz', 'Ingliz', 'Ispan', 'Portugal'],
+    correctAnswer: 1,
+    explanation: 'Ingliz tilini o\'rgatadi.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-7',
+    bookId: 'robinzon-kruzo',
+    question: 'Qanday hayvonlarni qo\'lga o\'rgatadi?',
+    options: ['Yo\'lbars', 'Echkilar', 'Fillar', 'Maymunlar'],
+    correctAnswer: 1,
+    explanation: 'Yovvoyi echkilarni sut va go\'sht uchun boqadi.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-8',
+    bookId: 'robinzon-kruzo',
+    question: 'Asosiy g\'oya?',
+    options: ['Tabiatga qarshi kurash', 'Inson irodasi va sabr-toqati', 'Sevgi', 'Kashfiyotlar'],
+    correctAnswer: 1,
+    explanation: 'Insonning og\'ir sharoitlarda omon qolish qobiliyati va mehnatsevarligi.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-9',
+    bookId: 'robinzon-kruzo',
+    question: 'Robinzon necha yoshida dengizga chiqadi?',
+    options: ['16', '19', '22', '25'],
+    correctAnswer: 1,
+    explanation: '19 yoshida otasiga qarshi chiqib dengizga otlanadi.'
+  },
+
+  {
+    id: 'q-robinzon-kruzo-10',
+    bookId: 'robinzon-kruzo',
+    question: 'Kemadan birinchi nima oladi?',
+    options: ['Oltin', 'Qurol va asboblar', 'Kitoblar', 'Kiyimlar'],
+    correctAnswer: 1,
+    explanation: 'Qurol, porox va asboblar - omon qolish uchun eng zarur narsalar.'
+  },
+
+  {
+    id: 'q-don-kixot-1',
+    bookId: 'don-kixot',
+    question: 'Asar muallifi?',
+    options: ['Lope de Vega', 'Migel de Servantes', 'Kalderon', 'Garsilaso'],
+    correctAnswer: 1,
+    explanation: 'Migel de Servantes Saavedra.'
+  },
+
+  {
+    id: 'q-don-kixot-2',
+    bookId: 'don-kixot',
+    question: 'Don Kixotning asl ismi?',
+    options: ['Alonso Kixana', 'Sancho Panza', 'Fernando', 'Luis'],
+    correctAnswer: 0,
+    explanation: 'Alonso Kixana - o\'zini ritsar deb atab ismini o\'zgartirgan.'
+  },
+
+  {
+    id: 'q-don-kixot-3',
+    bookId: 'don-kixot',
+    question: 'Otining ismi?',
+    options: ['Rosinant', 'Buesefalo', 'Babieka', 'Pegaso'],
+    correctAnswer: 0,
+    explanation: 'Rosinant - "bir paytlar ot bo\'lgan" ma\'nosida.'
+  },
+
+  {
+    id: 'q-don-kixot-4',
+    bookId: 'don-kixot',
+    question: 'Sancho Panza minadigan hayvon?',
+    options: ['Ot', 'Eshak', 'Xachir', 'Tuya'],
+    correctAnswer: 1,
+    explanation: 'O\'zining sodiq eshagini minadi.'
+  },
+
+  {
+    id: 'q-don-kixot-5',
+    bookId: 'don-kixot',
+    question: 'Shamol tegirmonlariga nima deb jang qiladi?',
+    options: ['Dushman qal\'asi', 'Devlar', 'Sehrli daraxlar', 'Ajdarho'],
+    correctAnswer: 1,
+    explanation: 'Bahaybat devlar deb o\'ylab hujum qiladi.'
+  },
+
+  {
+    id: 'q-don-kixot-6',
+    bookId: 'don-kixot',
+    question: 'Xayoliy sevgilisi?',
+    options: ['Dulseya del Toboso', 'Rosinant', 'Kilsona', 'Mersedes'],
+    correctAnswer: 0,
+    explanation: 'Aslida oddiy dehqon qizi Aldonsa, Don Kixot uni go\'zal malika deb tasavvur qiladi.'
+  },
+
+  {
+    id: 'q-don-kixot-7',
+    bookId: 'don-kixot',
+    question: 'Qanday kitoblarni yaxshi ko\'radi?',
+    options: ['Ilmiy', 'Ritsarlik romanlari', 'She\'riy', 'Tarixiy'],
+    correctAnswer: 1,
+    explanation: 'Ritsarlik romanlariga berilib, o\'zi ritsar bo\'lib sayohatga chiqadi.'
+  },
+
+  {
+    id: 'q-don-kixot-8',
+    bookId: 'don-kixot',
+    question: 'Sancho Panza xarakteri?',
+    options: ['Bilimdon', 'Oddiy, amaliy va hazilkash', 'Boy', 'Jangovar'],
+    correctAnswer: 1,
+    explanation: 'Oddiy dehqon, realizmi Don Kixotning idealizmiga qarama-qarshi.'
+  },
+
+  {
+    id: 'q-don-kixot-9',
+    bookId: 'don-kixot',
+    question: 'Ikkinchi qismida kim bilan uchrashadi?',
+    options: ['Qirol', 'Samson Karrasko', 'Sehrgar', 'Malika'],
+    correctAnswer: 1,
+    explanation: 'Bakalavr Samson Karrasko Don Kixotni yengib uyiga qaytaradi.'
+  },
+
+  {
+    id: 'q-don-kixot-10',
+    bookId: 'don-kixot',
+    question: 'Asar qaysi tilda?',
+    options: ['Lotin', 'Italyan', 'Ispan', 'Fransuz'],
+    correctAnswer: 2,
+    explanation: 'Ispan tilida - ispan adabiyotining eng buyuk durdonasi.'
+  },
+
+  {
+    id: 'q-faust-1',
+    bookId: 'faust',
+    question: 'Asar muallifi?',
+    options: ['Shiller', 'Gote', 'Geyne', 'Lessing'],
+    correctAnswer: 1,
+    explanation: 'Iogann Volfgang fon Gote.'
+  },
+
+  {
+    id: 'q-faust-2',
+    bookId: 'faust',
+    question: 'Iblis nomi?',
+    options: ['Lyutsifer', 'Belzebul', 'Mefistofel', 'Satan'],
+    correctAnswer: 2,
+    explanation: 'Mefistofel - Xudo bilan bahsdan so\'ng Faustni yo\'ldan urishga harakat qiladi.'
+  },
+
+  {
+    id: 'q-faust-3',
+    bookId: 'faust',
+    question: 'Faust qanday kasb egasi?',
+    options: ['Savdogar', 'Doktor va olim', 'Harbiy', 'Rassom'],
+    correctAnswer: 1,
+    explanation: 'Ilohiyot, tibbiyot, huquq va falsafani o\'rgangan olim.'
+  },
+
+  {
+    id: 'q-faust-4',
+    bookId: 'faust',
+    question: 'Mefistofel bilan shartnoma?',
+    options: ['Xizmat qiladi, to\'ysa ruhini oladi', 'Pul beradi', 'Do\'stlashadi', 'Qochadi'],
+    correctAnswer: 0,
+    explanation: 'Mefistofel xizmat qiladi, Faust bir lahzadan "To\'xta!" desa ruhini beradi.'
+  },
+
+  {
+    id: 'q-faust-5',
+    bookId: 'faust',
+    question: 'Margarita taqdiri?',
+    options: ['Uylanadi', 'Farzandini o\'ldirgani uchun qatl', 'Ajraladi', 'Kasal bo\'lib o\'ladi'],
+    correctAnswer: 1,
+    explanation: 'Faustdan homilador bo\'lib, farzandini o\'ldirgani uchun qatl qilinadi.'
+  },
+
+  {
+    id: 'q-faust-6',
+    bookId: 'faust',
+    question: 'Asar janri?',
+    options: ['Komediya', 'Falsafiy tragediya', 'Detektiv', 'Sarguzasht'],
+    correctAnswer: 1,
+    explanation: 'Falsafiy tragediya - inson ruhi va bilimga intilish haqida.'
+  },
+
+  {
+    id: 'q-faust-7',
+    bookId: 'faust',
+    question: '"Prolog osmonda" qayerda?',
+    options: ['Yerda', 'Do\'zaxda', 'Osmonda Xudo va Mefistofel suhbati', 'Faust uyida'],
+    correctAnswer: 2,
+    explanation: 'Xudo va Mefistofel inson tabiati haqida bahslashadilar.'
+  },
+
+  {
+    id: 'q-faust-8',
+    bookId: 'faust',
+    question: 'Gote necha yil yozgan?',
+    options: ['10', '20', '30', '60'],
+    correctAnswer: 3,
+    explanation: '60 yil davomida (1772-1832).'
+  },
+
+  {
+    id: 'q-faust-9',
+    bookId: 'faust',
+    question: 'Faust ruhi oxiri?',
+    options: ['Do\'zaxga tushadi', 'Mefistofelga beriladi', 'Osmonga ko\'tariladi', 'Yerda qoladi'],
+    correctAnswer: 2,
+    explanation: 'Doimiy intilishi tufayli Osmonga ko\'tariladi, Mefistofel yutqazadi.'
+  },
+
+  {
+    id: 'q-faust-10',
+    bookId: 'faust',
+    question: 'Asos bo\'lgan afsona?',
+    options: ['Antiq', 'O\'rta asr nemis', 'Yunon', 'Sharq'],
+    correctAnswer: 1,
+    explanation: 'O\'rta asrlarda yashagan Doktor Faust afsonasiga asoslangan.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-1',
+    bookId: 'sherlock-holmes',
+    question: 'Xolms va Uotson qayerda tanishadilar?',
+    options: ['Kasalxonada', 'Beyker-strit 221B', 'Sudda', 'Jinoyat joyida'],
+    correctAnswer: 1,
+    explanation: 'Beyker-strit 221B da xonani birga ijaraga olmoqchi bo\'lganlarida.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-2',
+    bookId: 'sherlock-holmes',
+    question: 'Xolms nima o\'ynaydi?',
+    options: ['Pianino', 'Skripka', 'Gitara', 'Fleyta'],
+    correctAnswer: 1,
+    explanation: 'Skripka - murakkab jinoyatlar haqida o\'ylayotganda chalar edi.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-3',
+    bookId: 'sherlock-holmes',
+    question: 'Xolmsning akasi?',
+    options: ['Maykroft Xolms', 'Moriarti', 'Uotson', 'Lestred'],
+    correctAnswer: 0,
+    explanation: 'Maykroft - Sherlokdan aqlli, ammo dangasa, Britaniya hukumati uchun ishlaydi.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-4',
+    bookId: 'sherlock-holmes',
+    question: 'Asosiy dushmani?',
+    options: ['Lestred', 'Professor Moriarti', 'Uotson', 'Maykroft'],
+    correctAnswer: 1,
+    explanation: 'Moriarti - jinoyat olamining dahosi, Reyxenbax sharsharasida halok bo\'ladi.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-5',
+    bookId: 'sherlock-holmes',
+    question: '"Baskervillar iti"dagi maxluq?',
+    options: ['Haqiqiy it', 'G\'ayritabiiy maxluq', 'Fosfor bilan surtilgan katta it', 'Bo\'ri'],
+    correctAnswer: 2,
+    explanation: 'Fosfor bilan surtilib qorong\'ida yonadigan it.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-6',
+    bookId: 'sherlock-holmes',
+    question: 'Doktor Uotson kasbi?',
+    options: ['Huquqshunos', 'Harbiy shifokor', 'Muhandis', 'Jurnalist'],
+    correctAnswer: 1,
+    explanation: 'Sobiq harbiy shifokor, Afg\'onistonda yaralanib qaytgan.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-7',
+    bookId: 'sherlock-holmes',
+    question: 'Xolms qanday usul ishlatadi?',
+    options: ['Sehrgarlik', 'Deduktiv metod', 'Tortura', 'So\'roq'],
+    correctAnswer: 1,
+    explanation: 'Eng kichik detallarni kuzatib, mantiqiy xulosalar chiqaradi.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-8',
+    bookId: 'sherlock-holmes',
+    question: 'Reyxenbax sharsharasida kim bilan kurashadi?',
+    options: ['Maykroft', 'Moriarti', 'Sebastian Moran', 'Lestred'],
+    correctAnswer: 1,
+    explanation: 'Xolms va Moriarti sharsharaga qulab tushadi, Xolms tirik qoladi.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-9',
+    bookId: 'sherlock-holmes',
+    question: 'Konan Doyl millati?',
+    options: ['Amerikalik', 'Shotlandiyalik', 'Fransuz', 'Nemis'],
+    correctAnswer: 1,
+    explanation: 'Shotlandiyalik yozuvchi va shifokor.'
+  },
+
+  {
+    id: 'q-sherlock-holmes-10',
+    bookId: 'sherlock-holmes',
+    question: 'Xolmsning xonadoni manzili?',
+    options: ['Oksford-strit', 'Beyker-strit 221B', 'Pikkadilli', 'Tom strit'],
+    correctAnswer: 1,
+    explanation: 'Beyker-strit 221B - eng mashhur adabiy manzillardan biri.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-1',
+    bookId: 'kichkina-shohzoda',
+    question: 'Muallifi?',
+    options: ['Peru Sent-Ekzyuperi', 'Antuan de Sent-Ekzyuperi', 'Jules Vern', 'Alber Kamyu'],
+    correctAnswer: 1,
+    explanation: 'Fransuz yozuvchisi va uchuvchisi, 1943.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-2',
+    bookId: 'kichkina-shohzoda',
+    question: 'Qaysi sayyoradan?',
+    options: ['Yer', 'Mars', 'B-612 asteroidi', 'Venera'],
+    correctAnswer: 2,
+    explanation: 'B-612 asteroid sayyorasi.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-3',
+    bookId: 'kichkina-shohzoda',
+    question: 'Qanday gulni parvarish qiladi?',
+    options: ['Lola', 'Atirgul', 'Binafsha', 'Liliya'],
+    correctAnswer: 1,
+    explanation: 'Bir mag\'rur atirgulni.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-4',
+    bookId: 'kichkina-shohzoda',
+    question: 'Uchuvchi bilan qayerda uchrashadi?',
+    options: ['Shaharda', 'Sahroi Kabirda', 'Dengizda', 'O\'rmonda'],
+    correctAnswer: 1,
+    explanation: 'Samolyot qulagan Sahroi Kabirda.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-5',
+    bookId: 'kichkina-shohzoda',
+    question: 'Yerga kelishdan oldin nechta sayyoraga boradi?',
+    options: ['3', '5', '6', '7'],
+    correctAnswer: 2,
+    explanation: '6 ta sayyora, har birida turli kattalarni uchratadi.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-6',
+    bookId: 'kichkina-shohzoda',
+    question: 'Tulki qanday sir aytadi?',
+    options: ['Boy bo\'lishni', '"Faqat yurak bilan ko\'rasan"', 'Uchishni', 'Xazina joyini'],
+    correctAnswer: 1,
+    explanation: '"Eng muhim narsa ko\'zga ko\'rinmaydi" - asarning asosiy g\'oyasi.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-7',
+    bookId: 'kichkina-shohzoda',
+    question: 'Ilon ramzi?',
+    options: ['Do\'stlik', 'Sevgi', 'O\'lim', 'Boylik'],
+    correctAnswer: 2,
+    explanation: 'O\'lim va boshqa dunyoga o\'tishni ifodalaydi.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-8',
+    bookId: 'kichkina-shohzoda',
+    question: 'Chiroq yoquvchi kim?',
+    options: ['Qirol', 'Mayor', 'Chiroqchi', 'Geograf'],
+    correctAnswer: 2,
+    explanation: 'Har daqiqa chiroq yoqib-o\'chiruvchi, sayyorasida kun-tun tez almashadi.'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-9',
+    bookId: 'kichkina-shohzoda',
+    question: 'Asar kimga bag\'ishlangan?',
+    options: ['Onasiga', 'Do\'stiga', 'Leon Vertga', 'Otasiga'],
+    correctAnswer: 2,
+    explanation: 'Leon Vertga, "axir hamma kattalar bir paytlar bolalar edi".'
+  },
+
+  {
+    id: 'q-kichkina-shohzoda-10',
+    bookId: 'kichkina-shohzoda',
+    question: '"Qo\'y" obrazi ma\'nosi?',
+    options: ['Ovqat', 'Oddiy hayvon', 'Himoyaga muhtoj pokiza narsa', 'Yovvoyi hayvon'],
+    correctAnswer: 2,
+    explanation: 'Pokiza va himoyaga muhtoj narsani ramziy ifodalaydi.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-1',
+    bookId: 'temur-tuzuklari',
+    question: 'Asar muallifi kim?',
+    options: ['Mirzo Ulug\'bek', 'Amir Temur', 'Ibn Xaldun', 'Sharafiddin Ali Yazdiy'],
+    correctAnswer: 1,
+    explanation: 'Amir Temurning o\'zi tomonidan yozilgan davlat boshqaruvi va harbiy san\'at asari.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-2',
+    bookId: 'temur-tuzuklari',
+    question: 'Asar necha bobdan iborat?',
+    options: ['6', '8', '12', '16'],
+    correctAnswer: 2,
+    explanation: '12 bob, davlat boshqaruvi, harbiy tuzilma, soliq va adolat haqida.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-3',
+    bookId: 'temur-tuzuklari',
+    question: 'Davlat kengashi necha kishidan?',
+    options: ['3', '7', '12', '40'],
+    correctAnswer: 2,
+    explanation: '12 kishilik donishmandlar kengashi.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-4',
+    bookId: 'temur-tuzuklari',
+    question: 'Muvaffaqiyat asosiy sababi?',
+    options: ['Boylik', 'Adolat va tartib-intizom', 'Qo\'rqitish', 'Ayyorlik'],
+    correctAnswer: 1,
+    explanation: 'Adolat, qat\'iy tartib-intizom va maslahatlashish.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-5',
+    bookId: 'temur-tuzuklari',
+    question: 'Asar qaysi tilda?',
+    options: ['Arab', 'Fors', 'Turkiy (Chig\'atoy)', 'Mo\'g\'ul'],
+    correctAnswer: 2,
+    explanation: 'Turkiy tilning chig\'atoy lahjasida.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-6',
+    bookId: 'temur-tuzuklari',
+    question: 'Lashkarboshilarga talab?',
+    options: ['Boy bo\'lishi', 'Adolatli, jasur, tajribali', 'Yosh', 'Savodli'],
+    correctAnswer: 1,
+    explanation: 'Adolatli, jasur va askarlarga g\'amxo\'r bo\'lishi kerak.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-7',
+    bookId: 'temur-tuzuklari',
+    question: 'Soliq tamoyili?',
+    options: ['Maksimal soliq', 'Xalq holiga qarab adolatli', 'Bekor qilish', 'Faqat boylardan'],
+    correctAnswer: 1,
+    explanation: 'Xalqning iqtisodiy holatiga qarab adolatli soliq.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-8',
+    bookId: 'temur-tuzuklari',
+    question: 'Elchilarga munosabat?',
+    options: ['Qamash', 'Hurmat va izzat-ikrom', 'Kuzatmaslik', 'Gaplashmaslik'],
+    correctAnswer: 1,
+    explanation: 'Elchilarni hurmat qilish va izzat-ikrom ko\'rsatish.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-9',
+    bookId: 'temur-tuzuklari',
+    question: 'Asar qachon yozilgan?',
+    options: ['1370', '1405', '1390', '1420'],
+    correctAnswer: 1,
+    explanation: 'Hayotining so\'nggi yillarida, taxminan 1405.'
+  },
+
+  {
+    id: 'q-temur-tuzuklari-10',
+    bookId: 'temur-tuzuklari',
+    question: 'Asar janri?',
+    options: ['She\'riy to\'plam', 'Tarixiy-huquqiy pandnoma', 'Romantik qissa', 'Ilmiy risola'],
+    correctAnswer: 1,
+    explanation: 'Tarixiy-huquqiy pandnoma, davlat boshqaruvi va harbiy san\'at haqida qimmatli manba.'
+  },
+
+  {
+    id: 'q-siyosatnoma-1',
+    bookId: 'siyosatnoma',
+    question: 'Muallifi?',
+    options: ['Kaykovus', 'Amir Temur', 'Nizamulmulk', 'Sa\'diy Sheroziy'],
+    correctAnswer: 2,
+    explanation: 'Saljuqiylar vaziri Nizamulmulk (Abu Ali Hasan at-Tusiy).'
+  },
+
+  {
+    id: 'q-siyosatnoma-2',
+    bookId: 'siyosatnoma',
+    question: 'Nizamulmulk qaysi davlatda vazir?',
+    options: ['Movarounnahr', 'Saljuqiylar', 'Hindiston', 'Misr'],
+    correctAnswer: 1,
+    explanation: 'Saljuqiylar sultonlari Alp Arslon va Malikshoh davrida 30 yil vazir.'
+  },
+
+  {
+    id: 'q-siyosatnoma-3',
+    bookId: 'siyosatnoma',
+    question: 'Asar necha bob?',
+    options: ['20', '50', '11', '39'],
+    correctAnswer: 2,
+    explanation: '11 bob (ba\'zi nusxalarda 50 bob).'
+  },
+
+  {
+    id: 'q-siyosatnoma-4',
+    bookId: 'siyosatnoma',
+    question: 'Kimga bag\'ishlangan?',
+    options: ['Alp Arslonga', 'Malikshohga', 'Xalifaga', 'O\'g\'liga'],
+    correctAnswer: 1,
+    explanation: 'Sulton Malikshohga, davlat boshqaruvi bo\'yicha maslahatlar.'
+  },
+
+  {
+    id: 'q-siyosatnoma-5',
+    bookId: 'siyosatnoma',
+    question: 'Hukmdor fazilatlari?',
+    options: ['Boylik va hashamat', 'Adolat, donishmandlik', 'Qattiqqo\'llik', 'Dangasalik'],
+    correctAnswer: 1,
+    explanation: 'Adolatli, donishmand, xalqiga g\'amxo\'r va ilmli.'
+  },
+
+  {
+    id: 'q-siyosatnoma-6',
+    bookId: 'siyosatnoma',
+    question: 'Nizamulmulk qanday muassasalar asos solgan?',
+    options: ['Kutubxonalar', 'Nizamiya madrasalari', 'Harbiy maktablar', 'Rasadxonalar'],
+    correctAnswer: 1,
+    explanation: 'Bag\'dod, Nishapur, Isfahonda Nizamiya madrasalariga asos solgan.'
+  },
+
+  {
+    id: 'q-siyosatnoma-7',
+    bookId: 'siyosatnoma',
+    question: 'Amaldorlarni tanlash tamoyili?',
+    options: ['Faqat qarindoshlar', 'Loyiq va qobiliyatli', 'Boy kishilar', 'Tasodifiy'],
+    correctAnswer: 1,
+    explanation: 'Loyiqligi, qobiliyati va halolligiga e\'tibor berish.'
+  },
+
+  {
+    id: 'q-siyosatnoma-8',
+    bookId: 'siyosatnoma',
+    question: 'Asarning boshqa nomi?',
+    options: ['Pandnoma', 'Siyar ul-muluk', 'Tuzuklar', 'Mulkdorlar'],
+    correctAnswer: 1,
+    explanation: '"Siyar ul-muluk" - Hukmdorlar yo\'li.'
+  },
+
+  {
+    id: 'q-siyosatnoma-9',
+    bookId: 'siyosatnoma',
+    question: 'Josuslik tizimi?',
+    options: ['Kerak emas', 'Doimiy josuslik bo\'lishi kerak', 'Faqat urushda', 'Gunoh'],
+    correctAnswer: 1,
+    explanation: 'Davlat xavfsizligi uchun doimiy axborot to\'plash tizimi muhim.'
+  },
+
+  {
+    id: 'q-siyosatnoma-10',
+    bookId: 'siyosatnoma',
+    question: 'Asar tili?',
+    options: ['Arab', 'Fors', 'Turkiy', 'Mo\'g\'ul'],
+    correctAnswer: 1,
+    explanation: 'Fors tilida yozilgan.'
+  },
+
+  {
+    id: 'q-qobusnoma-1',
+    bookId: 'qobusnoma',
+    question: 'Muallifi?',
+    options: ['Nizamulmulk', 'Kaykovus', 'Firdavsiy', 'Sa\'diy Sheroziy'],
+    correctAnswer: 1,
+    explanation: 'Ziyoriddin Abu Muhammad Kaykovus ibn Iskandar, Tabariston hukmdori.'
+  },
+
+  {
+    id: 'q-qobusnoma-2',
+    bookId: 'qobusnoma',
+    question: 'Kimga bag\'ishlangan?',
+    options: ['Sultonga', 'O\'g\'li Gilonshohga', 'Otasiga', 'Shogirdiga'],
+    correctAnswer: 1,
+    explanation: 'O\'z o\'g\'li Gilonshohga pand-nasihat sifatida.'
+  },
+
+  {
+    id: 'q-qobusnoma-3',
+    bookId: 'qobusnoma',
+    question: 'Necha bob?',
+    options: ['25', '34', '44', '50'],
+    correctAnswer: 2,
+    explanation: '44 bob, turli hayotiy maslahatlar.'
+  },
+
+  {
+    id: 'q-qobusnoma-4',
+    bookId: 'qobusnoma',
+    question: 'Janri?',
+    options: ['Tarixiy', 'Pandnoma', 'Romantik qissa', 'Ilmiy'],
+    correctAnswer: 1,
+    explanation: 'Pandnoma (nasihatnoma) - otaning o\'g\'liga nasihatlari.'
+  },
+
+  {
+    id: 'q-qobusnoma-5',
+    bookId: 'qobusnoma',
+    question: 'Yosh yigitga qanday kasb tavsiyasi?',
+    options: ['Faqat savdogar', 'O\'z qobiliyatiga qarab hunar o\'rganish', 'Faqat dehqon', 'Faqat harbiy'],
+    correctAnswer: 1,
+    explanation: 'O\'z qobiliyati va mayliga qarab hunar o\'rganish, chunki hunarli xor bo\'lmas.'
+  },
+
+  {
+    id: 'q-qobusnoma-6',
+    bookId: 'qobusnoma',
+    question: 'Mehmondo\'stlik haqida?',
+    options: ['Ochko\'zlik qilmaslik', 'Hurmat va izzat-ikrom', 'Pul talab qilish', 'Uzoq ushlab qolish'],
+    correctAnswer: 1,
+    explanation: 'Mehmonni hurmat qilish va saxovatli bo\'lish.'
+  },
+
+  {
+    id: 'q-qobusnoma-7',
+    bookId: 'qobusnoma',
+    question: 'Asar tili?',
+    options: ['Arab', 'Fors', 'Turkiy', 'Mo\'g\'ul'],
+    correctAnswer: 1,
+    explanation: 'Fors tilida, XI asr fors adabiyoti nodir yodgorligi.'
+  },
+
+  {
+    id: 'q-qobusnoma-8',
+    bookId: 'qobusnoma',
+    question: 'Do\'st tanlash maslahati?',
+    options: ['Ko\'p do\'st', 'Yaxshi do\'st tanlash', 'Hech kim bilan', 'Faqat boylar'],
+    correctAnswer: 1,
+    explanation: 'Yaxshi va sodiq do\'st tanlash, yomon do\'stdan saqlanish.'
+  },
+
+  {
+    id: 'q-qobusnoma-9',
+    bookId: 'qobusnoma',
+    question: 'Qachon yozilgan?',
+    options: ['1000', '1082', '1120', '950'],
+    correctAnswer: 1,
+    explanation: '1082 yilda.'
+  },
+
+  {
+    id: 'q-qobusnoma-10',
+    bookId: 'qobusnoma',
+    question: 'O\'zbekcha tarjimoni?',
+    options: ['Oybek', 'Muhammadjon Osim', 'Shuhrat Sirojiddinov', 'Xamid Sulaymon'],
+    correctAnswer: 1,
+    explanation: 'Muhammadjon Osim va boshqa olimlar.'
+  },
+
+  {
+    id: 'q-guliston-1',
+    bookId: 'guliston',
+    question: 'Muallifi?',
+    options: ['Umar Xayyom', 'Sa\'diy Sheroziy', 'Firdavsiy', 'Rumiy'],
+    correctAnswer: 1,
+    explanation: 'Fors shoiri va mutafakkiri Sa\'diy Sheroziy.'
+  },
+
+  {
+    id: 'q-guliston-2',
+    bookId: 'guliston',
+    question: 'Necha bob?',
+    options: ['5', '7', '8', '10'],
+    correctAnswer: 2,
+    explanation: '8 bob - podshohlar odobi, darveshlar axloqi, sabr va shukr.'
+  },
+
+  {
+    id: 'q-guliston-3',
+    bookId: 'guliston',
+    question: 'Usuli?',
+    options: ['Faqat she\'r', 'Faqat nasr', 'She\'r va nasr aralash', 'Faqat hikoya'],
+    correctAnswer: 2,
+    explanation: 'Saj\' usulida nasr va she\'r aralash.'
+  },
+
+  {
+    id: 'q-guliston-4',
+    bookId: 'guliston',
+    question: 'Sa\'diy qaysi asrda?',
+    options: ['X', 'XI', 'XIII', 'XIV'],
+    correctAnswer: 2,
+    explanation: '1210-1291 (XIII asr).'
+  },
+
+  {
+    id: 'q-guliston-5',
+    bookId: 'guliston',
+    question: '1-bob mavzusi?',
+    options: ['Sevgi', 'Podshohlar odobi', 'Do\'stlik', 'Ilm'],
+    correctAnswer: 1,
+    explanation: '"Podshohlar odobi" - adolatli hukmdor haqida.'
+  },
+
+  {
+    id: 'q-guliston-6',
+    bookId: 'guliston',
+    question: 'Qabri qayerda?',
+    options: ['Bag\'dod', 'Sheroz', 'Isfahon', 'Nishopur'],
+    correctAnswer: 1,
+    explanation: 'Sherozda, "Sa\'diya" maqbarasi.'
+  },
+
+  {
+    id: 'q-guliston-7',
+    bookId: 'guliston',
+    question: 'Yana bir mashhur asari?',
+    options: ['Shohnoma', 'Bo\'ston', 'Masnaviy', 'Devon'],
+    correctAnswer: 1,
+    explanation: '"Bo\'ston" (1257) - Gulistondan bir yil oldin yozilgan.'
+  },
+
+  {
+    id: 'q-guliston-8',
+    bookId: 'guliston',
+    question: 'Asar tili?',
+    options: ['Arab', 'Turkiy', 'Fors', 'Mo\'g\'ul'],
+    correctAnswer: 2,
+    explanation: 'Fors tilida.'
+  },
+
+  {
+    id: 'q-guliston-9',
+    bookId: 'guliston',
+    question: 'Asosiy mavzu?',
+    options: ['Harbiy san\'at', 'Tarix', 'Axloqiy tarbiya va insoniy fazilatlar', 'Astronomiya'],
+    correctAnswer: 2,
+    explanation: 'Axloqiy tarbiya, insoniy fazilatlar, adolat va sabr.'
+  },
+
+  {
+    id: 'q-guliston-10',
+    bookId: 'guliston',
+    question: 'Qachon yozilgan?',
+    options: ['1158', '1200', '1258', '1300'],
+    correctAnswer: 2,
+    explanation: '1258 (hijriy 656) yilda.'
+  },
+
+  {
+    id: 'q-atom-odatlar-1',
+    bookId: 'atom-odatlar',
+    question: 'Muallifi?',
+    options: ['Brayan Treysi', 'Jeyms Klir', 'Stiven Kovi', 'Robert Kiyosaki'],
+    correctAnswer: 1,
+    explanation: 'Jeyms Klir - amerikalik yozuvchi va odatlar bo\'yicha mutaxassis.'
+  },
+
+  {
+    id: 'q-atom-odatlar-2',
+    bookId: 'atom-odatlar',
+    question: '1-qonun?',
+    options: ['Jo\'lib ketish (Make it Obvious)', 'Qiziqarli qilish', 'Oson qilish', 'Qoniqarli qilish'],
+    correctAnswer: 0,
+    explanation: 'Yaxshi odatlarni aniq va ko\'zga ko\'rinadigan qilish.'
+  },
+
+  {
+    id: 'q-atom-odatlar-3',
+    bookId: 'atom-odatlar',
+    question: 'Nechta qonun?',
+    options: ['3', '4', '5', '7'],
+    correctAnswer: 1,
+    explanation: '4 ta qonun: Jo\'lib ketish, Qarshilik, Oson, Qoniqarli.'
+  },
+
+  {
+    id: 'q-atom-odatlar-4',
+    bookId: 'atom-odatlar',
+    question: '1% yaxshilanish natijasi?',
+    options: ['37 baravar', '2 baravar', '10 baravar', 'Hech narsa'],
+    correctAnswer: 0,
+    explanation: 'Har kuni 1% yaxshilanish 1 yilda 37 baravar (1.01^365 = 37.78).'
+  },
+
+  {
+    id: 'q-atom-odatlar-5',
+    bookId: 'atom-odatlar',
+    question: 'Maqsaddan ko\'ra nima muhim?',
+    options: ['Tizimlar (systems)', 'Pul', 'Vaqt', 'Talant'],
+    correctAnswer: 0,
+    explanation: 'Maqsadga erishish emas, balki tizim yaratish muhim.'
+  },
+
+  {
+    id: 'q-atom-odatlar-6',
+    bookId: 'atom-odatlar',
+    question: '2-qonun mazmuni?',
+    options: ['Yashirish', 'Yomon odatlarni ko\'zga ko\'rinmas qilish', 'Murakkablashtirish', 'Tashkil qilish'],
+    correctAnswer: 1,
+    explanation: 'Yomon odatlarni invisible qilish (make it invisible).'
+  },
+
+  {
+    id: 'q-atom-odatlar-7',
+    bookId: 'atom-odatlar',
+    question: 'Muhitning roli?',
+    options: ['Muhim emas', 'Odatlarni shakllantirishda muhim', 'Faqat ishda', 'Kerak emas'],
+    correctAnswer: 1,
+    explanation: 'Muhitni yaxshi odatlarga moslashtirish kerak.'
+  },
+
+  {
+    id: 'q-atom-odatlar-8',
+    bookId: 'atom-odatlar',
+    question: '3-qonun mazmuni?',
+    options: ['Vaqtni ko\'paytirish', 'Odatni boshlashni osonlashtirish', 'Murakkablashtirish', 'Tashlab yuborish'],
+    correctAnswer: 1,
+    explanation: 'Yaxshi odatni imkon qadar oson boshlash.'
+  },
+
+  {
+    id: 'q-atom-odatlar-9',
+    bookId: 'atom-odatlar',
+    question: '4-qonun mazmuni?',
+    options: ['Yoqimsiz qilish', 'Ijobiy mukofot qo\'shish', 'Uzaytirish', 'Bekor qilish'],
+    correctAnswer: 1,
+    explanation: 'Yaxshi odatni darhol qoniqish bilan bog\'lash.'
+  },
+
+  {
+    id: 'q-atom-odatlar-10',
+    bookId: 'atom-odatlar',
+    question: 'Kitob qaysi yil nashr?',
+    options: ['2016', '2017', '2018', '2019'],
+    correctAnswer: 2,
+    explanation: '2018 yil 16 oktabr, tezda bestseller.'
+  },
+
+  {
+    id: 'q-qorqma-1',
+    bookId: 'qorqma',
+    question: 'Muallifi?',
+    options: ['Tohir Malik', 'Javlon Jovliyev', 'Akrom Malik', 'Said Ahmad'],
+    correctAnswer: 1,
+    explanation: 'Zamonaviy o\'zbek yozuvchisi Javlon Jovliyev.'
+  },
+
+  {
+    id: 'q-qorqma-2',
+    bookId: 'qorqma',
+    question: 'Qaysi davr tasvirlangan?',
+    options: ['Mustaqillik', 'Sovet', '1920-yillar Germaniyasi', 'Ikkinchi jahon urushi'],
+    correctAnswer: 2,
+    explanation: 'Germaniyada o\'qigan o\'zbek jadid talabalarining taqdiri.'
+  },
+
+  {
+    id: 'q-qorqma-3',
+    bookId: 'qorqma',
+    question: 'Asosiy mavzu?',
+    options: ['Sevgi', 'Zulmga qarshi kurash va erkinlik', 'Sarguzasht', 'Boylik'],
+    correctAnswer: 1,
+    explanation: 'Zulmga qarshi turish, erkinlik va qatag\'onga uchragan jadidlar.'
+  },
+
+  {
+    id: 'q-qorqma-4',
+    bookId: 'qorqma',
+    question: 'Talabalar hayoti?',
+    options: ['Boy', 'Og\'ir, ilmga intilish', 'Beparvo', 'Qiziqarli'],
+    correctAnswer: 1,
+    explanation: 'Og\'ir sharoitda ochlik va qiyinchiliklarga qaramay ilm olish.'
+  },
+
+  {
+    id: 'q-qorqma-5',
+    bookId: 'qorqma',
+    question: 'Zamonaviy muammo?',
+    options: ['Ekologiya', 'Totalitar tuzum ta\'siri', 'Iqtisodiy inqiroz', 'Texnologiya'],
+    correctAnswer: 1,
+    explanation: 'Sovet tuzumining inson taqdiriga ta\'siri.'
+  },
+
+  {
+    id: 'q-qorqma-6',
+    bookId: 'qorqma',
+    question: 'Bosh qahramon?',
+    options: ['Temur', 'Bobur', 'Navoiy', 'Diyorbek'],
+    correctAnswer: 0,
+    explanation: 'Temur - orzular va haqiqat o\'rtasida ikkilanadi.'
+  },
+
+  {
+    id: 'q-qorqma-7',
+    bookId: 'qorqma',
+    question: 'Nashr yili?',
+    options: ['2018', '2019', '2020', '2021'],
+    correctAnswer: 2,
+    explanation: '2020.'
+  },
+
+  {
+    id: 'q-qorqma-8',
+    bookId: 'qorqma',
+    question: '"Qo\'rqma" ma\'nosi?',
+    options: ['Qo\'rqmaslik', 'Jasorat va qo\'rquvni yengish', 'Ehtiyotkorlik', 'Beparvolik'],
+    correctAnswer: 1,
+    explanation: 'Qo\'rquvni yengish va qat\'iyat bilan oldinga intilish.'
+  },
+
+  {
+    id: 'q-qorqma-9',
+    bookId: 'qorqma',
+    question: 'Jadid talabalar taqdiri?',
+    options: ['Baxtli', 'Katag\'on qilinadi', 'Vatanga qaytadi', 'Germaniyada qoladi'],
+    correctAnswer: 1,
+    explanation: 'Sovet tuzumi tomonidan qatag\'on qilinadi.'
+  },
+
+  {
+    id: 'q-qorqma-10',
+    bookId: 'qorqma',
+    question: 'Javlon Jovliyev yo\'nalishi?',
+    options: ['Tarixiy roman', 'Zamonaviy psixologik roman', 'Fantastika', 'Detektiv'],
+    correctAnswer: 1,
+    explanation: 'Zamonaviy o\'zbek psixologik romani.'
+  },
+
+  {
+    id: 'q-molxona-1',
+    bookId: 'molxona',
+    question: 'Muallifi?',
+    options: ['Jorj Oruell', 'Oldos Xaksli', 'Yevgeniy Zamyatin', 'Jon Shtaynbek'],
+    correctAnswer: 0,
+    explanation: 'Ingliz yozuvchisi Jorj Oruell (Eric Arthur Blair).'
+  },
+
+  {
+    id: 'q-molxona-2',
+    bookId: 'molxona',
+    question: 'Qo\'zg\'olonga chorlagan cho\'chqa?',
+    options: ['Napoleon', 'Snowball', 'Mayor', 'Squealer'],
+    correctAnswer: 2,
+    explanation: 'Keksa cho\'chqa Mayor barchani inson zulmiga qarshi qo\'zg\'olonga chorlaydi.'
+  },
+
+  {
+    id: 'q-molxona-3',
+    bookId: 'molxona',
+    question: 'Asosiy tamoyil o\'zgarishi?',
+    options: ['"Ba\'zi hayvonlar tengroq"', '"Hech kim teng emas"', '"Faqat cho\'chqalar teng"', '"Hech qanday tenglik"'],
+    correctAnswer: 0,
+    explanation: '"Barcha hayvonlar teng, lekin ba\'zilari tengroq".'
+  },
+
+  {
+    id: 'q-molxona-4',
+    bookId: 'molxona',
+    question: 'Boxer taqdiri?',
+    options: ['Ot - sog\'lom', 'Ot - so\'yilishga sotiladi', 'Sigir', 'It'],
+    correctAnswer: 1,
+    explanation: 'Kuchli ot, kasal bo\'lgach cho\'chqalar uni so\'yishga sotadi.'
+  },
+
+  {
+    id: 'q-molxona-5',
+    bookId: 'molxona',
+    question: 'Qaysi voqeaga allegoriya?',
+    options: ['Fransuz inqilobi', '1917 inqilobi va Stalin davri', 'Amerika urushi', 'Ikkinchi jahon urushi'],
+    correctAnswer: 1,
+    explanation: '1917 Rossiya inqilobi va Stalin davri totalitarizmi.'
+  },
+
+  {
+    id: 'q-molxona-6',
+    bookId: 'molxona',
+    question: 'Snowball va Napoleon ziddiyati?',
+    options: ['Oziq-ovqat', 'Firma boshqaruvi va qarashlar', 'Ish hajmi', 'Yosh'],
+    correctAnswer: 1,
+    explanation: 'Boshqaruv va kelajak rejalari farqi.'
+  },
+
+  {
+    id: 'q-molxona-7',
+    bookId: 'molxona',
+    question: 'Squealer vazifasi?',
+    options: ['Jangchi', 'Targ\'ibotchi', 'Oshpaz', 'Qo\'riqchi'],
+    correctAnswer: 1,
+    explanation: 'Napoleonning noqonuniy harakatlarini mantiqiy asoslab beradi.'
+  },
+
+  {
+    id: 'q-molxona-8',
+    bookId: 'molxona',
+    question: 'Asar oxiri?',
+    options: ['Hayvonlar odamlarni quvadi', 'Hayvon va odam farqsiz', 'Cho\'chqalar odamga o\'xshab qoladi', 'Ferma buziladi'],
+    correctAnswer: 2,
+    explanation: 'Cho\'chqalar ikki oyoqda, inson kiyimida - farq yo\'qolgan.'
+  },
+
+  {
+    id: 'q-molxona-9',
+    bookId: 'molxona',
+    question: 'Nashr yili?',
+    options: ['1940', '1945', '1949', '1950'],
+    correctAnswer: 1,
+    explanation: '1945.'
+  },
+
+  {
+    id: 'q-molxona-10',
+    bookId: 'molxona',
+    question: 'Asosiy g\'oya?',
+    options: ['Hayvonlarni himoya', 'Hokimiyat korrupsiyasi va totalitarizm tanqidi', 'Qishloq xo\'jaligi', 'Oila qadriyatlari'],
+    correctAnswer: 1,
+    explanation: 'Inqilobning liderlar tomonidan buzilishi va totalitarizm tanqidi.'
+  },
+
+  {
+    id: 'q-orwell-1984-1',
+    bookId: 'orwell-1984',
+    question: 'Bosh qahramon?',
+    options: ['O\'Brayen', 'Uinston Smit', 'Juliya', 'Parsons'],
+    correctAnswer: 1,
+    explanation: 'Uinston Smit - Okeaniyada Katta birodarga qarshi chiqadi.'
+  },
+
+  {
+    id: 'q-orwell-1984-2',
+    bookId: 'orwell-1984',
+    question: 'Totalitar davlat nomi?',
+    options: ['Okeaniya', 'Evroaziya', 'Pravda', 'Miniluv'],
+    correctAnswer: 0,
+    explanation: 'Okeaniya, Katta birodar tomonidan boshqariladi.'
+  },
+
+  {
+    id: 'q-orwell-1984-3',
+    bookId: 'orwell-1984',
+    question: '"Katta birodar" kim?',
+    options: ['Haqiqiy shaxs', 'Partiya rahbari ramziy obraz', 'Uinstonning otasi', 'Tarixiy shaxs'],
+    correctAnswer: 1,
+    explanation: 'Suratlari hamma joyda "Katta birodar seni kuzatib turibdi" shiori bilan.'
+  },
+
+  {
+    id: 'q-orwell-1984-4',
+    bookId: 'orwell-1984',
+    question: 'Uinston lavozimi?',
+    options: ['Tergovchi', 'Haqiqat vazirligida xodim', 'Harbiy', 'Shifokor'],
+    correctAnswer: 1,
+    explanation: 'Tarixni partiya talabiga moslab qayta yozadi.'
+  },
+
+  {
+    id: 'q-orwell-1984-5',
+    bookId: 'orwell-1984',
+    question: 'Uchta shior?',
+    options: ['"Tinchlik, Taraqqiyot, Insoniyat"', '"Urush - tinchlik, Ozodlik - qullik, Bilimsizlik - kuch"', '"Haqiqat, Adolat, Erkinlik"', '"Ish, Oila, Vatan"'],
+    correctAnswer: 1,
+    explanation: 'Partiyaning uch shiori.'
+  },
+
+  {
+    id: 'q-orwell-1984-6',
+    bookId: 'orwell-1984',
+    question: 'Uinston va Yuliya yakuni?',
+    options: ['Ajraladi', 'Qochadi', 'Qiynoqlardan so\'ng bir-biriga xiyonat qiladi', 'Baxtli yashaydi'],
+    correctAnswer: 2,
+    explanation: '101-xonada qiynoqlardan so\'ng bir-birlariga xiyonat qiladilar.'
+  },
+
+  {
+    id: 'q-orwell-1984-7',
+    bookId: 'orwell-1984',
+    question: '101-xona nima?',
+    options: ['Yig\'ilish xonasi', 'Qiynoq xonasi', 'Uinston xonasi', 'Arxiv'],
+    correctAnswer: 1,
+    explanation: 'Har kimning eng katta qo\'rquvi amalga oshiriladi.'
+  },
+
+  {
+    id: 'q-orwell-1984-8',
+    bookId: 'orwell-1984',
+    question: 'O\'Brayen aslida kim?',
+    options: ['Amerikalik josus', 'Partiya maxfiy agenti', 'Uinstonning do\'sti', 'Kuzatuvchi'],
+    correctAnswer: 1,
+    explanation: 'Uinston va Yuliyani tuzoqqa tushiradi.'
+  },
+
+  {
+    id: 'q-orwell-1984-9',
+    bookId: 'orwell-1984',
+    question: 'Newspeak maqsadi?',
+    options: ['Chet til oson', 'Fikrlashni cheklash va isyonni oldini olish', 'Adabiyot rivoji', 'Ta\'lim'],
+    correctAnswer: 1,
+    explanation: 'Lug\'atni cheklab, fikrlash doirasini cheklash.'
+  },
+
+  {
+    id: 'q-orwell-1984-10',
+    bookId: 'orwell-1984',
+    question: 'Oxirgi jumla?',
+    options: ['"U erkin edi"', '"U Katta birodarni sevib qoldi"', '"Hammasi tugadi"', '"Uyg\'onish"'],
+    correctAnswer: 1,
+    explanation: '"He loved Big Brother" - Uinstonning to\'liq buzilganini anglatadi.'
+  },
+
+  {
+    id: 'q-alkimyogar-1',
+    bookId: 'alkimyogar',
+    question: 'Muallifi?',
+    options: ['Gabriel Garsia Markes', 'Paulo Koelo', 'Xorxe Luis Borxes', 'Mario Vargas Lyosa'],
+    correctAnswer: 1,
+    explanation: 'Braziliyalik yozuvchi Paulo Koelo.'
+  },
+
+  {
+    id: 'q-alkimyogar-2',
+    bookId: 'alkimyogar',
+    question: 'Santyago kasbi?',
+    options: ['Savdogar', 'Cho\'pon (qo\'y boquvchi)', 'Olim', 'Harbiy'],
+    correctAnswer: 1,
+    explanation: 'Andalusiyada qo\'ylarini boqadi.'
+  },
+
+  {
+    id: 'q-alkimyogar-3',
+    bookId: 'alkimyogar',
+    question: '"Shaxsiy afsona"ni tushuntirgan kim?',
+    options: ['Qirolicha', 'Melkizedek', 'Rim papasi', 'Otasi'],
+    correctAnswer: 1,
+    explanation: 'Melkizedek (Salim qiroli) yo\'l ko\'rsatadi.'
+  },
+
+  {
+    id: 'q-alkimyogar-4',
+    bookId: 'alkimyogar',
+    question: 'Alkimyogar bilan uchrashuv?',
+    options: ['Fatima', 'Melkizedek', 'Ingliz sayyohi', 'Al-Fayum alkimyogari'],
+    correctAnswer: 3,
+    explanation: '200 yoshli alkimyogar tabiat tillarini o\'rgatadi.'
+  },
+
+  {
+    id: 'q-alkimyogar-5',
+    bookId: 'alkimyogar',
+    question: 'Piramidalardagi xazina?',
+    options: ['Oltin', 'Hech narsa', 'O\'zi kelgan joyda daraxt tagida', 'Sehrli kitob'],
+    correctAnswer: 2,
+    explanation: 'Xazina aslida Andalusiyadagi daraxt tagida ekanligini tushunadi.'
+  },
+
+  {
+    id: 'q-alkimyogar-6',
+    bookId: 'alkimyogar',
+    question: 'Asosiy g\'oya?',
+    options: ['Boylik', 'Orzularga ergashish va Shaxsiy afsona', 'Sayohat', 'Ilm'],
+    correctAnswer: 1,
+    explanation: 'Orzularga ergashish, butun olam yordam beradi.'
+  },
+
+  {
+    id: 'q-alkimyogar-7',
+    bookId: 'alkimyogar',
+    question: 'Afrikadagi muammo?',
+    options: ['Kasallik', 'Ochlik', 'Pulini aldov bilan yo\'qotadi', 'Adashadi'],
+    correctAnswer: 2,
+    explanation: 'Bir notanishga ishonib pullarini yo\'qotadi.'
+  },
+
+  {
+    id: 'q-alkimyogar-8',
+    bookId: 'alkimyogar',
+    question: 'Santyago sevgan qiz?',
+    options: ['Laylo', 'Zahro', 'Fatima', 'Oysha'],
+    correctAnswer: 2,
+    explanation: 'Sahro vohasida Fatimani uchratadi va sevib qoladi.'
+  },
+
+  {
+    id: 'q-alkimyogar-9',
+    bookId: 'alkimyogar',
+    question: '"Olam ruhi" tushunchasi?',
+    options: ['Diniy', 'Barcha narsaning bog\'liqligi va energiya', 'Sayyohlar ruhi', 'O\'liklar ruhi'],
+    correctAnswer: 1,
+    explanation: 'Barcha narsani bog\'lab turuvchi kuch va energiya.'
+  },
+
+  {
+    id: 'q-alkimyogar-10',
+    bookId: 'alkimyogar',
+    question: 'Paulo Koelo millati?',
+    options: ['Ispan', 'Portugal', 'Braziliyalik', 'Argentina'],
+    correctAnswer: 2,
+    explanation: 'Braziliyalik, Rio-de-Janeyroda tug\'ilgan.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-1',
+    bookId: 'sariq-devni-minib',
+    question: 'Muallifi?',
+    options: ['O\'tkir Hoshimov', 'Xudoyberdi To\'xtaboyev', 'Said Ahmad', 'Tohir Malik'],
+    correctAnswer: 1,
+    explanation: 'Xudoyberdi To\'xtaboyev.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-2',
+    bookId: 'sariq-devni-minib',
+    question: '"Sariq dev" ramzi?',
+    options: ['Haqiqiy dev', 'Avtobus', 'Katta it', 'Yomg\'ir'],
+    correctAnswer: 1,
+    explanation: 'Avtobus - Hoshimjon va do\'stlari avtobuslarga yopishib shaharni kezadilar.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-3',
+    bookId: 'sariq-devni-minib',
+    question: 'Hoshimjon xarakteri?',
+    options: ['Tirishqoq', 'Dangasa va sho\'x, keyin o\'z xatosini tushunadi', 'Jiddiy', 'Qo\'rqoq'],
+    correctAnswer: 1,
+    explanation: 'Dangasa va sho\'x, lekin oxirida ilm olishga qaror qiladi.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-4',
+    bookId: 'sariq-devni-minib',
+    question: 'Sehrli qalpoqchani kim beradi?',
+    options: ['Onasi', 'Otasi', 'Sehrgar chol (Mo\'jiza)', 'Do\'sti'],
+    correctAnswer: 2,
+    explanation: 'Bir mo\'jizakor chol beradi, uni ko\'rinmas qiladi.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-5',
+    bookId: 'sariq-devni-minib',
+    question: 'To\'xtaboyev janri?',
+    options: ['Tarixiy roman', 'Bolalar adabiyoti (sarguzasht)', 'Detektiv', 'She\'r'],
+    correctAnswer: 1,
+    explanation: 'Bolalar va o\'smirlar uchun sarguzasht qissalar.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-6',
+    bookId: 'sariq-devni-minib',
+    question: 'Asar janri?',
+    options: ['Fantastik roman', 'Sarguzasht-tarbiyaviy qissa', 'Tarixiy', 'Detektiv'],
+    correctAnswer: 1,
+    explanation: 'Sarguzasht va tarbiyaviy qissa.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-7',
+    bookId: 'sariq-devni-minib',
+    question: 'Hoshimjon qanday qiyinchiliklarni yengadi?',
+    options: ['Urush', 'Ochlik', 'O\'qishdagi dangasalik va yomon odatlar', 'Tabiiy ofat'],
+    correctAnswer: 2,
+    explanation: 'Dangasalik va sho\'xlikni yengib to\'g\'ri yo\'lga o\'tadi.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-8',
+    bookId: 'sariq-devni-minib',
+    question: 'To\'xtaboyevning yana bir asari?',
+    options: ['Ufq', 'Beshinchi qavatdagi besh qavat', 'Shaytanat', 'Oq kema'],
+    correctAnswer: 1,
+    explanation: '"Beshinchi qavatdagi besh qavat" va "Sehrli qalpoqcha".'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-9',
+    bookId: 'sariq-devni-minib',
+    question: 'Nashr yili?',
+    options: ['1965', '1968', '1972', '1975'],
+    correctAnswer: 1,
+    explanation: '1968.'
+  },
+
+  {
+    id: 'q-sariq-devni-minib-10',
+    bookId: 'sariq-devni-minib',
+    question: '"Sariq dev" ma\'nosi?',
+    options: ['Qo\'rqinchli dev', 'Sariq avtobus', 'Sariq cho\'l', 'Sariq kiyimdagi odam'],
+    correctAnswer: 1,
+    explanation: 'Toshkent ko\'chalaridagi sariq avtobuslar.'
+  },
+
+  {
+    id: 'q-ufq-1',
+    bookId: 'ufq',
+    question: 'Muallifi?',
+    options: ['Odil Yoqubov', 'Said Ahmad', 'Pirimqul Qodirov', 'Tog\'ay Murod'],
+    correctAnswer: 1,
+    explanation: 'Said Ahmad (Ahmadjon Husanov).'
+  },
+
+  {
+    id: 'q-ufq-2',
+    bookId: 'ufq',
+    question: 'Necha jild?',
+    options: ['2', '3 (trilogiya)', '4', '5'],
+    correctAnswer: 1,
+    explanation: '3 jild: "Ufq", "Ufq sari", "Kelinlar qo\'zg\'oloni".'
+  },
+
+  {
+    id: 'q-ufq-3',
+    bookId: 'ufq',
+    question: 'Qaysi davr?',
+    options: ['XIX asr', 'XX asr boshi', 'Ikkinchi jahon urushi va undan keyin', 'Mustaqillik'],
+    correctAnswer: 2,
+    explanation: 'Urush va mehnat frontidagi xalq hayoti.'
+  },
+
+  {
+    id: 'q-ufq-4',
+    bookId: 'ufq',
+    question: 'Asosiy mavzu?',
+    options: ['Shahar hayoti', 'Urush va mehnat frontidagi xalq jasorati', 'Sevgi', 'Ilm'],
+    correctAnswer: 1,
+    explanation: 'Urush yillarida o\'zbek xalqining mehnat frontidagi jasorati.'
+  },
+
+  {
+    id: 'q-ufq-5',
+    bookId: 'ufq',
+    question: 'Urushga ketgan yigit?',
+    options: ['Otabek', 'Vali', 'Yo\'lchi', 'Naim'],
+    correctAnswer: 1,
+    explanation: 'Vali - uning rafiqasi va oilasining urush davridagi hayoti.'
+  },
+
+  {
+    id: 'q-ufq-6',
+    bookId: 'ufq',
+    question: 'Ijtimoiy muammo?',
+    options: ['Ekologiya', 'Korrupsiya', 'Urush davridagi ayollar taqdiri', 'Ta\'lim'],
+    correctAnswer: 2,
+    explanation: 'Ayollarning og\'ir hayoti, mehnat frontidagi jasorati.'
+  },
+
+  {
+    id: 'q-ufq-7',
+    bookId: 'ufq',
+    question: 'Qahramon xarakteri ochilishi?',
+    options: ['Monolog', 'Kundalik vaziyat va dialoglar', 'Tashqi ko\'rinish', 'She\'r'],
+    correctAnswer: 1,
+    explanation: 'Jonli dialoglar va harakatlar orqali.'
+  },
+
+  {
+    id: 'q-ufq-8',
+    bookId: 'ufq',
+    question: 'Nashr yili?',
+    options: ['1964', '1974', '1984', '1994'],
+    correctAnswer: 1,
+    explanation: '1974.'
+  },
+
+  {
+    id: 'q-ufq-9',
+    bookId: 'ufq',
+    question: 'Bosh qahramon?',
+    options: ['Zulfizaxon', 'Otabek', 'Miryoqub', 'Yo\'ldosh'],
+    correctAnswer: 0,
+    explanation: 'Valining rafiqasi Zulfizaxon - oilani boshqaradi, og\'ir mehnat qiladi.'
+  },
+
+  {
+    id: 'q-ufq-10',
+    bookId: 'ufq',
+    question: 'Said Ahmadga qanday shuhrat keltirgan?',
+    options: ['Davlat mukofoti', 'Xalq yozuvchisi unvoni', 'O\'zbek adabiyoti durdonasi', 'Jahon tan olishi'],
+    correctAnswer: 2,
+    explanation: 'O\'zbek adabiyotining sara asarlaridan biri.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-1',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Muallifi?',
+    options: ['Said Ahmad', 'Tog\'ay Murod', 'Pirimqul Qodirov', 'Odil Yoqubov'],
+    correctAnswer: 1,
+    explanation: 'Tog\'ay Murod (Murod Tog\'aymurodov).'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-2',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Bosh qahramon?',
+    options: ['Dehqon - ota', 'Yo\'lchi', 'Otabek', 'Vali'],
+    correctAnswer: 0,
+    explanation: 'Dehqon otaning obrazi orqali o\'zbek dehqonining taqdiri.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-3',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Mavzu?',
+    options: ['Shahar hayoti', 'Dehqonchilik qismati va paxta yakka hokimligi', 'Sevgi', 'Ilm'],
+    correctAnswer: 1,
+    explanation: 'Paxta yakka hokimligi davrida o\'zbek dehqonlarining hayoti.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-4',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Zamonaviy va an\'anaviy to\'qnashuvi?',
+    options: ['Texnologiya', 'Qadriyatlar to\'qnashuvi va yer masalasi', 'Siyosat', 'Din'],
+    correctAnswer: 1,
+    explanation: 'An\'anaviy dehqonchilik va sovet tuzumi talablari.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-5',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Tog\'ay Murod davri?',
+    options: ['XIX asr', 'XX asr sovet davri', 'Mustaqillik', 'XVIII asr'],
+    correctAnswer: 1,
+    explanation: 'Sovet davri ijodkori.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-6',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: '"Ota" obrazi ma\'nosi?',
+    options: ['Haqiqiy ota', 'Oddiy dehqonning ramzi, vatan va meros', 'Qahramon', 'Boy'],
+    correctAnswer: 1,
+    explanation: 'Dehqon mehnati, vatanga muhabbat va avlodlar merosi.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-7',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Asar uslubi?',
+    options: ['She\'riy nasr', 'Sodda xalq tili va og\'zaki hikoya', 'Ilmiy', 'Fantastik'],
+    correctAnswer: 1,
+    explanation: 'Xalq og\'zaki ijodi uslubida, sodda va ta\'sirli.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-8',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Qishloq hayoti jihatlari?',
+    options: ['Bayramlar', 'Paxta maydonlari va mehnatkash xalq turmushi', 'Sport', 'Sayyohlik'],
+    correctAnswer: 1,
+    explanation: 'Paxta dalalaridagi og\'ir mehnat va dehqonlar hayoti.'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-9',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: 'Tog\'ay Murod asarlari?',
+    options: ['Ufq', 'Otamdan qolgan dalalar, Yulduzlar mangu yonadi', 'Shaytanat', 'Oq kema'],
+    correctAnswer: 1,
+    explanation: '"Otamdan qolgan dalalar" va "Yulduzlar mangu yonadi".'
+  },
+
+  {
+    id: 'q-otamdan-qolgan-dalalar-10',
+    bookId: 'otamdan-qolgan-dalalar',
+    question: '"Dalalar" ramziy ma\'nosi?',
+    options: ['Go\'zal tabiat', 'Dehqon mehnati, Vatan, ota merosi', 'O\'simliklar', 'Yo\'llar'],
+    correctAnswer: 1,
+    explanation: 'Ota merosi, vatan, avlodlar xotirasi.'
+  },
+
+  {
+    id: 'q-oq-kema-1',
+    bookId: 'oq-kema',
+    question: 'Muallifi?',
+    options: ['Chingiz Aytmatov', 'Tog\'ay Murod', 'Said Ahmad', 'Odil Yoqubov'],
+    correctAnswer: 0,
+    explanation: 'Chingiz Aytmatov.'
+  },
+
+  {
+    id: 'q-oq-kema-2',
+    bookId: 'oq-kema',
+    question: 'Bosh qahramon?',
+    options: ['Chol', '7 yoshli bolakay', 'Momun', 'Orozkul'],
+    correctAnswer: 1,
+    explanation: 'Ismi aytilmagan 7 yoshli bolakay.'
+  },
+
+  {
+    id: 'q-oq-kema-3',
+    bookId: 'oq-kema',
+    question: 'Qanday afsona aytiladi?',
+    options: ['Oltin baliq', 'Shoxdor ona bug\'u', 'Uchar gilam', 'Oq ilon'],
+    correctAnswer: 1,
+    explanation: 'Shoxdor ona bug\'u haqidagi afsona.'
+  },
+
+  {
+    id: 'q-oq-kema-4',
+    bookId: 'oq-kema',
+    question: 'Asosiy konflikt?',
+    options: ['Yaxshilik va yomonlik', 'Inson va tabiat', 'Kattalar vahshiyligi va bolaning pokizaligi', 'Urush'],
+    correctAnswer: 2,
+    explanation: 'Bolakayning pokizaligi va kattalarning shafqatsizligi.'
+  },
+
+  {
+    id: 'q-oq-kema-5',
+    bookId: 'oq-kema',
+    question: 'Momun xarakteri?',
+    options: ['Qattiqqo\'l', 'Yumshoq va itoatkor chol', 'Jasur', 'Boy'],
+    correctAnswer: 1,
+    explanation: 'Yumshoq, mehribon, biroq irodasiz chol.'
+  },
+
+  {
+    id: 'q-oq-kema-6',
+    bookId: 'oq-kema',
+    question: 'Bolakayning orzusi?',
+    options: ['Uchish', 'Oq kemada otasini ko\'rish', 'Boy bo\'lish', 'Shaharga borish'],
+    correctAnswer: 1,
+    explanation: 'Issiqko\'ldagi oq kemada otasini ko\'rishni orzu qiladi.'
+  },
+
+  {
+    id: 'q-oq-kema-7',
+    bookId: 'oq-kema',
+    question: 'Aytmatov tili?',
+    options: ['Faqat rus', 'Rus va qirg\'iz tillarida', 'Faqat qirg\'iz', 'Faqat o\'zbek'],
+    correctAnswer: 1,
+    explanation: 'Ikkala tilda ijod qilgan.'
+  },
+
+  {
+    id: 'q-oq-kema-8',
+    bookId: 'oq-kema',
+    question: 'Tabiat tasviri?',
+    options: ['Ikkinchi darajali', 'Asar markazida, go\'zal va ramziy', 'Muhim emas', 'Faqat fon'],
+    correctAnswer: 1,
+    explanation: 'Tabiat - asar markazida, go\'zal va ramziy tasvirlar.'
+  },
+
+  {
+    id: 'q-oq-kema-9',
+    bookId: 'oq-kema',
+    question: 'Asar oxiri?',
+    options: ['Baxtli', 'Bolakay oq kemaga aylanadi', 'Bolakay o\'ladi', 'Kattalar o\'zgaradi'],
+    correctAnswer: 1,
+    explanation: 'Bolakay baliqqa aylanib oq kema tomon suzadi (ramziy).'
+  },
+
+  {
+    id: 'q-oq-kema-10',
+    bookId: 'oq-kema',
+    question: 'Asosiy g\'oya?',
+    options: ['Tabiatni asrash', 'Insoniy pokizalik va yaxshilikning yovuzlik ustidan g\'alabasi', 'Do\'stlik', 'Sevgi'],
+    correctAnswer: 1,
+    explanation: 'Inson qalbidagi pokizalik va afsonalarga ishonch.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-1',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Muallifi?',
+    options: ['Brayan Treysi', 'Robert Kiyosaki', 'Stiven Kovi', 'Deyl Karnegi'],
+    correctAnswer: 1,
+    explanation: 'Robert Kiyosaki.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-2',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Kambag\'al otasi qanday lavozimda?',
+    options: ['Tadbirkor', 'Hukumat xodimi', 'Professor', 'Shifokor'],
+    correctAnswer: 1,
+    explanation: 'Hukumat xodimi, yuqori maoshli ammo moliyaviy qiyin ahvolda.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-3',
+    bookId: 'boy-ota-kambagal-ota',
+    question: '"Boy ota"ga ko\'ra boylik kaliti?',
+    options: ['Ko\'p ishlash', 'Aktivlar orttirish', 'Pul yig\'ish', 'Qarz olish'],
+    correctAnswer: 1,
+    explanation: 'Aktivlar orttirish va ularni ko\'paytirish.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-4',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Aktiv va passiv farqi?',
+    options: ['Farqi yo\'q', 'Aktiv - daromad keltiradi, passiv - olib ketadi', 'Aktiv - qimmat', 'Passiv - arzon'],
+    correctAnswer: 1,
+    explanation: 'Aktiv pul keltiradi, passiv pulni olib ketadi.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-5',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Ish haqi uchun ishlashdan muhimi?',
+    options: ['Ko\'proq ishlash', 'Aktivlar sotib olish', 'Qarz olish', 'Tejamkorlik'],
+    correctAnswer: 1,
+    explanation: 'Aktivlar orttirish va ularni boshqarish.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-6',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Nechta moliyaviy dars?',
+    options: ['3', '5', '6', '10'],
+    correctAnswer: 2,
+    explanation: '6 ta asosiy moliyaviy dars.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-7',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Ko\'chmas mulk investitsiyasi?',
+    options: ['Xavfli', 'Boylik yaratish vositasi', 'Murakkab', 'Keraksiz'],
+    correctAnswer: 1,
+    explanation: 'Ko\'chmas mulk - aktivlar orttirishning samarali usuli.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-8',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Nashr yili?',
+    options: ['1994', '1997', '2000', '2002'],
+    correctAnswer: 1,
+    explanation: '1997.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-9',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Kiyosaki moliyaviy erkinlik yo\'li?',
+    options: ['Tejash', 'Investitsiya va aktivlar orttirish', 'Qarz olmaslik', 'Ko\'p ishlash'],
+    correctAnswer: 1,
+    explanation: 'Aktivlar orttirish, investitsiya qilish va passiv daromad yaratish.'
+  },
+
+  {
+    id: 'q-boy-ota-kambagal-ota-10',
+    bookId: 'boy-ota-kambagal-ota',
+    question: 'Moliyaviy savodxonlik ta\'rifi?',
+    options: ['Pulni saqlash', 'Pulni boshqarish va ishlatishni bilish', 'Kredit olish', 'Byudjet tuzish'],
+    correctAnswer: 1,
+    explanation: 'Pulni qanday ishlab topish, boshqarish va ko\'paytirishni bilish.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-1',
+    bookId: 'samaradorlik-21',
+    question: 'Muallifi?',
+    options: ['Robert Kiyosaki', 'Brayan Treysi', 'Stiven Kovi', 'Kal Nyuport'],
+    correctAnswer: 1,
+    explanation: 'Kanadalik-amerikalik muallif Brayan Treysi.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-2',
+    bookId: 'samaradorlik-21',
+    question: 'Nechta samaradorlik yo\'li?',
+    options: ['7', '10', '21', '50'],
+    correctAnswer: 2,
+    explanation: '21 ta samaradorlik yo\'li.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-3',
+    bookId: 'samaradorlik-21',
+    question: '"Qurbaqani yeyish" g\'oyasi?',
+    options: ['Kechasi ovqatlanish', 'Eng qiyin vazifani ertalab bajarish', 'Tez ovqatlanish', 'Sport'],
+    correctAnswer: 1,
+    explanation: 'Eng muhim va qiyin vazifani kunning boshida bajarish.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-4',
+    bookId: 'samaradorlik-21',
+    question: 'Eng muhim vazifani aniqlash usuli?',
+    options: ['Tasodifiy', 'ABCDE usuli - vazifalarni tartiblash', 'Eng yengil', 'Eng qiziqarli'],
+    correctAnswer: 1,
+    explanation: 'ABCDE usuli - vazifalarni ahamiyati bo\'yicha tartiblash.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-5',
+    bookId: 'samaradorlik-21',
+    question: 'Vaqtni boshqarish usullari?',
+    options: ['Multitasking', 'Rejalashtirish va ustuvorlik', 'Kutish', 'Tezlashtirish'],
+    correctAnswer: 1,
+    explanation: 'Rejalashtirish, ustuvorlik belgilash va diqqatni jamlash.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-6',
+    bookId: 'samaradorlik-21',
+    question: 'Maqsad belgilash tizimi?',
+    options: ['SMART maqsadlar', 'Tasodifiy', 'Kunlik', 'Oylik'],
+    correctAnswer: 0,
+    explanation: 'Aniq, o\'lchanadigan, erishish mumkin, tegishli va vaqtli maqsadlar.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-7',
+    bookId: 'samaradorlik-21',
+    question: 'Kunlik rejalashtirish qoidasi?',
+    options: ['80/20 qoidasi', '50/50 qoidasi', '10/90 qoidasi', '30/70 qoidasi'],
+    correctAnswer: 0,
+    explanation: 'Pareto qoidasi - 20% harakat 80% natija beradi.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-8',
+    bookId: 'samaradorlik-21',
+    question: 'Delegatsiya qilish haqida?',
+    options: ['Muhim emas', 'Vaqtni bo\'shatish va boshqalarga ishonish', 'Faqat ishni bajarish', 'Keraksiz'],
+    correctAnswer: 1,
+    explanation: 'Vaqtni muhim ishlarga ajratish uchun delegatsiya qilish.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-9',
+    bookId: 'samaradorlik-21',
+    question: 'Asosiy tamoyil?',
+    options: ['Ko\'p ishlash', 'Aqlli ishlash va diqqatni jamlash', 'Tez ishlash', 'Kech qolish'],
+    correctAnswer: 1,
+    explanation: 'Aqlli ishlash, muhim vazifalarga diqqatni jamlash.'
+  },
+
+  {
+    id: 'q-samaradorlik-21-10',
+    bookId: 'samaradorlik-21',
+    question: 'Brayan Treysi sohasi?',
+    options: ['Moliya', 'Shaxsiy samaradorlik va biznes', 'Tibbiyot', 'Texnologiya'],
+    correctAnswer: 1,
+    explanation: 'Shaxsiy samaradorlik va biznes bo\'yicha mutaxassis.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-1',
+    bookId: 'diqqat-deep-work',
+    question: 'Muallifi?',
+    options: ['Brayan Treysi', 'Kal Nyuport', 'Jeyms Klir', 'Stiven Kovi'],
+    correctAnswer: 1,
+    explanation: 'Kal Nyuport - amerikalik kompyuter olimi va yozuvchi.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-2',
+    bookId: 'diqqat-deep-work',
+    question: '"Chuqur ish" ta\'rifi?',
+    options: ['Ko\'p ishlash', 'Chalg\'imasdan yuqori diqqat talab qiladigan ish', 'Tez ishlash', 'Jamoaviy ish'],
+    correctAnswer: 1,
+    explanation: 'Chalg\'imasdan, yuqori kognitiv talab qiladigan ish.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-3',
+    bookId: 'diqqat-deep-work',
+    question: '"Sayoz ish" ta\'rifi?',
+    options: ['Muhim ish', 'Diqqat talab qilmaydigan ishlar', 'Qiyin ish', 'Ijodiy ish'],
+    correctAnswer: 1,
+    explanation: 'Elektron pochta, yig\'ilishlar kabi diqqat talab qilmaydigan ishlar.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-4',
+    bookId: 'diqqat-deep-work',
+    question: 'Chuqur ishni rejalashtirish usuli?',
+    options: ['Tasodifiy', 'Monastir, Bimodal, Ritmik, Jurnalist usullari', 'Faqat ertalab', 'Faqat kechqurun'],
+    correctAnswer: 1,
+    explanation: '4 usul: monastir, bimodal, ritmik va jurnalist usuli.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-5',
+    bookId: 'diqqat-deep-work',
+    question: 'Ijtimoiy tarmoqlar maslahati?',
+    options: ['Ko\'p ishlatish', 'Cheklash yoki butunlay voz kechish', 'Faqat ish uchun', 'Befarq'],
+    correctAnswer: 1,
+    explanation: 'Chuqur ish uchun ijtimoiy tarmoqlarni cheklash.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-6',
+    bookId: 'diqqat-deep-work',
+    question: 'Kal Nyuport kasbi?',
+    options: ['Psixolog', 'Kompyuter olimi (professor)', 'Menejer', 'Doktor'],
+    correctAnswer: 1,
+    explanation: 'Jorjtaun universitetida kompyuter fanlari professori.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-7',
+    bookId: 'diqqat-deep-work',
+    question: 'Diqqatni jamlash qanday rivojlantiriladi?',
+    options: ['Genetik', 'Mashq va odat orqali', 'Dori bilan', 'O\'qish orqali'],
+    correctAnswer: 1,
+    explanation: 'Muntazam mashq va "chuqur ish" odati orqali.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-8',
+    bookId: 'diqqat-deep-work',
+    question: 'Asosiy xulosa?',
+    options: ['Ko\'p ishlash', 'Chuqur ish qobiliyati zamonaviy iqtisodiyotda eng muhim mahorat', 'Texnologiya muhim', 'Yolg\'iz ishlash'],
+    correctAnswer: 1,
+    explanation: 'Chuqur ish qobiliyati - zamonaviy dunyoda eng qimmatli mahorat.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-9',
+    bookId: 'diqqat-deep-work',
+    question: 'Nashr yili?',
+    options: ['2014', '2015', '2016', '2017'],
+    correctAnswer: 2,
+    explanation: '2016.'
+  },
+
+  {
+    id: 'q-diqqat-deep-work-10',
+    bookId: 'diqqat-deep-work',
+    question: '"Motorli ko\'nikmalar" bog\'liqligi?',
+    options: ['Farqi yo\'q', 'Chuqur ish ham motorli ko\'nikma kabi mashq talab qiladi', 'Motorli ko\'nikmalar muhim emas', 'Faqat aqliy'],
+    correctAnswer: 1,
+    explanation: 'Chuqur diqqat mushak kabi mashq qilish bilan rivojlanadi.'
+  },
+
+  {
+    id: 'q-halqa-1',
+    bookId: 'halqa',
+    question: 'Muallifi?',
+    options: ['Tohir Malik', 'Akrom Malik', 'Javlon Jovliyev', 'Said Ahmad'],
+    correctAnswer: 1,
+    explanation: 'Akrom Malik.'
+  },
+
+  {
+    id: 'q-halqa-2',
+    bookId: 'halqa',
+    question: 'Asar janri?',
+    options: ['Detektiv', 'Qissa (badiiy)', 'Fantastika', 'Tarixiy'],
+    correctAnswer: 1,
+    explanation: 'Badiiy qissa.'
+  },
+
+  {
+    id: 'q-halqa-3',
+    bookId: 'halqa',
+    question: 'Bosh qahramon?',
+    options: ['Temur', 'Ruslan', 'Imon va nafs kurashidagi inson', 'Anvar'],
+    correctAnswer: 2,
+    explanation: 'Inson qalbidagi imon va nafs kurashi.'
+  },
+
+  {
+    id: 'q-halqa-4',
+    bookId: 'halqa',
+    question: 'Asosiy mavzu?',
+    options: ['Detektiv', 'Iymon va nafs kurashi, ruhiy uyg\'onish', 'Sarguzasht', 'Sevgi'],
+    correctAnswer: 1,
+    explanation: 'Imon va nafs kurashi, insoniy fazilatlar va ruhiy iztiroblar.'
+  },
+
+  {
+    id: 'q-halqa-5',
+    bookId: 'halqa',
+    question: 'Zamonaviy jamiyat muammolari?',
+    options: ['Ekologiya', 'Ma\'naviy tanazzul va ruhiy bo\'shliq', 'Iqtisodiyot', 'Siyosat'],
+    correctAnswer: 1,
+    explanation: 'Zamonaviy jamiyatdagi ma\'naviy inqiroz.'
+  },
+
+  {
+    id: 'q-halqa-6',
+    bookId: 'halqa',
+    question: 'Akrom Malik yo\'nalishi?',
+    options: ['Tarixiy', 'Ma\'naviy-ruhiy va badiiy', 'Ilmiy', 'Fantastik'],
+    correctAnswer: 1,
+    explanation: 'Ma\'naviy-ruhiy va badiiy yo\'nalish.'
+  },
+
+  {
+    id: 'q-halqa-7',
+    bookId: 'halqa',
+    question: 'Nashr yili?',
+    options: ['2017', '2018', '2019', '2020'],
+    correctAnswer: 2,
+    explanation: '2019.'
+  },
+
+  {
+    id: 'q-halqa-8',
+    bookId: 'halqa',
+    question: '"Halqa" ma\'nosi?',
+    options: ['Doira', 'Taqdir, inson hayotidagi davr va sinovlar', 'Zanjir', 'Hokimiyat'],
+    correctAnswer: 1,
+    explanation: 'Taqdir, hayot davrlari va sinovlar.'
+  },
+
+  {
+    id: 'q-halqa-9',
+    bookId: 'halqa',
+    question: 'Asarning o\'ziga xosligi?',
+    options: ['Detektiv sarguzasht', 'Chuqur ruhiy tahlil va ma\'naviy mavzular', 'Tarixiy voqealar', 'Fantastik elementlar'],
+    correctAnswer: 1,
+    explanation: 'Chuqur ruhiy tahlil va ma\'naviy mavzular.'
+  },
+
+  {
+    id: 'q-halqa-10',
+    bookId: 'halqa',
+    question: 'Akrom Malik asarlari?',
+    options: ['Shaytanat', 'Halqa, Yo\'l', 'Ufq', 'Oq kema'],
+    correctAnswer: 1,
+    explanation: '"Halqa", "Yo\'l" va boshqa ma\'naviy asarlar.'
+  },
+
+  {
+    id: 'q-shaytanat-1',
+    bookId: 'shaytanat',
+    question: 'Muallifi?',
+    options: ['Akrom Malik', 'Tohir Malik', 'Javlon Jovliyev', 'Said Ahmad'],
+    correctAnswer: 1,
+    explanation: 'Tohir Malik - o\'zbek adabiyotida detektiv janr asoschisi.'
+  },
+
+  {
+    id: 'q-shaytanat-2',
+    bookId: 'shaytanat',
+    question: 'Necha jild?',
+    options: ['2 jild', '4 jild', '6 jild', '8 jild'],
+    correctAnswer: 1,
+    explanation: '4 jild.'
+  },
+
+  {
+    id: 'q-shaytanat-3',
+    bookId: 'shaytanat',
+    question: 'Bosh qahramon?',
+    options: ['Ruslan', 'Temur', 'Anvar', 'Otabek'],
+    correctAnswer: 0,
+    explanation: 'Ruslan - jinoyat olami va adolat o\'rtasidagi kurashda.'
+  },
+
+  {
+    id: 'q-shaytanat-4',
+    bookId: 'shaytanat',
+    question: 'Janri?',
+    options: ['Sevgi romani', 'Detektiv roman', 'Tarixiy roman', 'Fantastika'],
+    correctAnswer: 1,
+    explanation: 'O\'zbek detektiv romani.'
+  },
+
+  {
+    id: 'q-shaytanat-5',
+    bookId: 'shaytanat',
+    question: 'Jinoyat olami tasviri?',
+    options: ['Yorqin va jozibali', 'Shafqatsiz va realistik', 'Kulgili', 'Romantik'],
+    correctAnswer: 1,
+    explanation: 'O\'zbek mafiyasi va jinoyatchilar dunyosi realistik tasvirlangan.'
+  },
+
+  {
+    id: 'q-shaytanat-6',
+    bookId: 'shaytanat',
+    question: 'Ruslan xarakteri?',
+    options: ['Oddiy inson', 'Murakkab, ziddiyatli shaxs', 'Qahramon', 'Yovuz'],
+    correctAnswer: 1,
+    explanation: 'Murakkab va ziddiyatli shaxs, jinoyat va adolat oralig\'ida.'
+  },
+
+  {
+    id: 'q-shaytanat-7',
+    bookId: 'shaytanat',
+    question: 'Tohir Malik davri?',
+    options: ['1960', '1970-1980', '1990', '2000'],
+    correctAnswer: 2,
+    explanation: '1994 yilda nashr etilgan.'
+  },
+
+  {
+    id: 'q-shaytanat-8',
+    bookId: 'shaytanat',
+    question: 'Adolat va qonun mavzusi?',
+    options: ['Ikkinchi darajali', 'Asosiy mavzulardan biri', 'Muhim emas', 'Faqat siyosat'],
+    correctAnswer: 1,
+    explanation: 'Jinoyat va jazo, adolat va qonun ustuvorligi.'
+  },
+
+  {
+    id: 'q-shaytanat-9',
+    bookId: 'shaytanat',
+    question: 'O\'zbek adabiyotidagi o\'rni?',
+    options: ['Oddiy asar', 'Eng mashhur o\'zbek detektivi', 'Birinchi roman', 'So\'nggi asar'],
+    correctAnswer: 1,
+    explanation: 'Eng mashhur o\'zbek detektiv asari.'
+  },
+
+  {
+    id: 'q-shaytanat-10',
+    bookId: 'shaytanat',
+    question: 'Tohir Malikning yana bir asari?',
+    options: ['Ufq', 'Baxt ko\'chasi', 'Oq kema', 'Halqa'],
+    correctAnswer: 1,
+    explanation: '"Baxt ko\'chasi" va boshqa asarlar.'
+  },
+
+  {
+    id: 'q-saodat-asri-1',
+    bookId: 'saodat-asri',
+    question: 'Muallifi?',
+    options: ['Imom Buxoriy', 'Ahmad Lutfiy Qozonchi', 'Imom Gazzoliy', 'Rabg\'uziy'],
+    correctAnswer: 1,
+    explanation: 'Ahmad Lutfiy Qozonchi.'
+  },
+
+  {
+    id: 'q-saodat-asri-2',
+    bookId: 'saodat-asri',
+    question: 'Qaysi davr haqida?',
+    options: ['Hozirgi zamon', 'Islomning ilk davrlari va Muhammad (s.a.v.) hayoti', 'XX asr', 'O\'rta asrlar'],
+    correctAnswer: 1,
+    explanation: 'Islom olami tarixi va Muhammad (s.a.v.) hayoti.'
+  },
+
+  {
+    id: 'q-saodat-asri-3',
+    bookId: 'saodat-asri',
+    question: 'Asosiy maqsad?',
+    options: ['Tarix o\'rgatish', 'Islom tarixi va sahobalar hayotini ta\'sirli bayon qilish', 'Sayyohlik', 'Sarguzasht'],
+    correctAnswer: 1,
+    explanation: 'Islom tarixi va Muhammad (s.a.v.) hayot yo\'lini jonli tasvirlash.'
+  },
+
+  {
+    id: 'q-saodat-asri-4',
+    bookId: 'saodat-asri',
+    question: 'Sahobalar hayoti?',
+    options: ['Qisqa', 'Ta\'sirli va batafsil yoritilgan', 'Muhim emas', 'Salbiy'],
+    correctAnswer: 1,
+    explanation: 'Sahobalarning hayoti va ularning Islomdagi roli batafsil yoritilgan.'
+  },
+
+  {
+    id: 'q-saodat-asri-5',
+    bookId: 'saodat-asri',
+    question: 'Ahmad Lutfiy Qozonchi millati?',
+    options: ['O\'zbek', 'Arab (Misrlik)', 'Fors', 'Turk'],
+    correctAnswer: 1,
+    explanation: 'Misrlik arab yozuvchisi.'
+  },
+
+  {
+    id: 'q-saodat-asri-6',
+    bookId: 'saodat-asri',
+    question: 'Asar tili?',
+    options: ['Fors', 'Arab', 'Turkiy', 'Urdu'],
+    correctAnswer: 1,
+    explanation: 'Arab tilida yozilgan.'
+  },
+
+  {
+    id: 'q-saodat-asri-7',
+    bookId: 'saodat-asri',
+    question: 'O\'zbekcha tarjimoni?',
+    options: ['Oybek', 'Shuhrat Sirojiddinov', 'Pirimqul Qodirov', 'Odil Yoqubov'],
+    correctAnswer: 1,
+    explanation: 'Shuhrat Sirojiddinov va boshqa tarjimonlar.'
+  },
+
+  {
+    id: 'q-saodat-asri-8',
+    bookId: 'saodat-asri',
+    question: 'Eng ko\'p mavzu?',
+    options: ['Sevgi', 'Iymon, sabr-toqat va Islomiy qadriyatlar', 'Boylik', 'Siyosat'],
+    correctAnswer: 1,
+    explanation: 'Iymon, sabr-toqat va Islomiy qadriyatlar.'
+  },
+
+  {
+    id: 'q-saodat-asri-9',
+    bookId: 'saodat-asri',
+    question: 'Nashr yili?',
+    options: ['1995', '1997', '1999', '2001'],
+    correctAnswer: 2,
+    explanation: '1999.'
+  },
+
+  {
+    id: 'q-saodat-asri-10',
+    bookId: 'saodat-asri',
+    question: 'Uslubi?',
+    options: ['Ilmiy', 'Badiiy va ta\'sirli, jonli hikoya uslubi', 'She\'riy', 'Detektiv'],
+    correctAnswer: 1,
+    explanation: 'Jonli, ta\'sirli badiiy hikoya uslubi.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-1',
+    bookId: 'muvaffaqiyat-7',
+    question: 'Muallifi?',
+    options: ['Jeyms Klir', 'Stiven Kovi', 'Brayan Treysi', 'Robert Kiyosaki'],
+    correctAnswer: 1,
+    explanation: 'Stiven R. Kovi.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-2',
+    bookId: 'muvaffaqiyat-7',
+    question: '1-ko\'nikma?',
+    options: ['Maqsad qo\'yish', 'Faol bo\'lish (Be Proactive)', 'Rejalashtirish', 'Ishlash'],
+    correctAnswer: 1,
+    explanation: '"Faol bo\'lish" - o\'z hayoting uchun mas\'uliyat olish.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-3',
+    bookId: 'muvaffaqiyat-7',
+    question: '"Boshidan oxirni tasavvur qil" qaysi?',
+    options: ['1-ko\'nikma', '2-ko\'nikma', '3-ko\'nikma', '7-ko\'nikma'],
+    correctAnswer: 1,
+    explanation: '2-ko\'nikma - maqsadni aniq belgilash.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-4',
+    bookId: 'muvaffaqiyat-7',
+    question: '"G\'alaba-g\'alaba" mazmuni?',
+    options: ['Raqobat', 'Ikkala tomon foyda ko\'radigan yechim', 'Yutqazish', 'Kurash'],
+    correctAnswer: 1,
+    explanation: 'Hamkorlikda ikkala tomon manfaatini ko\'zlovchi yechim topish.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-5',
+    bookId: 'muvaffaqiyat-7',
+    question: '"Avval tushun, keyin tushunil" qaysi?',
+    options: ['4', '5', '6', '7'],
+    correctAnswer: 1,
+    explanation: '5-ko\'nikma - samarali muloqot siri.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-6',
+    bookId: 'muvaffaqiyat-7',
+    question: '"Arrani charxla" mazmuni?',
+    options: ['Asbob tuzatish', 'Doimiy o\'z-o\'zini rivojlantirish va yangilash', 'Ishni to\'xtatish', 'Dam olish'],
+    correctAnswer: 1,
+    explanation: 'Jismoniy, ruhiy, aqliy va ijtimoiy jihatdan doimiy rivojlanish.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-7',
+    bookId: 'muvaffaqiyat-7',
+    question: '"Faol bo\'lish" mazmuni?',
+    options: ['Harakat qilish', 'Reaksiya emas, balki tanlov asosida harakat', 'Shoshilish', 'Gapirish'],
+    correctAnswer: 1,
+    explanation: 'Vaziyatga qarab reaksiya emas, qadriyatlar asosida harakat qilish.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-8',
+    bookId: 'muvaffaqiyat-7',
+    question: 'Ko\'nikmalar necha guruh?',
+    options: ['2', '3', '4', '5'],
+    correctAnswer: 1,
+    explanation: '3 guruh: xususiy g\'alaba (1-3), jamoa g\'alabasi (4-6), yangilanish (7).'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-9',
+    bookId: 'muvaffaqiyat-7',
+    question: 'Nashr yili?',
+    options: ['1987', '1988', '1989', '1990'],
+    correctAnswer: 2,
+    explanation: '1989.'
+  },
+
+  {
+    id: 'q-muvaffaqiyat-7-10',
+    bookId: 'muvaffaqiyat-7',
+    question: 'Stiven Kovi sohasi?',
+    options: ['Moliya', 'Shaxsiy rivojlanish va liderlik', 'Tibbiyot', 'Texnologiya'],
+    correctAnswer: 1,
+    explanation: 'Shaxsiy rivojlanish va liderlik bo\'yicha mutaxassis.'
+  }
+
+]

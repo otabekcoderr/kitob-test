@@ -1,0 +1,4 @@
+scratch/
+.vscode/
+*.log
+.DS_Store
