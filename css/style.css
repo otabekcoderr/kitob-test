@@ -1174,7 +1174,7 @@ body:not(.light-theme) .hero-section {
     margin-left: auto;
   }
   .nav-username-text {
-    display: none; /* Hide full name on mobile for space */
+    display: none;
   }
 
   .main-content {
@@ -1192,7 +1192,7 @@ body:not(.light-theme) .hero-section {
     align-items: center;
     text-align: center;
   }
-  
+
   .book-detail-cover-premium {
     width: 180px;
     height: 250px;
@@ -1206,6 +1206,298 @@ body:not(.light-theme) .hero-section {
     justify-content: center;
     order: 3;
     max-width: 100% !important;
+  }
+
+  .hero-section {
+    padding: 20px;
+  }
+  .hero-title {
+    font-size: 1.6rem !important;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem !important;
+  }
+
+  .result-hero {
+    padding: 32px 20px;
+  }
+  .result-circle {
+    width: 120px;
+    height: 120px;
+  }
+  .result-score {
+    font-size: 2.2rem;
+  }
+
+  .auth-card {
+    padding: 28px 20px;
+  }
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.4rem;
+  }
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .stat-value {
+    font-size: 1.8rem;
+  }
+
+  .book-card .btn-start-quiz,
+  .book-card .btn-start-quiz-dash {
+    font-size: 0.8rem;
+    padding: 10px 12px;
+  }
+
+  details summary.card {
+    font-size: 0.9rem;
+  }
+
+  .notification {
+    right: 12px;
+    left: 12px;
+    top: 12px;
+    font-size: 0.85rem;
+    padding: 14px 20px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0 16px;
+  }
+  .nav-logo {
+    font-size: 1.15rem;
+  }
+  .nav-links {
+    margin: 0 -16px;
+  }
+
+  .main-content {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 72px;
+  }
+
+  .book-cover-premium {
+    height: 180px;
+    padding: 14px;
+  }
+  .book-cover-premium .book-cover-icon {
+    font-size: 2rem;
+  }
+  .book-cover-premium .book-cover-title-text {
+    font-size: 1rem;
+  }
+  .book-cover-premium .book-cover-badge {
+    top: 10px;
+    right: 10px;
+    font-size: 0.65rem;
+  }
+
+  .book-info {
+    padding: 14px;
+  }
+  .book-title {
+    font-size: 1rem;
+  }
+  .book-author {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+  .book-meta .badge {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+
+  .book-detail-cover-premium {
+    width: 140px;
+    height: 200px;
+    padding: 16px;
+  }
+  .book-detail-title {
+    font-size: 1.6rem;
+  }
+  .book-detail-author {
+    font-size: 0.95rem;
+  }
+  .book-detail-description {
+    font-size: 0.9rem;
+  }
+
+  .quiz-container {
+    padding: 0;
+  }
+  .quiz-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .quiz-question-text {
+    font-size: 1rem !important;
+  }
+  .quiz-option {
+    padding: 12px 14px;
+    font-size: 0.85rem;
+    gap: 10px;
+  }
+  .quiz-option-letter {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .result-hero {
+    padding: 24px 16px;
+  }
+  .result-circle {
+    width: 100px;
+    height: 100px;
+    border-width: 5px;
+  }
+  .result-score {
+    font-size: 1.8rem;
+  }
+
+  .auth-card {
+    padding: 24px 16px;
+  }
+
+  .hero-section {
+    padding: 16px;
+  }
+  .hero-title {
+    font-size: 1.3rem !important;
+  }
+  .hero-subtitle {
+    font-size: 0.85rem !important;
+  }
+
+  .streak-widget {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px !important;
+  }
+
+  .stat-card {
+    padding: 18px 12px;
+  }
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .page-header {
+    padding: 0 0 16px;
+  }
+  .page-title {
+    font-size: 1.2rem;
+  }
+  .section-title {
+    font-size: 1.05rem;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .tabs {
+    gap: 4px;
+  }
+  .tab {
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .search-bar input {
+    font-size: 0.85rem;
+    padding-left: 36px !important;
+  }
+
+  .btn-lg {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .modal-content {
+    padding: 20px 16px;
+    margin: 0 8px;
+  }
+  .modal-title {
+    font-size: 1.1rem;
+  }
+
+  .grid {
+    gap: 16px;
+  }
+  .mb-lg {
+    margin-bottom: 24px;
+  }
+
+  .input {
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+  .input-group label {
+    font-size: 0.75rem;
+  }
+
+  .nav-links .nav-link {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+  }
+
+  .book-detail-header {
+    gap: 20px;
+  }
+  .book-detail-info .btn {
+    width: 100%;
+  }
+
+  .result-detail-item {
+    min-width: 100px;
+  }
+
+  .empty-state {
+    padding: 32px 16px;
+  }
+  .empty-state-icon {
+    font-size: 3rem;
+  }
+
+  .loading-state {
+    padding: 60px 16px;
+  }
+
+  .auth-page {
+    min-height: calc(100vh - 140px);
+  }
+
+  .quiz-nav .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-user .btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+  .streak-widget .btn {
+    width: 100%;
+  }
+
+  .book-card .btn-start-quiz,
+  .book-card .btn-start-quiz-dash {
+    font-size: 0.75rem;
+    padding: 8px 10px;
   }
 }
 
