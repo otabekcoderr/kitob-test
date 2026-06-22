@@ -179,7 +179,7 @@ export function getAvatars() {
 }
 
 const DEFAULT_ADMIN_USERNAME = 'admin';
-const DEFAULT_ADMIN_PASSWORD = 'Admin@2024!SecurePass';
+const DEFAULT_ADMIN_PASSWORD = 'Admin@2024!';
 
 export async function initAdminAccount() {
   try {
@@ -205,10 +205,7 @@ export async function initAdminAccount() {
         }
       };
       await addUser(user);
-      console.log("Super Admin yaratildi. Iltimos, parolni o'zgartiring!");
-    } else if (existingAdmin.password !== adminHash) {
-      await updateUser(existingAdmin.id, { password: adminHash });
-      console.log("Admin paroli yangilandi");
+      console.log("Super Admin yaratildi");
     }
   } catch (err) {
     console.error("Failed to seed admin:", err);
