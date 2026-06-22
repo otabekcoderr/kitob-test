@@ -5,8 +5,9 @@ const SUPABASE_URL = 'https://gvgyaxlbpkvpvwpqxjwc.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_2raJHpiyV55SbGDghEUL5A_2UgIecMn';
 
 const TIMEOUT = 4000;
+const MAX_RETRIES = 3;
 
-async function supabaseRequest(method, table, opts = {}) {
+async function supabaseRequest(method, table, opts = {}, retryCount = 0) {
   const { where, body, order } = opts;
   let url = `${SUPABASE_URL}/rest/v1/${table}?select=*`;
   if (where) {
@@ -29,7 +30,12 @@ async function supabaseRequest(method, table, opts = {}) {
   try {
     const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined, signal: controller.signal });
     clearTimeout(timeoutId);
+    
     if (!res.ok) {
+      if (res.status === 429 && retryCount < MAX_RETRIES) {
+        await new Promise(r => setTimeout(r, 1000 * (retryCount + 1)));
+        return supabaseRequest(method, table, opts, retryCount + 1);
+      }
       if (res.status === 409 && method === 'POST') throw new Error("Bu ma'lumot allaqachon mavjud");
       let msg = `Supabase xatosi (${table}): ${res.status}`;
       try { const t = await res.text(); if (t) msg += ' ' + t; } catch {}
@@ -81,6 +87,18 @@ async function seedSupabase(data) {
   for (const q of data.questions) {
     try { await supabaseRequest('POST', 'questions', { body: q }); } catch {}
   }
+}
+
+export function sanitizeForDb(input) {
+  if (typeof input !== 'string') return input;
+  return input.replace(/[<>\"'&]/g, (char) => {
+    const map = { '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '&': '&amp;' };
+    return map[char];
+  });
+}
+
+export function validateId(id) {
+  return typeof id === 'string' && id.length > 0 && id.length <= 100 && /^[a-zA-Z0-9\-_]+$/.test(id);
 }
 
 // Users

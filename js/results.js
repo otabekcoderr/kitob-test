@@ -1,6 +1,7 @@
 import { getCurrentUser } from './auth.js';
 import { getResultById, getResultsByUser, getAllResults, getAllUsers, getQuestionsByBook } from './db.js';
 import { navigate, showNotification } from './app.js';
+import { escapeHtml, formatDate, formatTime } from './utils.js';
 
 export async function renderResultDetail(container, resultId) {
   container.innerHTML = `

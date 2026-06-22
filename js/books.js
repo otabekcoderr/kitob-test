@@ -4,6 +4,7 @@ import {
 } from './db.js';
 import { getCurrentUser } from './auth.js';
 import { navigate, showNotification } from './app.js';
+import { escapeHtml, formatDateTime } from './utils.js';
 
 let currentSearchQuery = '';
 let currentDifficultyFilter = 'Hammasi';
@@ -301,16 +302,19 @@ async function renderComments(bookId) {
 
     list.innerHTML = comments.map(c => {
       const isLiked = c.likedBy && c.likedBy.includes(currentUser.id);
+      const safeUserName = escapeHtml(c.userName || '');
+      const safeText = escapeHtml(c.text || '');
+      const safeAvatar = escapeHtml(c.userAvatar || '😊');
       return `
         <div class="comment-card card" style="background: var(--bg-tertiary); padding: 16px; border-radius: var(--radius-md); margin-bottom: 0;">
           <div class="comment-header">
-            <div class="comment-avatar">${c.userAvatar || '😊'}</div>
+            <div class="comment-avatar">${safeAvatar}</div>
             <div style="flex: 1;">
-              <div class="comment-user">${c.userName}</div>
-              <div class="comment-date">${new Date(c.createdAt).toLocaleString('uz', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
+              <div class="comment-user">${safeUserName}</div>
+              <div class="comment-date">${formatDateTime(c.createdAt)}</div>
             </div>
           </div>
-          <div class="comment-text" style="white-space: pre-wrap; margin-top: 8px;">${c.text}</div>
+          <div class="comment-text" style="white-space: pre-wrap; margin-top: 8px;">${safeText}</div>
           <div class="comment-actions" style="margin-top: 12px; display: flex; justify-content: flex-end;">
             <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-comment-id="${c.id}" style="display: flex; align-items: center; gap: 4px; background: none; border: none; color: ${isLiked ? 'var(--color-error)' : 'var(--text-muted)'}; cursor: pointer; font-size: 0.85rem; font-weight: 500;">
               ❤️ <span>${c.likesCount || 0}</span>

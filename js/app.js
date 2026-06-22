@@ -456,8 +456,7 @@ async function renderDashboard(container) {
       console.error(err);
       showNotification(err.message || "Xatolik yuz berdi", "error");
     }
-  });
-}
+  };
 
 // Router Logic
 async function handleRoute() {

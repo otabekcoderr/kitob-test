@@ -1,6 +1,7 @@
 import { getBookById, getQuestionsByBook, addResult, updateUserStreak } from './db.js';
 import { getCurrentUser } from './auth.js';
 import { navigate, showNotification } from './app.js';
+import { escapeHtml } from './utils.js';
 
 export async function renderQuiz(container, bookId) {
   container.innerHTML = `
@@ -108,14 +109,18 @@ export async function renderQuiz(container, bookId) {
       const q = questions[currentQuestionIndex];
       const progressPercent = (currentQuestionIndex / questions.length) * 100;
       const currentAnswer = answers.find(a => a.questionId === q.id);
+      const safeBookTitle = escapeHtml(book.title);
+      const safeBookAuthor = escapeHtml(book.author);
+      const safeQuestion = escapeHtml(q.question);
+      const safeOptions = q.options.map(opt => escapeHtml(opt));
 
       container.innerHTML = `
         <div class="quiz-container fade-in">
           <div class="card glass-card mb-md">
             <div class="quiz-header">
               <div>
-                <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; margin-bottom: 2px;">${book.title}</h2>
-                <p style="font-size: 0.8rem; color: var(--text-muted);">${book.author}</p>
+                <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; margin-bottom: 2px;">${safeBookTitle}</h2>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">${safeBookAuthor}</p>
               </div>
               <div style="text-align: right; display: flex; align-items: center; gap: 16px;">
                 ${penaltiesCount > 0 ? `
@@ -135,11 +140,11 @@ export async function renderQuiz(container, bookId) {
               SAVOL ${currentQuestionIndex + 1} / ${questions.length}
             </div>
             <div class="quiz-question-text" style="font-size: 1.15rem; font-weight: 600; line-height: 1.6; margin-bottom: 24px;">
-              ${q.question}
+              ${safeQuestion}
             </div>
 
             <div class="quiz-options">
-              ${q.options.map((option, idx) => {
+              ${safeOptions.map((option, idx) => {
                 const isSelected = currentAnswer && currentAnswer.selectedAnswerIndex === idx;
                 return `
                   <div class="quiz-option ${isSelected ? 'selected' : ''}" data-index="${idx}">

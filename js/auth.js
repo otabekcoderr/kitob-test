@@ -2,17 +2,20 @@ import { addUser, getUserByUsername, updateUser } from './db.js';
 
 const SESSION_KEY = 'kitobtest_session';
 
-function hashPassword(password) {
-  let hash = 0;
-  for (let i = 0; i < password.length; i++) {
-    const char = password.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  return hash.toString(36);
+const AVATARS = ['😊', '🦊', '🐱', '🦁', '🐼', '🦉', '🐸', '🌟', '🎯', '🚀', '📚', '🎨', '🧠', '✍️', '💡', '🧙'];
+
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-const AVATARS = ['😊', '🦊', '🐱', '🦁', '🐼', '🦉', '🐸', '🌟', '🎯', '🚀', '📚', '🎨', '🧠', '✍️', '💡', '🧙'];
+async function verifyPassword(password, hashedPassword) {
+  const hashedInput = await hashPassword(password);
+  return hashedInput === hashedPassword;
+}
 
 export async function register(fullName, username, password) {
   if (!fullName || !username || !password) {
@@ -21,12 +24,18 @@ export async function register(fullName, username, password) {
   if (username.length < 3) {
     throw new Error("Foydalanuvchi nomi kamida 3 ta belgidan iborat bo'lishi kerak");
   }
-  if (password.length < 4) {
-    throw new Error("Parol kamida 4 ta belgidan iborat bo'lishi kerak");
+  if (password.length < 8) {
+    throw new Error("Parol kamida 8 ta belgidan iborat bo'lishi kerak");
+  }
+  if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+    throw new Error("Parol kamida bitta katta harf, bitta kichik harf va bitta raqamdan iborat bo'lishi kerak");
   }
 
+  const sanitizedFullName = sanitizeInput(fullName);
+  const sanitizedUsername = sanitizeInput(username.toLowerCase());
+
   // Check username uniqueness
-  const existingUser = await getUserByUsername(username);
+  const existingUser = await getUserByUsername(sanitizedUsername);
   if (existingUser) {
     throw new Error("Ushbu foydalanuvchi nomi allaqachon band!");
   }
@@ -35,9 +44,9 @@ export async function register(fullName, username, password) {
   const avatar = AVATARS[Math.floor(Math.random() * AVATARS.length)];
   const user = {
     id: userId,
-    fullName,
-    username,
-    password: hashPassword(password),
+    fullName: sanitizedFullName,
+    username: sanitizedUsername,
+    password: await hashPassword(password),
     avatar,
     isAdmin: false,
     createdAt: Date.now(),
@@ -71,13 +80,14 @@ export async function login(username, password) {
     throw new Error("Foydalanuvchi nomi va parolni kiriting!");
   }
 
-  const user = await getUserByUsername(username);
+  const sanitizedUsername = sanitizeInput(username.toLowerCase());
+  const user = await getUserByUsername(sanitizedUsername);
   if (!user) {
     throw new Error("Foydalanuvchi topilmadi");
   }
 
-  const hashed = hashPassword(password);
-  if (user.password !== hashed) {
+  const isValid = await verifyPassword(password, user.password);
+  if (!isValid) {
     throw new Error("Parol noto'g'ri!");
   }
 
@@ -91,6 +101,13 @@ export async function login(username, password) {
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
   return sessionUser;
+}
+
+function sanitizeInput(input) {
+  return input.replace(/[<>\"'&]/g, (char) => {
+    const map = { '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '&': '&amp;' };
+    return map[char];
+  });
 }
 
 export function logout() {
@@ -116,15 +133,27 @@ export async function updateProfile(updates) {
   if (!currentUser) throw new Error("Tizimga kirilmagan!");
 
   if (updates.password) {
-    updates.password = hashPassword(updates.password);
+    if (updates.password.length < 8) {
+      throw new Error("Parol kamida 8 ta belgidan iborat bo'lishi kerak");
+    }
+    if (!/[A-Z]/.test(updates.password) || !/[a-z]/.test(updates.password) || !/[0-9]/.test(updates.password)) {
+      throw new Error("Parol kamida bitta katta harf, bitta kichik harf va bitta raqamdan iborat bo'lishi kerak");
+    }
+    updates.password = await hashPassword(updates.password);
   }
 
   // Check username uniqueness if changing username
   if (updates.username && updates.username !== currentUser.username) {
-    const existing = await getUserByUsername(updates.username);
+    const sanitizedUsername = sanitizeInput(updates.username.toLowerCase());
+    const existing = await getUserByUsername(sanitizedUsername);
     if (existing) {
       throw new Error("Ushbu foydalanuvchi nomi band!");
     }
+    updates.username = sanitizedUsername;
+  }
+
+  if (updates.fullName) {
+    updates.fullName = sanitizeInput(updates.fullName);
   }
 
   const updatedUser = await updateUser(currentUser.id, updates);
@@ -149,19 +178,20 @@ export function getAvatars() {
   return AVATARS;
 }
 
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'Admin@2024!';
-const ADMIN_HASH = hashPassword(ADMIN_PASSWORD);
+const DEFAULT_ADMIN_USERNAME = 'admin';
+const DEFAULT_ADMIN_PASSWORD = 'Admin@2024!SecurePass';
 
 export async function initAdminAccount() {
   try {
-    const existingAdmin = await getUserByUsername(ADMIN_USERNAME);
+    const existingAdmin = await getUserByUsername(DEFAULT_ADMIN_USERNAME);
+    const adminHash = await hashPassword(DEFAULT_ADMIN_PASSWORD);
+    
     if (!existingAdmin) {
       const user = {
         id: 'admin-fixed-id-uuid',
         fullName: 'Administrator 👑',
-        username: ADMIN_USERNAME,
-        password: ADMIN_HASH,
+        username: DEFAULT_ADMIN_USERNAME,
+        password: adminHash,
         avatar: '🧙',
         isAdmin: true,
         createdAt: Date.now(),
@@ -175,16 +205,12 @@ export async function initAdminAccount() {
         }
       };
       await addUser(user);
-      console.log("Super Admin yaratildi: admin / " + ADMIN_PASSWORD);
-    } else if (existingAdmin.password !== ADMIN_HASH) {
-      await updateUser(existingAdmin.id, { password: ADMIN_HASH });
-      console.log("Admin paroli yangilandi: " + ADMIN_PASSWORD);
+      console.log("Super Admin yaratildi. Iltimos, parolni o'zgartiring!");
+    } else if (existingAdmin.password !== adminHash) {
+      await updateUser(existingAdmin.id, { password: adminHash });
+      console.log("Admin paroli yangilandi");
     }
   } catch (err) {
     console.error("Failed to seed admin:", err);
   }
-}
-
-export function getAdminCredentials() {
-  return { username: ADMIN_USERNAME, password: ADMIN_PASSWORD };
 }
