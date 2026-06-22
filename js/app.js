@@ -343,7 +343,8 @@ async function renderDashboard(container) {
 
           <div class="grid grid-3 mb-lg">
             ${booksList.slice(0, 3).map((book, idx) => `
-              <div class="card book-card slide-up stagger-${idx + 1}" onclick="window.location.hash='#/book/${book.id}'">
+              <div class="card book-card slide-up stagger-${idx + 1}">
+                <div class="book-cover-link" onclick="window.location.hash='#/book/${book.id}'" style="cursor: pointer;">
                   <div class="book-cover-premium" style="background: ${book.coverImage ? `url(${book.coverImage}) center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
                     ${!book.coverImage ? `<div class="book-cover-pattern" style="opacity: 0.15; background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);"></div>` : ''}
                     <div class="book-cover-badge">${book.genre}</div>
@@ -353,6 +354,7 @@ async function renderDashboard(container) {
                       <div class="book-cover-author-text">${book.author}</div>
                     </div>
                   </div>
+                </div>
                 <div class="book-info">
                   <h3 class="book-title" style="margin-top:0;">${book.title}</h3>
                   <p class="book-author">${book.author}</p>
@@ -360,6 +362,7 @@ async function renderDashboard(container) {
                     <span class="badge badge-primary">${book.questionCount || 0} savol</span>
                     <span class="badge ${book.difficulty === 'Oson' ? 'badge-success' : book.difficulty === "O'rta" ? 'badge-warning' : 'badge-error'}">${book.difficulty}</span>
                   </div>
+                  <button class="btn btn-primary btn-sm btn-start-quiz-dash" data-book-id="${book.id}" style="margin-top: 12px; width: 100%;">🚀 Boshlash</button>
                 </div>
               </div>
             `).join('')}
@@ -452,6 +455,13 @@ async function renderDashboard(container) {
         </div>
       `;
 
+      document.querySelectorAll('.btn-start-quiz-dash').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          navigate(`/test/${btn.dataset.bookId}`);
+        });
+      });
+
     } catch (err) {
       console.error(err);
       showNotification(err.message || "Xatolik yuz berdi", "error");
@@ -518,6 +528,7 @@ async function handleRoute() {
       if (param) renderBookDetail(content, param);
       else navigate('/books');
       break;
+    case '/test':
     case '/quiz':
       if (param) renderQuiz(content, param);
       else navigate('/books');

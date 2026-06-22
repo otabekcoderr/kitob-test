@@ -25,22 +25,11 @@ export async function renderResultDetail(container, resultId) {
     }
 
     const questions = await getQuestionsByBook(result.bookId);
-    const mm = String(Math.floor(result.timeSpent / 60)).padStart(2, '0');
-    const ss = String(result.timeSpent % 60).padStart(2, '0');
 
-    // Score evaluation
     let resultClass = 'poor';
-    let resultMsg = 'Ko\'proq o\'qishingiz kerak 📚';
-    if (result.score >= 80) {
-      resultClass = 'excellent';
-      resultMsg = 'A\'lo natija! Mukammal bilim! 🌟';
-    } else if (result.score >= 60) {
-      resultClass = 'good';
-      resultMsg = 'Yaxshi natija! Yana biroz harakat qiling 👍';
-    } else if (result.score >= 40) {
-      resultClass = 'average';
-      resultMsg = 'O\'rtacha natija. Kitobni qayta o\'qib chiqing 📖';
-    }
+    if (result.score >= 80) resultClass = 'excellent';
+    else if (result.score >= 60) resultClass = 'good';
+    else if (result.score >= 40) resultClass = 'average';
 
     container.innerHTML = `
       <div class="fade-in">
@@ -49,83 +38,71 @@ export async function renderResultDetail(container, resultId) {
             <div class="result-score">${result.score}%</div>
             <div class="result-label">BALL</div>
           </div>
-          <h1 class="result-message" style="font-family: var(--font-heading); font-size: 1.6rem; margin-top: 16px;">${resultMsg}</h1>
-          <p style="color: var(--text-secondary); margin-bottom: 8px;">Kitob: <strong>${result.bookTitle}</strong></p>
+
+          <div style="font-size: 2rem; font-weight: 700; margin-top: 16px; font-family: var(--font-heading);">
+            ${result.correctAnswers} / ${result.totalQuestions}
+          </div>
+          <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">To'g'ri javoblar</div>
 
           ${result.penaltiesCount > 0 ? `
             <div style="margin: 16px auto; max-width: 440px; padding: 14px; border-radius: var(--radius-md); background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: var(--color-error); text-align: center; font-size: 0.9rem;">
               🚨 <strong>Xavfsizlik tizimi:</strong> Qoidabuzarlik aniqlanganligi sababli yakuniy balldan <strong>-${result.penaltiesCount * 10}%</strong> chegirildi!
-              <br><span style="font-size: 0.8rem; opacity: 0.85; display: inline-block; margin-top: 4px;">Boshlang'ich bilim ko'rsatkichi: ${result.originalScore}% | Jarimalar: ${result.penaltiesCount} ta tab almashtirish</span>
             </div>
           ` : ''}
 
-          <div class="result-details" style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
-            <div class="result-detail-item">
-              <div style="font-size: 1.5rem;">🎯</div>
-              <div style="font-weight: 700; margin-top: 4px;">${result.correctAnswers} / ${result.totalQuestions}</div>
-              <div style="font-size: 0.8rem; color: var(--text-muted);">To'g'ri javoblar</div>
-            </div>
-            <div class="result-detail-item">
-              <div style="font-size: 1.5rem;">⏱️</div>
-              <div style="font-weight: 700; margin-top: 4px;">${mm}:${ss}</div>
-              <div style="font-size: 0.8rem; color: var(--text-muted);">Sarf etilgan vaqt</div>
-            </div>
-            <div class="result-detail-item">
-              <div style="font-size: 1.5rem;">📅</div>
-              <div style="font-weight: 700; margin-top: 4px;">${new Date(result.completedAt).toLocaleDateString('uz')}</div>
-              <div style="font-size: 0.8rem; color: var(--text-muted);">Sana</div>
-            </div>
-          </div>
-
           <div style="display: flex; gap: 12px; justify-content: center; margin-top: 28px; flex-wrap: wrap;">
-            <a href="#/quiz/${result.bookId}" class="btn btn-primary">🔁 Qayta topshirish</a>
-            <a href="#/book/${result.bookId}" class="btn btn-secondary">💬 Muhokama va Fikrlar</a>
-            <a href="#/dashboard" class="btn btn-outline">🏠 Bosh sahifa</a>
+            <a href="#/test/${result.bookId}" class="btn btn-primary btn-lg">🔁 Qayta urinish</a>
+            <a href="#/dashboard" class="btn btn-outline btn-lg">🏠 Dashboardga qaytish</a>
           </div>
         </div>
 
-        <div class="section-title">📝 Xatolar ustida ishlash</div>
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-          ${questions.map((q, idx) => {
-            const userAns = result.answers.find(a => a.questionId === q.id);
-            const selectedIdx = userAns ? userAns.selectedAnswerIndex : null;
-            const isCorrect = userAns ? userAns.isCorrect : false;
+        <details style="margin-bottom: 24px;">
+          <summary class="card" style="padding: 16px; cursor: pointer; font-weight: 600; color: var(--text-secondary); list-style: none; display: flex; align-items: center; justify-content: space-between;">
+            <span>📝 Xatolar ustida ishlash</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">(${questions.length} ta savol)</span>
+          </summary>
+          <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 16px;">
+            ${questions.map((q, idx) => {
+              const userAns = result.answers.find(a => a.questionId === q.id);
+              const selectedIdx = userAns ? userAns.selectedAnswerIndex : null;
+              const isCorrect = userAns ? userAns.isCorrect : false;
 
-            return `
-              <div class="card" style="border-left: 5px solid ${isCorrect ? 'var(--color-success)' : 'var(--color-error)'};">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                  <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">SAVOL ${idx + 1}</span>
-                  <span class="badge ${isCorrect ? 'badge-success' : 'badge-error'}">
-                    ${isCorrect ? '✓ To\'g\'ri' : '✗ Noto\'g\'ri'}
-                  </span>
-                </div>
-                
-                <h3 style="font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 16px;">${q.question}</h3>
+              return `
+                <div class="card" style="border-left: 5px solid ${isCorrect ? 'var(--color-success)' : 'var(--color-error)'};">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">SAVOL ${idx + 1}</span>
+                    <span class="badge ${isCorrect ? 'badge-success' : 'badge-error'}">
+                      ${isCorrect ? '✓ To\'g\'ri' : '✗ Noto\'g\'ri'}
+                    </span>
+                  </div>
+                  
+                  <h3 style="font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 16px;">${q.question}</h3>
 
-                <div class="quiz-options" style="pointer-events: none;">
-                  ${q.options.map((opt, oIdx) => {
-                    let optionClass = '';
-                    if (oIdx === q.correctAnswer) {
-                      optionClass = 'correct';
-                    } else if (oIdx === selectedIdx && !isCorrect) {
-                      optionClass = 'wrong';
-                    }
-                    return `
-                      <div class="quiz-option ${optionClass}" style="margin-bottom: 0;">
-                        <span class="quiz-option-letter">${String.fromCharCode(65 + oIdx)}</span>
-                        <span>${opt}</span>
-                      </div>
-                    `;
-                  }).join('')}
-                </div>
+                  <div class="quiz-options" style="pointer-events: none;">
+                    ${q.options.map((opt, oIdx) => {
+                      let optionClass = '';
+                      if (oIdx === q.correctAnswer) {
+                        optionClass = 'correct';
+                      } else if (oIdx === selectedIdx && !isCorrect) {
+                        optionClass = 'wrong';
+                      }
+                      return `
+                        <div class="quiz-option ${optionClass}" style="margin-bottom: 0;">
+                          <span class="quiz-option-letter">${String.fromCharCode(65 + oIdx)}</span>
+                          <span>${opt}</span>
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
 
-                <div style="margin-top: 16px; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-md); font-size: 0.9rem; border-left: 3px solid var(--color-primary);">
-                  <strong>Tushuntirish:</strong> ${q.explanation}
+                  <div style="margin-top: 16px; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-md); font-size: 0.9rem; border-left: 3px solid var(--color-primary);">
+                    <strong>Tushuntirish:</strong> ${q.explanation}
+                  </div>
                 </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
+              `;
+            }).join('')}
+          </div>
+        </details>
       </div>
     `;
 
