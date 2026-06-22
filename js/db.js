@@ -67,17 +67,21 @@ function tryList(table) {
 export async function initDB() {
   if (initialized) return;
   initialized = true;
-  // Preload data.js books & questions into memory
   const data = await import('./data.js');
-  _books = data.books;
   _questions = data.questions;
   _characters = data.characters || [];
-  // Seed Supabase in background silently
-  tryList('books').then(list => {
-    if (!list || list.length === 0) {
+  // Load books: try Supabase first, fallback to data.js
+  try {
+    const remoteBooks = await tryList('books');
+    if (remoteBooks && remoteBooks.length > 0) {
+      _books = remoteBooks;
+    } else {
+      _books = data.books;
       seedSupabase(data);
     }
-  }).catch(() => {});
+  } catch {
+    _books = data.books;
+  }
 }
 
 async function seedSupabase(data) {
@@ -118,9 +122,22 @@ export async function getAllBooks() {
   if (!_books) { const d = await import('./data.js'); _books = d.books; }
   return _books;
 }
-export const addBook = (d) => supabaseRequest('POST', 'books', { body: d }).then(() => d).catch(e => { throw e; });
-export const updateBook = (id, updates) => supabaseRequest('PATCH', 'books', { where: { id }, body: updates }).catch(() => null);
-export const deleteBook = (id) => supabaseRequest('DELETE', 'books', { where: { id } }).catch(() => false);
+export const addBook = async (d) => {
+  await supabaseRequest('POST', 'books', { body: d });
+  if (_books) _books.push(d);
+  return d;
+};
+export const updateBook = async (id, updates) => {
+  await supabaseRequest('PATCH', 'books', { where: { id }, body: updates }).catch(() => null);
+  if (_books) {
+    const idx = _books.findIndex(b => b.id === id);
+    if (idx !== -1) _books[idx] = { ..._books[idx], ...updates };
+  }
+};
+export const deleteBook = async (id) => {
+  await supabaseRequest('DELETE', 'books', { where: { id } }).catch(() => false);
+  if (_books) _books = _books.filter(b => b.id !== id);
+};
 
 // Questions — always from memory (data.js)
 export async function getQuestionsByBook(bookId) {
