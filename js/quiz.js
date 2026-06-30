@@ -37,34 +37,8 @@ export async function renderQuiz(container, bookId) {
     return;
   }
 
-  // Show anti-cheat warning modal before starting
-  container.innerHTML = `
-    <div class="modal-backdrop show" id="quiz-consent-modal">
-      <div class="modal">
-        <h2 class="modal-title">🔒 Xavfsizlik va Anti-Cheat Tizimi</h2>
-        <div class="modal-text">
-          <p style="margin-bottom: 12px; font-weight: 600; color: var(--color-error);">DIQQAT! Ushbu testda xavfsizlik rejimi yoqilgan:</p>
-          <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 8px;">
-            <li>⚠️ <strong>Tab / Oyna almashtirish taqiqlanadi</strong> (har bir urinish uchun yakuniy balldan <strong>10% jarima</strong> chegiriladi).</li>
-            <li>🚫 Sichqoncha o'ng tugmasini bosish yoki F12 (kodlarni ochish) tugmasi taqiqlangan.</li>
-            <li>🚨 Qoidalarni buzish jarimaga yoki testni 0 ball bilan avtomatik topshirilishiga olib keladi.</li>
-          </ul>
-          <p style="margin-top: 16px; font-weight: 500;">Testni boshlashga tayyormisiz?</p>
-        </div>
-        <div style="display: flex; gap: 12px; justify-content: flex-end;">
-          <a href="#/book/${book.id}" class="btn btn-outline">Yo'q, qaytish</a>
-          <button class="btn btn-primary" id="confirm-start-quiz-btn">Ha, tayyorman! 🚀</button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  document.getElementById('confirm-start-quiz-btn').addEventListener('click', () => {
-    document.getElementById('quiz-consent-modal').classList.remove('show');
-    setTimeout(() => {
-      startQuiz();
-    }, 200);
-  });
+  // Anti-cheat modal shown before navigation → start quiz directly
+  startQuiz();
 
   function startQuiz() {
     // Quiz state

@@ -24,11 +24,8 @@ export async function register(fullName, username, password) {
   if (username.length < 3) {
     throw new Error("Foydalanuvchi nomi kamida 3 ta belgidan iborat bo'lishi kerak");
   }
-  if (password.length < 8) {
-    throw new Error("Parol kamida 8 ta belgidan iborat bo'lishi kerak");
-  }
-  if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
-    throw new Error("Parol kamida bitta katta harf, bitta kichik harf va bitta raqamdan iborat bo'lishi kerak");
+  if (password.length < 4) {
+    throw new Error("Parol kamida 4 ta belgidan iborat bo'lishi kerak");
   }
 
   const sanitizedFullName = sanitizeInput(fullName);
@@ -133,11 +130,8 @@ export async function updateProfile(updates) {
   if (!currentUser) throw new Error("Tizimga kirilmagan!");
 
   if (updates.password) {
-    if (updates.password.length < 8) {
-      throw new Error("Parol kamida 8 ta belgidan iborat bo'lishi kerak");
-    }
-    if (!/[A-Z]/.test(updates.password) || !/[a-z]/.test(updates.password) || !/[0-9]/.test(updates.password)) {
-      throw new Error("Parol kamida bitta katta harf, bitta kichik harf va bitta raqamdan iborat bo'lishi kerak");
+    if (updates.password.length < 4) {
+      throw new Error("Parol kamida 4 ta belgidan iborat bo'lishi kerak");
     }
     updates.password = await hashPassword(updates.password);
   }
@@ -166,6 +160,7 @@ export async function updateProfile(updates) {
     username: updatedUser.username,
     fullName: updatedUser.fullName,
     avatar: updatedUser.avatar,
+    avatarImage: updatedUser.avatarImage || undefined,
     avatarCharId: updatedUser.avatarCharId || undefined,
     isAdmin: !!updatedUser.isAdmin,
     stats: updatedUser.stats

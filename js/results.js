@@ -76,7 +76,7 @@ export async function renderResultDetail(container, resultId) {
                     </span>
                   </div>
                   
-                  <h3 style="font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 16px;">${q.question}</h3>
+                  <h3 style="font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 16px;">${escapeHtml(q.question)}</h3>
 
                   <div class="quiz-options" style="pointer-events: none;">
                     ${q.options.map((opt, oIdx) => {
@@ -89,14 +89,14 @@ export async function renderResultDetail(container, resultId) {
                       return `
                         <div class="quiz-option ${optionClass}" style="margin-bottom: 0;">
                           <span class="quiz-option-letter">${String.fromCharCode(65 + oIdx)}</span>
-                          <span>${opt}</span>
+                          <span>${escapeHtml(opt)}</span>
                         </div>
                       `;
                     }).join('')}
                   </div>
 
                   <div style="margin-top: 16px; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-md); font-size: 0.9rem; border-left: 3px solid var(--color-primary);">
-                    <strong>Tushuntirish:</strong> ${q.explanation}
+                    <strong>Tushuntirish:</strong> ${escapeHtml(q.explanation)}
                   </div>
                 </div>
               `;
@@ -182,13 +182,13 @@ export async function renderResultsHistory(container) {
               const mm = String(Math.floor(r.timeSpent / 60)).padStart(2, '0');
               const ss = String(r.timeSpent % 60).padStart(2, '0');
               return `
-                <div class="results-history-item" onclick="window.location.hash='#/result/${r.id}'" style="border-bottom: 1px solid var(--border-color); padding: 20px; transition: var(--transition); display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                <div class="results-history-item" onclick="window.location.hash='#/result/${encodeURIComponent(r.id)}'" style="border-bottom: 1px solid var(--border-color); padding: 20px; transition: var(--transition); display: flex; align-items: center; justify-content: space-between; gap: 16px;">
                   <div style="display: flex; align-items: center; gap: 16px; flex: 1;">
                     <div style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; background: ${r.score >= 80 ? 'rgba(34,197,94,0.15)' : r.score >= 60 ? 'rgba(99,102,241,0.15)' : 'rgba(239,68,68,0.15)'}; color: ${r.score >= 80 ? 'var(--color-success)' : r.score >= 60 ? 'var(--color-primary)' : 'var(--color-error)'}; font-size: 1rem;">
                       ${r.score}%
                     </div>
                     <div>
-                      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 4px;">${r.bookTitle}</h3>
+                      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 4px;">${escapeHtml(r.bookTitle)}</h3>
                       <p style="font-size: 0.8rem; color: var(--text-muted);">${r.correctAnswers}/${r.totalQuestions} to'g'ri • Vaqt: ${mm}:${ss}</p>
                     </div>
                   </div>
@@ -288,14 +288,14 @@ export async function renderLeaderboard(container) {
                         ${rankEmoji || (idx + 1)}
                       </div>
                       <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
-                        ${u.avatar || '😊'}
+                        ${escapeHtml(u.avatar || '😊')}
                       </div>
                       <div>
                         <h3 style="font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                          ${u.fullName}
+                          ${escapeHtml(u.fullName)}
                           ${isSelf ? '<span class="badge badge-primary" style="font-size: 0.65rem; padding: 2px 6px;">Siz</span>' : ''}
                         </h3>
-                        <p style="font-size: 0.75rem; color: var(--text-muted);">@${u.username} • ${u.testsCompleted} marta yechilgan</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">@${escapeHtml(u.username)} • ${u.testsCompleted} marta yechilgan</p>
                       </div>
                     </div>
                     <div style="text-align: right;">

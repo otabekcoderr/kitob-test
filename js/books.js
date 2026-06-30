@@ -3,23 +3,37 @@ import {
   getCommentsByBook, addComment, updateComment 
 } from './db.js';
 import { getCurrentUser } from './auth.js';
-import { navigate, showNotification } from './app.js';
-import { escapeHtml, formatDateTime } from './utils.js';
+import { navigate, showNotification, showQuizRulesModal } from './app.js';
+import { escapeHtml, formatDateTime, debounce } from './utils.js';
 
 let currentSearchQuery = '';
 let currentDifficultyFilter = 'Hammasi';
 let allLoadedBooks = [];
+let isDataLoaded = false;
 
 export async function renderBooksList(container) {
-  container.innerHTML = `
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Kitoblar ro'yxati yuklanmoqda...</p>
-    </div>
-  `;
+  if (!isDataLoaded) {
+    container.innerHTML = `
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Kitoblar ro'yxati yuklanmoqda...</p>
+      </div>
+    `;
+  }
 
   try {
-    allLoadedBooks = await getAllBooks();
+    if (!isDataLoaded) {
+      allLoadedBooks = await getAllBooks();
+      isDataLoaded = true;
+    }
+
+    // Get current user results to calculate progress
+    const currentUser = getCurrentUser();
+    let userResults = [];
+    if (currentUser) {
+       const db = await import('./db.js');
+       userResults = await db.getResultsByUser(currentUser.id);
+    }
 
     container.innerHTML = `
       <div class="fade-in">
@@ -44,17 +58,20 @@ export async function renderBooksList(container) {
           </div>
         </div>
 
-        <div id="books-grid" class="grid grid-3">
+        <div id="books-grid" class="grid grid-5">
           <!-- Books filled by filter function -->
         </div>
       </div>
     `;
 
-    // Attach search and filter event listeners
+    // Attach search and filter event listeners (debounced for performance)
     const searchInput = document.getElementById('book-search');
+    const debouncedSearch = debounce(() => {
+      filterAndRenderBooks(userResults);
+    }, 250);
     searchInput.addEventListener('input', (e) => {
       currentSearchQuery = e.target.value.trim();
-      filterAndRenderBooks();
+      debouncedSearch();
     });
 
     const tabButtons = container.querySelectorAll('.tab');
@@ -63,12 +80,12 @@ export async function renderBooksList(container) {
         tabButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentDifficultyFilter = btn.dataset.filter;
-        filterAndRenderBooks();
+        filterAndRenderBooks(userResults);
       });
     });
 
     // Initial render
-    filterAndRenderBooks();
+    filterAndRenderBooks(userResults);
 
   } catch (err) {
     console.error(err);
@@ -76,7 +93,7 @@ export async function renderBooksList(container) {
   }
 }
 
-function filterAndRenderBooks() {
+function filterAndRenderBooks(userResults = []) {
   const grid = document.getElementById('books-grid');
   if (!grid) return;
 
@@ -103,35 +120,44 @@ function filterAndRenderBooks() {
   }
 
   grid.style.display = 'grid';
-  grid.innerHTML = filtered.map((book, i) => `
+  grid.innerHTML = filtered.map((book, i) => {
+    const bookResults = userResults.filter(r => r.bookId === book.id);
+    const hasAttempted = bookResults.length > 0;
+    // Simple mock progress calculation
+    const progress = hasAttempted ? Math.min(100, Math.round((bookResults.length / 3) * 100)) : 0;
+
+    return `
     <div class="card book-card slide-up stagger-${(i % 4) + 1}">
-      <div class="book-cover-link" onclick="window.location.hash='#/book/${book.id}'" style="cursor: pointer;">
-        <div class="book-cover-premium" style="background: ${book.coverImage ? `url(${book.coverImage}) center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
+      <div class="book-cover-link" onclick="window.location.hash='#/book/${encodeURIComponent(book.id)}'" style="cursor: pointer;">
+        <div class="book-cover-premium" style="background: ${book.coverImage ? `url('${book.coverImage}') center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
           ${!book.coverImage ? `<div class="book-cover-pattern" style="opacity: 0.15; background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);"></div>` : ''}
-          <div class="book-cover-badge">${book.genre}</div>
-          <div class="book-cover-main">
-            ${!book.coverImage ? `<div class="book-cover-icon">${book.cover}</div>` : ''}
-            <div class="book-cover-title-text">${book.title}</div>
-            <div class="book-cover-author-text">${book.author}</div>
-          </div>
+          <div class="book-cover-badge">${escapeHtml(book.genre)}</div>
         </div>
       </div>
       <div class="book-info">
-        <div class="book-title" style="margin-top:0;">${book.title}</div>
-        <div class="book-author">${book.author}</div>
+        <div class="progress-container">
+           <div class="progress-bar" style="width: ${progress}%"></div>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px;">${progress}% o'zlashtirildi</div>
+
         <div class="book-meta">
           <span class="badge badge-primary">${book.questionCount || 0} savol</span>
-          <span class="badge ${book.difficulty === 'Oson' ? 'badge-success' : book.difficulty === "O'rta" ? 'badge-warning' : 'badge-error'}">${book.difficulty}</span>
+          <span class="badge ${book.difficulty === 'Oson' ? 'badge-success' : book.difficulty === "O'rta" ? 'badge-warning' : 'badge-error'}">${escapeHtml(book.difficulty)}</span>
         </div>
-        <button class="btn btn-primary btn-sm btn-start-quiz" data-book-id="${book.id}" style="margin-top: 12px; width: 100%;">🚀 Boshlash</button>
+        <button class="btn ${hasAttempted ? 'btn-secondary' : 'btn-primary'} btn-sm btn-start-quiz" data-book-id="${escapeHtml(book.id)}" style="margin-top: 12px; width: 100%;">
+          ${hasAttempted ? '🔁 Davom ettirish' : '🚀 Boshlash'}
+        </button>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   grid.querySelectorAll('.btn-start-quiz').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      navigate(`/test/${btn.dataset.bookId}`);
+      showQuizRulesModal(btn.dataset.bookId, {
+        onCancel: () => navigate('/books')
+      });
     });
   });
 }
@@ -168,22 +194,21 @@ export async function renderBookDetail(container, bookId) {
       <div class="fade-in">
         <div class="card glass-card mb-lg">
           <div class="book-detail-header">
-            <div class="book-detail-cover-premium" style="background: ${book.coverImage ? `url(${book.coverImage}) center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
-              ${!book.coverImage ? '<div class="book-cover-pattern"></div>' : ''}
-              ${!book.coverImage ? `<div class="book-cover-icon">${book.cover}</div>` : ''}
-              <div class="book-cover-title-text">${book.title}</div>
+            <div class="book-detail-cover-premium" style="background: ${book.coverImage ? `url('${book.coverImage}') center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
+            ${!book.coverImage ? '<div class="book-cover-pattern"></div>' : ''}
+            ${!book.coverImage ? `<div class="book-cover-icon">${escapeHtml(book.cover)}</div>` : ''}
             </div>
             <div class="book-detail-info">
-              <h1 class="book-detail-title">${book.title}</h1>
-              <p class="book-detail-author">Muallif: <strong>${book.author}</strong></p>
+              <h1 class="book-detail-title">${escapeHtml(book.title)}</h1>
+              <p class="book-detail-author">Muallif: <strong>${escapeHtml(book.author)}</strong></p>
               
               <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
-                <span class="badge badge-primary">${book.genre}</span>
-                <span class="badge ${book.difficulty === 'Oson' ? 'badge-success' : book.difficulty === "O'rta" ? 'badge-warning' : 'badge-error'}">Qiyinchilik: ${book.difficulty}</span>
+                <span class="badge badge-primary">${escapeHtml(book.genre)}</span>
+                <span class="badge ${book.difficulty === 'Oson' ? 'badge-success' : book.difficulty === "O'rta" ? 'badge-warning' : 'badge-error'}">Qiyinchilik: ${escapeHtml(book.difficulty)}</span>
                 <span class="badge badge-primary">${book.year}-yil</span>
               </div>
 
-              <p class="book-detail-description">${book.description}</p>
+              <p class="book-detail-description">${escapeHtml(book.description)}</p>
 
               ${bestScore !== null ? `
                 <div style="margin: 16px 0; padding: 12px; border-radius: var(--radius-md); background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); display: flex; align-items: center; gap: 12px;">
@@ -252,7 +277,9 @@ export async function renderBookDetail(container, bookId) {
 
     if (book.questionCount > 0) {
       document.getElementById('start-quiz-btn').addEventListener('click', () => {
-        navigate(`/quiz/${book.id}`);
+        showQuizRulesModal(book.id, {
+          onCancel: () => navigate('/books')
+        });
       });
     }
 

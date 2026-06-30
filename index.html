@@ -6,28 +6,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
     content="Kitoblar bo'yicha qiziqarli va foydali testlar platformasi. Bilimingizni sinab ko'ring va reytingda yuqoriga ko'tariling!">
-  <title>Kitoblar Test Platformasi | Kitobchi.uz</title>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>kitobchi.uz | Kitoblar test platformasi</title>
+  <!-- Google Fonts: preconnect + preload + async swap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
-    rel="stylesheet">
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"></noscript>
+
+  <!-- Critical inline CSS (above-the-fold) -->
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scrollbar-gutter:stable}
+    body{font-family:'Inter',system-ui,-apple-system,sans-serif;background-color:#0A0F1D;color:#F8FAFC;line-height:1.6;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    :root{--bg-primary:#0A0F1D;--bg-secondary:#131A2E;--bg-tertiary:#1E294B;--text-primary:#F8FAFC;--text-secondary:#94A3B8;--text-muted:#64748B;--color-primary:#6366F1;--color-secondary:#14B8A6;--color-accent:#F59E0B;--color-success:#10B981;--color-error:#EF4444;--border-color:rgba(255,255,255,0.08);--border-color-hover:rgba(255,255,255,0.16);--radius-sm:8px;--radius-md:14px;--radius-lg:20px;--shadow-sm:0 2px 8px rgba(0,0,0,0.4);--shadow-md:0 8px 20px rgba(0,0,0,0.5);--shadow-lg:0 16px 36px rgba(0,0,0,0.6);--shadow-glow:0 0 20px rgba(99,102,241,0.25);--font-body:'Inter',system-ui,-apple-system,sans-serif;--font-heading:'Outfit','Inter',system-ui,-apple-system,sans-serif;--transition:all .3s cubic-bezier(.4,0,.2,1)}
+    body.light-theme{--bg-primary:#F8FAFC;--bg-secondary:#FFFFFF;--bg-tertiary:#E2E8F0;--text-primary:#0F172A;--text-secondary:#475569;--text-muted:#64748B;--border-color:rgba(0,0,0,0.08)}
+    #app{display:flex;flex-direction:column;min-height:100vh}
+    .main-content{flex:1;padding-top:88px;padding-bottom:60px;width:100%;max-width:1200px;margin:0 auto;padding-left:24px;padding-right:24px;min-height:calc(100vh - 88px);contain:layout style}
+    .navbar{position:fixed;top:0;left:0;right:0;height:68px;background:rgba(10,15,29,0.85);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-color);z-index:1000}
+    .nav-container{max-width:1200px;height:100%;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .nav-logo{font-family:var(--font-heading);font-size:1.35rem;font-weight:800;color:var(--text-primary);text-decoration:none;display:inline-flex;align-items:center;gap:10px;flex-shrink:0}
+    .nav-logo-mark{width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#6366F1,#14B8A6);color:#FFF;font-size:1rem;box-shadow:0 0 20px rgba(99,102,241,0.25)}
+    .nav-links{display:flex;align-items:center;gap:6px;min-height:40px}
+    .nav-user{display:flex;align-items:center;gap:12px;flex-shrink:0;min-height:40px}
+    .nav-skeleton{display:flex;align-items:center;gap:8px}
+    .nav-skeleton-item{display:inline-block;width:80px;height:34px;border-radius:8px;background:var(--bg-tertiary);animation:pulse 1.5s ease-in-out infinite}
+    .nav-skeleton-circle{width:34px;height:34px;border-radius:50%}
+    .nav-skeleton-btn{width:100px;height:36px;border-radius:10px}
+    .nav-skeleton-user{gap:10px}
+    .nav-toggle{display:none;width:42px;height:42px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+    .nav-toggle-line{width:18px;height:2px;border-radius:999px;background:currentColor;transition:.3s}
+    .spinner{width:36px;height:36px;border:3px solid var(--bg-tertiary);border-top-color:var(--color-primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .loading-state{text-align:center;padding:80px 20px;color:var(--text-muted);font-size:.95rem}
+  </style>
+
+  <!-- Full stylesheet (async, non-render-blocking) -->
+  <link rel="preload" href="css/style.css?v=6" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/style.css?v=6"></noscript>
 </head>
+
 <body>
   <div id="app">
     <nav id="navbar" class="navbar">
       <div class="nav-container">
-        <a href="#/dashboard" class="nav-logo">📚 Kitobchi.uz</a>
+        <a href="#/dashboard" class="nav-logo" aria-label="kitobchi.uz bosh sahifa">
+          <span class="nav-logo-text">kitobchi.uz</span>
+        </a>
         <div class="nav-links" id="nav-links">
-          <!-- JS fills this -->
+          <div class="nav-skeleton" aria-hidden="true">
+            <span class="nav-skeleton-item"></span>
+            <span class="nav-skeleton-item"></span>
+            <span class="nav-skeleton-item"></span>
+            <span class="nav-skeleton-item"></span>
+          </div>
         </div>
         <div class="nav-user" id="nav-user">
-          <!-- JS fills this -->
+          <div class="nav-skeleton nav-skeleton-user" aria-hidden="true">
+            <span class="nav-skeleton-item nav-skeleton-circle"></span>
+            <span class="nav-skeleton-item nav-skeleton-btn"></span>
+            <span class="nav-skeleton-item nav-skeleton-btn"></span>
+          </div>
         </div>
-        <button class="nav-toggle" id="nav-toggle" aria-label="Menuni ochish/yopish">☰</button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menuni ochish" aria-expanded="false" aria-controls="nav-links">
+          <span class="nav-toggle-line"></span>
+          <span class="nav-toggle-line"></span>
+          <span class="nav-toggle-line"></span>
+        </button>
       </div>
     </nav>
     <main id="main-content" class="main-content">
@@ -55,7 +101,7 @@
     });
   </script>
   <!-- Main Module Entry Point -->
-  <script type="module" src="js/app.js?v=3"></script>
+  <script type="module" src="js/app.js?v=7"></script>
 </body>
 
 </html>

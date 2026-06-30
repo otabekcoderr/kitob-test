@@ -79,6 +79,7 @@ body.light-theme {
 
 html {
   scrollbar-gutter: stable;
+  overflow-x: hidden;
 }
 
 body {
@@ -89,8 +90,58 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* CLS Prevention: Reserve space for dynamic content */
+.aspect-cover {
+  aspect-ratio: 3/4;
+  width: 100%;
+}
+.aspect-square {
+  aspect-ratio: 1/1;
+}
+.img-placeholder {
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 2rem;
+}
+
+/* Skeleton shimmer effect */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+.skeleton-text {
+  height: 14px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+.skeleton-text-short {
+  width: 60%;
+}
+.skeleton-card {
+  height: 340px;
+  border-radius: var(--radius-lg);
+}
+
+/* Ensure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Scrollbar styling */
@@ -125,6 +176,7 @@ body {
   margin: 0 auto;
   padding-left: 24px;
   padding-right: 24px;
+  contain: layout style;
 }
 
 /* 4. NAVBAR STYLING */
@@ -155,25 +207,48 @@ body:not(.light-theme) .navbar {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  position: relative;
 }
 
 .nav-logo {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: var(--text-primary);
   text-decoration: none;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
   transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 .nav-logo:hover {
   transform: scale(1.02);
+}
+
+.nav-logo-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #FFFFFF;
+  font-size: 1rem;
+  box-shadow: var(--shadow-glow);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+/* Hide auth-only links on desktop, show only on mobile */
+.nav-link-auth {
+  display: none;
 }
 
 .nav-link {
@@ -184,27 +259,213 @@ body:not(.light-theme) .navbar {
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.2;
+  white-space: nowrap;
+  -webkit-text-decoration: none;
+}
+.nav-link:hover,
+.nav-link:active,
+.nav-link:visited {
+  text-decoration: none;
+}
+.nav-link-icon {
+  width: 20px;
+  display: inline-flex;
+  justify-content: center;
+  flex-shrink: 0;
 }
 .nav-link:hover, .nav-link.active {
   color: var(--text-primary);
   background-color: var(--bg-tertiary);
 }
 
+.nav-link-admin {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Nav link auth is defined above */
+
 .nav-user {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Avatar Dropdown */
+.nav-avatar-dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-avatar-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 4px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-family: inherit;
+  outline: none;
+}
+.nav-avatar-trigger:hover {
+  border-color: var(--color-primary);
+  background: var(--bg-tertiary);
+}
+.nav-avatar-trigger .avatar-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.nav-avatar-trigger .avatar-name {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-avatar-trigger .avatar-chevron {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+.nav-avatar-trigger.is-open .avatar-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(0.96);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 1001;
+  transform-origin: top right;
+}
+.nav-dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.nav-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 4px;
+}
+.nav-dropdown-header .dropdown-avatar {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.nav-dropdown-header .dropdown-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+.nav-dropdown-header .dropdown-username {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+  -webkit-text-decoration: none;
+}
+.nav-dropdown-item:hover,
+.nav-dropdown-item:active,
+.nav-dropdown-item:visited {
+  text-decoration: none;
+}
+.nav-dropdown-item:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+.nav-dropdown-item.danger {
+  color: var(--color-error);
+}
+.nav-dropdown-item.danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Light theme overrides for dropdown */
+body.light-theme .nav-dropdown-menu {
+  background: #FFFFFF;
+}
+body.light-theme .nav-avatar-trigger {
+  background: var(--bg-secondary);
 }
 
 .nav-toggle {
   display: none;
-  background: none;
-  border: none;
+  width: 42px;
+  height: 42px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
   color: var(--text-primary);
-  font-size: 1.5rem;
   cursor: pointer;
-  padding: 4px;
+  padding: 0;
   outline: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  transition: var(--transition);
+}
+.nav-toggle:hover {
+  border-color: var(--border-color-hover);
+  background: var(--bg-tertiary);
+}
+.nav-toggle-line {
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: var(--transition);
+}
+.nav-toggle.is-open .nav-toggle-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.is-open .nav-toggle-line:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.is-open .nav-toggle-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Theme Toggle Button */
@@ -266,6 +527,7 @@ body:not(.light-theme) .glass-card {
   border: none;
   outline: none;
   white-space: nowrap;
+  text-decoration: none;
   transition: var(--transition);
 }
 
@@ -425,6 +687,7 @@ body.light-theme .badge-success {
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
 
 .flex { display: flex; }
 .items-center { align-items: center; }
@@ -534,6 +797,7 @@ body:not(.light-theme) .hero-section {
 }
 
 /* 12. BOOKS LIST VIEW (PREMIUM ORIGINAL COVERS) */
+/* Updated Card Styles */
 .book-card {
   cursor: pointer;
   overflow: hidden;
@@ -541,24 +805,57 @@ body:not(.light-theme) .hero-section {
   display: flex;
   flex-direction: column;
   height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Hover effect */
+  contain: layout style;
 }
 .book-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.3);
   border-color: var(--color-primary);
 }
 
+/* Progress Bar */
+.progress-container {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.book-cover-link {
+  display: flex;
+  justify-content: center;
+}
+
 .book-cover-premium {
-  height: 230px;
+  aspect-ratio: 3/4;
+  min-height: 150px;
+  max-height: 260px;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  box-shadow: inset 0 -90px 90px rgba(0,0,0,0.65);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.65);
   transition: var(--transition);
+  text-align: center;
+  margin: 16px;
+  width: calc(100% - 32px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 24px;
 }
 
 .book-cover-premium .book-cover-pattern {
@@ -574,19 +871,23 @@ body:not(.light-theme) .hero-section {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6); /* Ozgina to'qroq */
   backdrop-filter: blur(4px);
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.7rem;
   font-weight: 700;
   color: #FFFFFF;
+  z-index: 10; /* Badge rasm ustida ko'rinishi uchun */
 }
 
 .book-cover-premium .book-cover-main {
   z-index: 2;
   color: #FFFFFF;
-  text-align: left;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .book-cover-premium .book-cover-icon {
@@ -677,7 +978,7 @@ body:not(.light-theme) .hero-section {
 
 .book-detail-cover-premium {
   width: 200px;
-  height: 280px;
+  min-height: 200px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   display: flex;
@@ -688,6 +989,10 @@ body:not(.light-theme) .hero-section {
   overflow: hidden;
   flex-shrink: 0;
   box-shadow: inset 0 -100px 100px rgba(0,0,0,0.7), var(--shadow-lg);
+  aspect-ratio: 2/3;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .book-detail-cover-premium .book-cover-pattern {
@@ -998,6 +1303,8 @@ body:not(.light-theme) .hero-section {
   justify-content: center;
   padding: 80px 24px;
   color: var(--text-secondary);
+  min-height: 400px; /* Layout shiftni kamaytirish uchun */
+  width: 100%;
 }
 
 .spinner {
@@ -1098,7 +1405,7 @@ body:not(.light-theme) .hero-section {
 /* 20. CHARACTER SELECTION CARDS */
 .character-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Adjusted min-width for better fit */
   gap: 16px;
 }
 
@@ -1135,46 +1442,187 @@ body:not(.light-theme) .hero-section {
   background: var(--bg-tertiary);
 }
 
-/* 21. RESPONSIVE MEDIA QUERIES */
+/* 21. PROFILE BOOKS LIST */
+.profile-books-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-book-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-book-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-book-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.profile-book-cover {
+  font-size: 1.5rem;
+  width: 36px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.profile-book-text {
+  min-width: 0;
+}
+
+.profile-book-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-book-author {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-book-badge {
+  flex-shrink: 0;
+}
+
+.profile-book-badge .badge {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.badge-unattempted {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-muted) !important;
+  font-size: 0.85rem;
+}
+
+.profile-book-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.profile-book-progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Glass stat cards */
+.stat-card.glass-card {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+/* 22. RESPONSIVE MEDIA QUERIES */
 @media (max-width: 1024px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-5 { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
   .navbar {
-    height: auto;
+    height: 64px;
   }
   .nav-container {
     height: 64px;
-    flex-wrap: wrap;
+    gap: 10px;
   }
   .nav-toggle {
-    display: block;
+    display: inline-flex;
+    z-index: 1002;
   }
   .nav-links {
-    display: none;
-    width: 100%;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 16px;
+    right: 16px;
+    width: auto;
     flex-direction: column;
-    gap: 0;
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
-    padding: 12px 0;
-    margin: 0 -24px;
+    align-items: stretch;
+    gap: 6px;
+    background: rgba(19, 26, 46, 0.98);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px;
+    margin: 0;
+    box-shadow: var(--shadow-lg);
+    max-height: calc(100vh - 86px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
   }
-  .nav-links.show {
+  .nav-links.show,
+  body.nav-open .nav-links {
     display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  body.light-theme .nav-links {
+    background: rgba(255, 255, 255, 0.98);
   }
   .nav-link {
     width: 100%;
-    border-radius: 0;
-    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    justify-content: flex-start;
+    font-size: 0.95rem;
   }
   .nav-user {
     margin-left: auto;
+    gap: 8px;
   }
   .nav-username-text {
     display: none;
+  }
+  .nav-profile-link {
+    display: none;
+  }
+  .theme-toggle-btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+  }
+  .nav-link-auth {
+    display: inline-flex;
+  }
+  #daily-stack-info-btn {
+    display: none !important;
   }
 
   .main-content {
@@ -1257,6 +1705,22 @@ body:not(.light-theme) .hero-section {
     font-size: 0.9rem;
   }
 
+  .profile-book-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-book-badge {
+    align-self: flex-start;
+    width: 100%;
+  }
+
+  .profile-book-badge .badge {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
   .notification {
     right: 12px;
     left: 12px;
@@ -1269,13 +1733,21 @@ body:not(.light-theme) .hero-section {
 
 @media (max-width: 480px) {
   .nav-container {
-    padding: 0 16px;
+    padding: 0 12px;
+    gap: 8px;
   }
   .nav-logo {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
+    gap: 8px;
+  }
+  .nav-logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
   }
   .nav-links {
-    margin: 0 -16px;
+    left: 12px;
+    right: 12px;
   }
 
   .main-content {
@@ -1286,6 +1758,7 @@ body:not(.light-theme) .hero-section {
 
   .book-cover-premium {
     height: 180px;
+    margin: 12px 12px 0;
     padding: 14px;
   }
   .book-cover-premium .book-cover-icon {
@@ -1380,8 +1853,16 @@ body:not(.light-theme) .hero-section {
 
   .streak-widget {
     flex-direction: column;
-    text-align: center;
+    text-align: left;
+    align-items: flex-start;
     padding: 16px !important;
+  }
+  .streak-widget > div:last-child {
+    width: 100%;
+  }
+  .streak-widget .btn {
+    width: 100%;
+    justify-content: center;
   }
 
   .stat-card {
@@ -1452,7 +1933,7 @@ body:not(.light-theme) .hero-section {
 
   .nav-links .nav-link {
     font-size: 0.9rem;
-    padding: 10px 16px;
+    padding: 12px;
   }
 
   .book-detail-header {
@@ -1487,8 +1968,24 @@ body:not(.light-theme) .hero-section {
   }
 
   .nav-user .btn {
-    padding: 6px 10px;
+    padding: 6px 9px;
     font-size: 0.75rem;
+  }
+  .nav-auth-action {
+    display: none;
+  }
+  .nav-user {
+    gap: 6px;
+  }
+  .nav-user .btn-primary {
+    max-width: 112px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .nav-toggle,
+  .theme-toggle-btn {
+    width: 38px;
+    height: 38px;
   }
   .streak-widget .btn {
     width: 100%;
@@ -1498,6 +1995,30 @@ body:not(.light-theme) .hero-section {
   .book-card .btn-start-quiz-dash {
     font-size: 0.75rem;
     padding: 8px 10px;
+  }
+
+  .profile-book-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-book-badge {
+    align-self: flex-start;
+    width: 100%;
+  }
+
+  .profile-book-badge .badge {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .profile-book-card {
+    padding: 14px;
+  }
+
+  .profile-book-title {
+    font-size: 0.9rem;
   }
 }
 
@@ -1523,6 +2044,194 @@ body:not(.light-theme) .hero-section {
 
 .nav-streak-badge:hover {
   transform: scale(1.05);
+}
+
+/* ========================================================================
+   RESPONSIVE TABLE WRAPPER
+   ======================================================================== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ========================================================================
+   ADDITIONAL RESPONSIVE: VERY SMALL SCREENS (320px - 374px)
+   ======================================================================== */
+@media (max-width: 374px) {
+  .main-content {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 68px;
+  }
+  .nav-container {
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .nav-logo {
+    font-size: 0.95rem;
+    gap: 6px;
+  }
+  .nav-logo-mark {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+  .nav-links {
+    left: 8px;
+    right: 8px;
+  }
+  .nav-toggle,
+  .theme-toggle-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .card {
+    padding: 12px;
+  }
+  .book-cover-premium {
+    height: 150px;
+    margin: 10px 10px 0;
+    padding: 10px;
+  }
+  .book-cover-premium .book-cover-icon {
+    font-size: 1.6rem;
+  }
+  .book-cover-premium .book-cover-title-text {
+    font-size: 0.85rem;
+  }
+  .book-info {
+    padding: 10px;
+  }
+  .book-title {
+    font-size: 0.85rem;
+  }
+  .book-author {
+    font-size: 0.75rem;
+  }
+  .stat-value {
+    font-size: 1.3rem;
+  }
+  .grid {
+    gap: 12px;
+  }
+  .hero-section {
+    padding: 12px;
+  }
+  .hero-title {
+    font-size: 1.1rem !important;
+  }
+  .hero-subtitle {
+    font-size: 0.8rem !important;
+  }
+  .section-title {
+    font-size: 0.95rem;
+  }
+  .result-circle {
+    width: 80px;
+    height: 80px;
+    border-width: 4px;
+  }
+  .result-score {
+    font-size: 1.4rem;
+  }
+  .auth-card {
+    padding: 18px 12px;
+  }
+  .auth-title {
+    font-size: 1.2rem;
+  }
+  .book-detail-cover-premium {
+    width: 120px;
+    height: 170px;
+    padding: 12px;
+  }
+  .book-detail-title {
+    font-size: 1.3rem;
+  }
+  .quiz-question-text {
+    font-size: 0.9rem !important;
+  }
+  .quiz-option {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+  .quiz-option-letter {
+    width: 26px;
+    height: 26px;
+    font-size: 0.7rem;
+  }
+  .modal {
+    padding: 20px;
+    margin: 0 6px;
+  }
+  .modal-title {
+    font-size: 1rem;
+  }
+  .input {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+  .tab {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+  .btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+  .btn-sm {
+    padding: 6px 10px;
+    font-size: 0.7rem;
+  }
+  .streak-widget {
+    padding: 12px !important;
+  }
+  .streak-fire {
+    font-size: 2rem !important;
+  }
+  .notification {
+    right: 8px;
+    left: 8px;
+    top: 8px;
+    font-size: 0.8rem;
+    padding: 12px 16px;
+  }
+  .loading-state {
+    padding: 40px 12px;
+    min-height: 300px;
+  }
+  .empty-state {
+    padding: 24px 12px;
+  }
+  .character-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-book-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .profile-book-badge {
+    width: 100%;
+  }
+  .profile-book-badge .badge {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  .tabs {
+    gap: 2px;
+  }
+  .book-card .btn-start-quiz,
+  .book-card .btn-start-quiz-dash {
+    font-size: 0.7rem;
+    padding: 7px 8px;
+  }
+  .quiz-nav .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ========================================================================
@@ -1630,14 +2339,6 @@ body:not(.light-theme) .hero-section {
   cursor: default;
 }
 
-/* ========================================================================
-   BOOK COVER IMAGE
-   ======================================================================== */
-.book-cover-premium {
-  position: relative;
-  background-size: cover !important;
-  background-position: center !important;
-}
 
 .book-cover-premium .book-cover-title-text,
 .book-cover-premium .book-cover-author-text,
@@ -1650,4 +2351,44 @@ body:not(.light-theme) .hero-section {
 .book-detail-cover-premium .book-cover-title-text {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
+
+/* ========================================================================
+   RESPONSIVE ADMIN: Fix inline grids on mobile
+   ======================================================================== */
+@media (max-width: 480px) {
+  .admin-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Generic overflow prevention */
+.pre-wrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ========================================================================
+   BETTER TOUCH TARGETS
+   ======================================================================== */
+@media (pointer: coarse) {
+  .nav-link,
+  .btn,
+  .tab,
+  .quiz-option,
+  .character-card,
+  .nav-toggle,
+  .theme-toggle-btn,
+  .nav-dropdown-item {
+    min-height: 44px;
+  }
+  .nav-link {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .nav-dropdown-item {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
 

@@ -1,6 +1,7 @@
-import { getAllQuestions, addResult } from './db.js';
+import { getAllQuestions, addResult, updateUserStreak } from './db.js';
 import { getCurrentUser } from './auth.js';
 import { navigate, showNotification } from './app.js';
+import { escapeHtml } from './utils.js';
 
 function getDayOfYear() {
   const now = new Date();
@@ -63,7 +64,7 @@ export async function renderDailyStack(container) {
             </div>
 
             <div id="daily-question-text" style="font-size: 1.15rem; font-weight: 600; line-height: 1.6; margin-bottom: 24px; padding: 20px; background: var(--bg-tertiary); border-radius: var(--radius-md); border-left: 4px solid var(--color-primary);">
-              ${question.question}
+              ${escapeHtml(question.question)}
             </div>
 
             <div id="daily-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
@@ -72,7 +73,7 @@ export async function renderDailyStack(container) {
                   <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary-light); color: var(--color-primary); font-weight: 700; font-size: 0.85rem; flex-shrink: 0;">
                     ${String.fromCharCode(65 + idx)}
                   </span>
-                  <span>${opt}</span>
+                  <span>${escapeHtml(opt)}</span>
                 </button>
               `).join('')}
             </div>
@@ -125,10 +126,10 @@ export async function renderDailyStack(container) {
               <span style="font-size: 1.5rem;">${isCorrect ? '✅' : '❌'}</span>
               <div>
                 <div style="font-weight: 700; font-size: 1.05rem;">${isCorrect ? "To'g'ri javob! 🎉" : "Noto'g'ri javob"}</div>
-                ${!isCorrect ? `<div style="font-size: 0.9rem; color: var(--color-success); margin-top: 2px;">To'g'ri javob: ${String.fromCharCode(65 + question.correctAnswer)}) ${question.options[question.correctAnswer]}</div>` : ''}
+                ${!isCorrect ? `<div style="font-size: 0.9rem; color: var(--color-success); margin-top: 2px;">To'g'ri javob: ${String.fromCharCode(65 + question.correctAnswer)}) ${escapeHtml(question.options[question.correctAnswer])}</div>` : ''}
               </div>
             </div>
-            ${question.explanation ? `<div style="margin-top: 8px; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-sm); font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">💡 ${question.explanation}</div>` : ''}
+            ${question.explanation ? `<div style="margin-top: 8px; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-sm); font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">💡 ${escapeHtml(question.explanation)}</div>` : ''}
           </div>
         `;
 
@@ -147,6 +148,17 @@ export async function renderDailyStack(container) {
             timeSpent: 0,
             completedAt: Date.now()
           });
+          // Update streak
+          try {
+            const updatedUser = await updateUserStreak(currentUser.id);
+            if (updatedUser && updatedUser.stats) {
+              const sessionUser = JSON.parse(localStorage.getItem('kitobtest_session') || '{}');
+              sessionUser.stats = updatedUser.stats;
+              localStorage.setItem('kitobtest_session', JSON.stringify(sessionUser));
+            }
+          } catch (streakErr) {
+            console.error('Streak update error:', streakErr);
+          }
         } catch (err) {
           console.error(err);
         }

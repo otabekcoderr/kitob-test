@@ -9,7 +9,7 @@ export const books = [
     cover: '📖',
     coverBg: 'linear-gradient(135deg, #2E1A47, #4F1D7C)',
     coverTitleColor: '#F59E0B',
-    coverImage: 'https://picsum.photos/seed/otkan-kunlar/300/400',
+    coverImage: 'https://upload.wikimedia.org/wikipedia/uz/7/77/%22O%27tkan_kunlar%22_romani_muqovasi.jpg',
     description: "O'zbek adabiyotidagi ilk roman. Otabek va Kumushning fojiali sevgisi fonida Qo'qon xonligi davridagi xalq hayoti va taxt mojarolari tasvirlanadi.",
     questionCount: 10
   },
@@ -23,7 +23,7 @@ export const books = [
     cover: '🦂',
     coverBg: 'linear-gradient(135deg, #1E3A8A, #3B82F6)',
     coverTitleColor: '#E0F2FE',
-    coverImage: 'https://picsum.photos/seed/mehrobdan-chayon/300/400',
+    coverImage: 'https://n.ziyouz.com/books/uzbek_adabiyoti/Abdulla%20Qodiriy.%20Mehrobdan%20chayon.jpg',
     description: "Xonliklar davridagi saroy mojarolari va oddiy xalq hayoti, shuningdek, Anvar va Ra'noning pokiza sevgisi haqida hikoya qiluvchi mashhur asar.",
     questionCount: 10
   },
@@ -51,7 +51,7 @@ export const books = [
     cover: '👦',
     coverBg: 'linear-gradient(135deg, #065F46, #059669)',
     coverTitleColor: '#D1FAE5',
-    coverImage: 'https://picsum.photos/seed/shum-bola/300/400',
+    coverImage: 'https://n.ziyouz.com/books/uzbek_adabiyoti/G%27afur%20G%27ulom.%20Shum%20bola.jpg',
     description: "Toshkentlik bir bolakayning sarguzashtlari, uning topqirligi va hayotiy qiyinchiliklarni kulgi yordamida yengib o'tishi tasvirlangan asar.",
     questionCount: 10
   },
@@ -121,7 +121,7 @@ export const books = [
     cover: '🌙',
     coverBg: 'linear-gradient(135deg, #172554, #1D4ED8)',
     coverTitleColor: '#DBEAFE',
-    coverImage: 'https://picsum.photos/seed/yulduzli-tunlar/300/400',
+    coverImage: 'https://n.ziyouz.com/books/uzbek_adabiyoti/Pirimqul%20Qodirov.%20Yulduzli%20tunlar.jpg',
     description: "Zahiriddin Muhammad Boburning murakkab hayot yo'li, Vatan sog'inchi va Temuriylar saltanatining inqirozi aks etgan tarixiy roman.",
     questionCount: 10
   },
@@ -667,7 +667,7 @@ export const books = [
     cover: '⚖️',
     coverBg: 'linear-gradient(135deg, #1E1B4B, #0F172A)',
     coverTitleColor: '#FFFFFF',
-    coverImage: 'https://picsum.photos/seed/shaytanat/300/400',
+    coverImage: 'https://n.ziyouz.com/books/uzbek_adabiyoti/Tohir%20Malik.%20Shaytanat.jpg',
     description: "O'zbek mafiya olami, jinoyatchilar qismati, insoniy burch hamda qonun ustuvorligi to'qnashuvi haqidagi eng mashhur o'zbek detektivi.",
     questionCount: 10
   },

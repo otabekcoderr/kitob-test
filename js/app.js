@@ -1,13 +1,9 @@
 import { initDB, getAllBooks } from './db.js';
-import { getCurrentUser, logout, initAdminAccount } from './auth.js';
+import { getCurrentUser, initAdminAccount, login as authLogin, register as authRegister } from './auth.js';
 import { renderBooksList, renderBookDetail } from './books.js';
 import { renderQuiz } from './quiz.js';
 import { renderResultDetail, renderResultsHistory, renderLeaderboard } from './results.js';
-import { renderProfile } from './profile.js';
-import { renderAdminPanel } from './admin.js';
-import { renderDailyStack } from './daily-stack.js';
-import { renderArena, renderArenaLeaderboard } from './arena.js';
-import * as Auth from './auth.js';
+import { escapeHtml } from './utils.js';
 
 export function navigate(path) {
   window.location.hash = path;
@@ -19,6 +15,77 @@ export function showNotification(message, type = 'info') {
   el.textContent = message;
   el.className = `notification notification-${type} show`;
   setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function showLoading(container, message = 'Yuklanmoqda...') {
+  container.innerHTML = `<div class="loading-state"><div class="spinner"></div><p>${message}</p></div>`;
+}
+function showError(container, message = 'Xatolik yuz berdi') {
+  container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><p class="empty-state-text">${message}</p></div>`;
+}
+
+export function showQuizRulesModal(bookId, options = {}) {
+  const { onCancel } = options;
+  const existing = document.querySelector('.modal-backdrop');
+  if (existing) existing.remove();
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop show';
+  backdrop.innerHTML = `
+    <div class="modal">
+      <h2 class="modal-title">🔒 Xavfsizlik va Anti-Cheat Tizimi</h2>
+      <div class="modal-text">
+        <p style="margin-bottom: 12px; font-weight: 600; color: var(--color-error);">DIQQAT! Ushbu testda xavfsizlik rejimi yoqilgan:</p>
+        <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 8px;">
+          <li>⚠️ <strong>Tab / Oyna almashtirish taqiqlanadi</strong> (har bir urinish uchun yakuniy balldan <strong>10% jarima</strong> chegiriladi).</li>
+          <li>🚫 Sichqoncha o'ng tugmasini bosish yoki F12 (kodlarni ochish) tugmasi taqiqlangan.</li>
+          <li>🚨 Qoidalarni buzish jarimaga yoki testni 0 ball bilan avtomatik topshirilishiga olib keladi.</li>
+        </ul>
+        <p style="margin-top: 16px; font-weight: 500;">Testni boshlashga tayyormisiz?</p>
+      </div>
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button class="btn btn-outline" id="quiz-rules-cancel">Yo'q, qaytish</button>
+        <button class="btn btn-primary" id="quiz-rules-confirm">Ha, tayyorman! 🚀</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(backdrop);
+
+  function closeModal() {
+    backdrop.classList.remove('show');
+    backdrop.style.opacity = '0';
+    setTimeout(() => backdrop.remove(), 300);
+    document.removeEventListener('keydown', onKey);
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') {
+      closeModal();
+      if (typeof onCancel === 'function') onCancel();
+    }
+  }
+
+  document.getElementById('quiz-rules-cancel').addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeModal();
+    if (typeof onCancel === 'function') onCancel();
+  });
+
+  document.getElementById('quiz-rules-confirm').addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeModal();
+    navigate(`/test/${bookId}`);
+  });
+
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) {
+      closeModal();
+      if (typeof onCancel === 'function') onCancel();
+    }
+  });
+
+  document.addEventListener('keydown', onKey);
 }
 
 // Light & Dark theme toggle handling
@@ -37,42 +104,56 @@ function toggleTheme() {
   updateNavbar();
 }
 
+function closeAllDropdowns() {
+  document.querySelectorAll('.nav-dropdown-menu.show').forEach(m => m.classList.remove('show'));
+  document.querySelectorAll('.nav-avatar-trigger.is-open').forEach(t => t.classList.remove('is-open'));
+}
+
 function updateNavbar() {
   const navLinks = document.getElementById('nav-links');
   const navUser = document.getElementById('nav-user');
   const user = getCurrentUser();
   const isLightTheme = document.body.classList.contains('light-theme');
+  const hash = window.location.hash;
   
   const themeToggleHtml = `
-    <button class="theme-toggle-btn" id="theme-toggle" title="Rejimni o'zgartirish">
+    <button class="theme-toggle-btn" id="theme-toggle" title="Rejimni o'zgartirish" aria-label="Rang rejimini o'zgartirish">
       ${isLightTheme ? '🌙' : '☀️'}
     </button>
   `;
 
   if (!user) {
-    if (navLinks) navLinks.innerHTML = '';
+    if (navLinks) {
+      navLinks.innerHTML = `
+        <a href="#/login" class="nav-link nav-link-auth ${hash === '#/login' ? 'active' : ''}"><span class="nav-link-icon">🔐</span><span>Kirish</span></a>
+        <a href="#/register" class="nav-link nav-link-auth ${hash === '#/register' ? 'active' : ''}"><span class="nav-link-icon">✨</span><span>Ro'yxatdan o'tish</span></a>
+      `;
+    }
     if (navUser) {
       navUser.innerHTML = `
         ${themeToggleHtml}
-        <a href="#/login" class="btn btn-ghost btn-sm">Kirish</a>
-        <a href="#/register" class="btn btn-primary btn-sm">Ro'yxatdan o'tish</a>
+        <a href="#/login" class="btn btn-ghost btn-sm nav-auth-action">Kirish</a>
+        <a href="#/register" class="btn btn-primary btn-sm nav-auth-action">Ro'yxatdan o'tish</a>
       `;
     }
   } else {
-    const hash = window.location.hash;
+    const today = new Date().toLocaleDateString('en-CA');
+    const hasDoneToday = user.stats?.lastQuizDate === today;
+    const streakCount = user.stats?.currentStreak || 0;
+
     if (navLinks) {
       let linksHtml = `
-        <a href="#/daily-stack" class="nav-link ${hash === '#/daily-stack' ? 'active' : ''}">📅 Kunlik</a>
-        <a href="#/arena" class="nav-link ${hash === '#/arena' || hash === '#/arena-leaderboard' ? 'active' : ''}">⚔️ Arena</a>
-        <a href="#/dashboard" class="nav-link ${hash === '#/dashboard' || hash === '' ? 'active' : ''}">🏠 Dashboard</a>
-        <a href="#/books" class="nav-link ${hash === '#/books' || hash.startsWith('#/book/') ? 'active' : ''}">📚 Kitoblar</a>
-        <a href="#/results" class="nav-link ${hash === '#/results' || hash.startsWith('#/result/') ? 'active' : ''}">📊 Natijalar</a>
-        <a href="#/leaderboard" class="nav-link ${hash === '#/leaderboard' ? 'active' : ''}">🏆 Reyting</a>
+        <a href="#/dashboard" class="nav-link ${hash === '#/dashboard' || hash === '' ? 'active' : ''}"><span class="nav-link-icon">🏠</span><span>Dashboard</span></a>
+        <a href="#/books" class="nav-link ${hash === '#/books' || hash.startsWith('#/book/') ? 'active' : ''}"><span class="nav-link-icon">📚</span><span>Kitoblar</span></a>
+        <a href="#/daily-stack" class="nav-link ${hash === '#/daily-stack' ? 'active' : ''}"><span class="nav-link-icon">📅</span><span>Kunlik</span></a>
+        <a href="#/arena" class="nav-link ${hash === '#/arena' || hash === '#/arena-leaderboard' ? 'active' : ''}"><span class="nav-link-icon">⚔️</span><span>Arena</span></a>
+        <a href="#/results" class="nav-link ${hash === '#/results' || hash.startsWith('#/result/') ? 'active' : ''}"><span class="nav-link-icon">📊</span><span>Natijalar</span></a>
+        <a href="#/leaderboard" class="nav-link ${hash === '#/leaderboard' ? 'active' : ''}"><span class="nav-link-icon">🏆</span><span>Reyting</span></a>
       `;
 
       if (user.isAdmin) {
         linksHtml += `
-          <a href="#/admin" class="nav-link ${hash === '#/admin' ? 'active' : ''}" style="color: var(--color-accent); font-weight: 700;">👑 Admin</a>
+          <a href="#/admin" class="nav-link nav-link-admin ${hash === '#/admin' ? 'active' : ''}"><span class="nav-link-icon">👑</span><span>Admin</span></a>
         `;
       }
 
@@ -82,22 +163,69 @@ function updateNavbar() {
     if (navUser) {
       navUser.innerHTML = `
         ${themeToggleHtml}
-        ${user.stats?.currentStreak ? `
-          <a href="#/profile" class="nav-streak-badge" title="Joriy Streak: ${user.stats.currentStreak} kun" style="color: var(--color-accent); font-weight: 700; padding: 6px 10px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; text-decoration: none; font-size: 0.85rem; transition: var(--transition);">
-            🔥 <span>${user.stats.currentStreak}</span>
-          </a>
-        ` : ''}
-        <a href="#/profile" class="nav-link" style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 1.25rem;">${user.avatar}</span>
-          <span class="nav-username-text">${user.fullName}</span>
-        </a>
-        <button class="btn btn-ghost btn-sm" id="logout-btn" style="color: var(--color-error); padding: 8px;">Chiqish</button>
+        <button class="btn btn-ghost btn-sm" id="daily-stack-info-btn" title="Kunlik Streak" style="padding: 6px 8px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--color-accent); font-weight: 700; transition: var(--transition); cursor: pointer; white-space: nowrap;">
+          🔥 <span>${streakCount}</span>
+        </button>
+        <div class="nav-avatar-dropdown">
+          <button class="nav-avatar-trigger" id="nav-avatar-trigger" aria-label="Profil menyusi" aria-haspopup="true">
+            <span class="avatar-emoji"${user.avatarImage ? ` style="background-image: url('${user.avatarImage}'); background-size: cover; background-position: center; font-size: 0; width: 28px; height: 28px; border-radius: 50%; display: inline-block;"` : ''}>${user.avatarImage ? '' : user.avatar}</span>
+            <span class="avatar-chevron">▾</span>
+          </button>
+          <div class="nav-dropdown-menu" id="nav-dropdown-menu" role="menu">
+            <div class="nav-dropdown-header">
+              <span class="dropdown-avatar"${user.avatarImage ? ` style="background-image: url('${user.avatarImage}'); background-size: cover; background-position: center; font-size: 0; width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"` : ''}>${user.avatarImage ? '' : escapeHtml(user.avatar)}</span>
+              <div>
+                <div class="dropdown-name">${escapeHtml(user.fullName)}</div>
+                <div class="dropdown-username">@${escapeHtml(user.username)}</div>
+              </div>
+            </div>
+            <a href="#/profile" class="nav-dropdown-item" role="menuitem">
+              <span>👤</span> Profil
+            </a>
+            ${user.isAdmin ? `<a href="#/admin" class="nav-dropdown-item" role="menuitem"><span>👑</span> Admin panel</a>` : ''}
+            <button class="nav-dropdown-item danger" id="nav-dropdown-logout" role="menuitem">
+              <span>🚪</span> Chiqish
+            </button>
+          </div>
+        </div>
       `;
 
-      document.getElementById('logout-btn')?.addEventListener('click', () => {
-        logout();
-        navigate('/login');
-        showNotification('Tizimdan chiqdingiz', 'info');
+      // Avatar dropdown toggle
+      const trigger = document.getElementById('nav-avatar-trigger');
+      const menu = document.getElementById('nav-dropdown-menu');
+      if (trigger && menu) {
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = menu.classList.contains('show');
+          closeAllDropdowns();
+          if (!isOpen) {
+            menu.classList.add('show');
+            trigger.classList.add('is-open');
+          }
+        });
+      }
+
+      // Streak info button
+      document.getElementById('daily-stack-info-btn')?.addEventListener('click', () => {
+        showDailyStackInfo(user, hasDoneToday);
+      });
+
+      // Dropdown streak
+      document.getElementById('nav-dropdown-streak')?.addEventListener('click', () => {
+        closeAllDropdowns();
+        showDailyStackInfo(user, hasDoneToday);
+      });
+
+      // Dropdown logout
+      document.getElementById('nav-dropdown-logout')?.addEventListener('click', () => {
+        closeAllDropdowns();
+        import('./auth.js').then(mod => {
+          mod.logout();
+          navigate('/login');
+          showNotification('Tizimdan chiqdingiz', 'info');
+        }).catch(() => {
+          navigate('/login');
+        });
       });
     }
   }
@@ -106,18 +234,98 @@ function updateNavbar() {
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
 }
 
+// Close dropdown on outside click
+document.addEventListener('click', (e) => {
+  const isDropdown = e.target.closest('.nav-avatar-dropdown');
+  const isStreakBtn = e.target.closest('#daily-stack-info-btn');
+  const isNavToggle = e.target.closest('#nav-toggle');
+  if (!isDropdown && !isStreakBtn && !isNavToggle) {
+    closeAllDropdowns();
+  }
+});
+
+function showDailyStackInfo(user, hasDoneToday) {
+  const existing = document.getElementById('daily-stack-modal');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-backdrop show';
+  overlay.id = 'daily-stack-modal';
+  overlay.innerHTML = `
+    <div class="modal">
+      <div class="modal-title">📅 Kunlik Stack</div>
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+        <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+          Har kuni bitta savol. Ketma-ketlikni uzmang va bilimingizni mustahkamlang!
+        </p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div class="card" style="flex: 1; text-align: center; padding: 16px; min-width: 120px;">
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--color-accent);">${user.stats?.currentStreak || 0}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Joriy Streak</div>
+          </div>
+          <div class="card" style="flex: 1; text-align: center; padding: 16px; min-width: 120px;">
+            <div style="font-size: 1.8rem; font-weight: 800; color: ${hasDoneToday ? 'var(--color-success)' : 'var(--text-muted)'};">${hasDoneToday ? '✅' : '⏳'}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">${hasDoneToday ? "Bugun bajarilgan" : "Bajarilmagan"}</div>
+          </div>
+          <div class="card" style="flex: 1; text-align: center; padding: 16px; min-width: 120px;">
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--color-secondary);">${user.stats?.maxStreak || 0}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Maksimal Streak</div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button class="btn btn-ghost" id="daily-modal-close">Yopish</button>
+        <a href="#/daily-stack" class="btn btn-primary">Kunlik Stackga o'tish →</a>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector('#daily-modal-close')?.addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+}
+
 function setupMobileNav() {
   const toggle = document.getElementById('nav-toggle');
   const links = document.getElementById('nav-links');
-  
-  toggle?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    links?.classList.toggle('show');
+  const navbar = document.getElementById('navbar');
+  if (!toggle || !links) return;
+
+  const closeMenu = () => {
+    links.classList.remove('show');
+    document.body.classList.remove('nav-open');
+    toggle.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Menuni ochish');
+  };
+
+  const openMenu = () => {
+    links.classList.add('show');
+    document.body.classList.add('nav-open');
+    toggle.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Menuni yopish');
+  };
+
+  document.addEventListener('click', (e) => {
+    const toggleButton = e.target.closest('#nav-toggle');
+    if (toggleButton) {
+      e.preventDefault();
+      e.stopPropagation();
+      links.classList.contains('show') ? closeMenu() : openMenu();
+      return;
+    }
+
+    if (navbar && !navbar.contains(e.target)) {
+      closeMenu();
+    }
   });
 
-  // Close when clicking anywhere outside
-  document.addEventListener('click', () => {
-    links?.classList.remove('show');
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
   });
 }
 
@@ -153,7 +361,7 @@ function renderLogin(container) {
     const pWord = document.getElementById('login-password').value;
 
     try {
-      await Auth.login(uName, pWord);
+      await authLogin(uName, pWord);
       showNotification("Muvaffaqiyatli kirdingiz! 🎉", "success");
       navigate('/dashboard');
     } catch (err) {
@@ -208,7 +416,7 @@ function renderRegister(container) {
     }
 
     try {
-      await Auth.register(fullName, username, password);
+      await authRegister(fullName, username, password);
       showNotification("Ro'yxatdan muvaffaqiyatli o'tdingiz! 🥳", "success");
       navigate('/dashboard');
     } catch (err) {
@@ -231,8 +439,8 @@ async function renderDashboard(container) {
     </div>
   `;
 
-  const db = await import('./db.js');
-    try {
+  try {
+    const db = await import('./db.js');
       let dbUser = await db.getUserById(user.id);
       if (dbUser) {
         if (!dbUser.stats) {
@@ -269,6 +477,12 @@ async function renderDashboard(container) {
 
       const results = await db.getResultsByUser(user.id);
       const booksList = await db.getAllBooks();
+      // Recommend books not yet attempted
+      const sortedBooks = [...booksList].sort((a, b) => {
+        const aDone = results.some(r => r.bookId === a.id);
+        const bDone = results.some(r => r.bookId === b.id);
+        return aDone - bDone; // Unattempted first
+      });
       
       const totalTests = results.length;
       const avgScore = totalTests > 0 ? Math.round(results.reduce((acc, r) => acc + r.score, 0) / totalTests) : 0;
@@ -341,28 +555,21 @@ async function renderDashboard(container) {
             <a href="#/books" class="btn btn-ghost" style="font-size: 0.9rem;">Barchasi →</a>
           </div>
 
-          <div class="grid grid-3 mb-lg">
-            ${booksList.slice(0, 3).map((book, idx) => `
+           <div class="grid grid-5 mb-lg">
+             ${sortedBooks.slice(0, 5).map((book, idx) => `
               <div class="card book-card slide-up stagger-${idx + 1}">
-                <div class="book-cover-link" onclick="window.location.hash='#/book/${book.id}'" style="cursor: pointer;">
-                  <div class="book-cover-premium" style="background: ${book.coverImage ? `url(${book.coverImage}) center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
+                <div class="book-cover-link" onclick="window.location.hash='#/book/${encodeURIComponent(book.id)}'" style="cursor: pointer;">
+                  <div class="book-cover-premium" style="background: ${book.coverImage ? `url('${book.coverImage}') center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
                     ${!book.coverImage ? `<div class="book-cover-pattern" style="opacity: 0.15; background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);"></div>` : ''}
-                    <div class="book-cover-badge">${book.genre}</div>
-                    <div class="book-cover-main">
-                      ${!book.coverImage ? `<div class="book-cover-icon">${book.cover}</div>` : ''}
-                      <div class="book-cover-title-text">${book.title}</div>
-                      <div class="book-cover-author-text">${book.author}</div>
-                    </div>
+                    <div class="book-cover-badge">${escapeHtml(book.genre)}</div>
                   </div>
                 </div>
                 <div class="book-info">
-                  <h3 class="book-title" style="margin-top:0;">${book.title}</h3>
-                  <p class="book-author">${book.author}</p>
                   <div class="book-meta">
                     <span class="badge badge-primary">${book.questionCount || 0} savol</span>
-                    <span class="badge ${book.difficulty === 'Oson' ? 'badge-success' : book.difficulty === "O'rta" ? 'badge-warning' : 'badge-error'}">${book.difficulty}</span>
+                    <span class="badge ${book.difficulty === 'Oson' ? 'badge-success' : book.difficulty === "O'rta" ? 'badge-warning' : 'badge-error'}">${escapeHtml(book.difficulty)}</span>
                   </div>
-                  <button class="btn btn-primary btn-sm btn-start-quiz-dash" data-book-id="${book.id}" style="margin-top: 12px; width: 100%;">🚀 Boshlash</button>
+                  <button class="btn btn-primary btn-sm btn-start-quiz-dash" data-book-id="${escapeHtml(book.id)}" style="margin-top: 12px; width: 100%;">🚀 Boshlash</button>
                 </div>
               </div>
             `).join('')}
@@ -379,13 +586,13 @@ async function renderDashboard(container) {
                       if (r.score >= 80) scoreColor = 'var(--color-success)';
                       else if (r.score >= 60) scoreColor = 'var(--color-primary-hover)';
                       return `
-                        <div class="results-history-item" onclick="window.location.hash='#/result/${r.id}'" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border-color);">
+                        <div class="results-history-item" onclick="window.location.hash='#/result/${encodeURIComponent(r.id)}'" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border-color);">
                           <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; background: ${scoreColor}20; color: ${scoreColor}; flex-shrink: 0;">
                               ${r.score}%
                             </div>
                             <div>
-                              <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 2px;">${r.bookTitle}</h4>
+                              <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 2px;">${escapeHtml(r.bookTitle)}</h4>
                               <p style="font-size: 0.75rem; color: var(--text-muted);">${r.correctAnswers}/${r.totalQuestions} to'g'ri • ${new Date(r.completedAt).toLocaleDateString('uz')}</p>
                             </div>
                           </div>
@@ -442,10 +649,10 @@ async function renderDashboard(container) {
               <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border-color);">
                 <div style="display: flex; align-items: center; gap: 12px;">
                   <span style="font-size: 1.25rem;">${rankEmoji}</span>
-                  <span style="font-size: 1.25rem;">${u.avatar}</span>
+                  <span style="font-size: 1.25rem;">${escapeHtml(u.avatar)}</span>
                   <div>
-                    <span style="font-weight: 600; font-size: 0.95rem;">${u.fullName}</span>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">@${u.username} • ${u.count} marta</p>
+                    <span style="font-weight: 600; font-size: 0.95rem;">${escapeHtml(u.fullName)}</span>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">@${escapeHtml(u.username)} • ${u.count} marta</p>
                   </div>
                 </div>
                 <span style="font-weight: 700; color: var(--color-secondary);">${u.avg}%</span>
@@ -458,7 +665,9 @@ async function renderDashboard(container) {
       document.querySelectorAll('.btn-start-quiz-dash').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
-          navigate(`/test/${btn.dataset.bookId}`);
+          showQuizRulesModal(btn.dataset.bookId, {
+            onCancel: () => navigate('/books')
+          });
         });
       });
 
@@ -466,7 +675,7 @@ async function renderDashboard(container) {
       console.error(err);
       showNotification(err.message || "Xatolik yuz berdi", "error");
     }
-  };
+}
 
 // Router Logic
 async function handleRoute() {
@@ -476,8 +685,13 @@ async function handleRoute() {
   const hash = window.location.hash || '#/dashboard';
   const user = getCurrentUser();
 
-  // Close mobile navigation drawer if open
+  // Close mobile navigation drawer and avatar dropdown if open
+  closeAllDropdowns();
   document.getElementById('nav-links')?.classList.remove('show');
+  document.body.classList.remove('nav-open');
+  document.getElementById('nav-toggle')?.classList.remove('is-open');
+  document.getElementById('nav-toggle')?.setAttribute('aria-expanded', 'false');
+  document.getElementById('nav-toggle')?.setAttribute('aria-label', 'Menuni ochish');
 
   // Parse path & parameters
   const parts = hash.slice(2).split('/');
@@ -504,13 +718,11 @@ async function handleRoute() {
   // Update navbar state
   updateNavbar();
 
-  // Transition Page Out
+  // Minimal page transition — only opacity, no transform to avoid layout shift
   content.style.opacity = '0';
-  content.style.transform = 'translateY(8px)';
-  
-  await new Promise(r => setTimeout(r, 150));
+  await new Promise(r => setTimeout(r, 80));
 
-  // Render correct page
+  // Render correct page (core routes static, heavy routes lazy-loaded)
   switch (path) {
     case '/login':
       renderLogin(content);
@@ -540,33 +752,52 @@ async function handleRoute() {
     case '/results':
       renderResultsHistory(content);
       break;
-    case '/daily-stack':
-      renderDailyStack(content);
-      break;
-    case '/arena':
-      renderArena(content);
-      break;
-    case '/arena-leaderboard':
-      renderArenaLeaderboard(content);
-      break;
     case '/leaderboard':
       renderLeaderboard(content);
       break;
+    case '/daily-stack':
+      showLoading(content, 'Kunlik stack yuklanmoqda...');
+      try {
+        const { renderDailyStack } = await import('./daily-stack.js');
+        renderDailyStack(content);
+      } catch (e) { showError(content, 'Kunlik stack yuklanmadi'); }
+      break;
+    case '/arena':
+      showLoading(content, 'Arena yuklanmoqda...');
+      try {
+        const { renderArena } = await import('./arena.js');
+        renderArena(content);
+      } catch (e) { showError(content, 'Arena yuklanmadi'); }
+      break;
+    case '/arena-leaderboard':
+      showLoading(content, 'Arena reytingi yuklanmoqda...');
+      try {
+        const { renderArenaLeaderboard } = await import('./arena.js');
+        renderArenaLeaderboard(content);
+      } catch (e) { showError(content, 'Arena reytingi yuklanmadi'); }
+      break;
     case '/profile':
-      renderProfile(content);
+      showLoading(content, 'Profil yuklanmoqda...');
+      try {
+        const { renderProfile } = await import('./profile.js');
+        renderProfile(content);
+      } catch (e) { showError(content, 'Profil yuklanmadi'); }
       break;
     case '/admin':
-      renderAdminPanel(content);
+      showLoading(content, 'Admin panel yuklanmoqda...');
+      try {
+        const { renderAdminPanel } = await import('./admin.js');
+        renderAdminPanel(content);
+      } catch (e) { showError(content, 'Admin panel yuklanmadi'); }
       break;
     default:
       navigate('/dashboard');
   }
 
-  // Transition Page In
+  // Transition Page In — opacity only to prevent layout shifts
   requestAnimationFrame(() => {
-    content.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    content.style.transition = 'opacity 0.2s ease';
     content.style.opacity = '1';
-    content.style.transform = 'translateY(0)';
   });
 
   // Scroll to top

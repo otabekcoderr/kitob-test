@@ -139,8 +139,8 @@ function renderStatsTab(container, books, users, results, comments) {
               ${results.slice(0, 5).map(r => `
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-md);">
                   <div>
-                    <span style="font-weight: 600;">${r.userName}</span>
-                    <span style="color: var(--text-muted); font-size: 0.8rem;"> - ${r.bookTitle}</span>
+                    <span style="font-weight: 600;">${escapeHtml(r.userName)}</span>
+                    <span style="color: var(--text-muted); font-size: 0.8rem;"> - ${escapeHtml(r.bookTitle)}</span>
                   </div>
                   <span class="badge ${r.score >= 80 ? 'badge-success' : r.score >= 60 ? 'badge-primary' : 'badge-error'}">${r.score}%</span>
                 </div>
@@ -156,10 +156,10 @@ function renderStatsTab(container, books, users, results, comments) {
               ${comments.slice(0, 5).map(c => `
                 <div style="padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-md);">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <span style="font-weight: 600; font-size: 0.85rem;">${c.userName}</span>
+                    <span style="font-weight: 600; font-size: 0.85rem;">${escapeHtml(c.userName)}</span>
                     <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(c.createdAt).toLocaleDateString('uz')}</span>
                   </div>
-                  <p style="font-size: 0.85rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.text}</p>
+                  <p style="font-size: 0.85rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(c.text)}</p>
                 </div>
               `).join('')}
             </div>
@@ -244,10 +244,10 @@ async function renderBooksTab(container) {
             ${books.map(b => `
               <div class="card" style="padding: 16px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: space-between; gap: 16px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                  <span style="font-size: 2rem;">${b.cover}</span>
+                  <span style="font-size: 2rem;">${escapeHtml(b.cover)}</span>
                   <div>
-                    <h4 style="font-weight: 600; font-size: 1rem; margin-bottom: 2px;">${b.title}</h4>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">${b.author} • ${b.genre}</p>
+                    <h4 style="font-weight: 600; font-size: 1rem; margin-bottom: 2px;">${escapeHtml(b.title)}</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(b.author)} • ${escapeHtml(b.genre)}</p>
                   </div>
                 </div>
                 <div style="display: flex; gap: 8px;">
@@ -269,6 +269,8 @@ async function renderBooksTab(container) {
     const form = document.getElementById('add-book-form');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+
       const title = document.getElementById('book-title').value.trim();
       const author = document.getElementById('book-author').value.trim();
       const year = parseInt(document.getElementById('book-year').value);
@@ -309,26 +311,48 @@ async function renderBooksTab(container) {
       };
 
       try {
+        // Loading state
+        submitBtn.disabled = true;
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '⏳ Saqlanmoqda...';
+
         await addBook(newBook);
         showNotification("Yangi kitob qo'shildi! 🥳", "success");
         renderBooksTab(container); // reload
       } catch (err) {
-        showNotification("Kitob qo'shishda xatolik yuz berdi", "error");
+        console.error(err);
+        showNotification(err.message || "Kitob qo'shishda xatolik yuz berdi", "error");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '💾 Kitobni saqlash';
       }
     });
 
     // Image preview for add form
     const addImageInput = document.getElementById('book-cover-image');
     const addPreviewDiv = document.getElementById('book-cover-preview');
-    addImageInput.addEventListener('change', () => {
-      if (addImageInput.files && addImageInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          addPreviewDiv.style.display = 'block';
-          addPreviewDiv.innerHTML = `<img src="${e.target.result}" style="max-width: 120px; max-height: 160px; border-radius: var(--radius-sm);">`;
-        };
-        reader.readAsDataURL(addImageInput.files[0]);
+    addImageInput.addEventListener('change', function() {
+      const file = this.files && this.files[0];
+      if (!file) return;
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        showNotification('Faqat JPEG, PNG, GIF yoki WEBP formatlari qabul qilinadi', 'error');
+        this.value = '';
+        addPreviewDiv.style.display = 'none';
+        return;
       }
+      const maxSize = 2 * 1024 * 1024;
+      if (file.size > maxSize) {
+        showNotification('Rasm hajmi 2 MB dan oshmasligi kerak', 'error');
+        this.value = '';
+        addPreviewDiv.style.display = 'none';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        addPreviewDiv.style.display = 'block';
+        addPreviewDiv.innerHTML = `<img src="${e.target.result}" style="max-width: 120px; max-height: 160px; border-radius: var(--radius-sm);" alt="Muqova preview">`;
+      };
+      reader.readAsDataURL(file);
     });
 
     // Handle book deletion
@@ -444,20 +468,36 @@ function showEditBookModal(book, container) {
   // Image preview for edit form
   const editImageInput = modalOverlay.querySelector('#edit-book-cover-image');
   const editPreviewDiv = modalOverlay.querySelector('#edit-book-cover-preview');
-  editImageInput.addEventListener('change', () => {
-    if (editImageInput.files && editImageInput.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        editPreviewDiv.style.display = 'block';
-        editPreviewDiv.innerHTML = `<img src="${e.target.result}" style="max-width: 120px; max-height: 160px; border-radius: var(--radius-sm);">`;
-      };
-      reader.readAsDataURL(editImageInput.files[0]);
+  editImageInput.addEventListener('change', function() {
+    const file = this.files && this.files[0];
+    if (!file) return;
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      showNotification('Faqat JPEG, PNG, GIF yoki WEBP formatlari qabul qilinadi', 'error');
+      this.value = '';
+      return;
     }
+    const maxSize = 2 * 1024 * 1024;
+    if (file.size > maxSize) {
+      showNotification('Rasm hajmi 2 MB dan oshmasligi kerak', 'error');
+      this.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      editPreviewDiv.style.display = 'block';
+      editPreviewDiv.innerHTML = `<img src="${e.target.result}" style="max-width: 120px; max-height: 160px; border-radius: var(--radius-sm);" alt="Muqova preview">`;
+    };
+    reader.readAsDataURL(file);
   });
 
   const editForm = modalOverlay.querySelector('#edit-book-form');
   editForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const submitBtn = editForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '⏳ Saqlanmoqda...';
     const updates = {
       title: modalOverlay.querySelector('#edit-book-title').value.trim(),
       author: modalOverlay.querySelector('#edit-book-author').value.trim(),
@@ -483,7 +523,10 @@ function showEditBookModal(book, container) {
       closeModal();
       renderBooksTab(container);
     } catch (err) {
-      showNotification("Kitobni yangilashda xatolik yuz berdi", "error");
+      console.error(err);
+      showNotification(err.message || "Kitobni yangilashda xatolik yuz berdi", "error");
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
     }
   });
 }
@@ -738,14 +781,14 @@ async function renderCommentsTab(container) {
             <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 16px; background: var(--bg-tertiary); border-radius: var(--radius-md); gap: 16px;">
               <div style="flex: 1;">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <span style="font-size: 1.25rem;">${c.userAvatar || '😊'}</span>
-                  <span style="font-weight: 700;">${c.userName}</span>
+                  <span style="font-size: 1.25rem;">${escapeHtml(c.userAvatar || '😊')}</span>
+                  <span style="font-weight: 700;">${escapeHtml(c.userName)}</span>
                   <span style="font-size: 0.8rem; color: var(--text-muted);">${new Date(c.createdAt).toLocaleString('uz')}</span>
                 </div>
-                <p style="margin-top: 8px; color: var(--text-secondary); line-height: 1.5; font-size: 0.95rem;">${c.text}</p>
-                <p style="margin-top: 4px; font-size: 0.75rem; color: var(--color-primary-hover); font-weight: 600;">Kitob ID: ${c.bookId}</p>
+                <p style="margin-top: 8px; color: var(--text-secondary); line-height: 1.5; font-size: 0.95rem;">${escapeHtml(c.text)}</p>
+                <p style="margin-top: 4px; font-size: 0.75rem; color: var(--color-primary-hover); font-weight: 600;">Kitob ID: ${escapeHtml(c.bookId)}</p>
               </div>
-              <button class="btn btn-outline btn-sm delete-comment-moderation-btn" data-id="${c.id}" style="color: var(--color-error); border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.03);">
+              <button class="btn btn-outline btn-sm delete-comment-moderation-btn" data-id="${escapeHtml(c.id)}" style="color: var(--color-error); border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.03);">
                 🗑️ O'chirish
               </button>
             </div>
@@ -803,10 +846,10 @@ async function renderUsersTab(container) {
               ${users.map(u => `
                 <tr style="border-bottom: 1px solid var(--border-color);">
                   <td style="padding: 14px 8px; display: flex; align-items: center; gap: 10px;">
-                    <span style="font-size: 1.5rem;">${u.avatar || '😊'}</span>
-                    <span style="font-weight: 600;">${u.fullName}</span>
+                    <span style="font-size: 1.5rem;">${escapeHtml(u.avatar || '😊')}</span>
+                    <span style="font-weight: 600;">${escapeHtml(u.fullName)}</span>
                   </td>
-                  <td style="padding: 14px 8px; color: var(--text-secondary);">@${u.username}</td>
+                  <td style="padding: 14px 8px; color: var(--text-secondary);">@${escapeHtml(u.username)}</td>
                   <td style="padding: 14px 8px;">
                     <span class="badge ${u.isAdmin ? 'badge-primary' : 'badge-success'}">${u.isAdmin ? 'Admin' : 'Foydalanuvchi'}</span>
                   </td>
@@ -815,7 +858,7 @@ async function renderUsersTab(container) {
                     ${u.username === 'admin' ? `
                       <span style="font-size: 0.85rem; color: var(--text-muted); font-style: italic;">O'chirib bo'lmaydi</span>
                     ` : `
-                      <button class="btn btn-ghost btn-sm delete-user-btn" data-id="${u.id}" style="color: var(--color-error);">
+                      <button class="btn btn-ghost btn-sm delete-user-btn" data-id="${escapeHtml(u.id)}" style="color: var(--color-error);">
                         O'chirish
                       </button>
                     `}
@@ -858,22 +901,23 @@ async function renderCharactersTab(container) {
 
   try {
     const { characters: defaultChars } = await import('./data.js');
-    let dbChars = [];
+
+    // Check if Supabase has characters; if not, seed defaults
+    let remoteChars = [];
     try {
-      dbChars = await getAllCharacters();
+      remoteChars = await getAllCharacters();
     } catch (e) {
       console.warn('Characters store not available yet:', e);
     }
 
-    // Seed default characters on first visit
-    if (dbChars.length === 0 && defaultChars.length > 0) {
+    if (remoteChars.length === 0 && defaultChars.length > 0) {
       for (const c of defaultChars) {
         try { await addCharacter(c); } catch (e) {}
       }
-      dbChars = await getAllCharacters();
+      remoteChars = await getAllCharacters();
     }
 
-    const allChars = dbChars;
+    const allChars = remoteChars;
 
     container.innerHTML = `
       <div class="fade-in grid grid-2" style="align-items: start; gap: 24px;">
@@ -917,19 +961,19 @@ async function renderCharactersTab(container) {
             ${allChars.map(c => `
               <div class="card" style="padding: 16px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: space-between; gap: 16px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                  <div style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: ${c.color}20; color: ${c.color}; flex-shrink: 0;${c.avatarImage && c.avatarImage.startsWith('data:') ? ` background-image: url(${c.avatarImage}); background-size: cover; background-position: center; font-size: 0;` : ''}">
-                    ${c.avatar || '😊'}
+                  <div style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: ${escapeHtml(c.color)}20; color: ${escapeHtml(c.color)}; flex-shrink: 0;${c.avatarImage && c.avatarImage.startsWith('data:') ? ` background-image: url('${c.avatarImage}'); background-size: cover; background-position: center; font-size: 0;` : ''}">
+                    ${escapeHtml(c.avatar || '😊')}
                   </div>
                   <div>
-                    <h4 style="font-weight: 600; font-size: 0.95rem; margin-bottom: 2px;">${c.name}</h4>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">${c.bookTitle}</p>
+                    <h4 style="font-weight: 600; font-size: 0.95rem; margin-bottom: 2px;">${escapeHtml(c.name)}</h4>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(c.bookTitle)}</p>
                   </div>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                  <button class="btn btn-outline btn-sm edit-char-btn" data-id="${c.id}" style="color: var(--color-primary); border-color: rgba(99, 102, 241, 0.2); background: rgba(99, 102, 241, 0.05);">
+                  <button class="btn btn-outline btn-sm edit-char-btn" data-id="${escapeHtml(c.id)}" style="color: var(--color-primary); border-color: rgba(99, 102, 241, 0.2); background: rgba(99, 102, 241, 0.05);">
                     ✏️ Tahrirlash
                   </button>
-                  <button class="btn btn-outline btn-sm delete-char-btn" data-id="${c.id}" style="color: var(--color-error); border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.05);">
+                  <button class="btn btn-outline btn-sm delete-char-btn" data-id="${escapeHtml(c.id)}" style="color: var(--color-error); border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.05);">
                     🗑️ O'chirish
                   </button>
                 </div>
@@ -940,10 +984,40 @@ async function renderCharactersTab(container) {
       </div>
     `;
 
+    // Image preview for add form with validation
+    const addImageInput = document.getElementById('char-avatar-image');
+    const addPreviewDiv = document.getElementById('char-avatar-preview');
+    addImageInput.addEventListener('change', function() {
+      const file = this.files && this.files[0];
+      if (!file) return;
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        showNotification('Faqat JPEG, PNG, GIF yoki WEBP formatlari qabul qilinadi', 'error');
+        this.value = '';
+        return;
+      }
+      const maxSize = 2 * 1024 * 1024;
+      if (file.size > maxSize) {
+        showNotification('Rasm hajmi 2 MB dan oshmasligi kerak', 'error');
+        this.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        addPreviewDiv.style.display = 'block';
+        addPreviewDiv.innerHTML = `<img src="${e.target.result}" style="max-width: 80px; max-height: 80px; border-radius: 50%;">`;
+      };
+      reader.readAsDataURL(file);
+    });
+
     // Handle add character
     const charForm = document.getElementById('add-character-form');
     charForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = charForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '⏳ Saqlanmoqda...';
+
       const name = document.getElementById('char-name').value.trim();
       const bookTitle = document.getElementById('char-book').value.trim();
       const avatar = document.getElementById('char-avatar').value.trim() || '😊';
@@ -971,20 +1045,9 @@ async function renderCharactersTab(container) {
         showNotification("Yangi qahramon qo'shildi! 🦸", "success");
         renderCharactersTab(container);
       } catch (err) {
-        showNotification("Qahramon qo'shishda xatolik", "error");
-      }
-    });
-
-    // Image preview for add form
-    document.getElementById('char-avatar-image').addEventListener('change', function() {
-      const preview = document.getElementById('char-avatar-preview');
-      if (this.files && this.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          preview.style.display = 'block';
-          preview.innerHTML = `<img src="${e.target.result}" style="max-width: 80px; max-height: 80px; border-radius: 50%;">`;
-        };
-        reader.readAsDataURL(this.files[0]);
+        showNotification(err.message || "Qahramon qo'shishda xatolik", "error");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '💾 Qahramonni saqlash';
       }
     });
 
@@ -992,12 +1055,16 @@ async function renderCharactersTab(container) {
     container.querySelectorAll('.delete-char-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         if (!confirm(`Haqiqatan ham "${allChars.find(c => c.id === btn.dataset.id)?.name}" qahramonini o'chirmoqchisiz?`)) return;
+        btn.disabled = true;
+        btn.innerHTML = '⏳';
         try {
           await deleteCharacter(btn.dataset.id);
           showNotification("Qahramon o'chirildi", "success");
           renderCharactersTab(container);
         } catch (err) {
-          showNotification("Qahramonni o'chirishda xatolik", "error");
+          showNotification(err.message || "Qahramonni o'chirishda xatolik", "error");
+          btn.disabled = false;
+          btn.innerHTML = '🗑️ O\'chirish';
         }
       });
     });
@@ -1070,21 +1137,38 @@ function showEditCharModal(char, container) {
   modalOverlay.querySelector('#char-modal-cancel').addEventListener('click', close);
   modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) close(); });
 
-  // Image preview
-  modalOverlay.querySelector('#edit-char-avatar-image').addEventListener('change', function() {
-    const preview = modalOverlay.querySelector('#edit-char-avatar-preview');
-    if (this.files && this.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        preview.style.display = 'block';
-        preview.innerHTML = `<img src="${e.target.result}" style="max-width: 80px; max-height: 80px; border-radius: 50%;">`;
-      };
-      reader.readAsDataURL(this.files[0]);
+  // Image preview with validation
+  const editImageInput = modalOverlay.querySelector('#edit-char-avatar-image');
+  const editPreviewDiv = modalOverlay.querySelector('#edit-char-avatar-preview');
+  editImageInput.addEventListener('change', function() {
+    const file = this.files && this.files[0];
+    if (!file) return;
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      showNotification('Faqat JPEG, PNG, GIF yoki WEBP formatlari qabul qilinadi', 'error');
+      this.value = '';
+      return;
     }
+    const maxSize = 2 * 1024 * 1024;
+    if (file.size > maxSize) {
+      showNotification('Rasm hajmi 2 MB dan oshmasligi kerak', 'error');
+      this.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      editPreviewDiv.style.display = 'block';
+      editPreviewDiv.innerHTML = `<img src="${e.target.result}" style="max-width: 80px; max-height: 80px; border-radius: 50%;">`;
+    };
+    reader.readAsDataURL(file);
   });
 
   modalOverlay.querySelector('#edit-char-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const submitBtn = modalOverlay.querySelector('#edit-char-form button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '⏳ Saqlanmoqda...';
+
     const updates = {
       name: modalOverlay.querySelector('#edit-char-name').value.trim(),
       bookTitle: modalOverlay.querySelector('#edit-char-book').value.trim(),
@@ -1095,6 +1179,8 @@ function showEditCharModal(char, container) {
     const fileInput = modalOverlay.querySelector('#edit-char-avatar-image');
     if (fileInput.files && fileInput.files[0]) {
       updates.avatarImage = await fileToBase64(fileInput.files[0]);
+    } else if (char.avatarImage) {
+      updates.avatarImage = char.avatarImage;
     }
     try {
       await updateCharacter(char.id, updates);
@@ -1102,7 +1188,9 @@ function showEditCharModal(char, container) {
       close();
       renderCharactersTab(container);
     } catch (err) {
-      showNotification("Qahramonni yangilashda xatolik", "error");
+      showNotification(err.message || "Qahramonni yangilashda xatolik", "error");
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '💾 Saqlash';
     }
   });
 }

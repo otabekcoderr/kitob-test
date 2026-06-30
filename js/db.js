@@ -1,11 +1,17 @@
 let initialized = false;
 let _books = null, _questions = null, _characters = null;
+let _dataModule = null;
+
+async function getDataModule() {
+  if (!_dataModule) _dataModule = await import('./data.js');
+  return _dataModule;
+}
 
 const SUPABASE_URL = 'https://gvgyaxlbpkvpvwpqxjwc.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_2raJHpiyV55SbGDghEUL5A_2UgIecMn';
 
-const TIMEOUT = 4000;
-const MAX_RETRIES = 3;
+const TIMEOUT = 3000;
+const MAX_RETRIES = 2;
 
 async function supabaseRequest(method, table, opts = {}, retryCount = 0) {
   const { where, body, order } = opts;
@@ -67,21 +73,23 @@ function tryList(table) {
 export async function initDB() {
   if (initialized) return;
   initialized = true;
-  const data = await import('./data.js');
+  const data = await getDataModule();
   _questions = data.questions;
   _characters = data.characters || [];
-  // Load books: try Supabase first, fallback to data.js
-  try {
-    const remoteBooks = await tryList('books');
+  _books = data.books;
+  // Try Supabase in background — don't block initial load
+  tryList('books').then(remoteBooks => {
     if (remoteBooks && remoteBooks.length > 0) {
       _books = remoteBooks;
     } else {
-      _books = data.books;
       seedSupabase(data);
     }
-  } catch {
-    _books = data.books;
-  }
+  }).catch(() => {});
+  tryList('characters').then(remoteChars => {
+    if (remoteChars && remoteChars.length > 0) {
+      _characters = remoteChars;
+    }
+  }).catch(() => {});
 }
 
 async function seedSupabase(data) {
@@ -115,11 +123,11 @@ export const getAllUsers = () => tryList('users');
 
 // Books — always from memory (data.js), Supabase in background
 export async function getBookById(id) {
-  if (!_books) { const d = await import('./data.js'); _books = d.books; }
+  if (!_books) { const d = await getDataModule(); _books = d.books; }
   return _books.find(b => b.id === id) || null;
 }
 export async function getAllBooks() {
-  if (!_books) { const d = await import('./data.js'); _books = d.books; }
+  if (!_books) { const d = await getDataModule(); _books = d.books; }
   return _books;
 }
 export const addBook = async (d) => {
@@ -141,11 +149,11 @@ export const deleteBook = async (id) => {
 
 // Questions — always from memory (data.js)
 export async function getQuestionsByBook(bookId) {
-  if (!_questions) { const d = await import('./data.js'); _questions = d.questions; }
+  if (!_questions) { const d = await getDataModule(); _questions = d.questions; }
   return _questions.filter(q => q.bookId === bookId);
 }
 export async function getAllQuestions() {
-  if (!_questions) { const d = await import('./data.js'); _questions = d.questions; }
+  if (!_questions) { const d = await getDataModule(); _questions = d.questions; }
   return _questions;
 }
 export const addQuestion = (d) => supabaseRequest('POST', 'questions', { body: d }).then(() => d).catch(e => { throw e; });
@@ -171,13 +179,34 @@ export const getArenaMatchesByUser = (userId) => tryList('arena_matches').then(r
 export const getAllArenaMatches = () => tryList('arena_matches');
 
 // Characters
-export const addCharacter = (d) => supabaseRequest('POST', 'characters', { body: d }).then(() => d).catch(e => { throw e; });
+export const addCharacter = async (d) => {
+  const result = await supabaseRequest('POST', 'characters', { body: d });
+  if (Array.isArray(_characters)) _characters.push(result);
+  return result;
+};
 export async function getAllCharacters() {
-  if (!_characters) { const d = await import('./data.js'); _characters = d.characters || []; }
+  try {
+    const remote = await supabaseRequest('GET', 'characters');
+    if (Array.isArray(remote) && remote.length > 0) {
+      _characters = remote;
+      return _characters;
+    }
+  } catch (e) {}
+  if (!_characters) { const d = await getDataModule(); _characters = d.characters || []; }
   return _characters;
 }
-export const updateCharacter = (id, updates) => supabaseRequest('PATCH', 'characters', { where: { id }, body: updates }).catch(() => null);
-export const deleteCharacter = (id) => supabaseRequest('DELETE', 'characters', { where: { id } }).catch(() => false);
+export const updateCharacter = async (id, updates) => {
+  const result = await supabaseRequest('PATCH', 'characters', { where: { id }, body: updates });
+  if (Array.isArray(_characters)) {
+    const idx = _characters.findIndex(c => c.id === id);
+    if (idx !== -1) _characters[idx] = { ..._characters[idx], ...updates };
+  }
+  return result;
+};
+export const deleteCharacter = async (id) => {
+  await supabaseRequest('DELETE', 'characters', { where: { id } });
+  if (Array.isArray(_characters)) _characters = _characters.filter(c => c.id !== id);
+};
 
 export async function updateUserStreak(userId) {
   const user = await getUserById(userId);
@@ -196,5 +225,6 @@ export async function updateUserStreak(userId) {
   }
   user.stats.maxStreak = Math.max(user.stats.maxStreak, user.stats.currentStreak);
   user.stats.lastQuizDate = today;
-  return updateUser(userId, { stats: user.stats });
+  await updateUser(userId, { stats: user.stats });
+  return user;
 }

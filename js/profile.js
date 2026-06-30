@@ -1,4 +1,4 @@
-import { getCurrentUser, updateProfile } from './auth.js';
+import { getCurrentUser, updateProfile, logout as authLogout } from './auth.js';
 import { getResultsByUser, getAllBooks, getAllCharacters } from './db.js';
 import { navigate, showNotification } from './app.js';
 
@@ -35,8 +35,8 @@ export async function renderProfile(container) {
     container.innerHTML = `
       <div class="fade-in">
         <div class="card glass-card mb-lg profile-header" style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
-          <div class="profile-avatar-large" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid var(--color-primary); box-shadow: var(--shadow-glow);">
-            ${currentUser.avatar || '😊'}
+          <div class="profile-avatar-large" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid var(--color-primary); box-shadow: var(--shadow-glow);${currentUser.avatarImage ? ` background-image: url('${currentUser.avatarImage}'); background-size: cover; background-position: center; font-size: 0;` : ''}">
+            ${currentUser.avatarImage ? '' : (currentUser.avatar || '😊')}
           </div>
           <div>
             <h1 class="profile-name" style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;">${currentUser.fullName}</h1>
@@ -45,19 +45,19 @@ export async function renderProfile(container) {
         </div>
 
         <div class="grid grid-4 mb-lg">
-          <div class="card stat-card">
+          <div class="card stat-card glass-card">
             <div class="stat-value" style="color: var(--color-primary);">${totalTests}</div>
             <div class="stat-label">Jami urinishlar</div>
           </div>
-          <div class="card stat-card">
+          <div class="card stat-card glass-card">
             <div class="stat-value" style="color: var(--color-secondary);">${avgScore}%</div>
             <div class="stat-label">O'rtacha ko'rsatkich</div>
           </div>
-          <div class="card stat-card">
+          <div class="card stat-card glass-card">
             <div class="stat-value" style="color: var(--color-success);">${booksCompletedCount} / ${booksList.length}</div>
             <div class="stat-label">Yechilgan kitoblar</div>
           </div>
-          <div class="card stat-card" title="Maksimal streak: ${currentUser.stats?.maxStreak || 0} kun">
+          <div class="card stat-card glass-card" title="Maksimal streak: ${currentUser.stats?.maxStreak || 0} kun">
             <div class="stat-value" style="color: var(--color-accent);">🔥 ${currentUser.stats?.currentStreak || 0}</div>
             <div class="stat-label">Joriy Streak (Maks: ${currentUser.stats?.maxStreak || 0} kun)</div>
           </div>
@@ -121,7 +121,7 @@ function renderStatsView(container, booksList, bookScoresMap) {
   container.innerHTML = `
     <div class="fade-in">
       <div class="section-title">📊 Kitoblar bo'yicha ko'rsatkichlar</div>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="profile-books-list">
         ${completedBooks.map(b => {
           const hasAttempt = b.score !== null;
           const percentage = hasAttempt ? b.score : 0;
@@ -131,27 +131,27 @@ function renderStatsView(container, booksList, bookScoresMap) {
           else if (hasAttempt) color = 'var(--color-error)';
 
           return `
-            <div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                  <span style="font-size: 1.5rem; width: 36px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); overflow: hidden;${b.coverImage ? ` background: url(${b.coverImage}) center/cover no-repeat; font-size: 0;` : ''}">${b.coverImage ? '' : b.cover}</span>
-                  <div>
-                    <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 2px;">${b.title}</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">${b.author}</p>
+            <div class="card glass-card profile-book-card">
+              <div class="profile-book-row">
+                <div class="profile-book-info">
+                  <span class="profile-book-cover"${b.coverImage ? ` style="background: url(${b.coverImage}) center/cover no-repeat; font-size: 0;"` : ''}>${b.coverImage ? '' : b.cover}</span>
+                  <div class="profile-book-text">
+                    <h3 class="profile-book-title">${b.title}</h3>
+                    <p class="profile-book-author">${b.author}</p>
                   </div>
                 </div>
-                <div>
+                <div class="profile-book-badge">
                   ${hasAttempt ? `
-                    <span class="badge" style="background: ${color}20; color: ${color}; font-weight: 700; font-size: 0.9rem;">Eng yaxshi ball: ${b.score}%</span>
+                    <span class="badge" style="background: ${color}20; color: ${color};">Eng yaxshi ball: ${b.score}%</span>
                   ` : `
-                    <span class="badge" style="background: var(--bg-tertiary); color: var(--text-muted); font-size: 0.85rem;">Hali yechilmagan</span>
+                    <span class="badge badge-unattempted">Hali yechilmagan</span>
                   `}
                 </div>
               </div>
 
               ${hasAttempt ? `
-                <div style="width: 100%; height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden; margin-top: 4px;">
-                  <div style="width: ${percentage}%; height: 100%; background: ${color}; border-radius: 4px; transition: width 0.5s ease;"></div>
+                <div class="profile-book-progress">
+                  <div class="profile-book-progress-bar" style="width: ${percentage}%; background: ${color};"></div>
                 </div>
               ` : ''}
             </div>
@@ -230,10 +230,17 @@ async function renderSettingsView(container, currentUser) {
 
         <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 10px;">
           <button type="submit" class="btn btn-primary">💾 Saqlash</button>
+          <button type="button" class="btn btn-ghost" id="profile-logout-btn" style="color: var(--color-error);">Chiqish</button>
         </div>
       </form>
     </div>
   `;
+
+  document.getElementById('profile-logout-btn')?.addEventListener('click', () => {
+    authLogout();
+    navigate('/login');
+    showNotification('Tizimdan chiqdingiz', 'info');
+  });
 
   // Character card selection handling
   const cards = container.querySelectorAll('.character-card');
@@ -268,6 +275,7 @@ async function renderSettingsView(container, currentUser) {
       fullName: newFullName,
       username: newUsername,
       avatar: selectedChar ? selectedChar.avatar : (currentUser.avatar || '😊'),
+      avatarImage: selectedChar && selectedChar.avatarImage ? selectedChar.avatarImage : undefined,
       avatarCharId: selectedChar ? selectedChar.id : undefined
     };
 
@@ -278,8 +286,8 @@ async function renderSettingsView(container, currentUser) {
     try {
       await updateProfile(updates);
       showNotification("Profil sozlamalari muvaffaqiyatli saqlandi! 🎉", "success");
-      // Re-render whole profile page to refresh header
-      renderProfile(container.parentElement.parentElement);
+      // Navigate to profile to refresh the page
+      navigate('/profile');
     } catch (err) {
       console.error(err);
       showNotification(err.message || "Saqlashda xatolik yuz berdi", "error");
