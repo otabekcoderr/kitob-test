@@ -1150,14 +1150,17 @@ body:not(.light-theme) .hero-section {
 
 .quiz-option {
   padding: 16px 20px;
-  background: var(--bg-tertiary);
-  border: 1.5px solid var(--border-color);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-md);
   cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
-  gap: 16px;
-  transition: var(--transition);
+  gap: 12px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .quiz-option:hover {
   border-color: var(--color-primary);
@@ -1576,7 +1579,11 @@ body:not(.light-theme) .hero-section {
 
 @media (max-width: 768px) {
   .navbar {
+    position: relative;
     height: 64px;
+  }
+  .main-content {
+    padding-top: 20px;
   }
   .nav-container {
     height: 64px;
@@ -1678,9 +1685,7 @@ body:not(.light-theme) .hero-section {
   .nav-link-auth {
     display: inline-flex;
   }
-  #daily-stack-info-btn {
-    display: none !important;
-  }
+
 
   .main-content {
     padding-top: 80px;
@@ -2458,4 +2463,7 @@ body:not(.light-theme) .hero-section {
   }
 }
 
+
+
+.quiz-question-text, .quiz-option { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
 

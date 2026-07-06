@@ -145,8 +145,8 @@ function updateNavbar() {
     if (navLinks) {
       let linksHtml = `
         <a href="#/dashboard" class="nav-link ${hash === '#/dashboard' || hash === '' ? 'active' : ''}"><span class="nav-link-icon">🏠</span><span>Dashboard</span></a>
-        <a href="#/books" class="nav-link ${hash === '#/books' || hash.startsWith('#/book/') ? 'active' : ''}"><span class="nav-link-icon">📚</span><span>Kitoblar</span></a>
-        <a href="#/daily-stack" class="nav-link ${hash === '#/daily-stack' ? 'active' : ''}"><span class="nav-link-icon">📅</span><span>Kunlik</span></a>
+        <a href="#/books" class="nav-link ${hash === '#/books' || hash.startsWith('#/book/') ? 'active' : ''}"><span class="nav-link-icon">📚</span><span>Testlar</span></a>
+        <a href="#/daily-stack" class="nav-link ${hash === '#/daily-stack' ? 'active' : ''}"><span class="nav-link-icon">📅</span><span>Kunlik test</span></a>
         <a href="#/arena" class="nav-link ${hash === '#/arena' || hash === '#/arena-leaderboard' ? 'active' : ''}"><span class="nav-link-icon">⚔️</span><span>Arena</span></a>
         <a href="#/results" class="nav-link ${hash === '#/results' || hash.startsWith('#/result/') ? 'active' : ''}"><span class="nav-link-icon">📊</span><span>Natijalar</span></a>
         <a href="#/leaderboard" class="nav-link ${hash === '#/leaderboard' ? 'active' : ''}"><span class="nav-link-icon">🏆</span><span>Reyting</span></a>
@@ -170,19 +170,19 @@ function updateNavbar() {
         </a>
         <a href="#/books" class="mobile-nav-item ${hash === '#/books' || hash.startsWith('#/book/') ? 'active' : ''}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-          <span>Kutubxona</span>
+          <span>Testlar</span>
         </a>
         <a href="#/daily-stack" class="mobile-nav-item ${hash === '#/daily-stack' ? 'active' : ''}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-          <span>Maqsad</span>
+          <span>Kunlik test</span>
+        </a>
+        <a href="#/arena" class="mobile-nav-item ${hash === '#/arena' || hash === '#/arena-leaderboard' ? 'active' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6l2.5-2.5L17 15l-2.5 2.5z"></path><path d="M15 17l6-6-2.5-2.5L7 19.5 9.5 22 15 17z"></path></svg>
+          <span>Arena</span>
         </a>
         <a href="#/leaderboard" class="mobile-nav-item ${hash === '#/leaderboard' ? 'active' : ''}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10"></path><path d="M17 4v8a5 5 0 0 1-10 0V4"></path><path d="M7 8H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h3"></path><path d="M17 8h3a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-3"></path></svg>
           <span>Reyting</span>
-        </a>
-        <a href="#/profile" class="mobile-nav-item ${hash === '#/profile' ? 'active' : ''}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <span>Profil</span>
         </a>
       `;
     }
