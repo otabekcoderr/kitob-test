@@ -186,10 +186,9 @@ img {
   left: 0;
   right: 0;
   height: 68px;
-  background: rgba(10, 15, 29, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--bg-primary);
   border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   z-index: 1000;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -218,7 +217,7 @@ img {
 
 .nav-logo {
   font-family: var(--font-heading);
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: var(--text-primary);
   text-decoration: none;
@@ -1610,7 +1609,7 @@ body:not(.light-theme) .hero-section {
     justify-content: space-around;
     align-items: center;
     padding-bottom: env(safe-area-inset-bottom);
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 -8px 20px rgba(0,0,0,0.25);
     border-radius: 20px 20px 0 0;
   }
   
@@ -2466,4 +2465,8 @@ body:not(.light-theme) .hero-section {
 
 
 .quiz-question-text, .quiz-option { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
+
+
+#daily-stack-info-btn, .theme-toggle-btn, .nav-avatar-trigger { width: 38px !important; height: 38px !important; border-radius: 50% !important; padding: 0 !important; border: 1.5px solid var(--border-color) !important; background: transparent !important; justify-content: center !important; }
+#daily-stack-info-btn span, .avatar-chevron { display: none !important; }
 
