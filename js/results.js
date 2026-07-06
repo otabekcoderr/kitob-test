@@ -1,5 +1,5 @@
 import { getCurrentUser } from './auth.js';
-import { getResultById, getResultsByUser, getAllResults, getAllUsers, getQuestionsByBook } from './db.js';
+import { getResultById, getResultsByUser, getAllUsers, getQuestionsByBook } from './db.js';
 import { navigate, showNotification } from './app.js';
 import { escapeHtml, formatDate, formatTime } from './utils.js';
 
@@ -220,37 +220,20 @@ export async function renderLeaderboard(container) {
 
   try {
     const allUsers = (await getAllUsers()) || [];
-    const allResults = await getAllResults() || [];
     const filteredUsers = allUsers.filter(u => u.username !== 'admin');
     const currentUser = getCurrentUser();
 
-    // Calculate ranking statistics for all users
+    // Read ranking statistics from precomputed user profiles stats field
     const usersStats = filteredUsers.map(user => {
-      const userResults = allResults.filter(r => r.userId === user.id);
-      const testsCompleted = userResults.length;
-      
-      let avgScore = 0;
-      let totalCorrect = 0;
-      let totalQuestions = 0;
-      let bestScore = 0;
-
-      if (testsCompleted > 0) {
-        userResults.forEach(r => {
-          totalCorrect += r.correctAnswers;
-          totalQuestions += r.totalQuestions;
-          if (r.score > bestScore) bestScore = r.score;
-        });
-        avgScore = Math.round((totalCorrect / totalQuestions) * 100) || 0;
-      }
-
+      const stats = user.stats || { testsCompleted: 0, avgScore: 0, bestScore: 0 };
       return {
         id: user.id,
         fullName: user.fullName,
         username: user.username,
         avatar: user.avatar,
-        testsCompleted,
-        avgScore,
-        bestScore
+        testsCompleted: stats.testsCompleted || 0,
+        avgScore: stats.avgScore || 0,
+        bestScore: stats.bestScore || 0
       };
     });
 

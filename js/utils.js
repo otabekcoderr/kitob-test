@@ -103,5 +103,26 @@ export function validateUsername(username) {
 }
 
 export function validatePassword(password) {
-  return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password);
+  return password.length >= 4;
+}
+
+export function safeCssUrl(url) {
+  if (typeof url !== 'string' || !url) return '';
+  if (!url.startsWith('data:image/')) return '';
+  const escaped = url
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\(/g, '\\(')
+    .replace(/\)/g, '\\)');
+  return ` background-image: url('${escaped}'); background-size: cover; background-position: center; font-size: 0;`;
+}
+
+export function cssUrl(url) {
+  if (typeof url !== 'string' || !url) return '';
+  const escaped = url
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\(/g, '\\(')
+    .replace(/\)/g, '\\)');
+  return `url('${escaped}')`;
 }

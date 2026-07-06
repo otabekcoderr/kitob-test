@@ -1,9 +1,9 @@
 import { initDB, getAllBooks } from './db.js';
-import { getCurrentUser, initAdminAccount, login as authLogin, register as authRegister } from './auth.js';
+import { getCurrentUser, initAuth, login as authLogin, register as authRegister } from './auth.js';
 import { renderBooksList, renderBookDetail } from './books.js';
 import { renderQuiz } from './quiz.js';
 import { renderResultDetail, renderResultsHistory, renderLeaderboard } from './results.js';
-import { escapeHtml } from './utils.js';
+import { escapeHtml, safeCssUrl, cssUrl } from './utils.js';
 
 export function navigate(path) {
   window.location.hash = path;
@@ -124,10 +124,11 @@ function updateNavbar() {
 
   if (!user) {
     if (navLinks) {
-      navLinks.innerHTML = `
-        <a href="#/login" class="nav-link nav-link-auth ${hash === '#/login' ? 'active' : ''}"><span class="nav-link-icon">🔐</span><span>Kirish</span></a>
-        <a href="#/register" class="nav-link nav-link-auth ${hash === '#/register' ? 'active' : ''}"><span class="nav-link-icon">✨</span><span>Ro'yxatdan o'tish</span></a>
-      `;
+      navLinks.innerHTML = '';
+    }
+    const mobileBottomNav = document.getElementById('mobile-bottom-nav');
+    if (mobileBottomNav) {
+      mobileBottomNav.innerHTML = '';
     }
     if (navUser) {
       navUser.innerHTML = `
@@ -159,6 +160,32 @@ function updateNavbar() {
 
       navLinks.innerHTML = linksHtml;
     }
+
+    const mobileBottomNav = document.getElementById('mobile-bottom-nav');
+    if (mobileBottomNav) {
+      mobileBottomNav.innerHTML = `
+        <a href="#/dashboard" class="mobile-nav-item ${hash === '#/dashboard' || hash === '' ? 'active' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Bosh</span>
+        </a>
+        <a href="#/books" class="mobile-nav-item ${hash === '#/books' || hash.startsWith('#/book/') ? 'active' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Kutubxona</span>
+        </a>
+        <a href="#/daily-stack" class="mobile-nav-item ${hash === '#/daily-stack' ? 'active' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+          <span>Maqsad</span>
+        </a>
+        <a href="#/leaderboard" class="mobile-nav-item ${hash === '#/leaderboard' ? 'active' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10"></path><path d="M17 4v8a5 5 0 0 1-10 0V4"></path><path d="M7 8H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h3"></path><path d="M17 8h3a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-3"></path></svg>
+          <span>Reyting</span>
+        </a>
+        <a href="#/profile" class="mobile-nav-item ${hash === '#/profile' ? 'active' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Profil</span>
+        </a>
+      `;
+    }
     
     if (navUser) {
       navUser.innerHTML = `
@@ -168,12 +195,12 @@ function updateNavbar() {
         </button>
         <div class="nav-avatar-dropdown">
           <button class="nav-avatar-trigger" id="nav-avatar-trigger" aria-label="Profil menyusi" aria-haspopup="true">
-            <span class="avatar-emoji"${user.avatarImage ? ` style="background-image: url('${user.avatarImage}'); background-size: cover; background-position: center; font-size: 0; width: 28px; height: 28px; border-radius: 50%; display: inline-block;"` : ''}>${user.avatarImage ? '' : user.avatar}</span>
+            <span class="avatar-emoji"${safeCssUrl(user.avatarImage) ? ` style="${safeCssUrl(user.avatarImage)} width: 28px; height: 28px; border-radius: 50%; display: inline-block;"` : ''}>${user.avatarImage ? '' : escapeHtml(user.avatar)}</span>
             <span class="avatar-chevron">▾</span>
           </button>
           <div class="nav-dropdown-menu" id="nav-dropdown-menu" role="menu">
             <div class="nav-dropdown-header">
-              <span class="dropdown-avatar"${user.avatarImage ? ` style="background-image: url('${user.avatarImage}'); background-size: cover; background-position: center; font-size: 0; width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"` : ''}>${user.avatarImage ? '' : escapeHtml(user.avatar)}</span>
+              <span class="dropdown-avatar"${safeCssUrl(user.avatarImage) ? ` style="${safeCssUrl(user.avatarImage)} width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;"` : ''}>${user.avatarImage ? '' : escapeHtml(user.avatar)}</span>
               <div>
                 <div class="dropdown-name">${escapeHtml(user.fullName)}</div>
                 <div class="dropdown-username">@${escapeHtml(user.username)}</div>
@@ -289,12 +316,15 @@ function showDailyStackInfo(user, hasDoneToday) {
 }
 
 function setupMobileNav() {
-  const toggle = document.getElementById('nav-toggle');
-  const links = document.getElementById('nav-links');
-  const navbar = document.getElementById('navbar');
-  if (!toggle || !links) return;
+  const getElements = () => {
+    return {
+      toggle: document.getElementById('nav-toggle'),
+      links: document.getElementById('nav-links'),
+      navbar: document.getElementById('navbar')
+    };
+  };
 
-  const closeMenu = () => {
+  const closeMenu = (toggle, links) => {
     links.classList.remove('show');
     document.body.classList.remove('nav-open');
     toggle.classList.remove('is-open');
@@ -302,7 +332,7 @@ function setupMobileNav() {
     toggle.setAttribute('aria-label', 'Menuni ochish');
   };
 
-  const openMenu = () => {
+  const openMenu = (toggle, links) => {
     links.classList.add('show');
     document.body.classList.add('nav-open');
     toggle.classList.add('is-open');
@@ -311,28 +341,40 @@ function setupMobileNav() {
   };
 
   document.addEventListener('click', (e) => {
+    const { toggle, links, navbar } = getElements();
+    if (!toggle || !links) return;
+
     const toggleButton = e.target.closest('#nav-toggle');
     if (toggleButton) {
       e.preventDefault();
       e.stopPropagation();
-      links.classList.contains('show') ? closeMenu() : openMenu();
+      links.classList.contains('show') ? closeMenu(toggle, links) : openMenu(toggle, links);
+      return;
+    }
+
+    // Close menu when clicking a nav-link inside it
+    if (e.target.closest('.nav-link') && links.contains(e.target)) {
+      closeMenu(toggle, links);
       return;
     }
 
     if (navbar && !navbar.contains(e.target)) {
-      closeMenu();
+      closeMenu(toggle, links);
     }
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
+    if (e.key === 'Escape') {
+      const { toggle, links } = getElements();
+      if (toggle && links) closeMenu(toggle, links);
+    }
   });
 }
 
 // Render Authentication Screens
 function renderLogin(container) {
   container.innerHTML = `
-    <div class="auth-page fade-in">
+    <div class="auth-page ">
       <div class="card auth-card">
         <h1 class="auth-title">Xush kelibsiz! 👋</h1>
         <p class="auth-subtitle">Platformaga kirish uchun ma'lumotlaringizni kiriting</p>
@@ -357,6 +399,12 @@ function renderLogin(container) {
   const form = document.getElementById('login-form');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Kutilmoqda...";
+
     const uName = document.getElementById('login-username').value.trim();
     const pWord = document.getElementById('login-password').value;
 
@@ -366,13 +414,15 @@ function renderLogin(container) {
       navigate('/dashboard');
     } catch (err) {
       showNotification(err.message, "error");
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
     }
   });
 }
 
 function renderRegister(container) {
   container.innerHTML = `
-    <div class="auth-page fade-in">
+    <div class="auth-page ">
       <div class="card auth-card">
         <h1 class="auth-title">Ro'yxatdan o'tish 🚀</h1>
         <p class="auth-subtitle">Yangi hisob yarating va testlarni yechishni boshlang</p>
@@ -405,6 +455,9 @@ function renderRegister(container) {
   const form = document.getElementById('register-form');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
     const fullName = document.getElementById('reg-fullname').value.trim();
     const username = document.getElementById('reg-username').value.trim();
     const password = document.getElementById('reg-password').value;
@@ -415,12 +468,17 @@ function renderRegister(container) {
       return;
     }
 
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Kutilmoqda...";
+
     try {
       await authRegister(fullName, username, password);
       showNotification("Ro'yxatdan muvaffaqiyatli o'tdingiz! 🥳", "success");
       navigate('/dashboard');
     } catch (err) {
       showNotification(err.message, "error");
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
     }
   });
 }
@@ -501,14 +559,14 @@ async function renderDashboard(container) {
       const hasDoneToday = user.stats?.lastQuizDate === todayDateStr;
 
       container.innerHTML = `
-        <div class="fade-in">
+        <div class="">
           <div class="hero-section" style="text-align: left; padding: 24px 0; margin-bottom: 12px;">
-            <h1 class="hero-title" style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 8px;">Salom, ${user.fullName}! ${user.avatar}</h1>
+            <h1 class="hero-title" style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 8px;">Salom, ${escapeHtml(user.fullName)}! ${escapeHtml(user.avatar)}</h1>
             <p class="hero-subtitle" style="font-size: 1.1rem; color: var(--text-secondary);">Bugun qaysi kitob bo'yicha bilimingizni sinab ko'rmoqchisiz?</p>
           </div>
 
           <!-- Streak Widget -->
-          <div class="card streak-widget slide-up stagger-1" style="margin-bottom: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: ${hasDoneToday ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(239, 68, 68, 0.06))' : 'var(--bg-secondary)'}; border: 1px solid ${hasDoneToday ? 'rgba(245, 158, 11, 0.35)' : 'var(--border-color)'};">
+          <div class="card streak-widget " style="margin-bottom: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: ${hasDoneToday ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(239, 68, 68, 0.06))' : 'var(--bg-secondary)'}; border: 1px solid ${hasDoneToday ? 'rgba(245, 158, 11, 0.35)' : 'var(--border-color)'};">
             <div style="display: flex; align-items: center; gap: 16px;">
               <div class="streak-fire ${hasDoneToday ? 'active' : ''}" style="font-size: 2.5rem; filter: ${hasDoneToday ? 'none' : 'grayscale(100%) opacity(0.6)'}; line-height: 1;">
                 🔥
@@ -532,19 +590,19 @@ async function renderDashboard(container) {
           </div>
 
           <div class="grid grid-4 mb-lg">
-            <div class="card stat-card slide-up stagger-1">
+            <div class="card stat-card ">
               <div class="stat-value">${totalTests}</div>
               <div class="stat-label">Urinishlar</div>
             </div>
-            <div class="card stat-card slide-up stagger-2">
+            <div class="card stat-card ">
               <div class="stat-value">${avgScore}%</div>
               <div class="stat-label">O'rtacha ball</div>
             </div>
-            <div class="card stat-card slide-up stagger-3">
+            <div class="card stat-card ">
               <div class="stat-value">${bestScore}%</div>
               <div class="stat-label">Eng yaxshi natija</div>
             </div>
-            <div class="card stat-card slide-up stagger-4">
+            <div class="card stat-card ">
               <div class="stat-value">${booksCompletedCount}</div>
               <div class="stat-label">Yechilgan kitoblar</div>
             </div>
@@ -559,7 +617,7 @@ async function renderDashboard(container) {
              ${sortedBooks.slice(0, 5).map((book, idx) => `
               <div class="card book-card slide-up stagger-${idx + 1}">
                 <div class="book-cover-link" onclick="window.location.hash='#/book/${encodeURIComponent(book.id)}'" style="cursor: pointer;">
-                  <div class="book-cover-premium" style="background: ${book.coverImage ? `url('${book.coverImage}') center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
+                   <div class="book-cover-premium" style="background: ${book.coverImage ? `${cssUrl(book.coverImage)} center/cover no-repeat, ${escapeHtml(book.coverBg) || 'var(--bg-tertiary)'}` : (escapeHtml(book.coverBg) || 'var(--bg-tertiary)')}; color: ${escapeHtml(book.coverTitleColor) || 'white'};">
                     ${!book.coverImage ? `<div class="book-cover-pattern" style="opacity: 0.15; background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);"></div>` : ''}
                     <div class="book-cover-badge">${escapeHtml(book.genre)}</div>
                   </div>
@@ -621,16 +679,16 @@ async function renderDashboard(container) {
         </div>
       `;
 
-      // Load Mini Leaderboard
-      const [users, allResultsList] = await Promise.all([db.getAllUsers(), db.getAllResults()]);
-      const filteredUsers = (users || []).filter(u => u.username !== 'admin');
-      const stats = (filteredUsers || []).map(u => {
-        const userResults = (allResultsList || []).filter(r => r.userId === u.id);
-        let avg = 0;
-        if (userResults.length > 0) {
-          avg = Math.round(userResults.reduce((acc, r) => acc + r.score, 0) / userResults.length);
-        }
-        return { ...u, avg, count: userResults.length };
+      // Load Mini Leaderboard from precomputed user stats
+      const users = await db.getAllUsers() || [];
+      const filteredUsers = users.filter(u => u.username !== 'admin');
+      const stats = filteredUsers.map(u => {
+        const uStats = u.stats || { testsCompleted: 0, avgScore: 0, bestScore: 0 };
+        return {
+          ...u,
+          avg: uStats.avgScore || 0,
+          count: uStats.testsCompleted || 0
+        };
       });
       const topUsers = stats.filter(u => u.count > 0).sort((a, b) => b.avg - a.avg || b.count - a.count).slice(0, 3);
 
@@ -718,10 +776,6 @@ async function handleRoute() {
   // Update navbar state
   updateNavbar();
 
-  // Minimal page transition — only opacity, no transform to avoid layout shift
-  content.style.opacity = '0';
-  await new Promise(r => setTimeout(r, 80));
-
   // Render correct page (core routes static, heavy routes lazy-loaded)
   switch (path) {
     case '/login':
@@ -794,11 +848,7 @@ async function handleRoute() {
       navigate('/dashboard');
   }
 
-  // Transition Page In — opacity only to prevent layout shifts
-  requestAnimationFrame(() => {
-    content.style.transition = 'opacity 0.2s ease';
-    content.style.opacity = '1';
-  });
+  // Page rendering complete
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -808,8 +858,9 @@ async function handleRoute() {
 async function init() {
   try {
     initTheme(); // Initialize theme preference
+    initAuth(); // Subscribe to Supabase auth state changes
     await initDB();
-    await initAdminAccount(); // Seed admin user if not exists
+    // Seed admin user if not exists
     setupMobileNav();
     window.addEventListener('hashchange', handleRoute);
     

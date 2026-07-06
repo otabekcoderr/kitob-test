@@ -1,6 +1,7 @@
 import { getCurrentUser, updateProfile, logout as authLogout } from './auth.js';
 import { getResultsByUser, getAllBooks, getAllCharacters } from './db.js';
 import { navigate, showNotification } from './app.js';
+import { cssUrl, safeCssUrl } from './utils.js';
 
 export async function renderProfile(container) {
   const currentUser = getCurrentUser();
@@ -35,7 +36,7 @@ export async function renderProfile(container) {
     container.innerHTML = `
       <div class="fade-in">
         <div class="card glass-card mb-lg profile-header" style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
-          <div class="profile-avatar-large" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid var(--color-primary); box-shadow: var(--shadow-glow);${currentUser.avatarImage ? ` background-image: url('${currentUser.avatarImage}'); background-size: cover; background-position: center; font-size: 0;` : ''}">
+          <div class="profile-avatar-large" style="width: 80px; height: 80px; border-radius: 50%; background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid var(--color-primary); box-shadow: var(--shadow-glow);${safeCssUrl(currentUser.avatarImage)}">
             ${currentUser.avatarImage ? '' : (currentUser.avatar || '😊')}
           </div>
           <div>
@@ -134,7 +135,7 @@ function renderStatsView(container, booksList, bookScoresMap) {
             <div class="card glass-card profile-book-card">
               <div class="profile-book-row">
                 <div class="profile-book-info">
-                  <span class="profile-book-cover"${b.coverImage ? ` style="background: url(${b.coverImage}) center/cover no-repeat; font-size: 0;"` : ''}>${b.coverImage ? '' : b.cover}</span>
+                  <span class="profile-book-cover"${b.coverImage ? ` style="background: ${cssUrl(b.coverImage)} center/cover no-repeat; font-size: 0;"` : ''}>${b.coverImage ? '' : escapeHtml(b.cover)}</span>
                   <div class="profile-book-text">
                     <h3 class="profile-book-title">${b.title}</h3>
                     <p class="profile-book-author">${b.author}</p>
@@ -194,13 +195,13 @@ async function renderSettingsView(container, currentUser) {
           <div class="character-grid">
             ${characters.map(char => {
               const isSelected = (char.id === selectedCharId) || (!selectedCharId && char.avatar === (currentUser.avatar || ''));
-              const avatarStyle = char.avatarImage && char.avatarImage.startsWith('data:')
-                ? `background-image: url(${char.avatarImage}); background-size: cover; background-position: center; font-size: 0;`
-                : `background: ${char.color}20; color: ${char.color};`;
+              const avatarStyle = safeCssUrl(char.avatarImage)
+                ? safeCssUrl(char.avatarImage)
+                : `background: ${escapeHtml(char.color)}20; color: ${escapeHtml(char.color)};`;
               return `
-                <div class="character-card ${isSelected ? 'selected' : ''}" data-char-id="${char.id}" data-avatar="${char.avatar}">
+                <div class="character-card ${isSelected ? 'selected' : ''}" data-char-id="${escapeHtml(char.id)}" data-avatar="${escapeHtml(char.avatar)}">
                   <div class="character-avatar-circle" style="${avatarStyle}">
-                    ${char.avatarImage && char.avatarImage.startsWith('data:') ? '' : char.avatar}
+                    ${safeCssUrl(char.avatarImage) ? '' : escapeHtml(char.avatar)}
                   </div>
                   <div style="flex: 1;">
                     <h4 style="font-weight: 700; font-size: 0.95rem;">${char.name}</h4>
@@ -256,6 +257,9 @@ async function renderSettingsView(container, currentUser) {
   const form = document.getElementById('settings-form');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.textContent : '';
+
     const fullNameInput = document.getElementById('profile-fullName-input');
     const usernameInput = document.getElementById('profile-username-input');
     const passwordInput = document.getElementById('profile-password-input');
@@ -267,6 +271,11 @@ async function renderSettingsView(container, currentUser) {
     if (!newFullName || !newUsername) {
       showNotification("Ism yoki login bo'sh bo'lishi mumkin emas!", "error");
       return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Saqlanmoqda...";
     }
 
     // Find selected character
@@ -291,6 +300,11 @@ async function renderSettingsView(container, currentUser) {
     } catch (err) {
       console.error(err);
       showNotification(err.message || "Saqlashda xatolik yuz berdi", "error");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
     }
   });
 }

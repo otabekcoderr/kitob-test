@@ -7,6 +7,7 @@ import {
   getAllCharacters, addCharacter, deleteCharacter, updateCharacter
 } from './db.js';
 import { navigate, showNotification } from './app.js';
+import { safeCssUrl } from './utils.js';
 
 export async function renderAdminPanel(container) {
   container.innerHTML = `
@@ -440,7 +441,7 @@ function showEditBookModal(book, container) {
           <label for="edit-book-cover-image">Muqova rasmi (ixtiyoriy)</label>
           <input type="file" id="edit-book-cover-image" class="input" accept="image/*">
           <div id="edit-book-cover-preview" style="margin-top: 8px;${book.coverImage && book.coverImage.startsWith('data:') ? '' : ' display: none;'}">
-            ${book.coverImage && book.coverImage.startsWith('data:') ? `<img src="${book.coverImage}" style="max-width: 120px; max-height: 160px; border-radius: var(--radius-sm);">` : ''}
+            ${book.coverImage && book.coverImage.startsWith('data:') ? `<img src="${escapeHtml(book.coverImage)}" style="max-width: 120px; max-height: 160px; border-radius: var(--radius-sm);">` : ''}
           </div>
         </div>
         <div class="input-group" style="margin-bottom: 0;">
@@ -634,6 +635,7 @@ async function renderQuestionsTab(container) {
 
       // Submit new question
       const qForm = document.getElementById('add-question-form');
+      const qSubmitBtn = qForm.querySelector('button[type="submit"]');
       qForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const questionText = document.getElementById('q-text').value.trim();
@@ -653,6 +655,9 @@ async function renderQuestionsTab(container) {
           explanation
         };
 
+        qSubmitBtn.disabled = true;
+        qSubmitBtn.innerHTML = '⏳ Saqlanmoqda...';
+
         try {
           await addQuestion(newQ);
           // Increment book's questionCount
@@ -666,9 +671,13 @@ async function renderQuestionsTab(container) {
 
           showNotification("Yangi savol muvaffaqiyatli qo'shildi!", "success");
           qForm.reset();
+          qSubmitBtn.disabled = false;
+          qSubmitBtn.innerHTML = '💾 Savolni saqlash';
           loadQuestionsForSelectedBook();
         } catch (err) {
           showNotification("Savol qo'shishda xatolik yuz berdi", "error");
+          qSubmitBtn.disabled = false;
+          qSubmitBtn.innerHTML = '💾 Savolni saqlash';
         }
       });
 
@@ -871,17 +880,40 @@ async function renderUsersTab(container) {
       </div>
     `;
 
-    // Handle delete user
+    // Handle delete user via Edge Function
     container.querySelectorAll('.delete-user-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         if (!confirm("Ushbu foydalanuvchini va uning barcha natijalarini o'chirmoqchisiz?")) return;
         const userId = btn.dataset.id;
+        btn.disabled = true;
+        btn.textContent = '⏳';
         try {
-          await deleteUser(userId);
+          const { data: { session } } = await (await import('./supabase-client.js')).supabase.auth.getSession();
+          const accessToken = session?.access_token;
+          if (!accessToken) {
+            showNotification('Tizimga kirmagansiz', 'error');
+            btn.disabled = false;
+            btn.innerHTML = 'O\'chirish';
+            return;
+          }
+          const res = await fetch('https://gvgyaxlbpkvpvwpqxjwc.supabase.co/functions/v1/delete-user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({ userId })
+          });
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || 'Server xatoligi');
+          }
           showNotification("Foydalanuvchi tizimdan o'chirildi", "success");
-          renderUsersTab(container); // reload
+          renderUsersTab(container);
         } catch (err) {
-          showNotification("Foydalanuvchini o'chirishda xatolik", "error");
+          showNotification(err.message || 'Foydalanuvchini o\'chirishda xatolik', "error");
+          btn.disabled = false;
+          btn.innerHTML = 'O\'chirish';
         }
       });
     });
@@ -961,7 +993,7 @@ async function renderCharactersTab(container) {
             ${allChars.map(c => `
               <div class="card" style="padding: 16px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: space-between; gap: 16px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                  <div style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: ${escapeHtml(c.color)}20; color: ${escapeHtml(c.color)}; flex-shrink: 0;${c.avatarImage && c.avatarImage.startsWith('data:') ? ` background-image: url('${c.avatarImage}'); background-size: cover; background-position: center; font-size: 0;` : ''}">
+                  <div style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: ${escapeHtml(c.color)}20; color: ${escapeHtml(c.color)}; flex-shrink: 0;${safeCssUrl(c.avatarImage)}">
                     ${escapeHtml(c.avatar || '😊')}
                   </div>
                   <div>
@@ -1115,8 +1147,8 @@ function showEditCharModal(char, container) {
         <div class="input-group" style="margin-bottom: 0;">
           <label for="edit-char-avatar-image">Avatar rasm (ixtiyoriy)</label>
           <input type="file" id="edit-char-avatar-image" class="input" accept="image/*">
-          <div id="edit-char-avatar-preview" style="margin-top: 8px;${char.avatarImage && char.avatarImage.startsWith('data:') ? '' : ' display: none;'}">
-            ${char.avatarImage && char.avatarImage.startsWith('data:') ? `<img src="${char.avatarImage}" style="max-width: 80px; max-height: 80px; border-radius: 50%;">` : ''}
+          <div id="edit-char-avatar-preview" style="margin-top: 8px;${safeCssUrl(char.avatarImage) ? '' : ' display: none;'}">
+            ${safeCssUrl(char.avatarImage) ? `<img src="${escapeHtml(char.avatarImage)}" style="max-width: 80px; max-height: 80px; border-radius: 50%;">` : ''}
           </div>
         </div>
         <div class="input-group" style="margin-bottom: 0;">

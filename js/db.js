@@ -1,3 +1,5 @@
+import { supabase } from './supabase-client.js';
+
 let initialized = false;
 let _books = null, _questions = null, _characters = null;
 let _dataModule = null;
@@ -13,8 +15,17 @@ const SUPABASE_ANON_KEY = 'sb_publishable_2raJHpiyV55SbGDghEUL5A_2UgIecMn';
 const TIMEOUT = 3000;
 const MAX_RETRIES = 2;
 
+async function getAccessToken() {
+  try {
+    const { data } = await supabase.auth.getSession();
+    return data?.session?.access_token || SUPABASE_ANON_KEY;
+  } catch {
+    return SUPABASE_ANON_KEY;
+  }
+}
+
 async function supabaseRequest(method, table, opts = {}, retryCount = 0) {
-  const { where, body, order } = opts;
+  const { where, body, order, single } = opts;
   let url = `${SUPABASE_URL}/rest/v1/${table}?select=*`;
   if (where) {
     for (const [k, v] of Object.entries(where)) {
@@ -23,9 +34,10 @@ async function supabaseRequest(method, table, opts = {}, retryCount = 0) {
   }
   if (order) url += `&order=${order}`;
 
+  const accessToken = await getAccessToken();
   const headers = {
     'apikey': SUPABASE_ANON_KEY,
-    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    'Authorization': `Bearer ${accessToken}`,
     'Content-Type': 'application/json',
     'Prefer': 'return=representation'
   };
@@ -50,7 +62,7 @@ async function supabaseRequest(method, table, opts = {}, retryCount = 0) {
     if (method === 'DELETE') return true;
     const data = await res.json();
     if (method === 'GET') {
-      if (where) return data[0] || null;
+      if (single) return data[0] || null;
       return data;
     }
     if (method === 'POST') return data[0] || body;
@@ -64,10 +76,10 @@ async function supabaseRequest(method, table, opts = {}, retryCount = 0) {
 }
 
 function tryGet(table, where) {
-  return supabaseRequest('GET', table, { where }).catch(() => null);
+  return supabaseRequest('GET', table, { where, single: true }).catch(() => null);
 }
-function tryList(table) {
-  return supabaseRequest('GET', table).catch(() => []);
+function tryList(table, where) {
+  return supabaseRequest('GET', table, { where }).catch(() => []);
 }
 
 export async function initDB() {
@@ -93,6 +105,15 @@ export async function initDB() {
 }
 
 async function seedSupabase(data) {
+  try {
+    const sessionStr = localStorage.getItem('kitobtest_session');
+    if (!sessionStr) return;
+    const user = JSON.parse(sessionStr);
+    if (!user || !user.isAdmin) return;
+  } catch (e) {
+    return;
+  }
+
   for (const b of data.books) {
     try { await supabaseRequest('POST', 'books', { body: b }); } catch {}
   }
@@ -113,13 +134,54 @@ export function validateId(id) {
   return typeof id === 'string' && id.length > 0 && id.length <= 100 && /^[a-zA-Z0-9\-_]+$/.test(id);
 }
 
-// Users
-export const addUser = (d) => supabaseRequest('POST', 'users', { body: d }).then(() => d).catch(e => { throw e; });
-export const getUserByUsername = (username) => tryGet('users', { username });
-export const getUserById = (id) => tryGet('users', { id });
-export const updateUser = (id, updates) => supabaseRequest('PATCH', 'users', { where: { id }, body: updates }).catch(() => null);
-export const deleteUser = (id) => supabaseRequest('DELETE', 'users', { where: { id } }).catch(() => false);
-export const getAllUsers = () => tryList('users');
+// Profiles (migrated from 'users' table to 'profiles')
+function mapProfile(p) {
+  if (!p) return null;
+  return {
+    id: p.id,
+    fullName: p.full_name,
+    username: p.username,
+    avatar: p.avatar,
+    avatarImage: p.avatar_image,
+    avatarCharId: p.avatar_char_id,
+    isAdmin: !!p.is_admin,
+    stats: p.stats,
+    createdAt: p.created_at
+  };
+}
+export const addUser = () => { throw new Error("Foydalanuvchilar faqat ro'yxatdan o'tish orqali qo'shiladi"); };
+export const getUserByUsername = async (username) => { const d = await tryGet('profiles', { username }); return mapProfile(d); };
+export const getUserById = async (id) => { const d = await tryGet('profiles', { id }); return mapProfile(d); };
+export const updateUser = async (id, updates) => {
+  const body = {};
+  if (updates.fullName !== undefined) body.full_name = updates.fullName;
+  if (updates.username !== undefined) body.username = updates.username;
+  if (updates.avatar !== undefined) body.avatar = updates.avatar;
+  if (updates.avatarImage !== undefined) body.avatar_image = updates.avatarImage;
+  if (updates.avatarCharId !== undefined) body.avatar_char_id = updates.avatarCharId;
+  if (updates.isAdmin !== undefined) body.is_admin = updates.isAdmin;
+  if (updates.stats !== undefined) body.stats = updates.stats;
+  const d = await supabaseRequest('PATCH', 'profiles', { where: { id }, body }).catch(() => null);
+  return mapProfile(d);
+};
+export async function deleteUser(userId) {
+  // Calls Edge Function — deletes from Auth, profiles, results, comments
+  const token = await getAccessToken();
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/delete-user`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ userId })
+  });
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.error || "Foydalanuvchini o'chirishda xatolik");
+  }
+  return true;
+}
+export const getAllUsers = async () => { const d = await tryList('profiles'); return (d || []).map(mapProfile); };
 
 // Books — always from memory (data.js), Supabase in background
 export async function getBookById(id) {
@@ -162,20 +224,20 @@ export const deleteQuestion = (id) => supabaseRequest('DELETE', 'questions', { w
 
 // Results
 export const addResult = (d) => supabaseRequest('POST', 'results', { body: d }).then(() => d).catch(e => { throw e; });
-export const getResultsByUser = (userId) => tryList('results').then(r => r.filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
-export async function getResultById(id) { const r = await tryList('results'); return r.find(x => x.id === id) || null; }
+export const getResultsByUser = (userId) => tryList('results', { userId }).then(r => r.sort((a, b) => b.completedAt - a.completedAt));
+export async function getResultById(id) { return tryGet('results', { id }); }
 export const getAllResults = () => tryList('results');
 
 // Comments
 export const addComment = (d) => supabaseRequest('POST', 'comments', { body: d }).then(() => d).catch(e => { throw e; });
-export const getCommentsByBook = (bookId) => tryList('comments').then(c => c.filter(x => x.bookId === bookId).sort((a, b) => b.createdAt - a.createdAt));
+export const getCommentsByBook = (bookId) => tryList('comments', { bookId }).then(c => c.sort((a, b) => b.createdAt - a.createdAt));
 export const getAllComments = () => tryList('comments');
 export const updateComment = (id, updates) => supabaseRequest('PATCH', 'comments', { where: { id }, body: updates }).catch(() => null);
 export const deleteComment = (id) => supabaseRequest('DELETE', 'comments', { where: { id } }).catch(() => false);
 
 // Arena
 export const addArenaMatch = (d) => supabaseRequest('POST', 'arena_matches', { body: d }).then(() => d).catch(e => { throw e; });
-export const getArenaMatchesByUser = (userId) => tryList('arena_matches').then(r => r.filter(x => x.userId === userId).sort((a, b) => b.completedAt - a.completedAt));
+export const getArenaMatchesByUser = (userId) => tryList('arena_matches', { userId }).then(r => r.sort((a, b) => b.completedAt - a.completedAt));
 export const getAllArenaMatches = () => tryList('arena_matches');
 
 // Characters
@@ -211,20 +273,45 @@ export const deleteCharacter = async (id) => {
 export async function updateUserStreak(userId) {
   const user = await getUserById(userId);
   if (!user) throw new Error("Foydalanuvchi topilmadi");
+
+  // Fetch this user's results to compute up-to-date stats
+  const userResults = await getResultsByUser(userId);
+  const testsCompleted = userResults.length;
+  let avgScore = 0;
+  let bestScore = 0;
+
+  if (testsCompleted > 0) {
+    let totalScore = 0;
+    userResults.forEach(r => {
+      totalScore += r.score;
+      if (r.score > bestScore) bestScore = r.score;
+    });
+    avgScore = Math.round(totalScore / testsCompleted) || 0;
+  }
+
   if (!user.stats) user.stats = { testsCompleted: 0, avgScore: 0, bestScore: 0, currentStreak: 0, maxStreak: 0, lastQuizDate: '' };
+  
+  user.stats.testsCompleted = testsCompleted;
+  user.stats.avgScore = avgScore;
+  user.stats.bestScore = bestScore;
+
   if (user.stats.currentStreak === undefined) user.stats.currentStreak = 0;
   if (user.stats.maxStreak === undefined) user.stats.maxStreak = 0;
   if (user.stats.lastQuizDate === undefined) user.stats.lastQuizDate = '';
+
   const today = new Date().toLocaleDateString('en-CA');
-  if (user.stats.lastQuizDate === today) return user;
-  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-CA');
-  if (user.stats.lastQuizDate === yesterday) {
-    user.stats.currentStreak += 1;
-  } else {
-    user.stats.currentStreak = 1;
+  if (user.stats.lastQuizDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-CA');
+    if (user.stats.lastQuizDate === yesterday) {
+      user.stats.currentStreak += 1;
+    } else {
+      user.stats.currentStreak = 1;
+    }
+    user.stats.maxStreak = Math.max(user.stats.maxStreak, user.stats.currentStreak);
+    user.stats.lastQuizDate = today;
   }
-  user.stats.maxStreak = Math.max(user.stats.maxStreak, user.stats.currentStreak);
-  user.stats.lastQuizDate = today;
+
   await updateUser(userId, { stats: user.stats });
   return user;
 }
+

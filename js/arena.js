@@ -1,6 +1,7 @@
 import { getAllQuestions, addArenaMatch, getAllArenaMatches, getArenaMatchesByUser } from './db.js';
 import { getCurrentUser } from './auth.js';
 import { navigate, showNotification } from './app.js';
+import { escapeHtml } from './utils.js';
 
 const ARENA_QUESTION_COUNT = 5;
 
@@ -86,7 +87,7 @@ function renderArenaBattle(container, questions, user) {
           </div>
 
           <div id="arena-question-text" style="font-size: 1.15rem; font-weight: 600; line-height: 1.6; margin-bottom: 24px; padding: 20px; background: var(--bg-tertiary); border-radius: var(--radius-md); border-left: 4px solid var(--color-primary);">
-            ${q.question}
+            ${escapeHtml(q.question)}
           </div>
 
           <div id="arena-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
@@ -95,7 +96,7 @@ function renderArenaBattle(container, questions, user) {
                 <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary-light); color: var(--color-primary); font-weight: 700; font-size: 0.85rem; flex-shrink: 0;">
                   ${String.fromCharCode(65 + idx)}
                 </span>
-                <span>${opt}</span>
+                <span>${escapeHtml(opt)}</span>
               </button>
             `).join('')}
           </div>

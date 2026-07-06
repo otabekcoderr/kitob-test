@@ -4,7 +4,7 @@ import {
 } from './db.js';
 import { getCurrentUser } from './auth.js';
 import { navigate, showNotification, showQuizRulesModal } from './app.js';
-import { escapeHtml, formatDateTime, debounce } from './utils.js';
+import { escapeHtml, formatDateTime, debounce, cssUrl } from './utils.js';
 
 let currentSearchQuery = '';
 let currentDifficultyFilter = 'Hammasi';
@@ -36,7 +36,7 @@ export async function renderBooksList(container) {
     }
 
     container.innerHTML = `
-      <div class="fade-in">
+      <div class="">
         <div class="page-header">
           <h1 class="page-title">📚 Kitoblar Kutubxonasi</h1>
           <p class="page-subtitle">O'zingiz o'qigan kitobni tanlang va bilimingizni sinab ko'ring</p>
@@ -127,9 +127,9 @@ function filterAndRenderBooks(userResults = []) {
     const progress = hasAttempted ? Math.min(100, Math.round((bookResults.length / 3) * 100)) : 0;
 
     return `
-    <div class="card book-card slide-up stagger-${(i % 4) + 1}">
+    <div class="card book-card ">
       <div class="book-cover-link" onclick="window.location.hash='#/book/${encodeURIComponent(book.id)}'" style="cursor: pointer;">
-        <div class="book-cover-premium" style="background: ${book.coverImage ? `url('${book.coverImage}') center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
+        <div class="book-cover-premium" style="background: ${book.coverImage ? `${cssUrl(book.coverImage)} center/cover no-repeat, ${escapeHtml(book.coverBg) || 'var(--bg-tertiary)'}` : (escapeHtml(book.coverBg) || 'var(--bg-tertiary)')}; color: ${escapeHtml(book.coverTitleColor) || 'white'};">
           ${!book.coverImage ? `<div class="book-cover-pattern" style="opacity: 0.15; background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);"></div>` : ''}
           <div class="book-cover-badge">${escapeHtml(book.genre)}</div>
         </div>
@@ -191,10 +191,10 @@ export async function renderBookDetail(container, bookId) {
     const bestScore = bookResults.length > 0 ? Math.max(...bookResults.map(r => r.score)) : null;
 
     container.innerHTML = `
-      <div class="fade-in">
+      <div class="">
         <div class="card glass-card mb-lg">
           <div class="book-detail-header">
-            <div class="book-detail-cover-premium" style="background: ${book.coverImage ? `url('${book.coverImage}') center/cover no-repeat, ${book.coverBg || 'var(--bg-tertiary)'}` : (book.coverBg || 'var(--bg-tertiary)')}; color: ${book.coverTitleColor || 'white'};">
+            <div class="book-detail-cover-premium" style="background: ${book.coverImage ? `${cssUrl(book.coverImage)} center/cover no-repeat, ${escapeHtml(book.coverBg) || 'var(--bg-tertiary)'}` : (escapeHtml(book.coverBg) || 'var(--bg-tertiary)')}; color: ${escapeHtml(book.coverTitleColor) || 'white'};">
             ${!book.coverImage ? '<div class="book-cover-pattern"></div>' : ''}
             ${!book.coverImage ? `<div class="book-cover-icon">${escapeHtml(book.cover)}</div>` : ''}
             </div>
@@ -286,11 +286,20 @@ export async function renderBookDetail(container, bookId) {
     // Handle comments rendering and submission
     renderComments(book.id);
 
-    document.getElementById('comment-form').addEventListener('submit', async (e) => {
+    const commentForm = document.getElementById('comment-form');
+    commentForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = commentForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn ? submitBtn.textContent : '';
+
       const textarea = document.getElementById('comment-text');
       const text = textarea.value.trim();
       if (!text) return;
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Yuborilmoqda...";
+      }
 
       const newComment = {
         id: crypto.randomUUID(),
@@ -311,6 +320,11 @@ export async function renderBookDetail(container, bookId) {
         renderComments(book.id);
       } catch (err) {
         showNotification("Fikr qo'shishda xatolik yuz berdi", "error");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
       }
     });
 
