@@ -1,6 +1,6 @@
 import { getCurrentUser, updateProfile, logout as authLogout } from './auth.js';
 import { getResultsByUser, getAllBooks, getAllCharacters } from './db.js';
-import { navigate, showNotification } from './app.js';
+import { navigate, showNotification, escapeHtml } from './app.js';
 import { cssUrl, safeCssUrl } from './utils.js';
 
 export async function renderProfile(container) {
@@ -226,7 +226,7 @@ async function renderSettingsView(container, currentUser) {
 
         <div class="input-group">
           <label for="profile-password-input">Yangi parol (O'zgartirish uchun yozing, aks holda bo'sh qoldiring)</label>
-          <input type="password" id="profile-password-input" class="input" placeholder="Kamida 4 ta belgi" minlength="4">
+          <input type="password" id="profile-password-input" class="input" placeholder="Kamida 6 ta belgi" minlength="6">
         </div>
 
         <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 10px;">

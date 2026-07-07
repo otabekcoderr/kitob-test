@@ -70,8 +70,8 @@ export async function register(fullName, username, password) {
   if (!/^[a-zA-Z0-9_]+$/.test(username)) {
     throw new Error("Foydalanuvchi nomi faqat harf, raqam va _ belgisidan iborat bo'lishi kerak");
   }
-  if (password.length < 4) {
-    throw new Error("Parol kamida 4 ta belgidan iborat bo'lishi kerak");
+  if (password.length < 6) {
+    throw new Error("Parol Kamida 6 ta belgidan iborat bo'lishi kerak");
   }
 
   const sanitizedFullName = sanitizeInput(fullName.trim());
@@ -228,7 +228,12 @@ export function getCurrentUser() {
   const session = localStorage.getItem(SESSION_KEY);
   if (!session) return null;
   try {
-    return JSON.parse(session);
+    const user = JSON.parse(session);
+    if (user.id === 'admin-fixed-id-uuid') {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+    return user;
   } catch {
     return null;
   }
@@ -246,8 +251,8 @@ export async function updateProfile(updates) {
   if (userError || !authUser) throw new Error("Tizimga kirilmagan!");
 
   if (updates.password) {
-    if (updates.password.length < 4) {
-      throw new Error("Parol kamida 4 ta belgidan iborat bo'lishi kerak");
+    if (updates.password.length < 6) {
+      throw new Error("Parol Kamida 6 ta belgidan iborat bo'lishi kerak");
     }
     const { error: pwError } = await supabase.auth.updateUser({
       password: updates.password

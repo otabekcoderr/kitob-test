@@ -438,7 +438,7 @@ function renderRegister(container) {
           </div>
           <div class="input-group" style="margin-bottom: 0;">
             <label for="reg-password">Parol</label>
-            <input type="password" id="reg-password" class="input" placeholder="Kamida 4 ta belgi" required minlength="4">
+            <input type="password" id="reg-password" class="input" placeholder="Kamida 6 ta belgi" required minlength="6">
           </div>
           <div class="input-group" style="margin-bottom: 0;">
             <label for="reg-password-confirm">Parolni tasdiqlang</label>
