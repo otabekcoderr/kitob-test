@@ -185,10 +185,21 @@ export const getAllUsers = async () => { const d = await tryList('profiles'); re
 
 // Books — always from memory (data.js), Supabase in background
 export async function getBookById(id) {
+  try {
+    const remote = await supabaseRequest('GET', 'books', { where: { id }, single: true });
+    if (remote) return remote;
+  } catch (e) {}
   if (!_books) { const d = await getDataModule(); _books = d.books; }
   return _books.find(b => b.id === id) || null;
 }
 export async function getAllBooks() {
+  try {
+    const remote = await supabaseRequest('GET', 'books');
+    if (Array.isArray(remote) && remote.length > 0) {
+      _books = remote;
+      return _books;
+    }
+  } catch (e) {}
   if (!_books) { const d = await getDataModule(); _books = d.books; }
   return _books;
 }
@@ -224,6 +235,10 @@ export const deleteBook = async (id) => {
 
 // Questions — always from memory (data.js)
 export async function getQuestionsByBook(bookId) {
+  try {
+    const remote = await supabaseRequest('GET', 'questions', { where: { bookId } });
+    if (Array.isArray(remote) && remote.length > 0) return remote;
+  } catch (e) {}
   if (!_questions) { const d = await getDataModule(); _questions = d.questions; }
   return _questions.filter(q => q.bookId === bookId);
 }
