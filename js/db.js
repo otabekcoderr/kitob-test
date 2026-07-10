@@ -193,19 +193,32 @@ export async function getAllBooks() {
   return _books;
 }
 export const addBook = async (d) => {
-  await supabaseRequest('POST', 'books', { body: d });
-  if (_books) _books.push(d);
-  return d;
+  const { data, error } = await supabase
+    .from('books')
+    .insert(d)
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+  if (_books) _books.push(data || d);
+  return data || d;
 };
 export const updateBook = async (id, updates) => {
-  await supabaseRequest('PATCH', 'books', { where: { id }, body: updates }).catch(() => null);
+  const { error } = await supabase
+    .from('books')
+    .update(updates)
+    .eq('id', id);
+  if (error) throw new Error(error.message);
   if (_books) {
     const idx = _books.findIndex(b => b.id === id);
     if (idx !== -1) _books[idx] = { ..._books[idx], ...updates };
   }
 };
 export const deleteBook = async (id) => {
-  await supabaseRequest('DELETE', 'books', { where: { id } }).catch(() => false);
+  const { error } = await supabase
+    .from('books')
+    .delete()
+    .eq('id', id);
+  if (error) throw new Error(error.message);
   if (_books) _books = _books.filter(b => b.id !== id);
 };
 
