@@ -89,14 +89,15 @@ export async function initDB() {
   _questions = data.questions;
   _characters = data.characters || [];
   _books = data.books;
-  // Try Supabase in background — don't block initial load
+
+  // Supabase'dan kitoblarni yuklash
   tryList('books').then(remoteBooks => {
     if (remoteBooks && remoteBooks.length > 0) {
       _books = remoteBooks;
-    } else {
-      seedSupabase(data);
     }
+    // seedSupabase OLIB TASHLANDI — eski kitoblarni qayta yozmasin
   }).catch(() => {});
+
   tryList('characters').then(remoteChars => {
     if (remoteChars && remoteChars.length > 0) {
       _characters = remoteChars;
