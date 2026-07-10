@@ -12,7 +12,7 @@ async function getDataModule() {
 const SUPABASE_URL = 'https://gvgyaxlbpkvpvwpqxjwc.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_2raJHpiyV55SbGDghEUL5A_2UgIecMn';
 
-const TIMEOUT = 3000;
+const TIMEOUT = 10000;
 const MAX_RETRIES = 2;
 
 async function getAccessToken() {
@@ -35,12 +35,12 @@ async function supabaseRequest(method, table, opts = {}, retryCount = 0) {
   if (order) url += `&order=${order}`;
 
   const accessToken = await getAccessToken();
-  const headers = {
-    'apikey': SUPABASE_ANON_KEY,
-    'Authorization': `Bearer ${accessToken}`,
-    'Content-Type': 'application/json',
-    'Prefer': 'return=representation'
-  };
+ const headers = {
+  'apikey': SUPABASE_ANON_KEY,
+  'Authorization': `Bearer ${accessToken}`,  // ← bu to'g'rimi?
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation'
+};
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
