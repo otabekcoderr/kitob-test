@@ -1,6 +1,7 @@
 import { getCurrentUser, updateProfile, logout as authLogout } from './auth.js';
 import { getResultsByUser, getAllBooks, getAllCharacters } from './db.js';
-import { navigate, showNotification, escapeHtml } from './app.js';
+import { navigate, showNotification } from './app.js';
+import { escapeHtml, cssUrl, safeCssUrl } from './utils.js';
 import { cssUrl, safeCssUrl } from './utils.js';
 
 export async function renderProfile(container) {

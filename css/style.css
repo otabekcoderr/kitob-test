@@ -2470,3 +2470,8 @@ body:not(.light-theme) .hero-section {
 #daily-stack-info-btn, .theme-toggle-btn, .nav-avatar-trigger { width: 38px !important; height: 38px !important; border-radius: 50% !important; padding: 0 !important; border: 1.5px solid var(--border-color) !important; background: transparent !important; justify-content: center !important; }
 #daily-stack-info-btn span, .avatar-chevron { display: none !important; }
 
+
+* { -webkit-tap-highlight-color: transparent; }
+.quiz-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+@media (max-width: 768px) { .quiz-options-grid { grid-template-columns: 1fr !important; } }
+
