@@ -657,7 +657,13 @@ async function renderQuestionsTab(container) {
 
         qSubmitBtn.disabled = true;
         qSubmitBtn.innerHTML = '⏳ Saqlanmoqda...';
+        console.log("=== SAVOL SAQLASH ===");
+console.log("selectedBookId:", selectedBookId);
+console.log("newQ:", newQ);
 
+await addQuestion(newQ);
+
+console.log("Savol muvaffaqiyatli saqlandi");
         try {
           await addQuestion(newQ);
           // Increment book's questionCount
