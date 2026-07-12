@@ -90,6 +90,33 @@ export async function initDB() {
   _characters = data.characters || [];
   _books = data.books;
 
+  tryList('books').then(remoteBooks => {
+    if (remoteBooks && remoteBooks.length > 0) {
+      _books = remoteBooks;
+    }
+  }).catch(() => {});
+
+  tryList('characters').then(remoteChars => {
+    if (remoteChars && remoteChars.length > 0) {
+      _characters = remoteChars;
+    }
+  }).catch(() => {});
+}
+
+  tryList('books').then(remoteBooks => {
+    if (remoteBooks && remoteBooks.length > 0) {
+      _books = remoteBooks;
+    }
+    // seedSupabase OLIB TASHLANDI
+  }).catch(() => {});
+
+  tryList('characters').then(remoteChars => {
+    if (remoteChars && remoteChars.length > 0) {
+      _characters = remoteChars;
+    }
+  }).catch(() => {});
+}
+
   // Supabase'dan kitoblarni yuklash
   tryList('books').then(remoteBooks => {
     if (remoteBooks && remoteBooks.length > 0) {
@@ -102,18 +129,9 @@ export async function initDB() {
     if (remoteChars && remoteChars.length > 0) {
       _characters = remoteChars;
     }
-  }).catch(() => {});
-}
+  }).catch(() => { });
+  
 
-async function seedSupabase(data) {
-  try {
-    const sessionStr = localStorage.getItem('kitobtest_session');
-    if (!sessionStr) return;
-    const user = JSON.parse(sessionStr);
-    if (!user || !user.isAdmin) return;
-  } catch (e) {
-    return;
-  }
 
   for (const b of data.books) {
     try { await supabaseRequest('POST', 'books', { body: b }); } catch {}
@@ -121,7 +139,6 @@ async function seedSupabase(data) {
   for (const q of data.questions) {
     try { await supabaseRequest('POST', 'questions', { body: q }); } catch {}
   }
-}
 
 export function sanitizeForDb(input) {
   if (typeof input !== 'string') return input;
