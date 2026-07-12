@@ -114,9 +114,8 @@ export async function initDB() {
     if (remoteChars && remoteChars.length > 0) {
       _characters = remoteChars;
     }
-  }).catch(() => {});
-}
-
+  }).catch(() => { });
+  
   // Supabase'dan kitoblarni yuklash
   tryList('books').then(remoteBooks => {
     if (remoteBooks && remoteBooks.length > 0) {
