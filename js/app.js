@@ -508,19 +508,23 @@ async function renderDashboard(container) {
         const lastDate = dbUser.stats.lastQuizDate || '';
         let streakReset = false;
         
-        if (lastDate) {
-          const yesterdayObj = new Date();
-          yesterdayObj.setDate(yesterdayObj.getDate() - 1);
-          const yesterday = yesterdayObj.toLocaleDateString('en-CA');
-          
-          if (lastDate !== today && lastDate !== yesterday) {
-            dbUser.stats.currentStreak = 0;
-            streakReset = true;
-          }
-        } else {
-          dbUser.stats.currentStreak = 0;
-          streakReset = true;
-        }
+if (lastDate) {
+  const yesterdayObj = new Date();
+  yesterdayObj.setDate(yesterdayObj.getDate() - 1);
+  const yesterday = [
+    yesterdayObj.getFullYear(),
+    String(yesterdayObj.getMonth() + 1).padStart(2, '0'),
+    String(yesterdayObj.getDate()).padStart(2, '0')
+  ].join('-');
+  
+  if (lastDate !== today && lastDate !== yesterday) {
+    dbUser.stats.currentStreak = 0;
+    streakReset = true;
+  }
+} else {
+  dbUser.stats.currentStreak = 0;
+  streakReset = true;
+}
         
         if (streakReset) {
           await db.updateUser(user.id, { stats: dbUser.stats }).catch(() => {});
@@ -554,8 +558,12 @@ async function renderDashboard(container) {
       });
       const booksCompletedCount = Object.keys(bookScoresMap).length;
       const recentResults = results.slice(0, 4);
-
-      const todayDateStr = new Date().toLocaleDateString('en-CA');
+      const now = new Date();
+      const todayDateStr = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, '0'),
+      String(now.getDate()).padStart(2, '0')
+      ].join('-');
       const hasDoneToday = user.stats?.lastQuizDate === todayDateStr;
 
       container.innerHTML = `
