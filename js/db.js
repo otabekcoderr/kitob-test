@@ -103,42 +103,6 @@ export async function initDB() {
   }).catch(() => {});
 }
 
-  tryList('books').then(remoteBooks => {
-    if (remoteBooks && remoteBooks.length > 0) {
-      _books = remoteBooks;
-    }
-    // seedSupabase OLIB TASHLANDI
-  }).catch(() => {});
-
-  tryList('characters').then(remoteChars => {
-    if (remoteChars && remoteChars.length > 0) {
-      _characters = remoteChars;
-    }
-  }).catch(() => { });
-  
-  // Supabase'dan kitoblarni yuklash
-  tryList('books').then(remoteBooks => {
-    if (remoteBooks && remoteBooks.length > 0) {
-      _books = remoteBooks;
-    }
-    // seedSupabase OLIB TASHLANDI — eski kitoblarni qayta yozmasin
-  }).catch(() => {});
-
-  tryList('characters').then(remoteChars => {
-    if (remoteChars && remoteChars.length > 0) {
-      _characters = remoteChars;
-    }
-  }).catch(() => { });
-  
-
-
-  for (const b of data.books) {
-    try { await supabaseRequest('POST', 'books', { body: b }); } catch {}
-  }
-  for (const q of data.questions) {
-    try { await supabaseRequest('POST', 'questions', { body: q }); } catch {}
-  }
-
 export function sanitizeForDb(input) {
   if (typeof input !== 'string') return input;
   return input.replace(/[<>\"'&]/g, (char) => {
@@ -205,18 +169,18 @@ export async function getBookById(id) {
   try {
     const remote = await supabaseRequest('GET', 'books', { where: { id }, single: true });
     if (remote) return remote;
-  } catch (e) {}
+  } catch(e) { console.error("Error in getAllBooks:", e); }
   if (!_books) { const d = await getDataModule(); _books = d.books; }
   return _books.find(b => b.id === id) || null;
 }
 export async function getAllBooks() {
   try {
     const remote = await supabaseRequest('GET', 'books');
-    if (Array.isArray(remote) && remote.length > 0) {
+    if (Array.isArray(remote)) {
       _books = remote;
       return _books;
     }
-  } catch (e) {}
+  } catch(e) { console.error("Error in getAllBooks:", e); }
   if (!_books) { const d = await getDataModule(); _books = d.books; }
   return _books;
 }
@@ -255,11 +219,18 @@ export async function getQuestionsByBook(bookId) {
   try {
     const remote = await supabaseRequest('GET', 'questions', { where: { bookId } });
     if (Array.isArray(remote) && remote.length > 0) return remote;
-  } catch (e) {}
+  } catch(e) { console.error("Error in getAllBooks:", e); }
   if (!_questions) { const d = await getDataModule(); _questions = d.questions; }
   return _questions.filter(q => q.bookId === bookId);
 }
 export async function getAllQuestions() {
+  try {
+    const remote = await supabaseRequest('GET', 'questions');
+    if (Array.isArray(remote)) {
+      _questions = remote;
+      return _questions;
+    }
+  } catch(e) { console.error("Error in getAllQuestions:", e); }
   if (!_questions) { const d = await getDataModule(); _questions = d.questions; }
   return _questions;
 }
@@ -298,7 +269,7 @@ export async function getAllCharacters() {
       _characters = remote;
       return _characters;
     }
-  } catch (e) {}
+  } catch(e) { console.error("Error in getAllBooks:", e); }
   if (!_characters) { const d = await getDataModule(); _characters = d.characters || []; }
   return _characters;
 }

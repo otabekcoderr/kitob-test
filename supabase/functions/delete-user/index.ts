@@ -1,69 +1,82 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 serve(async (req) => {
-  try {
-    const authHeader = req.headers.get('Authorization') || '';
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') || '',
-      Deno.env.get('SUPABASE_ANON_KEY') || '',
-      { global: { headers: { Authorization: authHeader } } }
-    );
+  // CORS setup
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  }
+  
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
 
-    const { data: { user: caller }, error: authError } = await supabaseClient.auth.getUser();
-    if (authError || !caller) {
-      return new Response(JSON.stringify({ error: 'Autentifikatsiyadan otmagan' }), { status: 401 });
+  try {
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
+    )
+
+    // Check if the user making the request is an admin
+    const {
+      data: { user },
+    } = await supabaseClient.auth.getUser()
+
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 401,
+      })
     }
 
+    // Check if user is admin from profiles
     const { data: profile } = await supabaseClient
       .from('profiles')
       .select('is_admin')
-      .eq('id', caller.id)
-      .single();
+      .eq('id', user.id)
+      .single()
 
     if (!profile || !profile.is_admin) {
-      return new Response(JSON.stringify({ error: 'Faqat adminlar foydalanuvchi ochira oladi' }), { status: 403 });
+      return new Response(JSON.stringify({ error: 'Forbidden. Admin privileges required.' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 403,
+      })
     }
 
-    const { userId } = await req.json();
+    const { userId } = await req.json()
     if (!userId) {
-      return new Response(JSON.stringify({ error: 'userId talab qilinadi' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'userId is required' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 400,
+      })
     }
 
-    if (caller.id === userId) {
-      return new Response(JSON.stringify({ error: 'Ozini ochirib bolmaydi' }), { status: 400 });
+    // Initialize Supabase admin client with service_role key
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    )
+
+    // Delete user from auth.users
+    const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId)
+
+    if (error) {
+      throw error
     }
 
-    const serviceRoleClient = createClient(
-      Deno.env.get('SUPABASE_URL') || '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '',
-      { auth: { autoRefreshToken: false, persistSession: false } }
-    );
+    // ALSO delete from profiles to keep it clean (though Supabase triggers might handle this)
+    await supabaseAdmin.from('profiles').delete().eq('id', userId)
 
-    const tables = ['results', 'comments', 'arena_matches'];
-    for (const table of tables) {
-      const { error: delError } = await serviceRoleClient
-        .from(table)
-        .delete()
-        .eq('userId', userId);
-      if (delError) console.error(`Delete from ${table} error:`, delError);
-    }
-
-    const { error: delProfileError } = await serviceRoleClient
-      .from('profiles')
-      .delete()
-      .eq('id', userId);
-    if (delProfileError) console.error('Delete profile error:', delProfileError);
-
-    const { error: deleteAuthError } = await serviceRoleClient.auth.admin.deleteUser(userId);
-    if (deleteAuthError) {
-      console.error('Auth delete error:', deleteAuthError);
-      return new Response(JSON.stringify({ error: 'Foydalanuvchini ochirishda xatolik' }), { status: 500 });
-    }
-
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (err) {
-    console.error('Edge function error:', err);
-    return new Response(JSON.stringify({ error: 'Server xatoligi' }), { status: 500 });
+    return new Response(JSON.stringify({ message: 'User deleted successfully', data }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 200,
+    })
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 400,
+    })
   }
-});
+})

@@ -221,8 +221,8 @@ async function renderSettingsView(container, currentUser) {
         </div>
 
         <div class="input-group">
-          <label for="profile-username-input">Foydalanuvchi nomi (Login)</label>
-          <input type="text" id="profile-username-input" class="input" value="${currentUser.username}" required minlength="3">
+          <label for="profile-username-input">Foydalanuvchi nomi (Login) - O'zgartirib bo'lmaydi</label>
+          <input type="text" id="profile-username-input" class="input" value="${currentUser.username}" disabled style="opacity: 0.6; cursor: not-allowed;">
         </div>
 
         <div class="input-group">
@@ -283,7 +283,6 @@ async function renderSettingsView(container, currentUser) {
     const selectedChar = characters.find(c => c.id === selectedCharId);
     const updates = {
       fullName: newFullName,
-      username: newUsername,
       avatar: selectedChar ? selectedChar.avatar : (currentUser.avatar || '😊'),
       avatarImage: selectedChar && selectedChar.avatarImage ? selectedChar.avatarImage : undefined,
       avatarCharId: selectedChar ? selectedChar.id : undefined
