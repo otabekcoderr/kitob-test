@@ -11,8 +11,8 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 // ----------------------------------------------------------
 // Muhit o'zgaruvchilari (PRODUCTION da almashtiring)
 // ----------------------------------------------------------
-const SUPABASE_URL      = 'https://YOUR_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+const SUPABASE_URL      = 'https://gvgyaxlbpkvpvwpqxjwc.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_2raJHpiyV55SbGDghEUL5A_2UgIecMn';
 
 // ----------------------------------------------------------
 // Supabase client — barcha fayllar shu obyektni import qiladi
