@@ -9,7 +9,7 @@
 // Bu fayldan import qilinadi: boshqa barcha fayllar
 // ============================================================
 
-import { supabase } from './supabase-client.js';
+import { supabase }      from './supabase-client.js';
 import { uzbekifyError } from './utils.js';
 
 // ============================================================
@@ -28,11 +28,11 @@ const SESSION_KEY = 'kitobchi_user';
  * @param {object|null} user
  */
 function _saveSession(user) {
-    if (user) {
-        localStorage.setItem(SESSION_KEY, JSON.stringify(user));
-    } else {
-        localStorage.removeItem(SESSION_KEY);
-    }
+  if (user) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  } else {
+    localStorage.removeItem(SESSION_KEY);
+  }
 }
 
 /**
@@ -44,21 +44,21 @@ function _saveSession(user) {
  * @returns {object}
  */
 function _buildUserObject(authUser, profileData = {}) {
-    return {
-        id: authUser.id,
-        email: authUser.email || '',
-        fullName: profileData.full_name
-            || authUser.user_metadata?.full_name || '',
-        username: profileData.username
-            || authUser.user_metadata?.username || '',
-        avatar: profileData.avatar_url
-            || authUser.user_metadata?.avatar_url || '',
-        role: profileData.role || 'user',
-        score: profileData.score || 0,
-        streak: profileData.streak || 0,
-        lastQuizDate: profileData.last_quiz_date || null,
-        createdAt: authUser.created_at || '',
-    };
+  return {
+    id:        authUser.id,
+    email:     authUser.email              || '',
+    fullName:  profileData.full_name
+                || authUser.user_metadata?.full_name  || '',
+    username:  profileData.username
+                || authUser.user_metadata?.username   || '',
+    avatar:    profileData.avatar_url
+                || authUser.user_metadata?.avatar_url || '',
+    role:      profileData.role            || 'user',
+    score:     profileData.score           || 0,
+    streak:    profileData.streak          || 0,
+    lastQuizDate: profileData.last_quiz_date || null,
+    createdAt: authUser.created_at         || '',
+  };
 }
 
 /**
@@ -69,18 +69,18 @@ function _buildUserObject(authUser, profileData = {}) {
  * @returns {Promise<object|null>}
  */
 async function _fetchProfile(userId) {
-    try {
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', userId)
-            .single();
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
 
-        if (error) return null;
-        return data;
-    } catch {
-        return null;
-    }
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
 }
 
 // ============================================================
@@ -101,74 +101,74 @@ async function _fetchProfile(userId) {
  * @returns {Promise<{success: boolean, user?: object, error?: string}>}
  */
 export async function register(fullName, username, password) {
-    try {
-        // Kirish ma'lumotlarini tekshirish
-        if (!fullName?.trim()) return { success: false, error: 'Ism kiritilishi shart.' };
-        if (!username?.trim()) return { success: false, error: 'Foydalanuvchi nomi kiritilishi shart.' };
-        if (!password) return { success: false, error: 'Parol kiritilishi shart.' };
-        if (password.length < 6) return { success: false, error: 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak.' };
+  try {
+    // Kirish ma'lumotlarini tekshirish
+    if (!fullName?.trim())  return { success: false, error: 'Ism kiritilishi shart.' };
+    if (!username?.trim())  return { success: false, error: 'Foydalanuvchi nomi kiritilishi shart.' };
+    if (!password)          return { success: false, error: 'Parol kiritilishi shart.' };
+    if (password.length < 6) return { success: false, error: 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak.' };
 
-        // Username faqat harf, raqam va _ dan iborat bo'lishi kerak
-        if (!/^[a-zA-Z0-9_]+$/.test(username.trim())) {
-            return { success: false, error: 'Foydalanuvchi nomida faqat harf, raqam va _ bo\'lishi mumkin.' };
-        }
-
-        const cleanName = fullName.trim();
-        const cleanUsername = username.trim().toLowerCase();
-
-        // Supabase Auth signUp
-        // Email sifatida username@kitobchi.local ishlatamiz
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-            email: `${cleanUsername}@kitobchi.local`,
-            password: password,
-            options: {
-                data: {
-                    full_name: cleanName,
-                    username: cleanUsername,
-                }
-            }
-        });
-
-        if (authError) {
-            return { success: false, error: uzbekifyError(authError) };
-        }
-
-        if (!authData.user) {
-            return { success: false, error: 'Ro\'yxatdan o\'tishda xatolik. Qayta urinib ko\'ring.' };
-        }
-
-        // profiles jadvaliga yozish
-        const { error: profileError } = await supabase
-            .from('profiles')
-            .upsert({
-                id: authData.user.id,
-                full_name: cleanName,
-                username: cleanUsername,
-                role: 'user',
-                score: 0,
-                streak: 0,
-                last_quiz_date: null,
-                created_at: new Date().toISOString(),
-            }, { onConflict: 'id' });
-
-        if (profileError) {
-            console.warn('[auth] profiles upsert xatosi:', profileError.message);
-            // Kritik emas — auth muvaffaqiyatli bo'ldi
-        }
-
-        // Sessiyani saqlash
-        const userObj = _buildUserObject(authData.user, {
-            full_name: cleanName,
-            username: cleanUsername,
-        });
-        _saveSession(userObj);
-
-        return { success: true, user: userObj };
-
-    } catch (err) {
-        console.error('[auth] register xatosi:', err);
-        return { success: false, error: uzbekifyError(err) };
+    // Username faqat harf, raqam va _ dan iborat bo'lishi kerak
+    if (!/^[a-zA-Z0-9_]+$/.test(username.trim())) {
+      return { success: false, error: 'Foydalanuvchi nomida faqat harf, raqam va _ bo\'lishi mumkin.' };
     }
+
+    const cleanName     = fullName.trim();
+    const cleanUsername = username.trim().toLowerCase();
+
+    // Supabase Auth signUp
+    // Email sifatida username@kitobchi.local ishlatamiz
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email:    `${cleanUsername}@kitobchi.local`,
+      password: password,
+      options: {
+        data: {
+          full_name: cleanName,
+          username:  cleanUsername,
+        }
+      }
+    });
+
+    if (authError) {
+      return { success: false, error: uzbekifyError(authError) };
+    }
+
+    if (!authData.user) {
+      return { success: false, error: 'Ro\'yxatdan o\'tishda xatolik. Qayta urinib ko\'ring.' };
+    }
+
+    // profiles jadvaliga yozish
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .upsert({
+        id:         authData.user.id,
+        full_name:  cleanName,
+        username:   cleanUsername,
+        role:       'user',
+        score:      0,
+        streak:     0,
+        last_quiz_date: null,
+        created_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+
+    if (profileError) {
+      console.warn('[auth] profiles upsert xatosi:', profileError.message);
+      // Kritik emas — auth muvaffaqiyatli bo'ldi
+    }
+
+    // Sessiyani saqlash
+    const userObj = _buildUserObject(authData.user, {
+      full_name: cleanName,
+      username:  cleanUsername,
+    });
+    _saveSession(userObj);
+
+    return { success: true, user: userObj };
+
+  } catch (err) {
+    console.error('[auth] register xatosi:', err);
+    return { success: false, error: uzbekifyError(err) };
+  }
 }
 
 // ============================================================
@@ -183,38 +183,38 @@ export async function register(fullName, username, password) {
  * @returns {Promise<{success: boolean, user?: object, error?: string}>}
  */
 export async function login(username, password) {
-    try {
-        if (!username?.trim()) return { success: false, error: 'Foydalanuvchi nomi kiritilishi shart.' };
-        if (!password) return { success: false, error: 'Parol kiritilishi shart.' };
+  try {
+    if (!username?.trim()) return { success: false, error: 'Foydalanuvchi nomi kiritilishi shart.' };
+    if (!password)          return { success: false, error: 'Parol kiritilishi shart.' };
 
-        const cleanUsername = username.trim().toLowerCase();
+    const cleanUsername = username.trim().toLowerCase();
 
-        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-            email: `${cleanUsername}@kitobchi.local`,
-            password: password,
-        });
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email:    `${cleanUsername}@kitobchi.local`,
+      password: password,
+    });
 
-        if (authError) {
-            return { success: false, error: uzbekifyError(authError) };
-        }
-
-        if (!authData.user) {
-            return { success: false, error: 'Foydalanuvchi topilmadi.' };
-        }
-
-        // Profilni olish
-        const profile = await _fetchProfile(authData.user.id);
-
-        // Sessiyani saqlash
-        const userObj = _buildUserObject(authData.user, profile || {});
-        _saveSession(userObj);
-
-        return { success: true, user: userObj };
-
-    } catch (err) {
-        console.error('[auth] login xatosi:', err);
-        return { success: false, error: uzbekifyError(err) };
+    if (authError) {
+      return { success: false, error: uzbekifyError(authError) };
     }
+
+    if (!authData.user) {
+      return { success: false, error: 'Foydalanuvchi topilmadi.' };
+    }
+
+    // Profilni olish
+    const profile = await _fetchProfile(authData.user.id);
+
+    // Sessiyani saqlash
+    const userObj = _buildUserObject(authData.user, profile || {});
+    _saveSession(userObj);
+
+    return { success: true, user: userObj };
+
+  } catch (err) {
+    console.error('[auth] login xatosi:', err);
+    return { success: false, error: uzbekifyError(err) };
+  }
 }
 
 // ============================================================
@@ -228,24 +228,24 @@ export async function login(username, password) {
  * @returns {Promise<{success: boolean, error?: string}>}
  */
 export async function logout() {
-    try {
-        const { error } = await supabase.auth.signOut();
+  try {
+    const { error } = await supabase.auth.signOut();
 
-        // localStorage ni har doim tozalaymiz (hatto Supabase xato qilsa ham)
-        _saveSession(null);
+    // localStorage ni har doim tozalaymiz (hatto Supabase xato qilsa ham)
+    _saveSession(null);
 
-        if (error) {
-            console.warn('[auth] signOut xatosi:', error.message);
-            // Foydalanuvchi nuqtai nazaridan chiqish muvaffaqiyatli
-        }
-
-        return { success: true };
-
-    } catch (err) {
-        console.error('[auth] logout xatosi:', err);
-        _saveSession(null); // Baribir tozalaymiz
-        return { success: false, error: uzbekifyError(err) };
+    if (error) {
+      console.warn('[auth] signOut xatosi:', error.message);
+      // Foydalanuvchi nuqtai nazaridan chiqish muvaffaqiyatli
     }
+
+    return { success: true };
+
+  } catch (err) {
+    console.error('[auth] logout xatosi:', err);
+    _saveSession(null); // Baribir tozalaymiz
+    return { success: false, error: uzbekifyError(err) };
+  }
 }
 
 // ============================================================
@@ -262,14 +262,14 @@ export async function logout() {
  * @returns {object|null}
  */
 export function getCurrentUser() {
-    try {
-        const raw = localStorage.getItem(SESSION_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
-    } catch {
-        localStorage.removeItem(SESSION_KEY);
-        return null;
-    }
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    localStorage.removeItem(SESSION_KEY);
+    return null;
+  }
 }
 
 /**
@@ -278,7 +278,7 @@ export function getCurrentUser() {
  * @returns {boolean}
  */
 export function isLoggedIn() {
-    return getCurrentUser() !== null;
+  return getCurrentUser() !== null;
 }
 
 /**
@@ -288,24 +288,24 @@ export function isLoggedIn() {
  * @returns {Promise<object|null>} — yangilangan foydalanuvchi yoki null
  */
 export async function refreshCurrentUser() {
-    try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+  try {
+    const { data: { session }, error } = await supabase.auth.getSession();
 
-        if (error || !session?.user) {
-            _saveSession(null);
-            return null;
-        }
-
-        const profile = await _fetchProfile(session.user.id);
-        const userObj = _buildUserObject(session.user, profile || {});
-        _saveSession(userObj);
-
-        return userObj;
-
-    } catch (err) {
-        console.error('[auth] refreshCurrentUser xatosi:', err);
-        return null;
+    if (error || !session?.user) {
+      _saveSession(null);
+      return null;
     }
+
+    const profile = await _fetchProfile(session.user.id);
+    const userObj = _buildUserObject(session.user, profile || {});
+    _saveSession(userObj);
+
+    return userObj;
+
+  } catch (err) {
+    console.error('[auth] refreshCurrentUser xatosi:', err);
+    return null;
+  }
 }
 
 // ============================================================
@@ -322,51 +322,51 @@ export async function refreshCurrentUser() {
  * @returns {Promise<{success: boolean, user?: object, error?: string}>}
  */
 export async function updateProfile(updates) {
-    try {
-        const currentUser = getCurrentUser();
-        if (!currentUser) {
-            return { success: false, error: 'Tizimga kirmagansiz.' };
-        }
-
-        // Faqat ruxsat etilgan maydonlarni qabul qilamiz
-        const dbUpdates = {};
-        if (updates.fullName !== undefined) dbUpdates.full_name = updates.fullName;
-        if (updates.avatar !== undefined) dbUpdates.avatar_url = updates.avatar;
-        if (updates.score !== undefined) dbUpdates.score = updates.score;
-        if (updates.streak !== undefined) dbUpdates.streak = updates.streak;
-        if (updates.lastQuizDate !== undefined) dbUpdates.last_quiz_date = updates.lastQuizDate;
-
-        if (Object.keys(dbUpdates).length === 0) {
-            return { success: false, error: 'Yangilanadigan ma\'lumot yo\'q.' };
-        }
-
-        // profiles jadvalini yangilash
-        const { error: dbError } = await supabase
-            .from('profiles')
-            .update(dbUpdates)
-            .eq('id', currentUser.id);
-
-        if (dbError) {
-            return { success: false, error: uzbekifyError(dbError) };
-        }
-
-        // localStorage dagi sessiyani yangilash
-        const updatedUser = {
-            ...currentUser,
-            fullName: updates.fullName ?? currentUser.fullName,
-            avatar: updates.avatar ?? currentUser.avatar,
-            score: updates.score ?? currentUser.score,
-            streak: updates.streak ?? currentUser.streak,
-            lastQuizDate: updates.lastQuizDate ?? currentUser.lastQuizDate,
-        };
-        _saveSession(updatedUser);
-
-        return { success: true, user: updatedUser };
-
-    } catch (err) {
-        console.error('[auth] updateProfile xatosi:', err);
-        return { success: false, error: uzbekifyError(err) };
+  try {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      return { success: false, error: 'Tizimga kirmagansiz.' };
     }
+
+    // Faqat ruxsat etilgan maydonlarni qabul qilamiz
+    const dbUpdates = {};
+    if (updates.fullName     !== undefined) dbUpdates.full_name       = updates.fullName;
+    if (updates.avatar       !== undefined) dbUpdates.avatar_url      = updates.avatar;
+    if (updates.score        !== undefined) dbUpdates.score           = updates.score;
+    if (updates.streak       !== undefined) dbUpdates.streak          = updates.streak;
+    if (updates.lastQuizDate !== undefined) dbUpdates.last_quiz_date  = updates.lastQuizDate;
+
+    if (Object.keys(dbUpdates).length === 0) {
+      return { success: false, error: 'Yangilanadigan ma\'lumot yo\'q.' };
+    }
+
+    // profiles jadvalini yangilash
+    const { error: dbError } = await supabase
+      .from('profiles')
+      .update(dbUpdates)
+      .eq('id', currentUser.id);
+
+    if (dbError) {
+      return { success: false, error: uzbekifyError(dbError) };
+    }
+
+    // localStorage dagi sessiyani yangilash
+    const updatedUser = {
+      ...currentUser,
+      fullName:     updates.fullName     ?? currentUser.fullName,
+      avatar:       updates.avatar       ?? currentUser.avatar,
+      score:        updates.score        ?? currentUser.score,
+      streak:       updates.streak       ?? currentUser.streak,
+      lastQuizDate: updates.lastQuizDate ?? currentUser.lastQuizDate,
+    };
+    _saveSession(updatedUser);
+
+    return { success: true, user: updatedUser };
+
+  } catch (err) {
+    console.error('[auth] updateProfile xatosi:', err);
+    return { success: false, error: uzbekifyError(err) };
+  }
 }
 
 // ============================================================
@@ -396,33 +396,33 @@ export async function updateProfile(updates) {
  *   unsubscribe();
  */
 export function initAuth({ onLogin, onLogout } = {}) {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-        async (event, session) => {
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    async (event, session) => {
 
-            if (event === 'SIGNED_IN' && session?.user) {
-                // Profil ma'lumotlarini olib, sessiyani yangilaymiz
-                const profile = await _fetchProfile(session.user.id);
-                const userObj = _buildUserObject(session.user, profile || {});
-                _saveSession(userObj);
+      if (event === 'SIGNED_IN' && session?.user) {
+        // Profil ma'lumotlarini olib, sessiyani yangilaymiz
+        const profile = await _fetchProfile(session.user.id);
+        const userObj = _buildUserObject(session.user, profile || {});
+        _saveSession(userObj);
 
-                if (typeof onLogin === 'function') onLogin(userObj);
+        if (typeof onLogin === 'function') onLogin(userObj);
 
-            } else if (event === 'SIGNED_OUT') {
-                _saveSession(null);
+      } else if (event === 'SIGNED_OUT') {
+        _saveSession(null);
 
-                if (typeof onLogout === 'function') onLogout();
+        if (typeof onLogout === 'function') onLogout();
 
-            } else if (event === 'TOKEN_REFRESHED' && session?.user) {
-                // Token yangilanganda faqat sessiyani refresh qilamiz
-                // (ortiqcha profil so'rovi qilmaymiz)
-                const currentUser = getCurrentUser();
-                if (currentUser) {
-                    // Joriy sessiyani saqlab qolamiz — o'zgarmagan
-                }
-            }
+      } else if (event === 'TOKEN_REFRESHED' && session?.user) {
+        // Token yangilanganda faqat sessiyani refresh qilamiz
+        // (ortiqcha profil so'rovi qilmaymiz)
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+          // Joriy sessiyani saqlab qolamiz — o'zgarmagan
         }
-    );
+      }
+    }
+  );
 
-    // Cleanup funksiyasini qaytaramiz
-    return () => subscription.unsubscribe();
+  // Cleanup funksiyasini qaytaramiz
+  return () => subscription.unsubscribe();
 }

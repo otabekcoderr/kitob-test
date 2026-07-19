@@ -20,14 +20,14 @@
  *   element.innerHTML = escapeHtml(user.fullName);
  */
 export function escapeHtml(text) {
-    if (text === null || text === undefined) return '';
+  if (text === null || text === undefined) return '';
 
-    return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+  return String(text)
+    .replace(/&/g,  '&amp;')
+    .replace(/</g,  '&lt;')
+    .replace(/>/g,  '&gt;')
+    .replace(/"/g,  '&quot;')
+    .replace(/'/g,  '&#039;');
 }
 
 // ============================================================
@@ -46,11 +46,11 @@ export function escapeHtml(text) {
  *   // → "url('/images/cover.jpg')"
  */
 export function cssUrl(url) {
-    if (!url) return '';
+  if (!url) return '';
 
-    // CSS url() ichidagi tırnoqlarni escape qilamiz
-    const escaped = String(url).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-    return `url('${escaped}')`;
+  // CSS url() ichidagi tırnoqlarni escape qilamiz
+  const escaped = String(url).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  return `url('${escaped}')`;
 }
 
 /**
@@ -65,16 +65,16 @@ export function cssUrl(url) {
  *   element.style.backgroundImage = safeCssUrl(userProvidedUrl);
  */
 export function safeCssUrl(url) {
-    if (!url) return '';
+  if (!url) return '';
 
-    const trimmed = String(url).trim().toLowerCase();
+  const trimmed = String(url).trim().toLowerCase();
 
-    // Xavfli protokollarni rad etamiz
-    if (trimmed.startsWith('javascript:')) return '';
-    if (trimmed.startsWith('data:') &&
-        !trimmed.startsWith('data:image/')) return '';
+  // Xavfli protokollarni rad etamiz
+  if (trimmed.startsWith('javascript:')) return '';
+  if (trimmed.startsWith('data:')       &&
+      !trimmed.startsWith('data:image/')) return '';
 
-    return cssUrl(url);
+  return cssUrl(url);
 }
 
 // ============================================================
@@ -93,15 +93,15 @@ export function safeCssUrl(url) {
  *   formatDate(new Date(2025, 0, 5)); // "2025-01-05"
  */
 export function formatDate(date = new Date()) {
-    const d = date instanceof Date ? date : new Date(date);
+  const d = date instanceof Date ? date : new Date(date);
 
-    if (isNaN(d.getTime())) return '';
+  if (isNaN(d.getTime())) return '';
 
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
+  const year  = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day   = String(d.getDate()).padStart(2, '0');
 
-    return `${year}-${month}-${day}`;
+  return `${year}-${month}-${day}`;
 }
 
 /**
@@ -110,7 +110,7 @@ export function formatDate(date = new Date()) {
  * @returns {string}
  */
 export function today() {
-    return formatDate(new Date());
+  return formatDate(new Date());
 }
 
 /**
@@ -119,9 +119,9 @@ export function today() {
  * @returns {string}
  */
 export function yesterday() {
-    const d = new Date();
-    d.setDate(d.getDate() - 1);
-    return formatDate(d);
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return formatDate(d);
 }
 
 // ============================================================
@@ -137,28 +137,28 @@ export function yesterday() {
  * @param {number} [duration=3000] — avtomatik yopilish (ms), 0 = yopilmaydi
  */
 export function showNotification(message, type = 'info', duration = 3000) {
-    // Eski bildirnomalrni tozalaymiz
-    document.querySelectorAll('.notification').forEach(el => el.remove());
+  // Eski bildirnomalrni tozalaymiz
+  document.querySelectorAll('.notification').forEach(el => el.remove());
 
-    const el = document.createElement('div');
-    el.className = `notification notification--${type}`;
-    el.textContent = message; // innerHTML EMAS — XSS xavfi yo'q
+  const el = document.createElement('div');
+  el.className = `notification notification--${type}`;
+  el.textContent = message; // innerHTML EMAS — XSS xavfi yo'q
 
-    // ARIA accessibility
-    el.setAttribute('role', 'alert');
-    el.setAttribute('aria-live', 'polite');
+  // ARIA accessibility
+  el.setAttribute('role', 'alert');
+  el.setAttribute('aria-live', 'polite');
 
-    document.body.appendChild(el);
+  document.body.appendChild(el);
 
-    // Kirish animatsiyasi
-    requestAnimationFrame(() => el.classList.add('notification--visible'));
+  // Kirish animatsiyasi
+  requestAnimationFrame(() => el.classList.add('notification--visible'));
 
-    if (duration > 0) {
-        setTimeout(() => {
-            el.classList.remove('notification--visible');
-            setTimeout(() => el.remove(), 300); // CSS transition kutamiz
-        }, duration);
-    }
+  if (duration > 0) {
+    setTimeout(() => {
+      el.classList.remove('notification--visible');
+      setTimeout(() => el.remove(), 300); // CSS transition kutamiz
+    }, duration);
+  }
 }
 
 /**
@@ -169,20 +169,20 @@ export function showNotification(message, type = 'info', duration = 3000) {
  * @param {string}            [originalText] — loading=false da qo'yiladigan matn
  */
 export function setButtonLoading(button, loading, originalText = '') {
-    if (!button) return;
+  if (!button) return;
 
-    if (loading) {
-        button.dataset.originalText = button.textContent;
-        button.textContent = 'Yuklanmoqda...';
-        button.disabled = true;
-        button.classList.add('btn--loading');
-    } else {
-        const text = originalText || button.dataset.originalText || '';
-        button.textContent = text;
-        button.disabled = false;
-        button.classList.remove('btn--loading');
-        delete button.dataset.originalText;
-    }
+  if (loading) {
+    button.dataset.originalText = button.textContent;
+    button.textContent = 'Yuklanmoqda...';
+    button.disabled = true;
+    button.classList.add('btn--loading');
+  } else {
+    const text = originalText || button.dataset.originalText || '';
+    button.textContent = text;
+    button.disabled = false;
+    button.classList.remove('btn--loading');
+    delete button.dataset.originalText;
+  }
 }
 
 // ============================================================
@@ -196,31 +196,31 @@ export function setButtonLoading(button, loading, originalText = '') {
  * @returns {string} — foydalanuvchiga ko'rsatiladigan o'zbekcha xabar
  */
 export function uzbekifyError(error) {
-    const msg = (error?.message || String(error) || '').toLowerCase();
+  const msg = (error?.message || String(error) || '').toLowerCase();
 
-    const MAP = [
-        // Auth xatolari
-        [/invalid login credentials/, 'Login yoki parol noto\'g\'ri.'],
-        [/email not confirmed/, 'Email tasdiqlanmagan. Pochta qutingizni tekshiring.'],
-        [/user already registered/, 'Bu foydalanuvchi allaqachon ro\'yxatdan o\'tgan.'],
-        [/password should be at least/, 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak.'],
-        [/email.*invalid/, 'Email manzili noto\'g\'ri formatda.'],
-        [/too many requests/, 'Juda ko\'p urinish. Biroz kuting.'],
-        [/network.*error|failed to fetch/, 'Internet ulanishini tekshiring.'],
-        [/jwt expired/, 'Sessiya muddati tugagan. Qayta kiring.'],
-        [/row.*level.*security|rls/, 'Ruxsat yo\'q.'],
-        [/duplicate key.*violates.*unique/, 'Bu ma\'lumot allaqachon mavjud.'],
-        [/timeout|etimedout/, 'So\'rov vaqti tugadi. Qayta urinib ko\'ring.'],
-        [/not found|does not exist/, 'Ma\'lumot topilmadi.'],
-        [/permission denied/, 'Ruxsat yo\'q.'],
-    ];
+  const MAP = [
+    // Auth xatolari
+    [/invalid login credentials/,            'Login yoki parol noto\'g\'ri.'],
+    [/email not confirmed/,                  'Email tasdiqlanmagan. Pochta qutingizni tekshiring.'],
+    [/user already registered/,              'Bu foydalanuvchi allaqachon ro\'yxatdan o\'tgan.'],
+    [/password should be at least/,          'Parol kamida 6 ta belgidan iborat bo\'lishi kerak.'],
+    [/email.*invalid/,                       'Email manzili noto\'g\'ri formatda.'],
+    [/too many requests/,                    'Juda ko\'p urinish. Biroz kuting.'],
+    [/network.*error|failed to fetch/,       'Internet ulanishini tekshiring.'],
+    [/jwt expired/,                          'Sessiya muddati tugagan. Qayta kiring.'],
+    [/row.*level.*security|rls/,             'Ruxsat yo\'q.'],
+    [/duplicate key.*violates.*unique/,      'Bu ma\'lumot allaqachon mavjud.'],
+    [/timeout|etimedout/,                    'So\'rov vaqti tugadi. Qayta urinib ko\'ring.'],
+    [/not found|does not exist/,             'Ma\'lumot topilmadi.'],
+    [/permission denied/,                    'Ruxsat yo\'q.'],
+  ];
 
-    for (const [pattern, uzText] of MAP) {
-        if (pattern.test(msg)) return uzText;
-    }
+  for (const [pattern, uzText] of MAP) {
+    if (pattern.test(msg)) return uzText;
+  }
 
-    // Tarjima topilmasa umumiy xabar
-    return 'Xatolik yuz berdi. Qayta urinib ko\'ring.';
+  // Tarjima topilmasa umumiy xabar
+  return 'Xatolik yuz berdi. Qayta urinib ko\'ring.';
 }
 
 // ============================================================
@@ -235,8 +235,8 @@ export function uzbekifyError(error) {
  * @returns {number}
  */
 export function toNumber(value) {
-    const n = Number(value);
-    return isNaN(n) ? 0 : n;
+  const n = Number(value);
+  return isNaN(n) ? 0 : n;
 }
 
 /**
@@ -247,12 +247,12 @@ export function toNumber(value) {
  * @returns {T[]}     — yangi aralashtirilgan massiv (original o'zgarmaydi)
  */
 export function shuffle(array) {
-    const arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 /**
@@ -263,8 +263,8 @@ export function shuffle(array) {
  * @returns {string}
  */
 export function truncate(text, maxLen = 100) {
-    const str = String(text || '');
-    return str.length > maxLen ? str.slice(0, maxLen).trimEnd() + '...' : str;
+  const str = String(text || '');
+  return str.length > maxLen ? str.slice(0, maxLen).trimEnd() + '...' : str;
 }
 
 /**
@@ -274,5 +274,5 @@ export function truncate(text, maxLen = 100) {
  * @returns {Promise<void>}
  */
 export function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -1,314 +1,440 @@
-import { getBookById, getQuestionsByBook, addResult, updateUserStreak } from './db.js';
-import { getCurrentUser } from './auth.js';
-import { navigate, showNotification } from './app.js';
-import { escapeHtml } from './utils.js';
+// ============================================================
+// quiz.js — Test o'tkazish va anti-cheat tizimi
+// ============================================================
+// Vazifalar:
+//   1. Savollarni yuklash va aralashtirish
+//   2. Test sessiyasini boshqarish (timer, holat)
+//   3. Anti-cheat: tab/F12/o'ng tugma kuzatuvi + jarima
+//   4. Natijani hisoblash va saqlash
+//   5. Streak yangilash
+//
+// Import: db.js · auth.js · utils.js
+// ============================================================
 
-export async function renderQuiz(container, bookId) {
-  container.innerHTML = `
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Test yuklanmoqda...</p>
-    </div>
-  `;
+import { getQuestions, saveQuizResult, updateStreakAndScore } from './db.js';
+import { getCurrentUser }  from './auth.js';
+import {
+  shuffle,
+  escapeHtml,
+  showNotification,
+  setButtonLoading,
+  today,
+} from './utils.js';
 
-  let book = null;
-  let questions = [];
-  const currentUser = getCurrentUser();
+// ============================================================
+// KONSTANTALAR
+// ============================================================
+
+/** Har bir savolga ajratilgan vaqt (soniya) */
+const QUESTION_TIME  = 30;
+
+/** Anti-cheat: nechta qoida buzilganda test tugaydi */
+const MAX_VIOLATIONS = 3;
+
+/** Anti-cheat: bir qoida buzilganda jarima foizi */
+const PENALTY_PERCENT = 10;
+
+// ============================================================
+// QUIZ HOLATI (STATE)
+// ============================================================
+
+/**
+ * Butun test davomida saqlanadigan holat.
+ * Tashqaridan to'g'ridan-to'g'ri o'zgartirilmaydi —
+ * faqat shu fayl ichidagi funksiyalar orqali.
+ */
+const state = {
+  bookId:       null,   // Joriy kitob ID
+  questions:    [],     // Savollar massivi (aralashtirilgan)
+  currentIndex: 0,      // Joriy savol raqami
+  score:        0,      // To'plangan ball
+  violations:   0,      // Qoida buzilishlar soni
+  penaltyTotal: 0,      // Jami jarima foizi
+  timer:        null,   // setInterval ref
+  timeLeft:     0,      // Joriy savolda qolgan vaqt
+  isRunning:    false,  // Test davom etayaptimi?
+  isFinished:   false,  // Test tuganganmi?
+  startTime:    null,   // Test boshlangan vaqt
+};
+
+// ============================================================
+// ANTI-CHEAT TIZIMI
+// ============================================================
+
+/**
+ * Anti-cheat handlerlar — removeEventListener uchun saqlanadi.
+ * @private
+ */
+const _handlers = {
+  visibilityChange: null,
+  contextMenu:      null,
+  keydown:          null,
+};
+
+/**
+ * Qoida buzilishini qayd etadi va ogohlantiradi.
+ * 3 marta buzilsa — test 0 ball bilan tugaydi.
+ *
+ * @param {string} reason — buzilish sababi (log uchun)
+ */
+function _registerViolation(reason) {
+  if (!state.isRunning || state.isFinished) return;
+
+  state.violations  += 1;
+  state.penaltyTotal = Math.min(state.violations * PENALTY_PERCENT, 100);
+
+  const remaining = MAX_VIOLATIONS - state.violations;
+
+  console.warn(`[anti-cheat] Qoida buzildi: ${reason}. Jami: ${state.violations}`);
+
+  if (state.violations >= MAX_VIOLATIONS) {
+    // Test tugaydi — 0 ball
+    showNotification(
+      '3 marta qoida buzildi! Test 0 ball bilan tugatildi.',
+      'error',
+      5000
+    );
+    _finishQuiz(true); // forceZero = true
+  } else {
+    showNotification(
+      `⚠️ Ogohlantirish! ${remaining} ta ogohlantirish qoldi. Jarima: ${state.penaltyTotal}%`,
+      'warning',
+      4000
+    );
+  }
+}
+
+/**
+ * Anti-cheat kuzatuvini yoqadi.
+ * Test boshlanganida chaqiriladi.
+ */
+function _enableAntiCheat() {
+  // 1. Tab / oyna almashtirish
+  _handlers.visibilityChange = () => {
+    if (document.hidden) {
+      _registerViolation('tab/oyna almashtirish');
+    }
+  };
+  document.addEventListener('visibilitychange', _handlers.visibilityChange);
+
+  // 2. O'ng tugmani taqiqlash
+  _handlers.contextMenu = (e) => {
+    e.preventDefault();
+    if (state.isRunning && !state.isFinished) {
+      _registerViolation("o'ng tugma bosish");
+    }
+  };
+  document.addEventListener('contextmenu', _handlers.contextMenu);
+
+  // 3. F12 va DevTools klavishlarini taqiqlash
+  _handlers.keydown = (e) => {
+    const blocked =
+      e.key === 'F12'                                      ||  // DevTools
+      (e.ctrlKey && e.shiftKey && e.key === 'I')          ||  // Chrome DevTools
+      (e.ctrlKey && e.shiftKey && e.key === 'J')          ||  // Console
+      (e.ctrlKey && e.shiftKey && e.key === 'C')          ||  // Inspector
+      (e.ctrlKey && e.key === 'U');                            // View source
+
+    if (blocked) {
+      e.preventDefault();
+      if (state.isRunning && !state.isFinished) {
+        _registerViolation('F12/DevTools kombinatsiyasi');
+      }
+    }
+  };
+  document.addEventListener('keydown', _handlers.keydown);
+}
+
+/**
+ * Anti-cheat kuzatuvini o'chiradi.
+ * Test tugaganida chaqiriladi.
+ */
+function _disableAntiCheat() {
+  if (_handlers.visibilityChange) {
+    document.removeEventListener('visibilitychange', _handlers.visibilityChange);
+    _handlers.visibilityChange = null;
+  }
+  if (_handlers.contextMenu) {
+    document.removeEventListener('contextmenu', _handlers.contextMenu);
+    _handlers.contextMenu = null;
+  }
+  if (_handlers.keydown) {
+    document.removeEventListener('keydown', _handlers.keydown);
+    _handlers.keydown = null;
+  }
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+
+/**
+ * Savol uchun timerni boshlaydi.
+ * Vaqt tugasa — keyingi savolga o'tadi.
+ *
+ * @param {Function} onTick   — (timeLeft: number) => void  [UI yangilash]
+ * @param {Function} onExpire — () => void  [vaqt tugaganda]
+ */
+function _startTimer(onTick, onExpire) {
+  _stopTimer();
+  state.timeLeft = QUESTION_TIME;
+
+  state.timer = setInterval(() => {
+    state.timeLeft -= 1;
+
+    if (typeof onTick === 'function') onTick(state.timeLeft);
+
+    if (state.timeLeft <= 0) {
+      _stopTimer();
+      if (typeof onExpire === 'function') onExpire();
+    }
+  }, 1000);
+}
+
+/**
+ * Timerni to'xtatadi.
+ */
+function _stopTimer() {
+  if (state.timer) {
+    clearInterval(state.timer);
+    state.timer = null;
+  }
+}
+
+// ============================================================
+// QUIZ YAKUNLASH
+// ============================================================
+
+/**
+ * Testni yakunlaydi, natijani hisoblaydi va saqlaydi.
+ *
+ * @param {boolean} [forceZero=false] — true: 0 ball (anti-cheat)
+ * @returns {Promise<object>} — natija obyekti
+ */
+async function _finishQuiz(forceZero = false) {
+  if (state.isFinished) return {};
+
+  state.isFinished = true;
+  state.isRunning  = false;
+
+  _stopTimer();
+  _disableAntiCheat();
+
+  const totalQuestions = state.questions.length;
+  const rawScore       = forceZero ? 0 : state.score;
+
+  // Jarima hisoblash
+  const penaltyAmount = Math.round(rawScore * (state.penaltyTotal / 100));
+  const finalScore    = Math.max(0, rawScore - penaltyAmount);
+  const percentage    = totalQuestions > 0
+    ? Math.round((finalScore / totalQuestions) * 100)
+    : 0;
+
+  const result = {
+    bookId:     state.bookId,
+    score:      finalScore,
+    total:      totalQuestions,
+    percentage: percentage,
+    penalty:    state.penaltyTotal,
+    date:       today(),
+  };
+
+  // Natijani DB ga saqlash
+  try {
+    const user = getCurrentUser();
+    if (user) {
+      await saveQuizResult(result);
+      await updateStreakAndScore(finalScore, today());
+    }
+  } catch (err) {
+    console.error('[quiz] Natija saqlashda xato:', err);
+  }
+
+  return result;
+}
+
+// ============================================================
+// ASOSIY QUIZ CONTROLLERI
+// ============================================================
+
+/**
+ * Yangi test sessiyasini boshlaydi.
+ *
+ * @param {object}   config
+ * @param {string|number} config.bookId     — kitob ID
+ * @param {object}   callbacks              — UI callback funksiyalari
+ * @param {Function} callbacks.onReady      — (questions[]) test tayyor
+ * @param {Function} callbacks.onQuestion   — ({question, index, total, timeLeft}) savol ko'rsatish
+ * @param {Function} callbacks.onTick       — (timeLeft) timer yangilash
+ * @param {Function} callbacks.onAnswer     — ({isCorrect, score, index}) javob natijasi
+ * @param {Function} callbacks.onFinish     — (result) test tugadi
+ * @param {Function} callbacks.onError      — (message) xato
+ * @returns {Promise<void>}
+ */
+export async function startQuiz(config, callbacks = {}) {
+  const { bookId } = config;
+  const { onReady, onQuestion, onTick, onAnswer, onFinish, onError } = callbacks;
+
+  // Holat tozalash
+  Object.assign(state, {
+    bookId:       bookId,
+    questions:    [],
+    currentIndex: 0,
+    score:        0,
+    violations:   0,
+    penaltyTotal: 0,
+    timer:        null,
+    timeLeft:     0,
+    isRunning:    false,
+    isFinished:   false,
+    startTime:    Date.now(),
+  });
 
   try {
-    book = await getBookById(bookId);
-    questions = await getQuestionsByBook(bookId);
+    // Savollarni yuklash
+    const raw = await getQuestions(bookId);
+
+    if (!raw || raw.length === 0) {
+      if (typeof onError === 'function') {
+        onError('Bu kitob uchun savollar topilmadi.');
+      }
+      return;
+    }
+
+    // Aralashtirish
+    state.questions = shuffle(raw);
+    state.isRunning = true;
+
+    // Anti-cheat yoqish
+    _enableAntiCheat();
+
+    if (typeof onReady === 'function') onReady(state.questions);
+
+    // Birinchi savol
+    _showQuestion(callbacks);
+
   } catch (err) {
-    console.error(err);
-    showNotification("Testni yuklashda xatolik", "error");
-    navigate('/books');
+    console.error('[quiz] startQuiz xatosi:', err);
+    if (typeof onError === 'function') {
+      onError('Test yuklanishda xatolik. Qayta urinib ko\'ring.');
+    }
+  }
+}
+
+/**
+ * Joriy savolni ko'rsatadi va timerni boshlaydi.
+ * @private
+ */
+function _showQuestion(callbacks) {
+  const { onQuestion, onTick, onFinish } = callbacks;
+
+  if (state.currentIndex >= state.questions.length) {
+    // Barcha savollar tugadi
+    _finishQuiz(false).then(result => {
+      if (typeof onFinish === 'function') onFinish(result);
+    });
     return;
   }
 
-  if (!book || questions.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">⚠️</div>
-        <div class="empty-state-title">Test topilmadi</div>
-        <p class="empty-state-text">Ushbu kitob bo'yicha hozircha testlar mavjud emas.</p>
-        <a href="#/books" class="btn btn-primary mt-md">Kutubxonaga qaytish</a>
-      </div>
-    `;
-    return;
-  }
+  const question = state.questions[state.currentIndex];
 
-  // Anti-cheat modal shown before navigation → start quiz directly
-  startQuiz();
-
-  function startQuiz() {
-    // Quiz state
-    let currentQuestionIndex = 0;
-    let answers = []; // Stores: { questionId: string, selectedAnswerIndex: number, isCorrect: boolean }
-    const startTime = Date.now();
-    let timerInterval = null;
-    let penaltiesCount = 0;
-
-    // Anti-cheat handlers
-    function handleWindowBlur() {
-      penaltiesCount++;
-      showNotification(`Ogohlantirish! Oynadan chiqib ketdingiz. Jarima balli yozildi! (Jarima jami: ${penaltiesCount}) ⚠️`, "error");
-    }
-
-    function handleKeyDown(e) {
-      // Prevent F12 (123)
-      if (e.keyCode === 123) {
-        e.preventDefault();
-        penaltiesCount++;
-        showNotification("DevTools (F12) ochish taqiqlanadi! (Jarima: 10% ball)", "error");
-      }
-      // Prevent Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
-      if (e.ctrlKey && (e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67) || e.keyCode === 85)) {
-        e.preventDefault();
-        penaltiesCount++;
-        showNotification("Kodni ko'rish taqiqlanadi! (Jarima: 10% ball)", "error");
-      }
-    }
-
-    function handleContextMenu(e) {
-      e.preventDefault();
-      showNotification("Sichqonchaning o'ng tugmasi taqiqlangan!", "warning");
-    }
-
-    // Attach listeners
-    window.addEventListener('blur', handleWindowBlur);
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('contextmenu', handleContextMenu);
-
-    function renderCurrentQuestion() {
-      const q = questions[currentQuestionIndex];
-      const progressPercent = (currentQuestionIndex / questions.length) * 100;
-      const currentAnswer = answers.find(a => a.questionId === q.id);
-      const safeBookTitle = escapeHtml(book.title);
-      const safeBookAuthor = escapeHtml(book.author);
-      const safeQuestion = escapeHtml(q.question);
-      const safeOptions = q.options.map(opt => escapeHtml(opt));
-
-      container.innerHTML = `
-        <div class="quiz-container fade-in">
-          <div class="card glass-card mb-md">
-            <div class="quiz-header">
-              <div>
-                <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; margin-bottom: 2px;">${safeBookTitle}</h2>
-                <p style="font-size: 0.8rem; color: var(--text-muted);">${safeBookAuthor}</p>
-              </div>
-              <div style="text-align: right; display: flex; align-items: center; gap: 16px;">
-                ${penaltiesCount > 0 ? `
-                  <span class="badge badge-error" style="animation: pulse 1s infinite;">Jarima: -${penaltiesCount * 10}%</span>
-                ` : ''}
-                <div class="quiz-timer" id="quiz-timer" style="font-weight: 700; color: var(--color-accent); font-size: 1.3rem;">00:00</div>
-              </div>
-            </div>
-
-            <div class="quiz-progress" style="margin-top: 16px;">
-              <div class="quiz-progress-fill" style="width: ${progressPercent}%;"></div>
-            </div>
-          </div>
-
-          <div class="card mb-md">
-            <div class="quiz-question-number" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 8px;">
-              SAVOL ${currentQuestionIndex + 1} / ${questions.length}
-            </div>
-            <div class="quiz-question-text" style="font-size: 1.15rem; font-weight: 600; line-height: 1.6; margin-bottom: 24px;">
-              ${safeQuestion}
-            </div>
-
-            <div class="quiz-options">
-              ${safeOptions.map((option, idx) => {
-                const isSelected = currentAnswer && currentAnswer.selectedAnswerIndex === idx;
-                return `
-                  <div class="quiz-option ${isSelected ? 'selected' : ''}" data-index="${idx}">
-                    <span class="quiz-option-letter">${String.fromCharCode(65 + idx)}</span>
-                    <span>${option}</span>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          </div>
-
-          <div class="card" style="padding: 16px;">
-            <div class="quiz-nav">
-              <button class="btn btn-outline" id="prev-question-btn" ${currentQuestionIndex === 0 ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''}>
-                ← Oldingi
-              </button>
-
-              <!-- Navigation Dots -->
-              <div class="flex items-center gap-sm" style="overflow-x: auto; padding: 4px; max-width: 50%;">
-                ${questions.map((_, idx) => {
-                  const ans = answers.find(a => a.questionId === questions[idx].id);
-                  let dotStyle = 'background: var(--bg-tertiary); color: var(--text-muted);';
-                  if (idx === currentQuestionIndex) {
-                    dotStyle = 'background: var(--color-primary); color: white; box-shadow: var(--shadow-glow);';
-                  } else if (ans) {
-                    dotStyle = 'background: var(--color-primary-light); color: var(--color-primary); border: 1px solid var(--color-primary);';
-                  }
-                  return `
-                    <button class="quiz-dot-nav" data-index="${idx}" style="width: 32px; height: 32px; border-radius: 50%; border: none; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); ${dotStyle}">
-                      ${idx + 1}
-                    </button>
-                  `;
-                }).join('')}
-              </div>
-
-              ${currentQuestionIndex === questions.length - 1 ? `
-                <button class="btn btn-primary" id="finish-quiz-btn">
-                  🎉 Tugatish
-                </button>
-              ` : `
-                <button class="btn btn-primary" id="next-question-btn">
-                  Keyingi →
-                </button>
-              `}
-            </div>
-          </div>
-        </div>
-      `;
-
-      // Update Timer display immediately
-      updateTimerDisplay();
-
-      // Event listeners
-      const options = container.querySelectorAll('.quiz-option');
-      options.forEach(opt => {
-        opt.addEventListener('click', () => {
-          const selectedIdx = parseInt(opt.dataset.index);
-          selectOption(selectedIdx);
-        });
-      });
-
-      const prevBtn = document.getElementById('prev-question-btn');
-      if (prevBtn && currentQuestionIndex > 0) {
-        prevBtn.addEventListener('click', () => {
-          currentQuestionIndex--;
-          renderCurrentQuestion();
-        });
-      }
-
-      const nextBtn = document.getElementById('next-question-btn');
-      if (nextBtn && currentQuestionIndex < questions.length - 1) {
-        nextBtn.addEventListener('click', () => {
-          currentQuestionIndex++;
-          renderCurrentQuestion();
-        });
-      }
-
-      const finishBtn = document.getElementById('finish-quiz-btn');
-      if (finishBtn) {
-        finishBtn.addEventListener('click', finishQuiz);
-      }
-
-      const dotButtons = container.querySelectorAll('.quiz-dot-nav');
-      dotButtons.forEach(dot => {
-        dot.addEventListener('click', () => {
-          currentQuestionIndex = parseInt(dot.dataset.index);
-          renderCurrentQuestion();
-        });
-      });
-    }
-
-    function selectOption(idx) {
-      const q = questions[currentQuestionIndex];
-      const isCorrect = idx === q.correctAnswer;
-      const answerData = {
-        questionId: q.id,
-        selectedAnswerIndex: idx,
-        isCorrect
-      };
-
-      const existingIdx = answers.findIndex(a => a.questionId === q.id);
-      if (existingIdx !== -1) {
-        answers[existingIdx] = answerData;
-      } else {
-        answers.push(answerData);
-      }
-
-      renderCurrentQuestion();
-    }
-
-    function updateTimerDisplay() {
-      const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-      const mm = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
-      const ss = String(elapsedSeconds % 60).padStart(2, '0');
-      const timerEl = document.getElementById('quiz-timer');
-      if (timerEl) {
-        timerEl.textContent = `${mm}:${ss}`;
-      }
-    }
-
-    function cleanupListeners() {
-      window.removeEventListener('blur', handleWindowBlur);
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('contextmenu', handleContextMenu);
-      clearInterval(timerInterval);
-    }
-
-    function finishQuiz() {
-      if (answers.length < questions.length) {
-        const remaining = questions.length - answers.length;
-        showNotification(`Iltimos, qolgan ${remaining} ta savolga ham javob bering!`, 'warning');
-        return;
-      }
-
-      cleanupListeners();
-
-      const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-      const correctCount = answers.filter(a => a.isCorrect).length;
-      const scorePercent = Math.round((correctCount / questions.length) * 100);
-
-      // Score adjustment with anti-cheat penalties
-      const penaltyPercent = penaltiesCount * 10;
-      const finalScore = Math.max(0, scorePercent - penaltyPercent);
-
-      const result = {
-        id: crypto.randomUUID(),
-        userId: currentUser.id,
-        userName: currentUser.fullName,
-        userAvatar: currentUser.avatar,
-        bookId: book.id,
-        bookTitle: book.title,
-        score: finalScore, // saved as final score (post penalty)
-        originalScore: scorePercent, // normal score
-        penaltiesCount,
-        totalQuestions: questions.length,
-        correctAnswers: correctCount,
-        timeSpent,
-        answers,
-        completedAt: Date.now()
-      };
-
-      addResult(result)
-        .then(async () => {
-          try {
-            const updatedUser = await updateUserStreak(currentUser.id);
-            const sessionUser = JSON.parse(localStorage.getItem('kitobtest_session') || '{}');
-            sessionUser.stats = updatedUser.stats;
-            localStorage.setItem('kitobtest_session', JSON.stringify(sessionUser));
-          } catch (err) {
-            console.error("Streak update error:", err);
-          }
-          showNotification("Test muvaffaqiyatli topshirildi! 🎉", "success");
-          navigate(`/result/${result.id}`);
-        })
-        .catch(err => {
-          console.error("Result save error:", err);
-          showNotification("Natijani saqlashda xatolik yuz berdi", "error");
-        });
-    }
-
-    // Set up timer interval
-    timerInterval = setInterval(updateTimerDisplay, 1000);
-
-    // Initial render
-    renderCurrentQuestion();
-
-    // Clean up if user navigates away using browser controls
-    window.addEventListener('hashchange', function cleanup() {
-      cleanupListeners();
-      window.removeEventListener('hashchange', cleanup);
+  if (typeof onQuestion === 'function') {
+    onQuestion({
+      question,
+      index: state.currentIndex,
+      total: state.questions.length,
+      timeLeft: QUESTION_TIME,
     });
   }
+
+  // Timer boshlash
+  _startTimer(
+    (timeLeft) => {
+      if (typeof onTick === 'function') onTick(timeLeft);
+    },
+    () => {
+      // Vaqt tugadi — noto'g'ri javob sifatida o'tkazamiz
+      _nextQuestion(null, callbacks);
+    }
+  );
+}
+
+/**
+ * Foydalanuvchi javob berganida chaqiriladi.
+ *
+ * @param {string|number} selectedOption — tanlangan javob
+ * @param {object}        callbacks
+ */
+export function submitAnswer(selectedOption, callbacks = {}) {
+  if (!state.isRunning || state.isFinished) return;
+
+  _stopTimer();
+  _nextQuestion(selectedOption, callbacks);
+}
+
+/**
+ * Javobni tekshirib, keyingi savolga o'tkazadi.
+ * @private
+ */
+function _nextQuestion(selectedOption, callbacks) {
+  const { onAnswer, onFinish } = callbacks;
+
+  const question   = state.questions[state.currentIndex];
+  const isCorrect  = selectedOption !== null &&
+                     String(selectedOption) === String(question.correct_answer ?? question.answer);
+
+  if (isCorrect) state.score += 1;
+
+  if (typeof onAnswer === 'function') {
+    onAnswer({
+      isCorrect,
+      selectedOption,
+      correctAnswer: question.correct_answer ?? question.answer,
+      score:         state.score,
+      index:         state.currentIndex,
+    });
+  }
+
+  state.currentIndex += 1;
+
+  // Qisqa pauza — foydalanuvchi javob natijasini ko'rsin
+  setTimeout(() => {
+    if (state.isFinished) return;
+
+    if (state.currentIndex >= state.questions.length) {
+      _finishQuiz(false).then(result => {
+        if (typeof onFinish === 'function') onFinish(result);
+      });
+    } else {
+      _showQuestion(callbacks);
+    }
+  }, 1200);
+}
+
+/**
+ * Testni vaqtidan oldin tugatadi (foydalanuvchi o'zi tugataoladi).
+ *
+ * @param {object} callbacks
+ * @returns {Promise<void>}
+ */
+export async function abortQuiz(callbacks = {}) {
+  if (!state.isRunning || state.isFinished) return;
+
+  const result = await _finishQuiz(false);
+  if (typeof callbacks.onFinish === 'function') {
+    callbacks.onFinish(result);
+  }
+}
+
+// ============================================================
+// HOLAT O'QISH (READ-ONLY)
+// ============================================================
+
+/**
+ * Joriy quiz holatini qaytaradi (o'zgartirish mumkin emas).
+ *
+ * @returns {Readonly<object>}
+ */
+export function getQuizState() {
+  return Object.freeze({ ...state });
 }
