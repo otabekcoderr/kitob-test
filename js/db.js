@@ -218,8 +218,8 @@ export const deleteBook = async (id) => {
 export async function getQuestionsByBook(bookId) {
   try {
     const remote = await supabaseRequest('GET', 'questions', { where: { bookId } });
-    if (Array.isArray(remote) && remote.length > 0) return remote;
-  } catch(e) { console.error("Error in getAllBooks:", e); }
+    if (Array.isArray(remote)) return remote;
+  } catch(e) { console.error("Error in getQuestionsByBook:", e); }
   if (!_questions) { const d = await getDataModule(); _questions = d.questions; }
   return _questions.filter(q => q.bookId === bookId);
 }

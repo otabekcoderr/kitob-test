@@ -12,20 +12,15 @@ let allLoadedBooks = [];
 let isDataLoaded = false;
 
 export async function renderBooksList(container) {
-  if (!isDataLoaded) {
-    container.innerHTML = `
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Kitoblar ro'yxati yuklanmoqda...</p>
-      </div>
-    `;
-  }
+  container.innerHTML = `
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Kitoblar ro'yxati yuklanmoqda...</p>
+    </div>
+  `;
 
   try {
-    if (!isDataLoaded) {
-      allLoadedBooks = await getAllBooks();
-      isDataLoaded = true;
-    }
+    allLoadedBooks = await getAllBooks();
 
     // Get current user results to calculate progress
     const currentUser = getCurrentUser();
