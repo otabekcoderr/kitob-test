@@ -1,10 +1,8 @@
-// ============================================================
+﻿// ============================================================
 // pages/result.js — Test natijasi sahifasi
 // ============================================================
 import { getUserResults }       from '../db.js';
 import { escapeHtml, today }    from '../utils.js';
-import { navigate }             from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
@@ -16,7 +14,7 @@ export async function render(container, { params, user }) {
   } catch { /* ignore */ }
 
   if (!result) {
-    navigate('books');
+    window.navigate('books');
     return;
   }
 
@@ -109,7 +107,7 @@ export async function render(container, { params, user }) {
   // Tugmalar
   const retryBtn = document.getElementById('retry-btn');
   if (retryBtn) {
-    const onClick = () => navigate('quiz', { bookId: String(bookId) });
+    const onClick = () => window.navigate('quiz', { bookId: String(bookId) });
     retryBtn.addEventListener('click', onClick);
     _cleanup.push(() => retryBtn.removeEventListener('click', onClick));
   }

@@ -1,10 +1,8 @@
-// ============================================================
+﻿// ============================================================
 // pages/home.js — Bosh sahifa / Dashboard
 // ============================================================
 import { getBooks, getLeaderboard, getUserResults } from '../db.js';
 import { escapeHtml, truncate, safeCssUrl }         from '../utils.js';
-import { navigate }                                  from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
@@ -196,7 +194,7 @@ function _renderBooks(books) {
   // Kartaga bosish
   grid.querySelectorAll('.book-card').forEach(card => {
     const id = card.dataset.bookId;
-    const onClick = () => navigate('book', { id });
+    const onClick = () => window.navigate('book', { id });
     card.addEventListener('click', onClick);
     _cleanup.push(() => card.removeEventListener('click', onClick));
   });

@@ -1,11 +1,9 @@
-// ============================================================
+﻿// ============================================================
 // pages/login.js — Tizimga kirish sahifasi
 // ============================================================
 import { login }                        from '../auth.js';
 import { escapeHtml, setButtonLoading,
          showNotification }             from '../utils.js';
-import { navigate }                     from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
@@ -154,7 +152,7 @@ function _bindEvents() {
 
       if (result.success) {
         showNotification(`Xush kelibsiz! 👋`, 'success');
-        navigate('home');
+        window.navigate('home');
       } else {
         _showGlobalError(globalError, result.error);
       }

@@ -1,10 +1,8 @@
-// ============================================================
+﻿// ============================================================
 // pages/books.js — Kitoblar ro'yxati + filter + qidiruv
 // ============================================================
 import { getBooks }            from '../db.js';
 import { escapeHtml, truncate } from '../utils.js';
-import { navigate }             from '../app.js';
-
 let _allBooks = [];
 let _cleanup  = [];
 
@@ -116,7 +114,7 @@ function _renderBooks(books) {
 
   grid.querySelectorAll('.book-card').forEach(card => {
     const id = card.dataset.bookId;
-    const onClick = () => navigate('book', { id });
+    const onClick = () => window.navigate('book', { id });
     const onKey   = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } };
     card.addEventListener('click',   onClick);
     card.addEventListener('keydown', onKey);

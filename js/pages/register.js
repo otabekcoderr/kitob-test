@@ -1,11 +1,9 @@
-// ============================================================
+﻿// ============================================================
 // pages/register.js — Ro'yxatdan o'tish sahifasi
 // ============================================================
 import { register }                      from '../auth.js';
 import { escapeHtml, setButtonLoading,
          showNotification }              from '../utils.js';
-import { navigate }                      from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
@@ -230,7 +228,7 @@ function _bindEvents() {
 
       if (result.success) {
         showNotification('Muvaffaqiyatli ro\'yxatdan o\'tdingiz! 🎉', 'success');
-        navigate('home');
+        window.navigate('home');
       } else {
         _showGlobalError(globalError, result.error);
       }

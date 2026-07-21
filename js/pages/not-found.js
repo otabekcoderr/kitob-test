@@ -1,8 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // pages/not-found.js — 404 sahifa
 // ============================================================
-import { navigate } from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
@@ -52,7 +50,7 @@ export async function render(container, { params, user }) {
   _addStyles();
 
   const backBtn = document.getElementById('nf-back-btn');
-  const onClick = () => navigate('home');
+  const onClick = () => window.navigate('home');
   backBtn?.addEventListener('click', onClick);
   _cleanup.push(() => backBtn?.removeEventListener('click', onClick));
 }

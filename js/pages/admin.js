@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // pages/admin.js — Admin boshqaruv paneli
 // ============================================================
 // Faqat role === 'admin' bo'lgan foydalanuvchilar kiradi.
@@ -10,8 +10,6 @@ import { escapeHtml,
          showNotification,
          setButtonLoading,
          truncate }              from '../utils.js';
-import { navigate }              from '../app.js';
-
 let _cleanup     = [];
 let _activeTab   = 'books';
 

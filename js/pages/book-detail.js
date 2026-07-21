@@ -1,17 +1,15 @@
-// ============================================================
+﻿// ============================================================
 // pages/book-detail.js — Kitob tafsiloti + test boshlash
 // ============================================================
 import { getBookById, getQuestions } from '../db.js';
 import { escapeHtml }                from '../utils.js';
-import { navigate }                  from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
   const bookId = params.id;
 
   if (!bookId) {
-    navigate('books');
+    window.navigate('books');
     return;
   }
 
@@ -150,7 +148,7 @@ function _bindEvents(book, user) {
   if (!startBtn) return;
 
   const onClick = () => {
-    navigate('quiz', { bookId: String(book.id) });
+    window.navigate('quiz', { bookId: String(book.id) });
   };
   startBtn.addEventListener('click', onClick);
   _cleanup.push(() => startBtn.removeEventListener('click', onClick));

@@ -1,16 +1,14 @@
-// ============================================================
+﻿// ============================================================
 // pages/profile.js — Profil va sozlamalar sahifasi
 // ============================================================
 import { getCurrentUser, updateProfile, logout } from '../auth.js';
 import { getUserResults }                         from '../db.js';
 import { escapeHtml, showNotification,
          setButtonLoading, today }                from '../utils.js';
-import { navigate }                               from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
-  if (!user) { navigate('login'); return; }
+  if (!user) { window.navigate('login'); return; }
 
   container.innerHTML = `
     <div class="page" id="profile-page">
@@ -238,7 +236,7 @@ function _bindEvents(user) {
     if (!confirm('Tizimdan chiqmoqchimisiz?')) return;
     await logout();
     showNotification('Tizimdan chiqdingiz.', 'info');
-    navigate('home');
+    window.navigate('home');
   };
   logoutBtn?.addEventListener('click', onLogout);
   _cleanup.push(() => logoutBtn?.removeEventListener('click', onLogout));

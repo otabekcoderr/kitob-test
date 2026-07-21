@@ -229,6 +229,8 @@ export function navigate(path, params = {}) {
   const query = new URLSearchParams(params).toString();
   window.location.hash = query ? `${path}?${query}` : path;
 }
+// Pages sikliy import qilmasligi uchun global ham e'lon qilamiz
+window.navigate = navigate;
 
 // ============================================================
 // 4. TEMA (DARK / LIGHT)

@@ -1,10 +1,8 @@
-// ============================================================
+﻿// ============================================================
 // pages/leaderboard.js — Reyting jadvali
 // ============================================================
 import { getLeaderboard }  from '../db.js';
 import { escapeHtml }      from '../utils.js';
-import { navigate }        from '../app.js';
-
 let _cleanup = [];
 
 export async function render(container, { params, user }) {

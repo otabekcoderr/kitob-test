@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // pages/quiz.js — Test UI sahifasi
 // ============================================================
 // Bu fayl faqat UI bilan shug'ullanadi.
@@ -12,8 +12,6 @@ import {
 } from '../quiz.js';
 import { getBookById }          from '../db.js';
 import { escapeHtml }           from '../utils.js';
-import { navigate }             from '../app.js';
-
 let _callbacks  = {};
 let _cleanup    = [];
 let _quizActive = false;
@@ -22,7 +20,7 @@ export async function render(container, { params, user }) {
   const bookId = params.bookId;
 
   if (!bookId || !user) {
-    navigate('books');
+    window.navigate('books');
     return;
   }
 
@@ -204,7 +202,7 @@ function _onFinish(result) {
     sessionStorage.setItem('quiz_result', JSON.stringify(result));
   } catch { /* ignore */ }
 
-  navigate('result');
+  window.navigate('result');
 }
 
 function _onError(message) {
