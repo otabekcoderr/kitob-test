@@ -549,25 +549,70 @@ function _watchAuth() {
 // 7. ILOVANI ISHGA TUSHURISH
 // ============================================================
 
+const SESSION_KEY = 'kitobchi_user';
+
+/**
+ * Supabase sessiyasini tekshirib, localStorage ni yangilaydi.
+ * Bu getCurrentUser() birinchi sahifada to'g'ri ishlashi uchun zarur.
+ */
+async function _syncSession() {
+  try {
+    const { supabase } = await import('./supabase-client.js');
+
+    // 3 soniya timeout — tarmoq muammosida qotib qolmaslik uchun
+    const result = await Promise.race([
+      supabase.auth.getSession(),
+      new Promise(resolve =>
+        setTimeout(() => resolve({ data: { session: null } }), 3000)
+      ),
+    ]);
+
+    const session = result?.data?.session;
+
+    if (!session?.user) {
+      // Sessiya yo'q — localStorage ni tozalaymiz
+      localStorage.removeItem(SESSION_KEY);
+      return;
+    }
+
+    // Sessiya bor — profiles jadvalidan profil olamiz
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .single()
+      .catch(() => ({ data: null }));
+
+    const userObj = {
+      id:          session.user.id,
+      email:       session.user.email        || '',
+      fullName:    profile?.full_name        || session.user.user_metadata?.full_name  || '',
+      username:    profile?.username         || session.user.user_metadata?.username   || '',
+      avatar:      profile?.avatar_url       || session.user.user_metadata?.avatar_url || '',
+      role:        profile?.role             || 'user',
+      score:       profile?.score            || 0,
+      streak:      profile?.streak           || 0,
+      lastQuizDate: profile?.last_quiz_date  || null,
+    };
+
+    localStorage.setItem(SESSION_KEY, JSON.stringify(userObj));
+
+  } catch (err) {
+    console.warn('[init] Sessiya sinxronlash xatosi:', err.message);
+  }
+}
+
 /**
  * Ilovani ishga tushuradi.
- * HTML da bitta marta chaqiriladi.
  */
 async function _init() {
-  // Navbar
   _mountNavbar();
-
-  // Temani boshlang'ich holga keltirish (applyTheme ichida ham bor,
-  // lekin _mountNavbar oldidan chaqirishdan oldin ham kerak bo'lishi mumkin)
   _applyTheme(_getSavedTheme());
-
-  // Auth kuzatuv
   _watchAuth();
-
-  // Hash o'zgarishini tinglash
   window.addEventListener('hashchange', _loadPage);
 
-  // Birinchi yuklash
+  // Supabase sessiyasini kutib, keyin sahifani yuklaymiz
+  await _syncSession();
   await _loadPage();
 }
 
@@ -577,3 +622,4 @@ if (document.readyState === 'loading') {
 } else {
   _init();
 }
+
