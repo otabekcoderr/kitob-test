@@ -315,6 +315,9 @@ function _buildNavbarHTML() {
       <a href="#register" class="btn btn-primary nav__link"  data-path="register">Ro'yxatdan o'tish</a>
     `;
 
+  const isAdmin = user && (user.role === 'admin' || user.username?.toLowerCase() === 'admin' || user.email?.toLowerCase().startsWith('admin@'));
+  const adminLink = isAdmin ? `<li><a href="#admin" class="nav__link" data-path="admin">⚙️ Admin</a></li>` : '';
+
   return `
     <nav class="navbar" role="navigation" aria-label="Asosiy menyu">
       <div class="navbar__inner">
@@ -330,6 +333,7 @@ function _buildNavbarHTML() {
           <li><a href="#home"        class="nav__link" data-path="home">Bosh sahifa</a></li>
           <li><a href="#books"       class="nav__link" data-path="books">Kitoblar</a></li>
           <li><a href="#leaderboard" class="nav__link" data-path="leaderboard">Reyting</a></li>
+          ${adminLink}
         </ul>
 
         <!-- O'ng tomon: auth + tema + hamburger -->

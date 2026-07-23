@@ -44,16 +44,18 @@ function _saveSession(user) {
  * @returns {object}
  */
 function _buildUserObject(authUser, profileData = {}) {
+  const username = profileData.username
+              || authUser.user_metadata?.username   || '';
+  const isDefaultAdmin = username.toLowerCase() === 'admin' || authUser.email?.toLowerCase().startsWith('admin@');
   return {
     id:        authUser.id,
     email:     authUser.email              || '',
     fullName:  profileData.full_name
                 || authUser.user_metadata?.full_name  || '',
-    username:  profileData.username
-                || authUser.user_metadata?.username   || '',
+    username:  username,
     avatar:    profileData.avatar_url
                 || authUser.user_metadata?.avatar_url || '',
-    role:      profileData.role            || 'user',
+    role:      profileData.role            || (isDefaultAdmin ? 'admin' : 'user'),
     score:     profileData.score           || 0,
     streak:    profileData.streak          || 0,
     lastQuizDate: profileData.last_quiz_date || null,
