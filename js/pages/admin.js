@@ -388,11 +388,9 @@ function _bindBookForm() {
     };
 
     try {
-      const { error } = id
-        ? await supabase.from('books').update(data).eq('id', id)
-        : await supabase.from('books').insert(data);
+      const res = await _safeSaveData('books', id, data);
+      if (!res.success) throw new Error(res.error);
 
-      if (error) throw error;
       showNotification(id ? 'Kitob yangilandi ✅' : "Kitob qo'shildi ✅", 'success');
       await _loadTab('books');
     } catch (err) {
@@ -401,6 +399,39 @@ function _bindBookForm() {
       setButtonLoading(saveBtn, false, id ? 'Saqlash' : "Qo'shish");
     }
   });
+}
+
+/**
+ * Supabase jadvalida mavjud bo'lmagan ustunlarni (schema cache error) avtomatik
+ * o'chirib, saqlashni qayta urinadi.
+ */
+async function _safeSaveData(tableName, id, initialData) {
+  const payload = { ...initialData };
+
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const query = id
+      ? supabase.from(tableName).update(payload).eq('id', id)
+      : supabase.from(tableName).insert(payload);
+
+    const { error } = await query;
+
+    if (!error) return { success: true };
+
+    const match = error.message?.match(/Could not find the '([^']+)' column/i);
+    if (match && match[1]) {
+      const missingCol = match[1];
+      console.warn(`[admin] '${tableName}' jadvalida '${missingCol}' ustuni yo'q. Ustun olib tashlanib qayta urinilmoqda...`);
+      if (missingCol === 'cover_url' && payload.cover_url && !payload.cover) {
+        payload.cover = payload.cover_url;
+      }
+      delete payload[missingCol];
+      continue;
+    }
+
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
 }
 
 async function _deleteBook(id) {
@@ -639,10 +670,9 @@ function _bindQuestionForm(existingId) {
     };
 
     try {
-      const { error } = existingId
-        ? await supabase.from('questions').update(data).eq('id', existingId)
-        : await supabase.from('questions').insert(data);
-      if (error) throw error;
+      const res = await _safeSaveData('questions', existingId, data);
+      if (!res.success) throw new Error(res.error);
+
       showNotification(existingId ? 'Savol yangilandi ✅' : "Savol qo'shildi ✅", 'success');
       await _loadTab('questions');
     } catch (err) {
