@@ -226,6 +226,7 @@ function _renderBookRows(books) {
 }
 
 function _bookFormHTML(book = {}) {
+  const cover = book.cover_url || book.cover || '';
   return `
     <form id="book-form" class="admin-form card">
       <h3 class="admin-form__title">${book.id ? 'Kitobni tahrirlash' : "Yangi kitob qo'shish"}</h3>
@@ -251,9 +252,18 @@ function _bookFormHTML(book = {}) {
           <label for="bf-pages">Betlar soni</label>
           <input id="bf-pages" class="input" type="number" min="1" value="${book.pages||''}">
         </div>
-        <div class="input-group">
-          <label for="bf-cover">Muqova URL</label>
-          <input id="bf-cover" class="input" type="url" value="${escapeHtml(book.cover_url||'')}">
+        <div class="input-group" style="grid-column:1/-1">
+          <label for="bf-cover">Muqova rasmi (URL yoki qurilmadan rasm)</label>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <input id="bf-cover" class="input" type="text" placeholder="https://... yoki fayl tanlang" value="${escapeHtml(cover)}" style="flex:1;min-width:200px">
+            <label class="btn btn-outline btn-sm" style="margin:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px">
+              🖼️ Rasm yuklash
+              <input id="bf-cover-file" type="file" accept="image/*" style="display:none">
+            </label>
+          </div>
+          <div id="bf-cover-preview-wrap" style="margin-top:10px;display:${cover ? 'block' : 'none'}">
+            <img id="bf-cover-preview" src="${escapeHtml(cover)}" alt="Muqova oldindan ko'rish" style="max-height:140px;border-radius:var(--radius-md);border:1px solid var(--border-color);object-fit:cover">
+          </div>
         </div>
       </div>
       <div class="input-group">
@@ -319,6 +329,44 @@ function _bindBookRowEvents(currentBooks, allBooks, showForm) {
 }
 
 function _bindBookForm() {
+  const coverInput     = document.getElementById('bf-cover');
+  const coverFileInput = document.getElementById('bf-cover-file');
+  const previewWrap    = document.getElementById('bf-cover-preview-wrap');
+  const previewImg     = document.getElementById('bf-cover-preview');
+
+  const updatePreview = (src) => {
+    if (src && previewWrap && previewImg) {
+      previewImg.src = src;
+      previewWrap.style.display = 'block';
+    } else if (previewWrap) {
+      previewWrap.style.display = 'none';
+    }
+  };
+
+  coverInput?.addEventListener('input', () => {
+    updatePreview(coverInput.value.trim());
+  });
+
+  coverFileInput?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 3 * 1024 * 1024) {
+      showNotification('Rasm hajmi 3MB dan kichik bo\'lishi kerak', 'warning');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const dataUrl = evt.target?.result;
+      if (dataUrl && coverInput) {
+        coverInput.value = dataUrl;
+        updatePreview(dataUrl);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
   document.getElementById('bf-cancel')?.addEventListener('click', () => {
     document.getElementById('book-form-wrap').hidden = true;
   });
