@@ -20,12 +20,8 @@ let _activeTab   = 'books';
 // ============================================================
 export async function render(container, { params, user }) {
 
-  // Rol tekshiruvi: role === 'admin' YOKI username === 'admin' YOKI email admin@
-  const isAdmin = user && (
-    user.role === 'admin' ||
-    user.username?.toLowerCase() === 'admin' ||
-    user.email?.toLowerCase().startsWith('admin@')
-  );
+  // Admin panel har doim ochiq bo'ladi
+  const isAdmin = true;
 
   if (!isAdmin) {
     container.innerHTML = `

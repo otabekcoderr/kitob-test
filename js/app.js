@@ -315,8 +315,7 @@ function _buildNavbarHTML() {
       <a href="#register" class="btn btn-primary nav__link"  data-path="register">Ro'yxatdan o'tish</a>
     `;
 
-  const isAdmin = user && (user.role === 'admin' || user.username?.toLowerCase() === 'admin' || user.email?.toLowerCase().startsWith('admin@'));
-  const adminLink = isAdmin ? `<li><a href="#admin" class="nav__link" data-path="admin">⚙️ Admin</a></li>` : '';
+  const adminLink = `<li><a href="#admin" class="nav__link" data-path="admin">⚙️ Admin</a></li>`;
 
   return `
     <nav class="navbar" role="navigation" aria-label="Asosiy menyu">
