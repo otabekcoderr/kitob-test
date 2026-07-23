@@ -107,34 +107,51 @@ export async function getBooks() {
   }
 }
 
+function _slugify(text) {
+  return String(text || '')
+    .toLowerCase()
+    .replace(/['`’"']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function _findLocalBook(bookId) {
+  const books = localData.books ?? [];
+  const strId = String(bookId);
+  return books.find(b =>
+    String(b.id) === strId ||
+    _slugify(b.title) === strId ||
+    (b.slug && _slugify(b.slug) === strId)
+  ) ?? null;
+}
+
 /**
- * Bitta kitobni ID bo'yicha qaytaradi.
+ * Bitta kitobni ID yoki slug bo'yicha qaytaradi.
  *
  * @param {string|number} bookId
  * @returns {Promise<object|null>}
  */
 export async function getBookById(bookId) {
-  try {
-    const { data, error } = await runQuery(
-      supabase
-        .from('books')
-        .select('*')
-        .eq('id', bookId)
-        .single()
-    );
+  if (!bookId) return null;
 
-    if (!error && data) return data;
+  const isNumeric = /^\d+$/.test(String(bookId));
 
-    // Fallback — data.js dan qidirish
-    console.warn('[db] getBookById: Supabase xatosi, data.js ishlatilmoqda.');
-    const books = localData.books ?? [];
-    return books.find(b => String(b.id) === String(bookId)) ?? null;
+  if (isNumeric) {
+    try {
+      const { data, error } = await runQuery(
+        supabase
+          .from('books')
+          .select('*')
+          .eq('id', parseInt(bookId, 10))
+          .maybeSingle()
+      );
 
-  } catch (err) {
-    console.error('[db] getBookById xatosi:', err);
-    const books = localData.books ?? [];
-    return books.find(b => String(b.id) === String(bookId)) ?? null;
+      if (!error && data) return data;
+    } catch { /* ignore */ }
   }
+
+  // Fallback yoki slug bilan qidirish
+  return _findLocalBook(bookId);
 }
 
 // ============================================================
@@ -144,37 +161,35 @@ export async function getBookById(bookId) {
 /**
  * Berilgan kitob uchun savollarni qaytaradi.
  *
- * Tartib:
- *   1. Supabase dan olib keladi
- *   2. Xato bo'lsa → data.js fallback
- *
  * @param {string|number} bookId
  * @returns {Promise<object[]>} — savollar massivi
  */
 export async function getQuestions(bookId) {
-  try {
-    const { data, error } = await runQuery(
-      supabase
-        .from('questions')
-        .select('*')
-        .eq('book_id', bookId)
-        .order('id', { ascending: true })
-    );
+  if (!bookId) return [];
 
-    if (!error && Array.isArray(data) && data.length > 0) {
-      return data;
-    }
+  const book = _findLocalBook(bookId);
+  const targetId = book ? book.id : bookId;
+  const isNumeric = /^\d+$/.test(String(targetId));
 
-    // Fallback
-    console.warn('[db] getQuestions: Supabase xatosi, data.js ishlatilmoqda.');
-    const allQuestions = localData.questions ?? {};
-    return allQuestions[bookId] ?? [];
+  if (isNumeric) {
+    try {
+      const { data, error } = await runQuery(
+        supabase
+          .from('questions')
+          .select('*')
+          .eq('book_id', parseInt(targetId, 10))
+          .order('id', { ascending: true })
+      );
 
-  } catch (err) {
-    console.error('[db] getQuestions xatosi:', err);
-    const allQuestions = localData.questions ?? {};
-    return allQuestions[bookId] ?? [];
+      if (!error && Array.isArray(data) && data.length > 0) {
+        return data;
+      }
+    } catch { /* ignore */ }
   }
+
+  // Fallback — data.js
+  const allQuestions = localData.questions ?? {};
+  return allQuestions[targetId] ?? allQuestions[bookId] ?? [];
 }
 
 // ============================================================

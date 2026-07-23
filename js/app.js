@@ -580,12 +580,15 @@ async function _syncSession() {
     }
 
     // Sessiya bor — profiles jadvalidan profil olamiz
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', session.user.id)
-      .single()
-      .catch(() => ({ data: null }));
+    let profile = null;
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .maybeSingle();
+      profile = data;
+    } catch { /* ignore */ }
 
     const userObj = {
       id:          session.user.id,
