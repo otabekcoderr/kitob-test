@@ -174,7 +174,11 @@ async function _renderBooks(panel) {
     <div class="admin-section">
       <div class="admin-section__header">
         <h2 class="admin-section__title">📚 Kitoblar (${books.length})</h2>
-        <button id="add-book-btn" class="btn btn-primary btn-sm">+ Kitob qo'shish</button>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input id="admin-book-search" type="search" class="input" style="max-width:240px"
+                 placeholder="Kitob yoki muallif..." aria-label="Kitob qidirish">
+          <button id="add-book-btn" class="btn btn-primary btn-sm">+ Kitob qo'shish</button>
+        </div>
       </div>
 
       <!-- Qo'shish / tahrirlash formasi (yashirin) -->
@@ -192,21 +196,7 @@ async function _renderBooks(panel) {
             </tr>
           </thead>
           <tbody id="books-tbody">
-            ${books.length === 0
-              ? `<tr><td colspan="6" class="text-center text-muted" style="padding:24px;text-align:center">Hali kitoblar yo'q. "+ Kitob qo'shish" tugmasini bosing.</td></tr>`
-              : books.map(b => `
-              <tr id="book-row-${b.id}">
-                <td>${b.id}</td>
-                <td><strong>${escapeHtml(b.title)}</strong></td>
-                <td>${escapeHtml(b.author || '')}</td>
-                <td><span class="badge">${escapeHtml(b.category || '')}</span></td>
-                <td>${b.year || '—'}</td>
-                <td class="admin-actions">
-                  <button class="btn btn-ghost btn-sm edit-book-btn" data-id="${b.id}">✏️ Tahrirlash</button>
-                  <button class="btn btn-danger btn-sm del-book-btn"  data-id="${b.id}">🗑️ O'chirish</button>
-                </td>
-              </tr>
-            `).join('')}
+            ${_renderBookRows(books)}
           </tbody>
         </table>
       </div>
@@ -214,6 +204,25 @@ async function _renderBooks(panel) {
   `;
 
   _bindBookEvents(books);
+}
+
+function _renderBookRows(books) {
+  if (books.length === 0) {
+    return `<tr><td colspan="6" class="text-center text-muted" style="padding:24px;text-align:center">Birorta ham kitob topilmadi.</td></tr>`;
+  }
+  return books.map(b => `
+    <tr id="book-row-${b.id}">
+      <td>${b.id}</td>
+      <td><strong>${escapeHtml(b.title)}</strong></td>
+      <td>${escapeHtml(b.author || '')}</td>
+      <td><span class="badge">${escapeHtml(b.category || '')}</span></td>
+      <td>${b.year || '—'}</td>
+      <td class="admin-actions">
+        <button class="btn btn-ghost btn-sm edit-book-btn" data-id="${b.id}">✏️ Tahrirlash</button>
+        <button class="btn btn-danger btn-sm del-book-btn"  data-id="${b.id}">🗑️ O'chirish</button>
+      </td>
+    </tr>
+  `).join('');
 }
 
 function _bookFormHTML(book = {}) {
@@ -272,10 +281,33 @@ function _bindBookEvents(books) {
 
   document.getElementById('add-book-btn')?.addEventListener('click', () => showForm());
 
+  // Qidiruv
+  const searchEl = document.getElementById('admin-book-search');
+  let timer;
+  searchEl?.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const q = searchEl.value.toLowerCase().trim();
+      const tbody = document.getElementById('books-tbody');
+      if (!tbody) return;
+      const filtered = books.filter(b =>
+        (b.title || '').toLowerCase().includes(q) ||
+        (b.author || '').toLowerCase().includes(q) ||
+        (b.category || '').toLowerCase().includes(q)
+      );
+      tbody.innerHTML = _renderBookRows(filtered);
+      _bindBookRowEvents(filtered, books, showForm);
+    }, 200);
+  });
+
+  _bindBookRowEvents(books, books, showForm);
+}
+
+function _bindBookRowEvents(currentBooks, allBooks, showForm) {
   // Tahrirlash tugmalari
   document.querySelectorAll('.edit-book-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const book = books.find(b => String(b.id) === btn.dataset.id);
+      const book = allBooks.find(b => String(b.id) === btn.dataset.id);
       if (book) showForm(book);
     });
   });
@@ -387,13 +419,20 @@ async function _renderQuestions(panel) {
         ${_questionFormHTML({}, bookOptions)}
       </div>
 
-      <!-- Filter kitob bo'yicha -->
-      <div class="input-group" style="max-width:280px;margin-bottom:16px">
-        <label for="q-filter-book">Kitob bo'yicha filtrlash</label>
-        <select id="q-filter-book" class="input">
-          <option value="">— Barcha kitoblar —</option>
-          ${bookOptions}
-        </select>
+      <!-- Filter va Qidiruv -->
+      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:flex-end">
+        <div class="input-group" style="max-width:260px;margin-bottom:0;flex:1">
+          <label for="q-filter-book">Kitob bo'yicha</label>
+          <select id="q-filter-book" class="input">
+            <option value="">— Barcha kitoblar —</option>
+            ${bookOptions}
+          </select>
+        </div>
+        <div class="input-group" style="max-width:280px;margin-bottom:0;flex:1">
+          <label for="admin-q-search">Savol qidirish</label>
+          <input id="admin-q-search" type="search" class="input"
+                 placeholder="Savol matnidan qidirish..." aria-label="Savol qidirish">
+        </div>
       </div>
 
       <div class="admin-table-wrap">
@@ -414,16 +453,28 @@ async function _renderQuestions(panel) {
     </div>
   `;
 
-  // Filter
-  const filterEl = document.getElementById('q-filter-book');
-  filterEl?.addEventListener('change', () => {
-    const bid = filterEl.value;
+  // Filter & Search
+  const filterEl  = document.getElementById('q-filter-book');
+  const searchQEl = document.getElementById('admin-q-search');
+
+  const applyQFilter = () => {
+    const bid   = filterEl?.value || '';
+    const query = searchQEl?.value?.toLowerCase().trim() || '';
     const tbody = document.getElementById('questions-tbody');
     if (!tbody) return;
-    const filtered = bid ? qs.filter(q => String(q.book_id) === bid) : qs;
-    tbody.innerHTML = filtered.length ? _renderQRows(filtered) : `<tr><td colspan="5" style="padding:24px;text-align:center" class="text-muted">Bu kitob bo'yicha savollar yo'q.</td></tr>`;
+    const filtered = qs.filter(q => {
+      const matchBook = !bid || String(q.book_id) === bid;
+      const matchText = !query ||
+        (q.question || q.text || '').toLowerCase().includes(query) ||
+        (q.books?.title || '').toLowerCase().includes(query);
+      return matchBook && matchText;
+    });
+    tbody.innerHTML = filtered.length ? _renderQRows(filtered) : `<tr><td colspan="5" style="padding:24px;text-align:center" class="text-muted">Savol topilmadi.</td></tr>`;
     _bindQRowEvents(filtered, bookOptions, qs);
-  });
+  };
+
+  filterEl?.addEventListener('change', applyQFilter);
+  searchQEl?.addEventListener('input', applyQFilter);
 
   _bindQRowEvents(qs, bookOptions, qs);
 
@@ -613,15 +664,21 @@ async function _renderUsers(panel) {
   searchEl?.addEventListener('input', () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      const q = searchEl.value.toLowerCase();
+      const q = searchEl.value.toLowerCase().trim();
       const filtered = users.filter(u =>
         (u.full_name || '').toLowerCase().includes(q) ||
-        (u.username  || '').toLowerCase().includes(q)
+        (u.username  || '').toLowerCase().includes(q) ||
+        (u.email     || '').toLowerCase().includes(q) ||
+        (u.role      || '').toLowerCase().includes(q)
       );
       const tbody = document.getElementById('users-tbody');
-      if (tbody) tbody.innerHTML = _renderUserRows(filtered);
+      if (tbody) {
+        tbody.innerHTML = filtered.length
+          ? _renderUserRows(filtered)
+          : `<tr><td colspan="7" style="padding:24px;text-align:center" class="text-muted">Birorta ham foydalanuvchi topilmadi.</td></tr>`;
+      }
       _bindUserEvents(filtered);
-    }, 250);
+    }, 200);
   });
 
   _bindUserEvents(users);
