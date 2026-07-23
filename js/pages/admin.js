@@ -171,12 +171,13 @@ async function _renderBooks(panel) {
       <div class="admin-section__header">
         <h2 class="admin-section__title">📚 Kitoblar (${books.length})</h2>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <input id="admin-book-search" type="search" class="input" style="max-width:200px"
+          <input id="admin-book-search" type="search" class="input" style="max-width:180px"
                  placeholder="Kitob yoki muallif..." aria-label="Kitob qidirish">
-          <button id="auto-fetch-covers-btn" class="btn btn-outline btn-sm" title="Google Books API orqali muqovalarni avtomatik topish">
-            🤖 Avtomatik muqovalarni topish
-          </button>
-          <button id="add-book-btn" class="btn btn-primary btn-sm">+ Kitob qo'shish</button>
+          <label class="btn btn-primary btn-sm" style="margin:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px" title="Kompyuteringizdan 52ta rasmni tanlang — fayl nomiga ko'ra kitoblarga avtomatik joylanadi">
+            📁 Ommaviy 52ta rasm yuklash
+            <input id="batch-covers-file" type="file" accept="image/*" multiple style="display:none">
+          </label>
+          <button id="add-book-btn" class="btn btn-ghost btn-sm">+ Kitob qo'shish</button>
         </div>
       </div>
 
@@ -299,8 +300,11 @@ function _bindBookEvents(books) {
 
   document.getElementById('add-book-btn')?.addEventListener('click', () => showForm());
 
-  document.getElementById('auto-fetch-covers-btn')?.addEventListener('click', () => {
-    _autoFetchAllCovers(books);
+  document.getElementById('batch-covers-file')?.addEventListener('change', (e) => {
+    const files = e.target.files;
+    if (files && files.length) {
+      _handleBatchCoverUpload(files, books);
+    }
   });
 
   // Qidiruv
@@ -338,6 +342,63 @@ function _bindBookRowEvents(currentBooks, allBooks, showForm) {
   document.querySelectorAll('.del-book-btn').forEach(btn => {
     btn.addEventListener('click', () => _deleteBook(btn.dataset.id));
   });
+}
+
+async function _handleBatchCoverUpload(files, books) {
+  if (!files || !files.length || !books || !books.length) return;
+
+  const fileArray = Array.from(files);
+  showNotification(`⏳ ${fileArray.length} ta rasm fayli o'qilmoqda va kitoblarga biriktirilmoqda...`, 'info', 4000);
+
+  let matchedCount = 0;
+
+  for (let i = 0; i < fileArray.length; i++) {
+    const file = fileArray[i];
+    const originalName = file.name || '';
+    const baseName = originalName.replace(/\.[^/.]+$/, '').trim();
+    const cleanSlug = _slugify(baseName);
+
+    // Mos kitobni qidirish
+    const matchedBook = books.find(b => {
+      if (!b) return false;
+      const bId = String(b.id || '');
+      const bTitleSlug = _slugify(b.title || '');
+      const bSlug = _slugify(b.slug || '');
+
+      return bId === baseName ||
+             bId === cleanSlug ||
+             bTitleSlug === cleanSlug ||
+             (bSlug && bSlug === cleanSlug) ||
+             (cleanSlug.length > 2 && bTitleSlug.includes(cleanSlug)) ||
+             (cleanSlug.length > 2 && cleanSlug.includes(bTitleSlug));
+    });
+
+    if (matchedBook) {
+      try {
+        const dataUrl = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (evt) => resolve(evt.target?.result);
+          reader.onerror = () => resolve(null);
+          reader.readAsDataURL(file);
+        });
+
+        if (dataUrl) {
+          matchedBook.cover_url  = dataUrl;
+          matchedBook.coverImage = dataUrl;
+          matchedBook.cover      = dataUrl;
+          matchedCount++;
+
+          // Supabase va local saqlash
+          _safeSaveData('books', matchedBook.id, { cover_url: dataUrl, cover: dataUrl }).catch(() => {});
+        }
+      } catch { /* ignore */ }
+    }
+  }
+
+  showNotification(`✅ ${matchedCount} ta rasm kitoblarga muvaffaqiyatli biriktirildi va saqlandi!`, 'success', 6000);
+
+  const tbody = document.getElementById('books-tbody');
+  if (tbody) tbody.innerHTML = _renderBookRows(books);
 }
 
 async function _fetchBookCoverImage(title, author) {
