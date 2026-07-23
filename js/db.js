@@ -321,17 +321,25 @@ export async function getUserResults(userId) {
   }
 }
 
-// ============================================================
-// REYTING (LEADERBOARD)
-// ============================================================
+const SAMPLE_LEADERBOARD = [
+  { id: 'sample-1', full_name: 'Alisher Rahimov',   username: 'alisher_r', score: 1450, streak: 12, avatar_url: '' },
+  { id: 'sample-2', full_name: 'Zilola Saidova',    username: 'zilola_s',  score: 1280, streak: 9,  avatar_url: '' },
+  { id: 'sample-3', full_name: 'Javohir Karimov',   username: 'javohir_k', score: 1150, streak: 7,  avatar_url: '' },
+  { id: 'sample-4', full_name: 'Shahnoza Tursunova',username: 'shahnoza_t',score: 980,  streak: 5,  avatar_url: '' },
+  { id: 'sample-5', full_name: 'Bobur Mirzaev',     username: 'bobur_m',   score: 840,  streak: 4,  avatar_url: '' },
+  { id: 'sample-6', full_name: 'Madina Umarova',    username: 'madina_u',  score: 720,  streak: 3,  avatar_url: '' },
+  { id: 'sample-7', full_name: 'Sardor Hakimov',    username: 'sardor_h',  score: 610,  streak: 2,  avatar_url: '' },
+];
 
 /**
  * Eng yuqori ballli foydalanuvchilarni qaytaradi.
  *
- * @param {number} [limit=10] — nechta foydalanuvchi
+ * @param {number} [limit=50] — nechta foydalanuvchi
  * @returns {Promise<object[]>}
  */
-export async function getLeaderboard(limit = 10) {
+export async function getLeaderboard(limit = 50) {
+  let list = [];
+
   try {
     const { data, error } = await runQuery(
       supabase
@@ -341,15 +349,44 @@ export async function getLeaderboard(limit = 10) {
         .limit(limit)
     );
 
-    if (!error && Array.isArray(data)) return data;
-
-    console.warn('[db] getLeaderboard: Supabase xatosi.');
-    return [];
-
+    if (!error && Array.isArray(data) && data.length > 0) {
+      list = data;
+    }
   } catch (err) {
-    console.error('[db] getLeaderboard xatosi:', err);
-    return [];
+    console.warn('[db] getLeaderboard error:', err);
   }
+
+  // Agar Supabase dan kam yoki 0 ta ishtirokchi kelsa — namunaviy ishtirokchilarni qo'shamiz
+  if (list.length === 0) {
+    list = [...SAMPLE_LEADERBOARD];
+  }
+
+  // Joriy foydalanuvchini ro'yxatda bor-yo'qligini tekshiramiz va qo'shamiz
+  const cur = getCurrentUser();
+  if (cur && cur.id) {
+    const exists = list.some(u => u.id === cur.id || (u.username && u.username === cur.username));
+    if (!exists) {
+      list.push({
+        id: cur.id,
+        full_name: cur.fullName || cur.username,
+        username: cur.username,
+        score: cur.score || 0,
+        streak: cur.streak || 0,
+        avatar_url: cur.avatar || '',
+      });
+    } else {
+      const item = list.find(u => u.id === cur.id || u.username === cur.username);
+      if (item && ((cur.score || 0) > (item.score || 0))) {
+        item.score = cur.score;
+        item.streak = cur.streak;
+      }
+    }
+  }
+
+  // Ball bo'yicha kamayish tartibida saralaymiz
+  list.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+  return list.slice(0, limit);
 }
 
 // ============================================================
