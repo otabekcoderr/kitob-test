@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // pages/quiz.js — Test UI sahifasi
 // ============================================================
 // Bu fayl faqat UI bilan shug'ullanadi.
@@ -112,8 +112,19 @@ export async function render(container, { params, user }) {
 // ---- CALLBACKS ----
 
 function _onReady(questions) {
-  document.getElementById('quiz-loading')?.setAttribute('hidden', '');
-  document.getElementById('quiz-ui')?.removeAttribute('hidden');
+  const loadingEl = document.getElementById('quiz-loading');
+  const uiEl      = document.getElementById('quiz-ui');
+
+  if (loadingEl) {
+    loadingEl.style.display = 'none';
+    loadingEl.hidden = true;
+    loadingEl.setAttribute('hidden', '');
+  }
+  if (uiEl) {
+    uiEl.style.display = 'block';
+    uiEl.hidden = false;
+    uiEl.removeAttribute('hidden');
+  }
 }
 
 function _onQuestion({ question, index, total, timeLeft }) {

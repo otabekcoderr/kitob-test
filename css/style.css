@@ -149,6 +149,10 @@
   padding:    0;
 }
 
+[hidden], [hidden="true"] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
