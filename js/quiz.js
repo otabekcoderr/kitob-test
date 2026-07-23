@@ -239,15 +239,15 @@ async function _finishQuiz(forceZero = false) {
     date:       today(),
   };
 
-  // Natijani DB ga saqlash
+  // Natijani fonda (background) DB ga saqlaymiz — UI qotib qolmasligi uchun
   try {
     const user = getCurrentUser();
     if (user) {
-      await saveQuizResult(result);
-      await updateStreakAndScore(finalScore, today());
+      saveQuizResult(result).catch(err => console.warn('[quiz] saveQuizResult warning:', err));
+      updateStreakAndScore(finalScore, today()).catch(err => console.warn('[quiz] updateStreak warning:', err));
     }
   } catch (err) {
-    console.error('[quiz] Natija saqlashda xato:', err);
+    console.warn('[quiz] Natija saqlash fonda bajarilmadi:', err);
   }
 
   return result;

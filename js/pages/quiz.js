@@ -207,10 +207,9 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption }) {
 function _onFinish(result) {
   _quizActive = false;
 
-  // Natija sahifasiga o'tkazamiz
-  // Natijani sessionStorage orqali o'tkazamiz
   try {
     sessionStorage.setItem('quiz_result', JSON.stringify(result));
+    localStorage.setItem('last_quiz_result', JSON.stringify(result));
   } catch { /* ignore */ }
 
   window.navigate('result');

@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // pages/result.js — Test natijasi sahifasi
 // ============================================================
 import { getUserResults }       from '../db.js';
@@ -6,14 +6,16 @@ import { escapeHtml, today }    from '../utils.js';
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
-  // Natijani sessionStorage dan olish
+  // Natijani sessionStorage yoki localStorage dan olish
   let result = null;
   try {
-    const raw = sessionStorage.getItem('quiz_result');
-    if (raw) { result = JSON.parse(raw); sessionStorage.removeItem('quiz_result'); }
+    const raw = sessionStorage.getItem('quiz_result') || localStorage.getItem('last_quiz_result');
+    if (raw) {
+      result = JSON.parse(raw);
+    }
   } catch { /* ignore */ }
 
-  if (!result) {
+  if (!result || typeof result.percentage === 'undefined') {
     window.navigate('books');
     return;
   }

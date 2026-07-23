@@ -255,28 +255,38 @@ export async function saveQuizResult(result) {
     const user = getCurrentUser();
     if (!user) return { success: false, error: 'Tizimga kirmagansiz.' };
 
+    const book = _findLocalBook(result.bookId);
+    const numericBookId = (book && /^\d+$/.test(String(book.id)))
+      ? parseInt(book.id, 10)
+      : (/^\d+$/.test(String(result.bookId)) ? parseInt(result.bookId, 10) : null);
+
+    const payload = {
+      user_id:    user.id,
+      score:      result.score,
+      total:      result.total,
+      percentage: result.percentage,
+      penalty:    result.penalty ?? 0,
+      date:       result.date,
+      created_at: new Date().toISOString(),
+    };
+
+    if (numericBookId !== null) {
+      payload.book_id = numericBookId;
+    }
+
     const { error } = await runQuery(
-      supabase.from('quiz_results').insert({
-        user_id:    user.id,
-        book_id:    result.bookId,
-        score:      result.score,
-        total:      result.total,
-        percentage: result.percentage,
-        penalty:    result.penalty ?? 0,
-        date:       result.date,
-        created_at: new Date().toISOString(),
-      })
+      supabase.from('quiz_results').insert(payload)
     );
 
     if (error) {
-      console.error('[db] saveQuizResult xatosi:', error.message);
+      console.warn('[db] saveQuizResult warning:', error.message);
       return { success: false, error: error.message };
     }
 
     return { success: true };
 
   } catch (err) {
-    console.error('[db] saveQuizResult xatosi:', err);
+    console.warn('[db] saveQuizResult warning:', err);
     return { success: false, error: err.message };
   }
 }
