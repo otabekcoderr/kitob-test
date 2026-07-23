@@ -125,6 +125,25 @@ function _findLocalBook(bookId) {
   ) ?? null;
 }
 
+function _formatQuestion(q) {
+  if (!q) return null;
+  const opts = Array.isArray(q.options) ? q.options : (Array.isArray(q.variants) ? q.variants : []);
+
+  let correctAns = q.correct_answer ?? q.correctAnswer ?? q.answer;
+  if (typeof correctAns === 'number' && opts[correctAns] !== undefined) {
+    correctAns = opts[correctAns];
+  }
+
+  return {
+    id: q.id,
+    book_id: q.book_id ?? q.bookId,
+    question: q.question ?? q.text ?? '',
+    options: opts,
+    correct_answer: String(correctAns ?? ''),
+    explanation: q.explanation || '',
+  };
+}
+
 /**
  * Bitta kitobni ID yoki slug bo'yicha qaytaradi.
  *
@@ -182,14 +201,37 @@ export async function getQuestions(bookId) {
       );
 
       if (!error && Array.isArray(data) && data.length > 0) {
-        return data;
+        return data.map(_formatQuestion).filter(Boolean);
       }
     } catch { /* ignore */ }
   }
 
   // Fallback — data.js
-  const allQuestions = localData.questions ?? {};
-  return allQuestions[targetId] ?? allQuestions[bookId] ?? [];
+  let localList = [];
+  if (Array.isArray(localData.questions)) {
+    localList = localData.questions;
+  } else if (typeof localData.questions === 'object' && localData.questions !== null) {
+    if (Array.isArray(localData.questions[targetId])) {
+      localList = localData.questions[targetId];
+    } else if (Array.isArray(localData.questions[bookId])) {
+      localList = localData.questions[bookId];
+    } else {
+      localList = Object.values(localData.questions).flat();
+    }
+  }
+
+  const targetSlug = _slugify(book ? book.title : bookId);
+
+  const matched = localList.filter(q => {
+    if (!q) return false;
+    const qBookId = String(q.bookId || q.book_id || '');
+    if (qBookId === String(bookId) || qBookId === String(targetId)) return true;
+    if (book && _slugify(qBookId) === _slugify(book.id)) return true;
+    if (book && _slugify(qBookId) === targetSlug) return true;
+    return false;
+  });
+
+  return matched.map(_formatQuestion).filter(Boolean);
 }
 
 // ============================================================
