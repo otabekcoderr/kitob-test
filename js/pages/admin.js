@@ -175,8 +175,11 @@ async function _renderBooks(panel) {
       <div class="admin-section__header">
         <h2 class="admin-section__title">📚 Kitoblar (${books.length})</h2>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <input id="admin-book-search" type="search" class="input" style="max-width:240px"
+          <input id="admin-book-search" type="search" class="input" style="max-width:200px"
                  placeholder="Kitob yoki muallif..." aria-label="Kitob qidirish">
+          <button id="auto-fetch-covers-btn" class="btn btn-outline btn-sm" title="Google Books API orqali muqovalarni avtomatik topish">
+            🤖 Avtomatik muqovalarni topish
+          </button>
           <button id="add-book-btn" class="btn btn-primary btn-sm">+ Kitob qo'shish</button>
         </div>
       </div>
@@ -191,7 +194,7 @@ async function _renderBooks(panel) {
         <table class="admin-table" aria-label="Kitoblar jadvali">
           <thead>
             <tr>
-              <th>ID</th><th>Sarlavha</th><th>Muallif</th>
+              <th>Muqova</th><th>ID</th><th>Sarlavha</th><th>Muallif</th>
               <th>Kategoriya</th><th>Yil</th><th>Amallar</th>
             </tr>
           </thead>
@@ -208,21 +211,30 @@ async function _renderBooks(panel) {
 
 function _renderBookRows(books) {
   if (books.length === 0) {
-    return `<tr><td colspan="6" class="text-center text-muted" style="padding:24px;text-align:center">Birorta ham kitob topilmadi.</td></tr>`;
+    return `<tr><td colspan="7" class="text-center text-muted" style="padding:24px;text-align:center">Birorta ham kitob topilmadi.</td></tr>`;
   }
-  return books.map(b => `
-    <tr id="book-row-${b.id}">
-      <td>${b.id}</td>
-      <td><strong>${escapeHtml(b.title)}</strong></td>
-      <td>${escapeHtml(b.author || '')}</td>
-      <td><span class="badge">${escapeHtml(b.category || '')}</span></td>
-      <td>${b.year || '—'}</td>
-      <td class="admin-actions">
-        <button class="btn btn-ghost btn-sm edit-book-btn" data-id="${b.id}">✏️ Tahrirlash</button>
-        <button class="btn btn-danger btn-sm del-book-btn"  data-id="${b.id}">🗑️ O'chirish</button>
-      </td>
-    </tr>
-  `).join('');
+  return books.map(b => {
+    const coverSrc = b.cover_url || b.coverImage || (typeof b.cover === 'string' && b.cover.startsWith('http') ? b.cover : '');
+    return `
+      <tr id="book-row-${b.id}">
+        <td style="width:50px;text-align:center">
+          ${coverSrc
+            ? `<img src="${escapeHtml(coverSrc)}" alt="" style="width:36px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border-color);display:inline-block" onerror="this.onerror=null;this.parentNode.innerHTML='📖'">`
+            : `<span style="font-size:1.4rem">📖</span>`
+          }
+        </td>
+        <td>${b.id}</td>
+        <td><strong>${escapeHtml(b.title)}</strong></td>
+        <td>${escapeHtml(b.author || '')}</td>
+        <td><span class="badge">${escapeHtml(b.category || '')}</span></td>
+        <td>${b.year || '—'}</td>
+        <td class="admin-actions">
+          <button class="btn btn-ghost btn-sm edit-book-btn" data-id="${b.id}">✏️ Tahrirlash</button>
+          <button class="btn btn-danger btn-sm del-book-btn"  data-id="${b.id}">🗑️ O'chirish</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
 }
 
 function _bookFormHTML(book = {}) {
@@ -291,6 +303,10 @@ function _bindBookEvents(books) {
 
   document.getElementById('add-book-btn')?.addEventListener('click', () => showForm());
 
+  document.getElementById('auto-fetch-covers-btn')?.addEventListener('click', () => {
+    _autoFetchAllCovers(books);
+  });
+
   // Qidiruv
   const searchEl = document.getElementById('admin-book-search');
   let timer;
@@ -326,6 +342,75 @@ function _bindBookRowEvents(currentBooks, allBooks, showForm) {
   document.querySelectorAll('.del-book-btn').forEach(btn => {
     btn.addEventListener('click', () => _deleteBook(btn.dataset.id));
   });
+}
+
+async function _fetchBookCoverImage(title, author) {
+  const cleanTitle = (title || '').trim();
+  const cleanAuthor = (author || '').trim();
+
+  try {
+    // 1. Google Books API
+    const query = `${cleanTitle} ${cleanAuthor}`.trim();
+    const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=1`);
+    if (res.ok) {
+      const data = await res.json();
+      const links = data.items?.[0]?.volumeInfo?.imageLinks;
+      let img = links?.thumbnail || links?.smallThumbnail || links?.medium || links?.large;
+      if (img) {
+        return img.replace(/^http:/i, 'https:').replace(/&edge=curl/gi, '');
+      }
+    }
+  } catch { /* ignore */ }
+
+  try {
+    // 2. Open Library API
+    const res = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(cleanTitle)}&limit=1`);
+    if (res.ok) {
+      const data = await res.json();
+      const coverId = data.docs?.[0]?.cover_i;
+      if (coverId) {
+        return `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
+      }
+    }
+  } catch { /* ignore */ }
+
+  // 3. Fallback placeholder
+  const seed = encodeURIComponent(cleanTitle.toLowerCase().replace(/[^a-z0-9]/g, ''));
+  return `https://picsum.photos/seed/${seed}/300/400`;
+}
+
+async function _autoFetchAllCovers(books) {
+  const btn = document.getElementById('auto-fetch-covers-btn');
+  if (!btn || !books || !books.length) return;
+
+  if (!confirm(`${books.length} ta kitobning muqovasi Google Books & OpenLibrary API orqali avtomatik topilib yangilanadi. Boshlaymizmi?`)) {
+    return;
+  }
+
+  setButtonLoading(btn, true, 'Boshlanmoqda...');
+  let count = 0;
+
+  for (let i = 0; i < books.length; i++) {
+    const b = books[i];
+    btn.textContent = `⏳ ${i + 1}/${books.length}...`;
+
+    const img = await _fetchBookCoverImage(b.title, b.author);
+    if (img) {
+      b.cover_url  = img;
+      b.coverImage = img;
+      b.cover      = img;
+      count++;
+
+      // Supabase va local xatosiz yangilash
+      _safeSaveData('books', b.id, { cover_url: img, cover: img }).catch(() => {});
+    }
+  }
+
+  setButtonLoading(btn, false, '🤖 Avtomatik muqovalarni topish');
+  showNotification(`✅ ${count} ta kitob muqovasi muvaffaqiyatli yangilandi!`, 'success', 5000);
+
+  const tbody = document.getElementById('books-tbody');
+  if (tbody) tbody.innerHTML = _renderBookRows(books);
 }
 
 function _bindBookForm() {
