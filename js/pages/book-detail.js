@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // pages/book-detail.js — Kitob tafsiloti + test boshlash
 // ============================================================
 import { getBookById, getQuestions } from '../db.js';
@@ -65,7 +65,7 @@ export async function render(container, { params, user }) {
 }
 
 function _renderBook(book, questions, user) {
-  const cover    = book.cover_url || book.cover || '';
+  const cover = book.cover_url || book.coverImage || (typeof book.cover === 'string' && book.cover.startsWith('http') ? book.cover : '');
   const qCount   = questions.length;
 
   document.getElementById('book-content').innerHTML = `

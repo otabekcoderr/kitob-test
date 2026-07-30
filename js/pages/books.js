@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // pages/books.js — Kitoblar ro'yxati + filter + qidiruv
 // ============================================================
 import { getBooks }            from '../db.js';
@@ -126,7 +126,7 @@ function _renderBooks(books) {
 }
 
 function _bookCardHTML(book) {
-  const cover = book.cover_url || book.cover || '';
+  const cover = book.cover_url || book.coverImage || (typeof book.cover === 'string' && book.cover.startsWith('http') ? book.cover : '');
   return `
     <article
       class="book-card"
