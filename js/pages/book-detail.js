@@ -64,8 +64,19 @@ export async function render(container, { params, user }) {
   }
 }
 
+function _getBookCover(book) {
+  if (!book) return '';
+  if (book.cover_url && (book.cover_url.startsWith('http') || book.cover_url.startsWith('data:'))) {
+    return book.cover_url;
+  }
+  if (book.cover && (book.cover.startsWith('http') || book.cover.startsWith('data:'))) {
+    return book.cover;
+  }
+  return book.coverImage || '';
+}
+
 function _renderBook(book, questions, user) {
-  const cover = book.cover_url || book.coverImage || (typeof book.cover === 'string' && book.cover.startsWith('http') ? book.cover : '');
+  const cover = _getBookCover(book);
   const qCount   = questions.length;
 
   document.getElementById('book-content').innerHTML = `

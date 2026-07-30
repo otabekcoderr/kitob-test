@@ -125,8 +125,19 @@ function _renderBooks(books) {
   });
 }
 
+function _getBookCover(book) {
+  if (!book) return '';
+  if (book.cover_url && (book.cover_url.startsWith('http') || book.cover_url.startsWith('data:'))) {
+    return book.cover_url;
+  }
+  if (book.cover && (book.cover.startsWith('http') || book.cover.startsWith('data:'))) {
+    return book.cover;
+  }
+  return book.coverImage || '';
+}
+
 function _bookCardHTML(book) {
-  const cover = book.cover_url || book.coverImage || (typeof book.cover === 'string' && book.cover.startsWith('http') ? book.cover : '');
+  const cover = _getBookCover(book);
   return `
     <article
       class="book-card"
