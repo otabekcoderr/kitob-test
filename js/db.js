@@ -312,42 +312,67 @@ let _quizResultsTableMissing = false;
  * @returns {Promise<object[]>}
  */
 export async function getUserResults(userId) {
-  if (!_quizResultsTableMissing) {
-    try {
-      const uid = userId ?? getCurrentUser()?.id;
-      if (uid) {
-        const { data, error } = await runQuery(
-          supabase
-            .from('quiz_results')
-            .select('*, books(title, author)')
-            .eq('user_id', uid)
-            .order('created_at', { ascending: false })
-        );
+  let dbData = [];
+  try {
+    const uid = userId ?? getCurrentUser()?.id;
+    if (uid) {
+      const { data, error } = await runQuery(
+        supabase
+          .from('quiz_results')
+          .select('*')
+          .eq('user_id', uid)
+          .order('created_at', { ascending: false })
+      );
 
-        if (error) {
-          if (error.status === 404 || error.code === 'PGRST301' || String(error.message).includes('404')) {
-            _quizResultsTableMissing = true;
-          }
-        } else if (Array.isArray(data) && data.length > 0) {
-          return data;
-        }
+      if (!error && Array.isArray(data)) {
+        dbData = data;
       }
+    }
+  } catch { /* ignore */ }
+
+  // DB natijalarini kitoblar bilan biriktirish
+  if (dbData.length > 0) {
+    try {
+      const books = await getBooks();
+      return dbData.map(r => {
+        const b = books.find(x => String(x.id) === String(r.book_id));
+        return {
+          ...r,
+          books: b ? { title: b.title, author: b.author } : null
+        };
+      });
     } catch {
-      _quizResultsTableMissing = true;
+      return dbData;
     }
   }
 
-  // Local storage fallback (404 so'rovisiz va xatosiz)
+  // Local storage fallback (400/404 so'rovisiz va xatosiz)
   try {
     const raw = localStorage.getItem('user_quiz_results');
     if (raw) {
       const list = JSON.parse(raw);
-      if (Array.isArray(list) && list.length > 0) return list;
+      if (Array.isArray(list) && list.length > 0) {
+        const books = await getBooks();
+        return list.map(r => {
+          const b = books.find(x => String(x.id) === String(r.bookId || r.book_id));
+          return {
+            ...r,
+            books: b ? { title: b.title, author: b.author } : null
+          };
+        });
+      }
     }
     const last = localStorage.getItem('last_quiz_result');
     if (last) {
       const single = JSON.parse(last);
-      if (single && single.percentage !== undefined) return [single];
+      if (single && single.percentage !== undefined) {
+        const books = await getBooks();
+        const b = books.find(x => String(x.id) === String(single.bookId || single.book_id));
+        return [{
+          ...single,
+          books: b ? { title: b.title, author: b.author } : null
+        }];
+      }
     }
   } catch { /* ignore */ }
 
