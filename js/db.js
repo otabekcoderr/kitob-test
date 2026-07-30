@@ -303,6 +303,8 @@ export async function saveQuizResult(result) {
   }
 }
 
+let _quizResultsTableMissing = false;
+
 /**
  * Foydalanuvchining barcha test natijalarini qaytaradi.
  *
@@ -310,22 +312,32 @@ export async function saveQuizResult(result) {
  * @returns {Promise<object[]>}
  */
 export async function getUserResults(userId) {
-  try {
-    const uid = userId ?? getCurrentUser()?.id;
-    if (uid) {
-      const { data, error } = await runQuery(
-        supabase
-          .from('quiz_results')
-          .select('*, books(title, author)')
-          .eq('user_id', uid)
-          .order('created_at', { ascending: false })
-      );
+  if (!_quizResultsTableMissing) {
+    try {
+      const uid = userId ?? getCurrentUser()?.id;
+      if (uid) {
+        const { data, error } = await runQuery(
+          supabase
+            .from('quiz_results')
+            .select('*, books(title, author)')
+            .eq('user_id', uid)
+            .order('created_at', { ascending: false })
+        );
 
-      if (!error && Array.isArray(data) && data.length > 0) return data;
+        if (error) {
+          if (error.status === 404 || error.code === 'PGRST301' || String(error.message).includes('404')) {
+            _quizResultsTableMissing = true;
+          }
+        } else if (Array.isArray(data) && data.length > 0) {
+          return data;
+        }
+      }
+    } catch {
+      _quizResultsTableMissing = true;
     }
-  } catch { /* ignore */ }
+  }
 
-  // Local storage fallback
+  // Local storage fallback (404 so'rovisiz va xatosiz)
   try {
     const raw = localStorage.getItem('user_quiz_results');
     if (raw) {
