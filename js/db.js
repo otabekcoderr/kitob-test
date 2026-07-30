@@ -378,8 +378,6 @@ export async function getLeaderboard(limit = 50) {
   if (list.length === 0) {
     list = [...SAMPLE_LEADERBOARD];
   }
-    list = [...SAMPLE_LEADERBOARD];
-  }
 
   // Joriy foydalanuvchini ro'yxatda bor-yo'qligini tekshiramiz va qo'shamiz
   const cur = getCurrentUser();
