@@ -17,8 +17,14 @@ import * as localData    from './data.js';
 // KONSTANTALAR
 // ============================================================
 
-/** So'rov timeout vaqti — 10 soniya */
-const TIMEOUT = 10_000;
+/** So'rov timeout vaqti — 2.5 soniya (tezkor fallback) */
+const TIMEOUT = 2_500;
+
+// ============================================================
+// TEZKOR IN-MEMORY KESH (SPEED & PERFORMANCE)
+// ============================================================
+let _booksCache = null;
+const _questionsCache = new Map();
 
 // ============================================================
 // ICHKI YORDAMCHI FUNKSIYALAR
@@ -76,15 +82,15 @@ async function runQuery(query) {
 // ============================================================
 
 /**
- * Barcha kitoblarni qaytaradi.
- *
- * Tartib:
- *   1. Supabase dan olib keladi
- *   2. Xato bo'lsa → data.js fallback (almashtirish, merge emas)
+ * Barcha kitoblarni qaytaradi (Kesh va tezkor fallback bilan).
  *
  * @returns {Promise<object[]>} — kitoblar massivi
  */
 export async function getBooks() {
+  if (_booksCache && _booksCache.length > 0) {
+    return _booksCache;
+  }
+
   try {
     const { data, error } = await runQuery(
       supabase
@@ -94,17 +100,16 @@ export async function getBooks() {
     );
 
     if (!error && Array.isArray(data) && data.length > 0) {
+      _booksCache = data;
       return data;
     }
-
-    // Supabase ishlamadi — fallback
-    console.warn('[db] getBooks: Supabase xatosi, data.js ishlatilmoqda.');
-    return localData.books ?? [];
-
   } catch (err) {
-    console.error('[db] getBooks xatosi:', err);
-    return localData.books ?? [];
+    console.warn('[db] getBooks Supabase fallback:', err);
   }
+
+  // Supabase ishlamadi — localData fallback
+  _booksCache = localData.books ?? [];
+  return _booksCache;
 }
 
 function _slugify(text) {

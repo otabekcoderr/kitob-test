@@ -622,10 +622,19 @@ async function _init() {
   await _loadPage();
 }
 
+// App ni ishga tushirish
+initApp();
+
+// Sahifalarni fon rejimida oldindan yuklash (Instant 0ms routing)
+setTimeout(() => {
+  ROUTES.forEach(r => {
+    try { r.load(); } catch { /* ignore */ }
+  });
+}, 800);
+
 // DOM tayyor bo'lganda ishga tushurish
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', _init);
 } else {
   _init();
 }
-

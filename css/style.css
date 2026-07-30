@@ -30,9 +30,9 @@
 :root,
 [data-theme="light"] {
   /* --- Asosiy ranglar --- */
-  --color-primary:        #6c63ff;
-  --color-primary-hover:  #5a52e0;
-  --color-primary-light:  rgba(108, 99, 255, 0.12);
+  --color-primary:        #6366f1;
+  --color-primary-hover:  #4f46e5;
+  --color-primary-light:  rgba(99, 102, 241, 0.12);
   --color-secondary:      #f59e0b;
   --color-secondary-hover:#d97706;
   --color-accent:         #06b6d4;
@@ -50,45 +50,45 @@
 
   /* --- Orqa fonlar --- */
   --bg-primary:           #ffffff;
-  --bg-secondary:         #f8f9fc;
-  --bg-tertiary:          #eef0f6;
-  --bg-hover:             #f1f3fa;
-  --bg-glass:             rgba(255, 255, 255, 0.7);
+  --bg-secondary:         #f8fafc;
+  --bg-tertiary:          #f1f5f9;
+  --bg-hover:             #e2e8f0;
+  --bg-glass:             rgba(255, 255, 255, 0.82);
 
   /* --- Matn --- */
-  --text-primary:         #1a1d2e;
-  --text-secondary:       #4b5263;
-  --text-muted:           #8892a4;
+  --text-primary:         #0f172a;
+  --text-secondary:       #334155;
+  --text-muted:           #64748b;
   --text-inverse:         #ffffff;
 
   /* --- Chegara --- */
-  --border-color:         #e2e6f0;
+  --border-color:         #e2e8f0;
   --border-focus:         var(--color-primary);
 
   /* --- Radius --- */
-  --radius-xs:            4px;
-  --radius-sm:            8px;
-  --radius-md:            12px;
-  --radius-lg:            16px;
-  --radius-xl:            24px;
+  --radius-xs:            6px;
+  --radius-sm:            10px;
+  --radius-md:            14px;
+  --radius-lg:            20px;
+  --radius-xl:            28px;
   --radius-full:          9999px;
 
   /* --- Soya --- */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-md:  0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
-  --shadow-lg:  0 10px 30px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-  --shadow-xl:  0 20px 50px rgba(0,0,0,.16);
-  --shadow-colored: 0 8px 24px rgba(108,99,255,.25);
+  --shadow-sm:  0 2px 4px rgba(15, 23, 42, .04), 0 1px 2px rgba(15, 23, 42, .03);
+  --shadow-md:  0 6px 16px rgba(15, 23, 42, .06), 0 2px 6px rgba(15, 23, 42, .04);
+  --shadow-lg:  0 12px 32px rgba(15, 23, 42, .1), 0 4px 12px rgba(15, 23, 42, .05);
+  --shadow-xl:  0 24px 60px rgba(15, 23, 42, .15);
+  --shadow-colored: 0 12px 28px rgba(99, 102, 241, .28);
 
   /* --- Tipografiya --- */
-  --font-body:    'Inter',    -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: 'Outfit',   'Inter', sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', 'Inter', sans-serif;
   --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
 
   /* --- O'tish --- */
-  --transition:       all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow:  all 0.4s  cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-fast:  all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition:       all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-slow:  all 0.4s  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast:  all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* --- Z-indekslar --- */
   --z-dropdown: 100;
@@ -98,45 +98,45 @@
   --z-top:      500;
 
   /* --- Navbar balandligi --- */
-  --navbar-h:   64px;
+  --navbar-h:   68px;
 }
 
 [data-theme="dark"] {
-  --color-primary:        #7c6fff;
-  --color-primary-hover:  #6c5fef;
-  --color-primary-light:  rgba(124, 111, 255, 0.15);
+  --color-primary:        #818cf8;
+  --color-primary-hover:  #6366f1;
+  --color-primary-light:  rgba(129, 140, 248, 0.18);
   --color-secondary:      #fbbf24;
   --color-secondary-hover:#f59e0b;
   --color-accent:         #22d3ee;
   --color-accent-hover:   #06b6d4;
 
   --color-success:        #34d399;
-  --color-success-light:  rgba(52, 211, 153, 0.15);
+  --color-success-light:  rgba(52, 211, 153, 0.18);
   --color-error:          #f87171;
-  --color-error-light:    rgba(248, 113, 113, 0.15);
+  --color-error-light:    rgba(248, 113, 113, 0.18);
   --color-warning:        #fbbf24;
-  --color-warning-light:  rgba(251, 191, 36, 0.15);
+  --color-warning-light:  rgba(251, 191, 36, 0.18);
   --color-info:           #60a5fa;
-  --color-info-light:     rgba(96, 165, 250, 0.15);
+  --color-info-light:     rgba(96, 165, 250, 0.18);
 
-  --bg-primary:           #0f1117;
-  --bg-secondary:         #171b26;
-  --bg-tertiary:          #1e2335;
-  --bg-hover:             #242840;
-  --bg-glass:             rgba(15, 17, 23, 0.75);
+  --bg-primary:           #0b0f19;
+  --bg-secondary:         #111827;
+  --bg-tertiary:          #1f2937;
+  --bg-hover:             #374151;
+  --bg-glass:             rgba(11, 15, 25, 0.85);
 
-  --text-primary:         #f0f2fa;
-  --text-secondary:       #a8b2cc;
-  --text-muted:           #6b7592;
-  --text-inverse:         #0f1117;
+  --text-primary:         #f8fafc;
+  --text-secondary:       #cbd5e1;
+  --text-muted:           #94a3b8;
+  --text-inverse:         #0b0f19;
 
-  --border-color:         #2a2f45;
+  --border-color:         #1e293b;
 
-  --shadow-sm:  0 1px 3px rgba(0,0,0,.25), 0 1px 2px rgba(0,0,0,.2);
-  --shadow-md:  0 4px 12px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.2);
-  --shadow-lg:  0 10px 30px rgba(0,0,0,.45), 0 4px 8px rgba(0,0,0,.25);
-  --shadow-xl:  0 20px 50px rgba(0,0,0,.55);
-  --shadow-colored: 0 8px 24px rgba(124,111,255,.3);
+  --shadow-sm:  0 2px 4px rgba(0,0,0,.3);
+  --shadow-md:  0 6px 16px rgba(0,0,0,.4);
+  --shadow-lg:  0 12px 32px rgba(0,0,0,.5);
+  --shadow-xl:  0 24px 60px rgba(0,0,0,.6);
+  --shadow-colored: 0 12px 32px rgba(129, 140, 248, .35);
 }
 
 /* ============================================================
@@ -517,12 +517,31 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
 /* ============================================================
    8. KARTALAR
    ============================================================ */
 
 .card {
-  background:    var(--bg-primary);
+  background:    var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border:        1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding:       24px;
@@ -539,7 +558,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 .card--clickable:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .card__header {
@@ -574,15 +593,16 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-lg);
   overflow:      hidden;
   box-shadow:    var(--shadow-sm);
-  transition:    var(--transition);
+  transition:    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   display:       flex;
   flex-direction: column;
   cursor:        pointer;
+  position:      relative;
 }
 
 .book-card:hover {
-  transform:  translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform:  translateY(-8px) scale(1.015);
+  box-shadow: var(--shadow-colored), 0 0 0 1px var(--color-primary);
   border-color: var(--color-primary);
 }
 
