@@ -292,9 +292,12 @@ function _bindBookEvents(books) {
 
   // Forma ko'rsatish
   const showForm = (book = {}) => {
+    if (!formWrap) return;
     formWrap.innerHTML = _bookFormHTML(book);
     formWrap.hidden = false;
-    formWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (document.body.contains(formWrap)) {
+      try { formWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch { /* ignore */ }
+    }
     _bindBookForm();
   };
 
@@ -702,9 +705,12 @@ async function _renderQuestions(panel) {
   // Qo'shish
   document.getElementById('add-q-btn')?.addEventListener('click', () => {
     const wrap = document.getElementById('q-form-wrap');
+    if (!wrap) return;
     wrap.innerHTML = _questionFormHTML({}, bookOptions);
     wrap.hidden = false;
-    wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (document.body.contains(wrap)) {
+      try { wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch { /* ignore */ }
+    }
     _bindQuestionForm(null);
   });
 }
@@ -728,18 +734,19 @@ function _questionFormHTML(q = {}, bookOptions = '') {
   const opts = (q.options || ['','','','']).concat(['','','','']).slice(0,4);
   return `
     <form id="q-form" class="admin-form card">
-      <h3 class="admin-form__title">${q.id ? 'Savolni tahrirlash' : "Yangi savol"}</h3>
-      <input type="hidden" id="qf-id" value="${q.id || ''}">
-      <div class="input-group">
-        <label for="qf-book">Kitob *</label>
-        <select id="qf-book" class="input" required>
-          <option value="">— Kitobni tanlang —</option>
-          ${bookOptions}
-        </select>
-      </div>
-      <div class="input-group">
-        <label for="qf-text">Savol matni *</label>
-        <textarea id="qf-text" class="input" rows="2" required maxlength="500">${escapeHtml(q.question||q.text||'')}</textarea>
+      <h3 class="admin-form__title">${q.id ? 'Savolni tahrirlash' : "Yangi savol qo'shish"}</h3>
+      <div class="admin-form__grid">
+        <div class="input-group" style="grid-column:1/-1">
+          <label for="qf-book">Kitob *</label>
+          <select id="qf-book" class="input" required>
+            <option value="">— Kitobni tanlang —</option>
+            ${bookOptions}
+          </select>
+        </div>
+        <div class="input-group" style="grid-column:1/-1">
+          <label for="qf-text">Savol matni *</label>
+          <textarea id="qf-text" class="input" rows="2" maxlength="500" required>${escapeHtml(q.question||q.text||'')}</textarea>
+        </div>
       </div>
       ${opts.map((o, i) => `
         <div class="input-group">
@@ -769,12 +776,14 @@ function _bindQRowEvents(qs, bookOptions, allQs) {
                || allQs.find(x => String(x.id) === btn.dataset.id);
       if (!q) return;
       const wrap = document.getElementById('q-form-wrap');
+      if (!wrap) return;
       wrap.innerHTML = _questionFormHTML(q, bookOptions);
       wrap.hidden = false;
-      // Kitob selectini tanlash
       const bookSel = document.getElementById('qf-book');
       if (bookSel) bookSel.value = String(q.book_id || '');
-      wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (document.body.contains(wrap)) {
+        try { wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch { /* ignore */ }
+      }
       _bindQuestionForm(q.id);
     });
   });
@@ -785,7 +794,8 @@ function _bindQRowEvents(qs, bookOptions, allQs) {
       const { error } = await supabase.from('questions').delete().eq('id', btn.dataset.id);
       if (error) { showNotification(`Xato: ${error.message}`, 'error'); return; }
       showNotification("Savol o'chirildi", 'success');
-      document.getElementById(`q-row-${btn.dataset.id}`)?.remove();
+      const row = document.getElementById(`q-row-${btn.dataset.id}`);
+      if (row && row.parentNode) row.parentNode.removeChild(row);
     });
   });
 }
