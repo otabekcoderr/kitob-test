@@ -622,9 +622,6 @@ async function _init() {
   await _loadPage();
 }
 
-// App ni ishga tushirish
-initApp();
-
 // Sahifalarni fon rejimida oldindan yuklash (Instant 0ms routing)
 setTimeout(() => {
   ROUTES.forEach(r => {
