@@ -256,6 +256,15 @@ export async function getQuestions(bookId) {
  * @returns {Promise<{success: boolean, error?: string}>}
  */
 export async function saveQuizResult(result) {
+  // Local storage ga saqlash (Offline / 404 fallback)
+  try {
+    const raw = localStorage.getItem('user_quiz_results');
+    const existing = raw ? JSON.parse(raw) : [];
+    existing.unshift(result);
+    localStorage.setItem('user_quiz_results', JSON.stringify(existing.slice(0, 20)));
+    localStorage.setItem('last_quiz_result', JSON.stringify(result));
+  } catch { /* ignore */ }
+
   try {
     const user = getCurrentUser();
     if (!user) return { success: false, error: 'Tizimga kirmagansiz.' };
@@ -284,14 +293,12 @@ export async function saveQuizResult(result) {
     );
 
     if (error) {
-      console.warn('[db] saveQuizResult warning:', error.message);
       return { success: false, error: error.message };
     }
 
     return { success: true };
 
   } catch (err) {
-    console.warn('[db] saveQuizResult warning:', err);
     return { success: false, error: err.message };
   }
 }
@@ -305,25 +312,34 @@ export async function saveQuizResult(result) {
 export async function getUserResults(userId) {
   try {
     const uid = userId ?? getCurrentUser()?.id;
-    if (!uid) return [];
+    if (uid) {
+      const { data, error } = await runQuery(
+        supabase
+          .from('quiz_results')
+          .select('*, books(title, author)')
+          .eq('user_id', uid)
+          .order('created_at', { ascending: false })
+      );
 
-    const { data, error } = await runQuery(
-      supabase
-        .from('quiz_results')
-        .select('*, books(title, author)')
-        .eq('user_id', uid)
-        .order('created_at', { ascending: false })
-    );
+      if (!error && Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch { /* ignore */ }
 
-    if (!error && Array.isArray(data)) return data;
+  // Local storage fallback
+  try {
+    const raw = localStorage.getItem('user_quiz_results');
+    if (raw) {
+      const list = JSON.parse(raw);
+      if (Array.isArray(list) && list.length > 0) return list;
+    }
+    const last = localStorage.getItem('last_quiz_result');
+    if (last) {
+      const single = JSON.parse(last);
+      if (single && single.percentage !== undefined) return [single];
+    }
+  } catch { /* ignore */ }
 
-    console.warn('[db] getUserResults: Supabase xatosi.');
-    return [];
-
-  } catch (err) {
-    console.error('[db] getUserResults xatosi:', err);
-    return [];
-  }
+  return [];
 }
 
 const SAMPLE_LEADERBOARD = [
@@ -349,20 +365,19 @@ export async function getLeaderboard(limit = 50) {
     const { data, error } = await runQuery(
       supabase
         .from('profiles')
-        .select('id, full_name, username, avatar_url, score, streak')
-        .order('score', { ascending: false })
+        .select('*')
         .limit(limit)
     );
 
     if (!error && Array.isArray(data) && data.length > 0) {
       list = data;
     }
-  } catch (err) {
-    console.warn('[db] getLeaderboard error:', err);
-  }
+  } catch { /* ignore */ }
 
   // Agar Supabase dan kam yoki 0 ta ishtirokchi kelsa — namunaviy ishtirokchilarni qo'shamiz
   if (list.length === 0) {
+    list = [...SAMPLE_LEADERBOARD];
+  }
     list = [...SAMPLE_LEADERBOARD];
   }
 
