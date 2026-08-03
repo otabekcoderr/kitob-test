@@ -247,17 +247,11 @@ function _applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem(THEME_KEY, theme);
 
-  // Toggle tugma ikonasini yangilash
   const icon = document.getElementById('theme-icon');
-  if (icon) {
-    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-  }
+  if (icon) icon.textContent = theme === 'dark' ? '☀' : '☾';
+
   const btn = document.getElementById('theme-toggle');
-  if (btn) {
-    btn.setAttribute('aria-label',
-      theme === 'dark' ? 'Kunduzgi rejim' : 'Tungi rejim'
-    );
-  }
+  if (btn) btn.setAttribute('aria-label', theme === 'dark' ? 'Kunduzgi rejim' : 'Tungi rejim');
 }
 
 /**
@@ -315,7 +309,9 @@ function _buildNavbarHTML() {
       <a href="#register" class="btn btn-primary nav__link"  data-path="register">Ro'yxatdan o'tish</a>
     `;
 
-  const adminLink = `<li><a href="#admin" class="nav__link" data-path="admin">⚙️ Admin</a></li>`;
+  const adminLink = user?.role === 'admin'
+    ? `<li><a href="#admin" class="nav__link" data-path="admin">Boshqaruv</a></li>`
+    : '';
 
   return `
     <nav class="navbar" role="navigation" aria-label="Asosiy menyu">
@@ -323,7 +319,7 @@ function _buildNavbarHTML() {
 
         <!-- Logo -->
         <a href="#home" class="navbar__logo" aria-label="Kitobchi — Bosh sahifa">
-          <span class="navbar__logo-icon" aria-hidden="true">📚</span>
+          <span class="navbar__logo-mark" aria-hidden="true">K</span>
           <span class="navbar__logo-text">Kitobchi</span>
         </a>
 
@@ -343,6 +339,12 @@ function _buildNavbarHTML() {
             ${authLinks}
           </div>
 
+          <!-- Online status -->
+          <div class="nav__status" id="nav-status" aria-live="polite" title="Internet holati">
+            <span class="nav__status-dot" id="nav-status-dot"></span>
+            <span id="nav-status-text" class="text-xs" style="display:none;">Offline</span>
+          </div>
+
           <!-- Tema toggle -->
           <button
             id="theme-toggle"
@@ -351,7 +353,7 @@ function _buildNavbarHTML() {
             aria-label="Tungi rejim"
             title="Temani almashtirish"
           >
-            <span id="theme-icon" aria-hidden="true">🌙</span>
+            <span id="theme-icon" aria-hidden="true">☾</span>
           </button>
 
           <!-- Hamburger (mobile) -->
@@ -616,6 +618,22 @@ async function _init() {
   _applyTheme(_getSavedTheme());
   _watchAuth();
   window.addEventListener('hashchange', _loadPage);
+
+  // Online / Offline holat belgisi
+  function _updateOnlineStatus() {
+    const dot  = document.getElementById('nav-status-dot');
+    const text = document.getElementById('nav-status-text');
+    if (!dot) return;
+    const online = navigator.onLine;
+    dot.classList.toggle('nav__status-dot--offline', !online);
+    if (text) {
+      text.textContent = online ? '' : 'Offline';
+      text.style.display = online ? 'none' : 'inline';
+    }
+  }
+  window.addEventListener('online',  _updateOnlineStatus);
+  window.addEventListener('offline', _updateOnlineStatus);
+  _updateOnlineStatus();
 
   // Supabase sessiyasini kutib, keyin sahifani yuklaymiz
   await _syncSession();

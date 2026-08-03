@@ -20,8 +20,8 @@ let _activeTab   = 'books';
 // ============================================================
 export async function render(container, { params, user }) {
 
-  // Admin panel har doim ochiq bo'ladi
-  const isAdmin = true;
+  // UI tekshiruvi qulaylik uchun; haqiqiy himoya Supabase RLS orqali bajariladi.
+  const isAdmin = user?.role === 'admin';
 
   if (!isAdmin) {
     container.innerHTML = `

@@ -46,7 +46,6 @@ function _saveSession(user) {
 function _buildUserObject(authUser, profileData = {}) {
   const username = profileData.username
               || authUser.user_metadata?.username   || '';
-  const isDefaultAdmin = username.toLowerCase() === 'admin' || authUser.email?.toLowerCase().startsWith('admin@');
   return {
     id:        authUser.id,
     email:     authUser.email              || '',
@@ -55,7 +54,9 @@ function _buildUserObject(authUser, profileData = {}) {
     username:  username,
     avatar:    profileData.avatar_url
                 || authUser.user_metadata?.avatar_url || '',
-    role:      profileData.role            || (isDefaultAdmin ? 'admin' : 'user'),
+    // Vakolat faqat serverdagi profiles.role qiymatidan olinadi.
+    // Username yoki email hech qachon adminlik bermaydi.
+    role:      profileData.role === 'admin' ? 'admin' : 'user',
     score:     profileData.score           || 0,
     streak:    profileData.streak          || 0,
     lastQuizDate: profileData.last_quiz_date || null,
@@ -117,6 +118,10 @@ export async function register(fullName, username, password) {
 
     const cleanName     = fullName.trim();
     const cleanUsername = username.trim().toLowerCase();
+
+    if (cleanUsername === 'admin') {
+      return { success: false, error: 'Bu foydalanuvchi nomi xizmat uchun band.' };
+    }
 
     // Supabase Auth signUp
     // Email sifatida username@kitobchi.local ishlatamiz

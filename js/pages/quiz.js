@@ -1,8 +1,5 @@
 // ============================================================
-// pages/quiz.js — Test UI sahifasi
-// ============================================================
-// Bu fayl faqat UI bilan shug'ullanadi.
-// Barcha mantiq root/quiz.js dan import qilinadi.
+// pages/quiz.js — Test UI sahifasi (Editorial uslub)
 // ============================================================
 import {
   startQuiz,
@@ -10,8 +7,9 @@ import {
   abortQuiz,
   getQuizState,
 } from '../quiz.js';
-import { getBookById }          from '../db.js';
-import { escapeHtml }           from '../utils.js';
+import { getBookById } from '../db.js';
+import { escapeHtml }  from '../utils.js';
+
 let _callbacks  = {};
 let _cleanup    = [];
 let _quizActive = false;
@@ -25,48 +23,54 @@ export async function render(container, { params, user }) {
   }
 
   container.innerHTML = `
-    <div class="page quiz-page" id="quiz-page">
+    <div class="page" id="quiz-page" style="padding-top:calc(var(--navbar-h) + 16px);">
       <div class="container container--md">
 
         <!-- Yuklash holati -->
         <div id="quiz-loading" class="loading-state animate-fade-in">
-          <div class="spinner spinner--lg"></div>
+          <div class="spinner"></div>
           <span>Test tayyorlanmoqda...</span>
         </div>
 
         <!-- Test interfeysi (yashirin) -->
         <div id="quiz-ui" hidden>
 
-          <!-- Header: progress + timer -->
-          <div class="quiz-header animate-slide-up">
-            <div class="quiz-progress">
-              <div class="quiz-progress__bar" role="progressbar"
+          <!-- Header: progress + timer + yakunlash -->
+          <div id="quiz-header" style="display:flex;align-items:center;gap:16px;margin-bottom:28px;flex-wrap:wrap;max-width:680px;margin-left:auto;margin-right:auto;">
+            <div style="flex:1;display:flex;align-items:center;gap:12px;">
+              <div class="progress-bar" style="flex:1;" role="progressbar"
                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                <div class="quiz-progress__fill" id="progress-fill"></div>
+                <div class="progress-bar__fill" id="progress-fill" style="width:0%"></div>
               </div>
-              <span class="quiz-progress__text" id="progress-text">1 / ?</span>
+              <span class="quiz-counter" id="progress-text" aria-live="polite">1 / ?</span>
             </div>
 
-            <div class="quiz-timer" id="quiz-timer" aria-live="polite" aria-label="Qolgan vaqt">
-              <span class="quiz-timer__icon" aria-hidden="true">⏱️</span>
-              <span class="quiz-timer__val" id="timer-value">30</span>
-              <span class="quiz-timer__unit">s</span>
+            <div id="quiz-timer" aria-live="polite" aria-label="Qolgan vaqt"
+                 style="display:flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:1.125rem;font-weight:700;color:var(--ink);padding:4px 12px;border:1.5px solid var(--divider);border-radius:var(--radius-md);background:var(--surface);transition:border-color .15s ease,color .15s ease;">
+              <span id="timer-value">30</span>
+              <span style="font-size:0.75rem;color:var(--ink-muted);">s</span>
             </div>
 
             <button id="abort-btn" class="btn btn-ghost btn-sm" type="button">
-              ✕ Tugatish
+              Yakunlash
             </button>
           </div>
 
-          <!-- Savol -->
-          <div class="quiz-question-wrap animate-slide-up">
-            <div class="quiz-book-name" id="quiz-book-name"></div>
-            <div class="quiz-question" id="quiz-question" aria-live="polite"></div>
+          <!-- Savol yuzasi -->
+          <div class="quiz-surface" id="quiz-question-wrap">
+            <p class="label" id="quiz-book-name" style="margin-bottom:16px;"></p>
+            <p class="quiz-question" id="quiz-question" aria-live="polite"></p>
             <div class="quiz-options" id="quiz-options" role="list"></div>
+            <div class="explanation-panel" id="quiz-explanation"
+                 aria-live="polite" hidden></div>
+            <div id="quiz-next-wrap" hidden style="margin-top:20px;">
+              <button id="next-btn" class="btn btn-primary">Keyingi savol</button>
+            </div>
           </div>
 
           <!-- Ogohlantirish (anti-cheat) -->
-          <div class="quiz-violations" id="quiz-violations" aria-live="assertive" hidden>
+          <div id="quiz-violations" aria-live="assertive" hidden
+               style="margin-top:16px;padding:12px 16px;border:1px solid var(--warning);border-radius:var(--radius-md);background:var(--warning-light);font-size:.9rem;color:var(--warning);">
             <span id="violations-text"></span>
           </div>
 
@@ -76,9 +80,7 @@ export async function render(container, { params, user }) {
     </div>
   `;
 
-  _addStyles();
-
-  // Kitob nomini olish (ixtiyoriy)
+  // Kitob nomini olish
   getBookById(bookId).then(book => {
     const nameEl = document.getElementById('quiz-book-name');
     if (nameEl && book) nameEl.textContent = book.title;
@@ -114,28 +116,18 @@ export async function render(container, { params, user }) {
 function _onReady(questions) {
   const loadingEl = document.getElementById('quiz-loading');
   const uiEl      = document.getElementById('quiz-ui');
-
-  if (loadingEl) {
-    loadingEl.style.display = 'none';
-    loadingEl.hidden = true;
-    loadingEl.setAttribute('hidden', '');
-  }
-  if (uiEl) {
-    uiEl.style.display = 'block';
-    uiEl.hidden = false;
-    uiEl.removeAttribute('hidden');
-  }
+  if (loadingEl) { loadingEl.hidden = true; loadingEl.style.display = 'none'; }
+  if (uiEl)      { uiEl.hidden = false;     uiEl.removeAttribute('hidden'); }
 }
 
 function _onQuestion({ question, index, total, timeLeft }) {
   // Progress
-  const pct = Math.round((index / total) * 100);
+  const pct  = Math.round((index / total) * 100);
   const fill = document.getElementById('progress-fill');
   const text = document.getElementById('progress-text');
   if (fill) { fill.style.width = `${pct}%`; fill.setAttribute('aria-valuenow', pct); }
   if (text) text.textContent = `${index + 1} / ${total}`;
 
-  // Timer
   _onTick(timeLeft);
 
   // Savol matni
@@ -145,6 +137,12 @@ function _onQuestion({ question, index, total, timeLeft }) {
   // Variantlar
   const optionsEl = document.getElementById('quiz-options');
   if (!optionsEl) return;
+
+  // Izoh va keyingi tugmani yashirish
+  const explanationEl = document.getElementById('quiz-explanation');
+  if (explanationEl) { explanationEl.hidden = true; explanationEl.innerHTML = ''; }
+  const nextWrap = document.getElementById('quiz-next-wrap');
+  if (nextWrap) nextWrap.hidden = true;
 
   const options = _getOptions(question);
   optionsEl.innerHTML = options.map((opt, i) => `
@@ -159,21 +157,19 @@ function _onQuestion({ question, index, total, timeLeft }) {
     </button>
   `).join('');
 
-  // Variant bosilganda
   optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
     btn.addEventListener('click', () => {
       const value = btn.dataset.value;
       _disableOptions();
-      btn.classList.add('quiz-option--selected');
       submitAnswer(value, _callbacks);
     }, { once: true });
   });
 
-  // Animatsiya: savol almashinishida
-  const wrap = document.querySelector('.quiz-question-wrap');
+  // Animatsiya
+  const wrap = document.getElementById('quiz-question-wrap');
   if (wrap) {
     wrap.classList.remove('animate-slide-up');
-    void wrap.offsetWidth; // reflow
+    void wrap.offsetWidth;
     wrap.classList.add('animate-slide-up');
   }
 }
@@ -181,51 +177,66 @@ function _onQuestion({ question, index, total, timeLeft }) {
 function _onTick(timeLeft) {
   const val   = document.getElementById('timer-value');
   const timer = document.getElementById('quiz-timer');
-  if (val)   val.textContent = timeLeft;
+  if (val) val.textContent = timeLeft;
   if (timer) {
-    timer.classList.toggle('quiz-timer--warn',     timeLeft <= 10 && timeLeft > 5);
-    timer.classList.toggle('quiz-timer--critical', timeLeft <= 5);
+    const isWarn     = timeLeft <= 10 && timeLeft > 5;
+    const isCritical = timeLeft <= 5;
+    timer.style.borderColor = isCritical ? 'var(--error)' : isWarn ? 'var(--warning)' : 'var(--divider)';
+    timer.style.color       = isCritical ? 'var(--error)' : isWarn ? 'var(--warning)' : 'var(--ink)';
   }
 }
 
-function _onAnswer({ isCorrect, correctAnswer, selectedOption }) {
-  // To'g'ri javobni ko'rsatish
-  const options = document.querySelectorAll('.quiz-option');
-  options.forEach(btn => {
+function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
+  // Variantlarni belgilash
+  document.querySelectorAll('.quiz-option').forEach(btn => {
     const val = btn.dataset.value;
     if (String(val) === String(correctAnswer)) {
-      btn.classList.add('quiz-option--correct');
+      btn.classList.add('correct');
     }
     if (selectedOption !== null &&
         String(val) === String(selectedOption) &&
         !isCorrect) {
-      btn.classList.add('quiz-option--wrong');
+      btn.classList.add('wrong');
     }
   });
+
+  // Darhol izoh paneli
+  const explanationEl = document.getElementById('quiz-explanation');
+  if (explanationEl) {
+    const label = isCorrect ? "To'g'ri javob" : 'Javob izohi';
+    explanationEl.innerHTML = `<strong>${escapeHtml(label)}. </strong>${escapeHtml(explanation || "Keyingi savolda davom etamiz.")}`;
+    explanationEl.hidden = false;
+  }
+
+  // Keyingi tugma
+  const nextWrap = document.getElementById('quiz-next-wrap');
+  if (nextWrap) {
+    nextWrap.hidden = false;
+    document.getElementById('next-btn').onclick = () => {
+      nextWrap.hidden = true;
+      if (explanationEl) explanationEl.hidden = true;
+    };
+  }
 }
 
 function _onFinish(result) {
   _quizActive = false;
-
   try {
     sessionStorage.setItem('quiz_result', JSON.stringify(result));
     localStorage.setItem('last_quiz_result', JSON.stringify(result));
   } catch { /* ignore */ }
-
   window.navigate('result');
 }
 
 function _onError(message) {
   _quizActive = false;
-  document.getElementById('quiz-loading')?.setAttribute('hidden', '');
   const page = document.getElementById('quiz-page');
   if (page) {
     page.innerHTML = `
       <div class="container container--md">
         <div class="empty-state" style="min-height:60vh">
-          <div class="empty-state__icon">⚠️</div>
           <p class="empty-state__title">${escapeHtml(message)}</p>
-          <a href="#books" class="btn btn-primary mt-4">Kitoblarga qaytish</a>
+          <a href="#books" class="btn btn-primary" style="margin-top:16px;">Kitoblarga qaytish</a>
         </div>
       </div>
     `;
@@ -235,143 +246,19 @@ function _onError(message) {
 // ---- YORDAMCHI ----
 
 function _getOptions(question) {
-  // Turli formatlarni qo'llab-quvvatlaydi
-  if (Array.isArray(question.options))    return question.options;
-  if (Array.isArray(question.variants))   return question.variants;
-  if (Array.isArray(question.choices))    return question.choices;
-
-  // { a, b, c, d } formatidagi obyekt
-  const keys = ['a','b','c','d','e'];
+  if (Array.isArray(question.options))  return question.options;
+  if (Array.isArray(question.variants)) return question.variants;
+  if (Array.isArray(question.choices))  return question.choices;
+  const keys = ['a', 'b', 'c', 'd', 'e'];
   const opts = keys.map(k => question[k]).filter(v => v !== undefined && v !== '');
   if (opts.length) return opts;
-
   return [];
 }
 
 function _disableOptions() {
   document.querySelectorAll('.quiz-option').forEach(btn => {
     btn.disabled = true;
-    btn.classList.add('quiz-option--disabled');
   });
-}
-
-function _addStyles() {
-  if (document.getElementById('quiz-page-styles')) return;
-  const style = document.createElement('style');
-  style.id = 'quiz-page-styles';
-  style.textContent = `
-    .quiz-page { padding-top: calc(var(--navbar-h) + 16px); }
-
-    .quiz-header {
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 28px; flex-wrap: wrap;
-    }
-    .quiz-progress { flex: 1; min-width: 140px; display: flex; align-items: center; gap: 12px; }
-    .quiz-progress__bar {
-      flex: 1; height: 8px; background: var(--bg-tertiary);
-      border-radius: var(--radius-full); overflow: hidden;
-    }
-    .quiz-progress__fill {
-      height: 100%; width: 0%; background: var(--color-primary);
-      border-radius: var(--radius-full);
-      transition: width 0.4s ease;
-    }
-    .quiz-progress__text { font-size: .875rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
-
-    .quiz-timer {
-      display: flex; align-items: center; gap: 4px;
-      background: var(--bg-tertiary);
-      border-radius: var(--radius-md);
-      padding: 6px 14px;
-      border: 2px solid var(--border-color);
-      transition: var(--transition);
-    }
-    .quiz-timer__val  { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; min-width: 28px; text-align: center; }
-    .quiz-timer__unit { font-size: .8rem; color: var(--text-muted); }
-    .quiz-timer--warn     { border-color: var(--color-warning); color: var(--color-warning); background: var(--color-warning-light); }
-    .quiz-timer--critical { border-color: var(--color-error);   color: var(--color-error);   background: var(--color-error-light);
-      animation: pulse 0.8s ease-in-out infinite; }
-
-    .quiz-book-name {
-      font-size: .875rem; font-weight: 600; color: var(--text-muted);
-      margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em;
-    }
-    .quiz-question {
-      font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
-      font-weight: 600; line-height: 1.5;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-      min-height: 64px;
-    }
-    .quiz-options { display: flex; flex-direction: column; gap: 12px; }
-
-    .quiz-option {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 18px;
-      background: var(--bg-primary);
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-md);
-      cursor: pointer; text-align: left;
-      transition: var(--transition);
-      font-size: .9375rem; width: 100%;
-      font-family: var(--font-body);
-      color: var(--text-primary);
-    }
-    .quiz-option:hover:not(:disabled) {
-      border-color: var(--color-primary);
-      background: var(--color-primary-light);
-      transform: translateX(4px);
-    }
-    .quiz-option__letter {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg-tertiary); color: var(--text-muted);
-      font-weight: 700; font-size: .875rem; flex-shrink: 0;
-      transition: var(--transition);
-    }
-    .quiz-option:hover:not(:disabled) .quiz-option__letter {
-      background: var(--color-primary);
-      color: white;
-    }
-    .quiz-option__text { flex: 1; line-height: 1.4; }
-
-    .quiz-option--selected {
-      border-color: var(--color-primary);
-      background: var(--color-primary-light);
-    }
-    .quiz-option--correct {
-      border-color: var(--color-success) !important;
-      background: var(--color-success-light) !important;
-    }
-    .quiz-option--correct .quiz-option__letter {
-      background: var(--color-success); color: white;
-    }
-    .quiz-option--wrong {
-      border-color: var(--color-error) !important;
-      background: var(--color-error-light) !important;
-    }
-    .quiz-option--wrong .quiz-option__letter {
-      background: var(--color-error); color: white;
-    }
-    .quiz-option--disabled { cursor: default; opacity: .85; }
-
-    .quiz-violations {
-      margin-top: 20px;
-      background: var(--color-warning-light);
-      border: 1px solid var(--color-warning);
-      border-radius: var(--radius-md);
-      padding: 12px 16px;
-      font-size: .9rem; font-weight: 500;
-      color: var(--color-warning);
-    }
-
-    @media (max-width: 480px) {
-      .quiz-header { gap: 8px; }
-      .quiz-option { padding: 12px 14px; gap: 10px; }
-      .quiz-option__letter { width: 28px; height: 28px; font-size: .8rem; }
-    }
-  `;
-  document.head.appendChild(style);
 }
 
 export function cleanup() {

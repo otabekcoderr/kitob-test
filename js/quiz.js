@@ -54,6 +54,7 @@ const state = {
   timeLeft:     0,      // Joriy savolda qolgan vaqt
   isRunning:    false,  // Test davom etayaptimi?
   isFinished:   false,  // Test tuganganmi?
+  isAcceptingAnswer: false, // Joriy savol javob qabul qilyaptimi?
   startTime:    null,   // Test boshlangan vaqt
 };
 
@@ -70,6 +71,9 @@ const _handlers = {
   contextMenu:      null,
   keydown:          null,
 };
+
+let _hiddenAt = 0;
+const VISIBILITY_GRACE_MS = 1500;
 
 /**
  * Qoida buzilishini qayd etadi va ogohlantiradi.
@@ -112,8 +116,14 @@ function _enableAntiCheat() {
   // 1. Tab / oyna almashtirish
   _handlers.visibilityChange = () => {
     if (document.hidden) {
-      _registerViolation('tab/oyna almashtirish');
+      _hiddenAt = Date.now();
+      return;
     }
+
+    if (_hiddenAt && Date.now() - _hiddenAt > VISIBILITY_GRACE_MS) {
+      _registerViolation('test oynasidan uzoq vaqt chiqish');
+    }
+    _hiddenAt = 0;
   };
   document.addEventListener('visibilitychange', _handlers.visibilityChange);
 
@@ -233,6 +243,8 @@ async function _finishQuiz(forceZero = false) {
   const result = {
     bookId:     state.bookId,
     score:      finalScore,
+    rawScore:   rawScore,
+    correctCount: rawScore,
     total:      totalQuestions,
     percentage: percentage,
     penalty:    state.penaltyTotal,
@@ -287,6 +299,7 @@ export async function startQuiz(config, callbacks = {}) {
     timeLeft:     0,
     isRunning:    false,
     isFinished:   false,
+    isAcceptingAnswer: false,
     startTime:    Date.now(),
   });
 
@@ -337,6 +350,7 @@ function _showQuestion(callbacks) {
   }
 
   const question = state.questions[state.currentIndex];
+  state.isAcceptingAnswer = true;
 
   if (typeof onQuestion === 'function') {
     onQuestion({
@@ -366,7 +380,7 @@ function _showQuestion(callbacks) {
  * @param {object}        callbacks
  */
 export function submitAnswer(selectedOption, callbacks = {}) {
-  if (!state.isRunning || state.isFinished) return;
+  if (!state.isRunning || state.isFinished || !state.isAcceptingAnswer) return;
 
   _stopTimer();
   _nextQuestion(selectedOption, callbacks);
@@ -378,6 +392,8 @@ export function submitAnswer(selectedOption, callbacks = {}) {
  */
 function _nextQuestion(selectedOption, callbacks) {
   const { onAnswer, onFinish } = callbacks;
+  if (!state.isAcceptingAnswer) return;
+  state.isAcceptingAnswer = false;
 
   const question   = state.questions[state.currentIndex];
   const isCorrect  = selectedOption !== null &&
@@ -390,6 +406,7 @@ function _nextQuestion(selectedOption, callbacks) {
       isCorrect,
       selectedOption,
       correctAnswer: question.correct_answer ?? question.answer,
+      explanation:   question.explanation || '',
       score:         state.score,
       index:         state.currentIndex,
     });
@@ -408,7 +425,7 @@ function _nextQuestion(selectedOption, callbacks) {
     } else {
       _showQuestion(callbacks);
     }
-  }, 1200);
+  }, 2600);
 }
 
 /**

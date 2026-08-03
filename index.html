@@ -26,28 +26,19 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-      <text y='.9em' font-size='90'>📚</text>
+      <rect width='100' height='100' rx='12' fill='%23B76E16'/>
+      <text x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-family='Georgia,serif' font-weight='700'>K</text>
     </svg>" />
-
-  <!-- =====================================================
-       GOOGLE FONTS
-  ====================================================== -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
-    rel="stylesheet"
-  />
 
   <!-- =====================================================
        CSS
   ====================================================== -->
-  <link rel="stylesheet" href="css/style.css?v=3.0.8" />
+  <link rel="stylesheet" href="css/style.css?v=5.0.0" />
 
   <!-- =====================================================
        APP (ES Module)
   ====================================================== -->
-  <script type="module" src="js/app.js?v=3.0.8"></script>
+  <script type="module" src="js/app.js?v=5.0.0"></script>
 </head>
 
 <body>
@@ -68,12 +59,12 @@
       Birinchi yuklash: JS ishga tushguncha ko'rsatiladigan
       loading ekrani. app.js render qilganida o'chadi.
     -->
-    <div class="initial-loader" id="initial-loader" aria-label="Yuklanmoqda...">
-      <div class="initial-loader__logo">
-        <span class="initial-loader__icon" aria-hidden="true">📚</span>
-        <span class="initial-loader__text">Kitobchi</span>
+    <div id="initial-loader" aria-label="Yuklanmoqda..."
+         style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;background:var(--paper);">
+      <div style="width:40px;height:40px;background:var(--ochre,#B76E16);border-radius:6px;display:flex;align-items:center;justify-content:center;">
+        <span style="font-family:Georgia,serif;font-size:1.25rem;font-weight:700;color:#fff;">K</span>
       </div>
-      <div class="initial-loader__spinner" aria-hidden="true"></div>
+      <div style="width:32px;height:32px;border:2.5px solid var(--divider,#D8D0C1);border-top-color:var(--ochre,#B76E16);border-radius:50%;animation:spin .7s linear infinite;"></div>
     </div>
   </main>
 
@@ -81,23 +72,7 @@
        FOOTER
   ====================================================== -->
   <footer class="footer" role="contentinfo">
-    <div class="footer__inner">
-      <div class="footer__brand">
-        <span class="footer__icon" aria-hidden="true">📚</span>
-        <span class="footer__name">Kitobchi</span>
-      </div>
-
-      <nav class="footer__nav" aria-label="Footer navigatsiya">
-        <a href="#home"        class="footer__link">Bosh sahifa</a>
-        <a href="#books"       class="footer__link">Kitoblar</a>
-        <a href="#leaderboard" class="footer__link">Reyting</a>
-      </nav>
-
-      <p class="footer__copy">
-        &copy; <span id="footer-year"></span> Kitobchi.
-        Barcha huquqlar himoyalangan.
-      </p>
-    </div>
+    <p>© <span id="footer-year"></span> Kitobchi. Barcha huquqlar himoyalangan.</p>
   </footer>
 
   <!-- =====================================================

@@ -11,9 +11,9 @@
     id: 'q-ot-5',
     bookId: 'otkan-kunlar',
     question: 'Kumush asarda kimning qizi?',
-    options: ['Homianding', 'Yusufbek hojining', 'Zunnunning', 'Ziyo Shohning'],
+    options: ['Homidning', 'Yusufbek hojining', 'Mirzakarim qutidorning', 'Ziyo shohichining'],
     correctAnswer: 2,
-    explanation: 'Kumush - Zunnunning qizi. Zunnun Marg\'ilondagi mohir usta bo\'lib, Otabek uning uyida turar joy oladi.'
+    explanation: 'Kumush Marg‘ilonlik savdogar Mirzakarim qutidorning qizi.'
   },
   {
     id: 'q-ot-6',
@@ -59,17 +59,17 @@
     id: 'q-mc-4',
     bookId: 'mehrobdan-chayon',
     question: 'Mehrobdan chayon asarining bosh qahramoni kim?',
-    options: ['Anvar', 'Otabek', 'Miryoqub', 'Yo\'ldosh'],
+    options: ['Anvar', 'Otabek', 'Miryoqub', 'Rahimjon Saidiy'],
     correctAnswer: 0,
-    explanation: 'Anvar - asarning bosh qahramoni, jadidchilik harakatining faol vakili, xalqni ma\'rifatli qilishga intilgan yosh o\'qituvchi.'
+    explanation: 'Anvar — asarning bosh qahramoni; u savodli mirzo bo‘lib, Xudoyorxon saroyida bosh munshiylik darajasigacha ko‘tariladi.'
   },
   {
     id: 'q-mc-5',
     bookId: 'mehrobdan-chayon',
-    question: 'Anvar qanday faoliyat bilan shug\'ullanadi?',
-    options: ['Jadidchi o\'qituvchi', 'Savdogar', 'Dehqon', 'Mulla'],
+    question: 'Anvar xon saroyida qanday vazifada ishlaydi?',
+    options: ['Bosh munshiy va mirzo', 'Savdogar', 'Dehqon', 'Mulla'],
     correctAnswer: 0,
-    explanation: 'Anvar jadidchi o\'qituvchi bo\'lib, eski maktab o\'rniga yangi usul maktablarini ochib, xalqni ma\'rifatli qilishga harakat qiladi.'
+    explanation: 'Anvar savodli mirzo bo‘lib, Xudoyorxon saroyida bosh munshiylik vazifasida ishlaydi.'
   },
   {
     id: 'q-mc-6',

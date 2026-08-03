@@ -408,7 +408,7 @@ export const books = [
   {
     id: 'kichkina-shohzoda',
     title: 'Kichkina shohzoda',
-    author: 'Antoine de Saint-ExupГ©ry',
+    author: 'Antoine de Saint-Exupéry',
     year: 1943,
     genre: 'Falsafiy Ertak',
     difficulty: 'Oson',
@@ -975,17 +975,17 @@ export const questions = [
     id: 'q-ot-5',
     bookId: 'otkan-kunlar',
     question: "Kumushning otasi kim edi?",
-    options: ['Yusufbek hoji', 'Ziyo shohichi', 'Homid', 'Zunnun'],
+    options: ['Yusufbek hoji', 'Ziyo shohichi', 'Homid', 'Mirzakarim qutidor'],
     correctAnswer: 3,
-    explanation: "Kumush Marg'ilonda yashovchi mohir usta Zunnunning qizi edi."
+    explanation: "Kumush Marg'ilonlik savdogar Mirzakarim qutidorning qizi edi."
   },
   {
     id: 'q-ot-6',
     bookId: 'otkan-kunlar',
-    question: "Ziyo shohichi asarda qanday tasvirlangan?",
-    options: ['Halol va pok inson', "Ma'rifatli ziyoli", 'Ikkiyuzlamachi mulla', 'Jasur qahramon'],
-    correctAnswer: 2,
-    explanation: "Ziyo shohichi ikkiyuzlamachi mulla bo'lib, u diniy nikohni o'qish vakolatidan suiiste'mol qiladi va fitna uyushtiradi."
+    question: "Ziyo shohichi kimning otasi edi?",
+    options: ['Homidning', 'Rahmatning', 'Otabekning', 'Hasanalining'],
+    correctAnswer: 1,
+    explanation: "Ziyo shohichi Rahmatning otasi bo'lib, Otabek Marg'ilonga kelganida uning xonadonida mehmon bo'ladi."
   },
   {
     id: 'q-ot-7',
@@ -1022,10 +1022,10 @@ export const questions = [
   {
     id: 'q-mc-4',
     bookId: 'mehrobdan-chayon',
-    question: 'Anvar asarda qanday faoliyat bilan shug\'ullanadi?',
-    options: ['Savdogar', "Jadidchi o'qituvchi", 'Mulla', 'Harbiy'],
+    question: 'Anvar xon saroyida qanday vazifada ishlaydi?',
+    options: ['Savdogar', 'Bosh munshiy va mirzo', 'Mulla', 'Harbiy'],
     correctAnswer: 1,
-    explanation: 'Anvar jadidchi o\'qituvchi bo\'lib, yangi usul maktablarini ochib, xalqni ma\'rifatli qilishga intiladi.'
+    explanation: 'Anvar savodli mirzo bo‘lib, Xudoyorxon saroyida bosh munshiylik darajasigacha ko‘tariladi.'
   },
   {
     id: 'q-mc-5',
@@ -1078,10 +1078,10 @@ export const questions = [
   {
     id: 'q-sa-4',
     bookId: 'sarob',
-    question: '"Sarob" asarining bosh qahramoni kim?',
-    options: ['Yo\'ldosh', 'Anvar', 'Otabek', 'Miryoqub'],
+    question: '"Sarob" romanining bosh qahramoni kim?',
+    options: ['Rahimjon Saidiy', 'Anvar', 'Otabek', 'Miryoqub'],
     correctAnswer: 0,
-    explanation: "Yo\'ldosh - asarning bosh qahramoni, qishloqda o\'qituvchilik qiladigan yosh mutaxassis."
+    explanation: 'Rahimjon Saidiy romanning markaziy qahramoni bo‘lib, uning murakkab ruhiy va hayotiy yo‘li asar markazida turadi.'
   },
   {
     id: 'q-sa-5',
