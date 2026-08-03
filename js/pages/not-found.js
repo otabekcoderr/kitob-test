@@ -1,5 +1,5 @@
-﻿// ============================================================
-// pages/not-found.js — 404 sahifa
+// ============================================================
+// pages/not-found.js — 404 sahifa (Editorial uslub)
 // ============================================================
 let _cleanup = [];
 
@@ -12,22 +12,26 @@ export async function render(container, { params, user }) {
           <!-- Animatsiya -->
           <div class="nf-illustration" aria-hidden="true">
             <span class="nf-num">4</span>
-            <span class="nf-icon">📚</span>
+            <div style="width:72px;height:72px;background:var(--ochre);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 12px;transform:rotate(-8deg);flex-shrink:0;">
+              <span style="font-family:Georgia,serif;font-size:2.5rem;font-weight:700;color:#fff;">K</span>
+            </div>
             <span class="nf-num">4</span>
           </div>
 
           <h1 class="nf-title">Sahifa topilmadi</h1>
-          <p  class="nf-desc">
+          <p class="nf-desc">
             Siz izlayotgan sahifa mavjud emas yoki ko'chirilgan.<br>
             Bosh sahifaga qayting va qayta urinib ko'ring.
           </p>
 
           <div class="nf-actions">
-            <button id="nf-back-btn" class="btn btn-primary btn-lg">
-              🏠 Bosh sahifaga
+            <button id="nf-back-btn" class="btn btn-primary btn-lg" style="display:inline-flex; align-items:center; gap:8px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              Bosh sahifa
             </button>
-            <a href="#books" class="btn btn-outline btn-lg">
-              📚 Kitoblar
+            <a href="#books" class="btn btn-outline btn-lg" style="display:inline-flex; align-items:center; gap:8px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              Kitoblar
             </a>
           </div>
 
@@ -71,23 +75,18 @@ function _addStyles() {
       margin-bottom: 8px;
     }
     .nf-num {
-      font-family: var(--font-heading);
+      font-family: var(--font-display);
       font-size: clamp(5rem, 15vw, 8rem);
-      font-weight: 800; line-height: 1;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .nf-icon {
-      font-size: clamp(4rem, 12vw, 6.5rem);
-      animation: bounce-in 0.7s cubic-bezier(0.34,1.56,0.64,1);
-      display: block;
+      font-weight: 700; line-height: 1;
+      color: var(--ink);
     }
     .nf-title {
+      font-family: var(--font-display);
       font-size: clamp(1.375rem, 4vw, 1.875rem);
+      font-weight: 700;
     }
     .nf-desc {
-      color: var(--text-muted); line-height: 1.7;
+      color: var(--ink-muted); line-height: 1.7;
       font-size: .9375rem;
     }
     .nf-actions {
@@ -99,11 +98,11 @@ function _addStyles() {
       justify-content: center; margin-top: 8px;
     }
     .nf-link {
-      font-size: .875rem; color: var(--text-muted);
+      font-size: .875rem; color: var(--ink-muted);
       text-decoration: underline; text-underline-offset: 3px;
       transition: var(--transition-fast);
     }
-    .nf-link:hover { color: var(--color-primary); }
+    .nf-link:hover { color: var(--ochre); }
 
     @media (max-width: 480px) {
       .nf-actions { flex-direction: column; width: 100%; }

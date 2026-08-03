@@ -1,10 +1,13 @@
-﻿// ============================================================
-// pages/register.js — Ro'yxatdan o'tish sahifasi
+// ============================================================
+// pages/register.js — Ro'yxatdan o'tish sahifasi (Editorial uslub)
 // ============================================================
 import { register }                      from '../auth.js';
 import { escapeHtml, setButtonLoading,
          showNotification }              from '../utils.js';
 let _cleanup = [];
+
+const EYE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+const EYE_OFF_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
 
 export async function render(container, { params, user }) {
   container.innerHTML = `
@@ -14,7 +17,9 @@ export async function render(container, { params, user }) {
         <div class="auth-card card animate-slide-up">
 
           <div class="auth-card__logo">
-            <span class="auth-card__logo-icon" aria-hidden="true">📚</span>
+            <div style="width:48px;height:48px;background:var(--ochre);border-radius:6px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+              <span style="font-family:Georgia,serif;font-size:1.5rem;font-weight:700;color:#fff;">K</span>
+            </div>
             <h1 class="auth-card__title">Hisob yaratish</h1>
             <p class="auth-card__sub">Kitobchi jamoasiga qo'shiling</p>
           </div>
@@ -24,13 +29,15 @@ export async function render(container, { params, user }) {
             <!-- To'liq ism -->
             <div class="input-group">
               <label for="reg-fullname">To'liq ism</label>
-              <div class="input-wrapper">
-                <span class="input-icon" aria-hidden="true">📝</span>
+              <div style="position: relative; display: flex; align-items: center;">
+                <span style="position: absolute; left: 12px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-muted);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
                 <input
                   id="reg-fullname"
                   name="fullName"
                   type="text"
-                  class="input"
+                  class="input" style="padding-left: 38px;"
                   placeholder="Ism Familiya"
                   autocomplete="name"
                   required
@@ -43,14 +50,16 @@ export async function render(container, { params, user }) {
             <!-- Username -->
             <div class="input-group">
               <label for="reg-username">Foydalanuvchi nomi</label>
-              <div class="input-wrapper">
-                <span class="input-icon" aria-hidden="true">👤</span>
+              <div style="position: relative; display: flex; align-items: center;">
+                <span style="position: absolute; left: 12px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-muted);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
                 <input
                   id="reg-username"
                   name="username"
                   type="text"
-                  class="input"
-                  placeholder="username (harf, raqam, _)"
+                  class="input" style="padding-left: 38px;"
+                  placeholder="username"
                   autocomplete="username"
                   autocapitalize="none"
                   required
@@ -65,13 +74,15 @@ export async function render(container, { params, user }) {
             <!-- Parol -->
             <div class="input-group">
               <label for="reg-password">Parol</label>
-              <div class="input-wrapper">
-                <span class="input-icon" aria-hidden="true">🔒</span>
+              <div style="position: relative; display: flex; align-items: center;">
+                <span style="position: absolute; left: 12px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-muted);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </span>
                 <input
                   id="reg-password"
                   name="password"
                   type="password"
-                  class="input"
+                  class="input" style="padding-left: 38px; padding-right: 42px;"
                   placeholder="Kamida 6 belgi"
                   autocomplete="new-password"
                   required
@@ -80,10 +91,11 @@ export async function render(container, { params, user }) {
                 <button
                   type="button"
                   id="toggle-password"
-                  class="input-icon-right btn-icon"
+                  class="btn-icon"
+                  style="position: absolute; right: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--ink-muted); background: none; border: none; cursor: pointer;"
                   aria-label="Parolni ko'rsatish"
                   tabindex="-1"
-                >👁️</button>
+                >${EYE_SVG}</button>
               </div>
               <span class="input-error" id="password-error" role="alert" aria-live="polite"></span>
             </div>
@@ -91,13 +103,15 @@ export async function render(container, { params, user }) {
             <!-- Parolni tasdiqlash -->
             <div class="input-group">
               <label for="reg-confirm">Parolni tasdiqlang</label>
-              <div class="input-wrapper">
-                <span class="input-icon" aria-hidden="true">🔐</span>
+              <div style="position: relative; display: flex; align-items: center;">
+                <span style="position: absolute; left: 12px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-muted);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </span>
                 <input
                   id="reg-confirm"
                   name="confirmPassword"
                   type="password"
-                  class="input"
+                  class="input" style="padding-left: 38px;"
                   placeholder="Parolni qayta kiriting"
                   autocomplete="new-password"
                   required
@@ -107,7 +121,7 @@ export async function render(container, { params, user }) {
             </div>
 
             <!-- Parol kuchi ko'rsatgich -->
-            <div class="password-strength" id="password-strength" aria-hidden="true">
+            <div class="password-strength" id="password-strength" aria-hidden="true" style="margin-top: 8px;">
               <div class="password-strength__bar">
                 <div class="password-strength__fill" id="strength-fill"></div>
               </div>
@@ -164,7 +178,8 @@ function _bindEvents() {
     const isText = passwordEl.type === 'text';
     passwordEl.type       = isText ? 'password' : 'text';
     confirmEl.type        = isText ? 'password' : 'text';
-    toggleBtn.textContent = isText ? '👁️' : '🙈';
+    toggleBtn.innerHTML   = isText ? EYE_SVG : EYE_OFF_SVG;
+    toggleBtn.setAttribute('aria-label', isText ? 'Parolni ko\'rsatish' : 'Parolni yashirish');
   };
   toggleBtn.addEventListener('click', onToggle);
   _cleanup.push(() => toggleBtn.removeEventListener('click', onToggle));
@@ -190,7 +205,6 @@ function _bindEvents() {
     const password = passwordEl.value;
     const confirm  = confirmEl.value;
 
-    // Validatsiya
     let valid = true;
 
     if (!fullName) {
@@ -232,6 +246,8 @@ function _bindEvents() {
       } else {
         _showGlobalError(globalError, result.error);
       }
+    } catch (err) {
+      _showGlobalError(globalError, 'Kutilmagan xatolik yuz berdi.');
     } finally {
       setButtonLoading(submitBtn, false, 'Ro\'yxatdan o\'tish');
     }
@@ -300,27 +316,13 @@ function _addStyles() {
       text-align: center;
       margin-bottom: 32px;
     }
-    .auth-card__logo-icon {
-      font-size: 3rem;
-      display: block;
-      margin-bottom: 12px;
-      animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
     .auth-card__title { font-size: 1.5rem; margin-bottom: 6px; }
     .auth-card__sub   { color: var(--text-muted); font-size: .9375rem; }
     .auth-form        { display: flex; flex-direction: column; gap: 16px; }
-    .input-icon-right {
-      position: absolute;
-      right: 10px; top: 50%;
-      transform: translateY(-50%);
-      width: 32px; height: 32px;
-      font-size: .9rem;
-      color: var(--text-muted);
-    }
     .auth-error {
-      background: var(--color-error-light);
-      color: var(--color-error);
-      border: 1px solid var(--color-error);
+      background: var(--error-light);
+      color: var(--error);
+      border: 1px solid var(--error);
       border-radius: var(--radius-md);
       padding: 12px 16px;
       font-size: .9rem;

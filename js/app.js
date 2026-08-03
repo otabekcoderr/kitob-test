@@ -300,9 +300,6 @@ function _buildNavbarHTML() {
         </span>
         <span>${escapeHtml(user.fullName || user.username)}</span>
       </a>
-      <button id="logout-btn" class="btn btn-outline nav__logout" type="button">
-        Chiqish
-      </button>
     `
     : `
       <a href="#login"    class="btn btn-outline nav__link" data-path="login">Kirish</a>
@@ -445,9 +442,6 @@ function _buildAuthLinksHTML(user) {
         </span>
         <span>${escapeHtml(user.fullName || user.username)}</span>
       </a>
-      <button id="logout-btn" class="btn btn-outline nav__logout" type="button">
-        Chiqish
-      </button>
     `;
   }
   return `
@@ -456,18 +450,8 @@ function _buildAuthLinksHTML(user) {
   `;
 }
 
-/**
- * Logout tugmasi hodisasini ulaydi.
- * innerHTML yangilanganda tugma yangi element bo'ladi —
- * shuning uchun har safar qayta ulaymiz.
- */
 function _bindLogoutBtn() {
-  document.getElementById('logout-btn')
-    ?.addEventListener('click', async () => {
-      await logout();
-      showNotification('Tizimdan chiqdingiz.', 'info');
-      navigate(HOME_ROUTE);
-    });
+  // Chiqish tugmasi faqat profil sahifasi ichida joylashtirildi
 }
 
 /**
