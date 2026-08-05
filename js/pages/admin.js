@@ -216,8 +216,8 @@ function _renderBookRows(books) {
       <tr id="book-row-${b.id}">
         <td style="width:50px;text-align:center">
           ${coverSrc
-            ? `<img src="${escapeHtml(coverSrc)}" alt="" style="width:36px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border-color);display:inline-block" onerror="this.onerror=null;this.parentNode.innerHTML='📖'">`
-            : `<span style="font-size:1.4rem">📖</span>`
+            ? `<img src="${escapeHtml(coverSrc)}" alt="" style="width:36px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border-color);display:inline-block" onerror="this.onerror=null;this.parentNode.innerHTML='—'">`
+            : `<span style="font-size:.875rem;color:var(--ink-faint);">—</span>`
           }
         </td>
         <td>${b.id}</td>
@@ -226,8 +226,8 @@ function _renderBookRows(books) {
         <td><span class="badge">${escapeHtml(b.category || '')}</span></td>
         <td>${b.year || '—'}</td>
         <td class="admin-actions">
-          <button class="btn btn-ghost btn-sm edit-book-btn" data-id="${b.id}">✏️ Tahrirlash</button>
-          <button class="btn btn-danger btn-sm del-book-btn"  data-id="${b.id}">🗑️ O'chirish</button>
+          <button class="btn btn-ghost btn-sm edit-book-btn" data-id="${b.id}">Tahrirlash</button>
+          <button class="btn btn-danger btn-sm del-book-btn"  data-id="${b.id}">O'chirish</button>
         </td>
       </tr>
     `;
@@ -266,7 +266,7 @@ function _bookFormHTML(book = {}) {
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
             <input id="bf-cover" class="input" type="text" placeholder="https://... yoki fayl tanlang" value="${escapeHtml(cover)}" style="flex:1;min-width:200px">
             <label class="btn btn-outline btn-sm" style="margin:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px">
-              🖼️ Rasm yuklash
+              Rasm yuklash
               <input id="bf-cover-file" type="file" accept="image/*" style="display:none">
             </label>
           </div>
@@ -351,7 +351,7 @@ async function _handleBatchCoverUpload(files, books) {
   if (!files || !files.length || !books || !books.length) return;
 
   const fileArray = Array.from(files);
-  showNotification(`⏳ ${fileArray.length} ta rasm fayli o'qilmoqda va kitoblarga biriktirilmoqda...`, 'info', 4000);
+  showNotification(`${fileArray.length} ta rasm fayli o'qilmoqda va kitoblarga biriktirilmoqda...`, 'info', 4000);
 
   let matchedCount = 0;
 
@@ -398,7 +398,7 @@ async function _handleBatchCoverUpload(files, books) {
     }
   }
 
-  showNotification(`✅ ${matchedCount} ta rasm kitoblarga muvaffaqiyatli biriktirildi va saqlandi!`, 'success', 6000);
+  showNotification(`${matchedCount} ta rasm kitoblarga muvaffaqiyatli biriktirildi va saqlandi!`, 'success', 6000);
 
   const tbody = document.getElementById('books-tbody');
   if (tbody) tbody.innerHTML = _renderBookRows(books);
@@ -452,7 +452,7 @@ async function _autoFetchAllCovers(books) {
 
   for (let i = 0; i < books.length; i++) {
     const b = books[i];
-    btn.textContent = `⏳ ${i + 1}/${books.length}...`;
+    btn.textContent = `${i + 1}/${books.length}...`;
 
     const img = await _fetchBookCoverImage(b.title, b.author);
     if (img) {
@@ -466,8 +466,8 @@ async function _autoFetchAllCovers(books) {
     }
   }
 
-  setButtonLoading(btn, false, '🤖 Avtomatik muqovalarni topish');
-  showNotification(`✅ ${count} ta kitob muqovasi muvaffaqiyatli yangilandi!`, 'success', 5000);
+  setButtonLoading(btn, false, 'Avtomatik muqovalarni topish');
+  showNotification(`${count} ta kitob muqovasi muvaffaqiyatli yangilandi!`, 'success', 5000);
 
   const tbody = document.getElementById('books-tbody');
   if (tbody) tbody.innerHTML = _renderBookRows(books);
@@ -536,7 +536,7 @@ function _bindBookForm() {
       const res = await _safeSaveData('books', id, data);
       if (!res.success) throw new Error(res.error);
 
-      showNotification(id ? 'Kitob yangilandi ✅' : "Kitob qo'shildi ✅", 'success');
+      showNotification(id ? 'Kitob yangilandi.' : "Kitob qo'shildi.", 'success');
       await _loadTab('books');
     } catch (err) {
       showNotification(`Xato: ${err.message}`, 'error');
@@ -635,7 +635,7 @@ async function _renderQuestions(panel) {
   panel.innerHTML = `
     <div class="admin-section">
       <div class="admin-section__header">
-        <h2 class="admin-section__title">❓ Savollar (${qs.length})</h2>
+        <h2 class="admin-section__title">Savollar (${qs.length})</h2>
         <button id="add-q-btn" class="btn btn-primary btn-sm">+ Savol qo'shish</button>
       </div>
 
@@ -723,8 +723,8 @@ function _renderQRows(qs) {
       <td class="admin-q-text">${escapeHtml(truncate(q.question || q.text || '', 70))}</td>
       <td>${(q.options || []).length} variant</td>
       <td class="admin-actions">
-        <button class="btn btn-ghost btn-sm edit-q-btn" data-id="${q.id}">✏️</button>
-        <button class="btn btn-danger btn-sm del-q-btn"  data-id="${q.id}">🗑️</button>
+        <button class="btn btn-ghost btn-sm edit-q-btn" data-id="${q.id}">Tahrir</button>
+        <button class="btn btn-danger btn-sm del-q-btn"  data-id="${q.id}">O'chir</button>
       </td>
     </tr>
   `).join('');
@@ -825,7 +825,7 @@ function _bindQuestionForm(existingId) {
       const res = await _safeSaveData('questions', existingId, data);
       if (!res.success) throw new Error(res.error);
 
-      showNotification(existingId ? 'Savol yangilandi ✅' : "Savol qo'shildi ✅", 'success');
+      showNotification(existingId ? 'Savol yangilandi.' : "Savol qo'shildi.", 'success');
       await _loadTab('questions');
     } catch (err) {
       showNotification(`Xato: ${err.message}`, 'error');
@@ -867,7 +867,7 @@ async function _renderUsers(panel) {
   panel.innerHTML = `
     <div class="admin-section">
       <div class="admin-section__header">
-        <h2 class="admin-section__title">👥 Foydalanuvchilar (${users.length})</h2>
+        <h2 class="admin-section__title">Foydalanuvchilar (${users.length})</h2>
         <input id="user-search" type="search" class="input" style="max-width:220px"
                placeholder="Qidirish..." aria-label="Foydalanuvchi qidirish">
       </div>
@@ -978,7 +978,7 @@ async function _renderComments(panel) {
     panel.innerHTML = `
       <div class="admin-section">
         <div class="empty-state">
-          <div class="empty-state__icon">💬</div>
+          <div class="empty-state__icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
           <p class="empty-state__title">Izohlar jadvali yo'q</p>
           <p class="empty-state__desc">Supabase da <code>comments</code> jadvali yarating.</p>
         </div>
@@ -990,12 +990,12 @@ async function _renderComments(panel) {
   panel.innerHTML = `
     <div class="admin-section">
       <div class="admin-section__header">
-        <h2 class="admin-section__title">💬 Izohlar (${comments?.length ?? 0})</h2>
+        <h2 class="admin-section__title">Izohlar (${comments?.length ?? 0})</h2>
       </div>
 
       ${!comments?.length
         ? `<div class="empty-state">
-             <div class="empty-state__icon">💬</div>
+             <div class="empty-state__icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
              <p class="empty-state__title">Izohlar yo'q</p>
            </div>`
         : `<div class="admin-table-wrap">
@@ -1014,9 +1014,7 @@ async function _renderComments(panel) {
                        ${c.created_at?.slice(0,10) ?? ''}
                      </td>
                      <td>
-                       <button class="btn btn-danger btn-sm del-comment-btn" data-id="${c.id}">
-                         🗑️ O'chirish
-                       </button>
+                        <button class="btn btn-danger btn-sm del-comment-btn" data-id="${c.id}">O'chirish</button>
                      </td>
                    </tr>
                  `).join('')}
@@ -1051,7 +1049,7 @@ async function _renderCharacters(panel) {
     panel.innerHTML = `
       <div class="admin-section">
         <div class="empty-state">
-          <div class="empty-state__icon">🎭</div>
+          <div class="empty-state__icon"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
           <p class="empty-state__title">Personajlar jadvali yo'q</p>
           <p class="empty-state__desc">Supabase da <code>characters</code> jadvali yarating.</p>
         </div>
@@ -1068,7 +1066,7 @@ async function _renderCharacters(panel) {
   panel.innerHTML = `
     <div class="admin-section">
       <div class="admin-section__header">
-        <h2 class="admin-section__title">🎭 Personajlar (${chars?.length ?? 0})</h2>
+        <h2 class="admin-section__title">Personajlar (${chars?.length ?? 0})</h2>
         <button id="add-char-btn" class="btn btn-primary btn-sm">+ Personaj qo'shish</button>
       </div>
 
@@ -1089,8 +1087,8 @@ async function _renderCharacters(panel) {
                 <td><span class="badge">${escapeHtml(c.books?.title || `#${c.book_id}`)}</span></td>
                 <td class="admin-q-text">${escapeHtml(truncate(c.description || '', 60))}</td>
                 <td class="admin-actions">
-                  <button class="btn btn-ghost btn-sm edit-char-btn" data-id="${c.id}">✏️</button>
-                  <button class="btn btn-danger btn-sm del-char-btn"  data-id="${c.id}">🗑️</button>
+                  <button class="btn btn-ghost btn-sm edit-char-btn" data-id="${c.id}">Tahrir</button>
+                  <button class="btn btn-danger btn-sm del-char-btn"  data-id="${c.id}">O'chir</button>
                 </td>
               </tr>
             `).join('')}
@@ -1187,7 +1185,7 @@ function _bindCharForm(existingId) {
         ? await supabase.from('characters').update(data).eq('id', existingId)
         : await supabase.from('characters').insert(data);
       if (error) throw error;
-      showNotification(existingId ? 'Personaj yangilandi ✅' : "Personaj qo'shildi ✅", 'success');
+      showNotification(existingId ? 'Personaj yangilandi.' : "Personaj qo'shildi.", 'success');
       await _loadTab('characters');
     } catch (err) {
       showNotification(`Xato: ${err.message}`, 'error');
