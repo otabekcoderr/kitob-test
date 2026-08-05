@@ -28,7 +28,7 @@ export async function render(container, { params, user }) {
       <div class="page">
         <div class="container">
           <div class="empty-state" style="min-height:60vh">
-            <div class="empty-state__icon">🔒</div>
+            <div class="empty-state__icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
             <p class="empty-state__title">Ruxsat yo'q</p>
             <p class="empty-state__desc">Bu sahifa faqat administratorlar uchun.</p>
             <a href="#home" class="btn btn-primary mt-4">Bosh sahifaga</a>
@@ -45,7 +45,7 @@ export async function render(container, { params, user }) {
         <!-- Sarlavha -->
         <div class="admin-header animate-slide-up">
           <div>
-            <h1 class="admin-header__title">⚙️ Admin panel</h1>
+            <h1 class="admin-header__title">Admin panel</h1>
             <p class="admin-header__sub">Kitobchi boshqaruv tizimi</p>
           </div>
           <div class="admin-header__stats" id="admin-quick-stats">
@@ -55,11 +55,11 @@ export async function render(container, { params, user }) {
 
         <!-- Tab navigatsiya -->
         <div class="tabs admin-tabs animate-slide-up" id="admin-tabs" role="tablist">
-          <button class="tab tab--active" data-tab="books"      role="tab" aria-selected="true">📚 Kitoblar</button>
-          <button class="tab"             data-tab="questions"  role="tab" aria-selected="false">❓ Savollar</button>
-          <button class="tab"             data-tab="users"      role="tab" aria-selected="false">👥 Foydalanuvchilar</button>
-          <button class="tab"             data-tab="comments"   role="tab" aria-selected="false">💬 Izohlar</button>
-          <button class="tab"             data-tab="characters" role="tab" aria-selected="false">🎭 Personajlar</button>
+          <button class="tab tab--active" data-tab="books"      role="tab" aria-selected="true">Kitoblar</button>
+          <button class="tab"             data-tab="questions"  role="tab" aria-selected="false">Savollar</button>
+          <button class="tab"             data-tab="users"      role="tab" aria-selected="false">Foydalanuvchilar</button>
+          <button class="tab"             data-tab="comments"   role="tab" aria-selected="false">Izohlar</button>
+          <button class="tab"             data-tab="characters" role="tab" aria-selected="false">Personajlar</button>
         </div>
 
         <!-- Panellar -->
@@ -116,9 +116,9 @@ async function _loadQuickStats() {
     const el = document.getElementById('admin-quick-stats');
     if (!el) return;
     el.innerHTML = `
-      <div class="admin-stat-pill">📚 ${bCnt} kitob</div>
-      <div class="admin-stat-pill">❓ ${qCnt} savol</div>
-      <div class="admin-stat-pill">👥 ${uCnt} foydalanuvchi</div>
+      <div class="admin-stat-pill">${bCnt} kitob</div>
+      <div class="admin-stat-pill">${qCnt} savol</div>
+      <div class="admin-stat-pill">${uCnt} foydalanuvchi</div>
     `;
   } catch { /* ignore */ }
 }
@@ -143,7 +143,7 @@ async function _loadTab(tab) {
     console.error(`[admin] ${tab} xatosi:`, err);
     panel.innerHTML = `
       <div class="empty-state">
-        <div class="empty-state__icon">⚠️</div>
+        <div class="empty-state__icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
         <p class="empty-state__title">Yuklashda xato</p>
         <p class="empty-state__desc">${escapeHtml(err.message || 'Noma\'lum xato')}</p>
       </div>`;
@@ -169,12 +169,12 @@ async function _renderBooks(panel) {
   panel.innerHTML = `
     <div class="admin-section">
       <div class="admin-section__header">
-        <h2 class="admin-section__title">📚 Kitoblar (${books.length})</h2>
+        <h2 class="admin-section__title">Kitoblar (${books.length})</h2>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <input id="admin-book-search" type="search" class="input" style="max-width:180px"
                  placeholder="Kitob yoki muallif..." aria-label="Kitob qidirish">
           <label class="btn btn-primary btn-sm" style="margin:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px" title="Kompyuteringizdan 52ta rasmni tanlang — fayl nomiga ko'ra kitoblarga avtomatik joylanadi">
-            📁 Ommaviy 52ta rasm yuklash
+            Ommaviy 52ta rasm yuklash
             <input id="batch-covers-file" type="file" accept="image/*" multiple style="display:none">
           </label>
           <button id="add-book-btn" class="btn btn-ghost btn-sm">+ Kitob qo'shish</button>
@@ -921,7 +921,7 @@ function _renderUserRows(users) {
       <td><strong>${escapeHtml(u.full_name || '—')}</strong></td>
       <td>@${escapeHtml(u.username || '')}</td>
       <td style="color:var(--color-primary);font-weight:700">${u.score ?? 0}</td>
-      <td>🔥 ${u.streak ?? 0}</td>
+      <td>${u.streak ?? 0}</td>
       <td>
         <span class="badge ${u.role === 'admin' ? 'badge-error' : ''}">
           ${escapeHtml(u.role || 'user')}
@@ -931,7 +931,7 @@ function _renderUserRows(users) {
         <button class="btn btn-ghost btn-sm toggle-role-btn"
                 data-id="${u.id}"
                 data-role="${u.role || 'user'}">
-          ${u.role === 'admin' ? '👤 Foydalanuvchi' : '🔑 Admin'}
+          ${u.role === 'admin' ? 'Foydalanuvchi' : 'Admin'}
         </button>
       </td>
     </tr>
@@ -948,11 +948,11 @@ function _bindUserEvents(users) {
         .from('profiles').update({ role: newRole }).eq('id', btn.dataset.id);
 
       if (error) { showNotification(`Xato: ${error.message}`, 'error'); return; }
-      showNotification('Rol yangilandi ✅', 'success');
+      showNotification('Rol yangilandi.', 'success');
 
       // Lokalda yangilash
       btn.dataset.role = newRole;
-      btn.textContent  = newRole === 'admin' ? '👤 Foydalanuvchi' : '🔑 Admin';
+      btn.textContent  = newRole === 'admin' ? 'Foydalanuvchi' : 'Admin';
       const badge = btn.closest('tr')?.querySelector('.badge');
       if (badge) {
         badge.textContent = newRole;
