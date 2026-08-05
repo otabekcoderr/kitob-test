@@ -292,26 +292,39 @@ function _toggleTheme() {
 function _buildNavbarHTML() {
   const user = getCurrentUser();
 
-  const authLinks = user
-    ? `
-      <a href="#profile" class="nav__link" data-path="profile">
+  // SVG ikonkalar
+  const ICONS = {
+    home:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
+    books:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
+    leaderboard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+    admin:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
+    profile:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+  };
+
+  const adminLink = user?.role === 'admin'
+    ? `<li>
+        <a href="#admin" class="nav__link" data-path="admin">
+          <span class="nav__link-icon">${ICONS.admin}</span>
+          <span class="nav__link-label">Boshqaruv</span>
+        </a>
+      </li>`
+    : '';
+
+  // Auth — profil yoki kirish/ro'yxat
+  const authSection = user
+    ? `<a href="#profile" class="nav__link" data-path="profile">
         <span class="nav__avatar" aria-hidden="true">
           ${user.avatar
               ? `<img src="${escapeHtml(user.avatar)}" alt="" class="nav__avatar-img">`
               : `<span class="nav__avatar-placeholder">${escapeHtml(user.fullName?.[0] ?? 'U')}</span>`
           }
         </span>
-        <span>${escapeHtml(user.fullName || user.username)}</span>
-      </a>
-    `
-    : `
-      <a href="#login"    class="btn btn-outline nav__link" data-path="login">Kirish</a>
-      <a href="#register" class="btn btn-primary nav__link"  data-path="register">Ro'yxatdan o'tish</a>
-    `;
-
-  const adminLink = user?.role === 'admin'
-    ? `<li><a href="#admin" class="nav__link" data-path="admin">Boshqaruv</a></li>`
-    : '';
+        <span class="nav__auth-name">${escapeHtml(user.fullName || user.username)}</span>
+      </a>`
+    : `<div class="nav__auth-guest">
+        <a href="#login"    class="btn btn-outline btn-sm nav__link" data-path="login" style="margin:2px 8px;font-size:.8rem;">Kirish</a>
+        <a href="#register" class="btn btn-primary  btn-sm nav__link" data-path="register" style="margin:2px 8px;font-size:.8rem;">Ro'yxatdan o'tish</a>
+      </div>`;
 
   return `
     <nav class="navbar" role="navigation" aria-label="Asosiy menyu">
@@ -323,21 +336,31 @@ function _buildNavbarHTML() {
           <span class="navbar__logo-text">Kitobchi</span>
         </a>
 
-        <!-- Asosiy havolalar -->
+        <!-- Navigatsiya havolalar -->
         <ul class="nav__links" id="nav-links" role="list">
-          <li><a href="#home"        class="nav__link" data-path="home">Bosh sahifa</a></li>
-          <li><a href="#books"       class="nav__link" data-path="books">Kitoblar</a></li>
-          <li><a href="#leaderboard" class="nav__link" data-path="leaderboard">Reyting</a></li>
+          <li>
+            <a href="#home" class="nav__link" data-path="home">
+              <span class="nav__link-icon">${ICONS.home}</span>
+              <span class="nav__link-label">Bosh sahifa</span>
+            </a>
+          </li>
+          <li>
+            <a href="#books" class="nav__link" data-path="books">
+              <span class="nav__link-icon">${ICONS.books}</span>
+              <span class="nav__link-label">Kitoblar</span>
+            </a>
+          </li>
+          <li>
+            <a href="#leaderboard" class="nav__link" data-path="leaderboard">
+              <span class="nav__link-icon">${ICONS.leaderboard}</span>
+              <span class="nav__link-label">Reyting</span>
+            </a>
+          </li>
           ${adminLink}
         </ul>
 
-        <!-- O'ng tomon: auth + tema + hamburger -->
+        <!-- Pastki qism: auth + tema + status -->
         <div class="navbar__actions">
-
-          <!-- Auth havolalar -->
-          <div class="nav__auth" id="nav-auth">
-            ${authLinks}
-          </div>
 
           <!-- Online status -->
           <div class="nav__status" id="nav-status" aria-live="polite" title="Internet holati">
@@ -353,35 +376,16 @@ function _buildNavbarHTML() {
             aria-label="Tungi rejim"
             title="Temani almashtirish"
           >
-            <span id="theme-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+            <span id="theme-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+            <span class="theme-toggle-label">Tema</span>
           </button>
 
-          <!-- Hamburger (mobile) -->
-          <button
-            id="hamburger"
-            class="btn-icon hamburger"
-            type="button"
-            aria-label="Menyuni ochish"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-          >
-            <span class="hamburger__line" aria-hidden="true"></span>
-            <span class="hamburger__line" aria-hidden="true"></span>
-            <span class="hamburger__line" aria-hidden="true"></span>
-          </button>
+          <!-- Auth -->
+          <div class="nav__auth" id="nav-auth">
+            ${authSection}
+          </div>
+
         </div>
-      </div>
-
-      <!-- Mobile menyu -->
-      <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
-        <ul class="mobile-menu__links" role="list">
-          <li><a href="#home"        class="nav__link" data-path="home">Bosh sahifa</a></li>
-          <li><a href="#books"       class="nav__link" data-path="books">Kitoblar</a></li>
-          <li><a href="#leaderboard" class="nav__link" data-path="leaderboard">Reyting</a></li>
-          <li class="mobile-menu__auth" id="mobile-auth">
-            ${authLinks}
-          </li>
-        </ul>
       </div>
     </nav>
   `;
@@ -410,26 +414,20 @@ function _mountNavbar() {
 
 /**
  * Navbar auth qismini yangilaydi (login/logout o'zgarganida).
- * Butun navbalni qayta render qilmasdan faqat auth qismini almashtiradi.
  */
 function _updateNavbar() {
   const user        = getCurrentUser();
   const authLinks   = _buildAuthLinksHTML(user);
 
-  // Desktop auth
   const navAuth     = document.getElementById('nav-auth');
-  if (navAuth)     navAuth.innerHTML     = authLinks;
-
-  // Mobile auth
-  const mobileAuth  = document.getElementById('mobile-auth');
-  if (mobileAuth)  mobileAuth.innerHTML  = authLinks;
+  if (navAuth)     navAuth.innerHTML = authLinks;
 
   // Logout listener qayta ulash
   _bindLogoutBtn();
 }
 
 /**
- * Auth havolalar HTML ni qaytaradi (desktop va mobile uchun bir xil).
+ * Auth havolalar HTML ni qaytaradi (sidebar uchun).
  * @param {object|null} user
  * @returns {string}
  */
@@ -443,13 +441,15 @@ function _buildAuthLinksHTML(user) {
               : `<span class="nav__avatar-placeholder">${escapeHtml(user.fullName?.[0] ?? 'U')}</span>`
           }
         </span>
-        <span>${escapeHtml(user.fullName || user.username)}</span>
+        <span class="nav__auth-name">${escapeHtml(user.fullName || user.username)}</span>
       </a>
     `;
   }
   return `
-    <a href="#login"    class="btn btn-outline nav__link" data-path="login">Kirish</a>
-    <a href="#register" class="btn btn-primary  nav__link" data-path="register">Ro'yxatdan o'tish</a>
+    <div class="nav__auth-guest">
+      <a href="#login"    class="btn btn-outline btn-sm nav__link" data-path="login" style="margin:2px 8px;font-size:.8rem;">Kirish</a>
+      <a href="#register" class="btn btn-primary  btn-sm nav__link" data-path="register" style="margin:2px 8px;font-size:.8rem;">Ro'yxatdan o'tish</a>
+    </div>
   `;
 }
 
@@ -458,42 +458,10 @@ function _bindLogoutBtn() {
 }
 
 /**
- * Hamburger menyu hodisalarini ulaydi.
+ * Sidebar endi CSS :hover bilan ishlaydi — JS kerak emas.
  */
 function _bindHamburger() {
-  const hamburger  = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (!hamburger || !mobileMenu) return;
-
-  hamburger.addEventListener('click', () => {
-    const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
-
-    hamburger.setAttribute('aria-expanded', String(!isOpen));
-    mobileMenu.setAttribute('aria-hidden',   String(isOpen));
-    hamburger.classList.toggle('hamburger--open', !isOpen);
-    mobileMenu.classList.toggle('mobile-menu--open', !isOpen);
-  });
-
-  // Havola bosilganda menyuni yopish
-  mobileMenu.querySelectorAll('.nav__link').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.setAttribute('aria-expanded', 'false');
-      mobileMenu.setAttribute('aria-hidden',   'true');
-      hamburger.classList.remove('hamburger--open');
-      mobileMenu.classList.remove('mobile-menu--open');
-    });
-  });
-
-  // Tashqarini bosish → yopish
-  document.addEventListener('click', (e) => {
-    const navbar = document.getElementById('navbar');
-    if (navbar && !navbar.contains(e.target)) {
-      hamburger.setAttribute('aria-expanded', 'false');
-      mobileMenu.setAttribute('aria-hidden',   'true');
-      hamburger.classList.remove('hamburger--open');
-      mobileMenu.classList.remove('mobile-menu--open');
-    }
-  });
+  // CSS :hover sidebar ochadi/yopadi — qo'shimcha JS shart emas
 }
 
 /**

@@ -295,9 +295,17 @@ h1, h2, h3, h4, h5, h6 {
 .container--lg  { max-width: 1024px; }
 
 .page {
-  padding-top:    calc(var(--navbar-h) + 40px);
+  padding-top:    40px;
   padding-bottom: clamp(3rem, 8vw, 6rem);
+  padding-left:   var(--sidebar-w-closed);
   min-height:     100vh;
+  transition:     padding-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Footer ham sidebar uchun padding */
+.footer {
+  padding-left: var(--sidebar-w-closed);
+  transition:   padding-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .section { margin-bottom: clamp(3rem, 8vw, 6rem); }
@@ -855,46 +863,66 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
-   13. NAVBAR
+   13. SIDEBAR NAVIGATION (chap yon panel)
    ============================================================ */
 
+/* --- Sidebar o'lchamlari --- */
+:root {
+  --sidebar-w-closed: 56px;
+  --sidebar-w-open:   240px;
+}
+
+/* --- Asosiy sidebar --- */
 .navbar {
-  position:   fixed;
-  top:        0;
-  left:       0;
-  right:      0;
-  z-index:    var(--z-navbar);
-  height:     var(--navbar-h);
-  background: var(--surface);
-  border-bottom: 1px solid var(--divider);
+  position:    fixed;
+  top:         0;
+  left:        0;
+  bottom:      0;
+  z-index:     var(--z-navbar);
+  width:       var(--sidebar-w-closed);
+  background:  var(--surface);
+  border-right: 1px solid var(--divider);
+  display:     flex;
+  flex-direction: column;
+  overflow:    hidden;
+  transition:  width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar:hover,
+.navbar.sidebar--open {
+  width: var(--sidebar-w-open);
 }
 
 .navbar__inner {
-  max-width: 1180px;
-  margin:    0 auto;
-  padding:   0 clamp(1rem, 5vw, 4rem);
-  height:    100%;
-  display:   flex;
-  align-items: center;
-  gap:         24px;
+  display:        flex;
+  flex-direction: column;
+  height:         100%;
+  padding:        0;
+  gap:            0;
 }
 
+/* --- Logo --- */
 .navbar__logo {
-  display:     flex;
-  align-items: center;
-  gap:         8px;
-  color:       var(--ink);
-  font-family: var(--font-display);
-  font-size:   1.125rem;
-  font-weight: 700;
+  display:         flex;
+  align-items:     center;
+  gap:             10px;
+  color:           var(--ink);
+  font-family:     var(--font-display);
+  font-size:       1.125rem;
+  font-weight:     700;
   text-decoration: none;
-  flex-shrink: 0;
+  flex-shrink:     0;
+  padding:         16px 12px;
+  min-height:      56px;
+  white-space:     nowrap;
+  overflow:        hidden;
 }
 .navbar__logo:hover { text-decoration: none; color: var(--ink); }
 
 .navbar__logo-mark {
   width:           32px;
   height:          32px;
+  min-width:       32px;
   background:      var(--ochre);
   color:           var(--surface);
   border-radius:   var(--radius-sm);
@@ -906,24 +934,41 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:     700;
 }
 
-.navbar__logo-text { letter-spacing: -0.01em; }
+.navbar__logo-text {
+  letter-spacing: -0.01em;
+  opacity:        0;
+  transition:     opacity 0.18s ease 0.06s;
+}
+.navbar:hover .navbar__logo-text,
+.navbar.sidebar--open .navbar__logo-text {
+  opacity: 1;
+}
 
+/* --- Navigatsiya havolalar --- */
 .nav__links {
-  display:     flex;
-  align-items: center;
-  gap:         4px;
-  flex:        1;
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  padding:        8px 8px;
+  flex:           1;
+  overflow-y:     auto;
+  overflow-x:     hidden;
 }
 
 .nav__link {
-  display:       block;
-  padding:       6px 12px;
-  font-size:     0.9rem;
-  font-weight:   500;
-  color:         var(--ink-muted);
-  border-radius: var(--radius-sm);
+  display:         flex;
+  align-items:     center;
+  gap:             10px;
+  padding:         10px 12px;
+  font-size:       0.875rem;
+  font-weight:     500;
+  color:           var(--ink-muted);
+  border-radius:   var(--radius-md);
   text-decoration: none;
-  transition:    var(--transition-fast);
+  transition:      var(--transition-fast);
+  white-space:     nowrap;
+  overflow:        hidden;
+  min-height:      40px;
 }
 .nav__link:hover {
   color:      var(--ink);
@@ -931,33 +976,59 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 .nav__link--active {
-  color:      var(--ink);
-  font-weight:600;
+  color:       var(--ink);
+  font-weight: 600;
+  background:  var(--ochre-light);
 }
 
-.navbar__actions {
-  display:     flex;
+.nav__link-icon {
+  width:      20px;
+  height:     20px;
+  min-width:  20px;
+  display:    flex;
   align-items: center;
-  gap:         8px;
-  margin-left: auto;
+  justify-content: center;
+  color:      inherit;
+}
+.nav__link-icon svg { width: 18px; height: 18px; }
+
+.nav__link-label {
+  opacity:    0;
+  transition: opacity 0.18s ease 0.06s;
+}
+.navbar:hover .nav__link-label,
+.navbar.sidebar--open .nav__link-label {
+  opacity: 1;
+}
+
+/* --- Sidebar pastki qism: auth + tema + status --- */
+.navbar__actions {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  padding:        8px;
+  border-top:     1px solid var(--divider);
+  margin-top:     auto;
 }
 
 .nav__auth {
-  display:     flex;
-  align-items: center;
-  gap:         8px;
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
 }
 
 /* Avatar */
 .nav__avatar {
   display:     flex;
   align-items: center;
-  gap:         8px;
+  gap:         10px;
+  overflow:    hidden;
 }
 
 .nav__avatar-img {
   width:         28px;
   height:        28px;
+  min-width:     28px;
   border-radius: 50%;
   object-fit:    cover;
   border:        1px solid var(--divider);
@@ -966,6 +1037,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav__avatar-placeholder {
   width:           28px;
   height:          28px;
+  min-width:       28px;
   border-radius:   50%;
   background:      var(--ochre);
   color:           var(--surface);
@@ -976,6 +1048,31 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:     700;
 }
 
+.nav__auth-name {
+  opacity:     0;
+  white-space: nowrap;
+  overflow:    hidden;
+  text-overflow: ellipsis;
+  transition:  opacity 0.18s ease 0.06s;
+  font-size:   0.8125rem;
+}
+.navbar:hover .nav__auth-name,
+.navbar.sidebar--open .nav__auth-name {
+  opacity: 1;
+}
+
+/* Guest tugmalari sidebar yopiq bo'lganda yashirish */
+.nav__auth-guest {
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.18s ease 0.06s;
+}
+.navbar:hover .nav__auth-guest,
+.navbar.sidebar--open .nav__auth-guest {
+  opacity: 1;
+}
+
 /* Online/Offline indicator */
 .nav__status {
   display:     flex;
@@ -983,11 +1080,14 @@ h1, h2, h3, h4, h5, h6 {
   gap:         5px;
   font-size:   0.75rem;
   color:       var(--ink-muted);
+  padding:     6px 12px;
+  min-height:  32px;
 }
 
 .nav__status-dot {
   width:         7px;
   height:        7px;
+  min-width:     7px;
   border-radius: 50%;
   background:    var(--success);
 }
@@ -996,13 +1096,33 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--error);
 }
 
-/* Theme toggle */
+/* Theme toggle sidebar ichida */
 .theme-toggle {
-  font-size: 0.875rem;
-  color:     var(--ink-muted);
+  font-size:   0.875rem;
+  color:       var(--ink-muted);
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+  padding:     10px 12px;
+  border-radius: var(--radius-md);
+  min-height:  40px;
+  white-space: nowrap;
+  overflow:    hidden;
+}
+.theme-toggle:hover {
+  background: var(--paper-alt);
+}
+.theme-toggle-label {
+  opacity: 0;
+  transition: opacity 0.18s ease 0.06s;
+  font-size: 0.8125rem;
+}
+.navbar:hover .theme-toggle-label,
+.navbar.sidebar--open .theme-toggle-label {
+  opacity: 1;
 }
 
-/* Hamburger */
+/* Hamburger — faqat mobilda ko'rinadi */
 .hamburger {
   display:        none;
   flex-direction: column;
@@ -1019,35 +1139,13 @@ h1, h2, h3, h4, h5, h6 {
   transition:    var(--transition);
 }
 
-/* Mobile menu */
+/* Mobile menu — endi ishlatilmaydi desktopda */
 .mobile-menu {
-  display:    none;
-  position:   fixed;
-  top:        var(--navbar-h);
-  left:       0;
-  right:      0;
-  background: var(--surface);
-  border-bottom: 1px solid var(--divider);
-  z-index:    calc(var(--z-navbar) - 1);
-  padding:    12px clamp(1rem, 5vw, 2rem) 20px;
+  display: none;
 }
-
-.mobile-menu--open { display: block; }
-
-.mobile-menu__links {
-  display:        flex;
-  flex-direction: column;
-  gap:            2px;
-}
-
-.mobile-menu__auth {
-  padding-top:  12px;
-  margin-top:   8px;
-  border-top:   1px solid var(--divider);
-  display:      flex;
-  flex-wrap:    wrap;
-  gap:          8px;
-}
+.mobile-menu--open { display: none; }
+.mobile-menu__links { display: none; }
+.mobile-menu__auth  { display: none; }
 
 /* Skip link */
 .skip-link {
@@ -1292,8 +1390,65 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================ */
 
 @media (max-width: 768px) {
-  .hamburger { display: flex; }
-  .nav__links { display: none; }
+  /* Sidebar yashirish — mobilda pastdagi tab-bar */
+  .navbar {
+    position:      fixed;
+    top:           auto;
+    bottom:        0;
+    left:          0;
+    right:         0;
+    width:         100% !important;
+    height:        56px;
+    flex-direction: row;
+    border-right:  none;
+    border-top:    1px solid var(--divider);
+    overflow:      visible;
+    transition:    none;
+  }
+  .navbar:hover { width: 100% !important; }
+
+  .navbar__inner {
+    flex-direction: row;
+    padding:        0;
+    height:         100%;
+    overflow:       visible;
+  }
+
+  /* Logo yashirish */
+  .navbar__logo { display: none; }
+
+  /* Nav links — gorizontal tab bar */
+  .nav__links {
+    flex-direction: row;
+    flex:           1;
+    justify-content: space-around;
+    padding:        0 4px;
+    gap:            0;
+    overflow:       visible;
+  }
+  .nav__links li { flex: 1; }
+  .nav__link {
+    flex-direction: column;
+    align-items:    center;
+    justify-content: center;
+    padding:        6px 2px;
+    font-size:      0.625rem;
+    gap:            2px;
+    min-height:     auto;
+  }
+  .nav__link-icon svg { width: 20px; height: 20px; }
+  .nav__link-label { opacity: 1 !important; font-size: 0.625rem; }
+
+  /* Actions yashirish */
+  .navbar__actions { display: none; }
+
+  /* Page padding */
+  .page {
+    padding-left:   0 !important;
+    padding-top:    16px;
+    padding-bottom: 72px;
+  }
+  .footer { padding-left: 0 !important; margin-bottom: 56px; }
 
   .grid-2, .grid-3, .grid-4 {
     grid-template-columns: 1fr;
