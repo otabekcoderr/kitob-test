@@ -115,16 +115,19 @@ function _renderPodium(top3, currentUser) {
   `;
 }
 
-// ---- TO'LIQ JADVAL ----
+// ---- TO'LIQ JADVAL (4-o'rindan boshlab) ----
 function _renderTable(leaders, currentUser) {
   const wrap = document.getElementById('lb-table-wrap');
   if (!wrap) return;
 
-  if (!leaders.length) {
+  // Top-3 podiumda ko'rsatiladi, jadvalda 4+ o'rinlar
+  const tableData = leaders.slice(3);
+
+  if (!tableData.length) {
     wrap.innerHTML = `
       <div class="empty-state">
-        <p class="empty-state__title">Hali hech kim test yechmagan</p>
-        <p class="empty-state__desc">Birinchi bo'ling!</p>
+        <p class="empty-state__title">Hali 4-o'rindan boshlab ishtirokchi yo'q</p>
+        <p class="empty-state__desc">Ko'proq testlar yeching!</p>
       </div>
     `;
     return;
@@ -134,12 +137,13 @@ function _renderTable(leaders, currentUser) {
     <div class="admin-table-wrap" style="border:none;border-radius:0;">
       <table class="leaderboard-table" style="padding:0 2px;">
         <tbody>
-          ${leaders.map((u, i) => {
+          ${tableData.map((u, i) => {
+            const rank    = i + 4; // 4-o'rindan boshlaymiz
             const isMe    = currentUser && u.id === currentUser.id;
             const initial = (u.full_name || u.username || '?')[0].toUpperCase();
             return `
               <tr${isMe ? ' style="background:var(--ochre-light);"' : ''}>
-                <td class="leaderboard__rank" style="width:40px;padding:12px 0 12px 4px;">${i + 1}</td>
+                <td class="leaderboard__rank" style="width:40px;padding:12px 0 12px 4px;">${rank}</td>
                 <td style="padding:12px 8px;">
                   <div style="display:flex;align-items:center;gap:10px;">
                     <div style="width:32px;height:32px;border-radius:50%;background:var(--paper-alt);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8125rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">

@@ -1017,7 +1017,7 @@ h1, h2, h3, h4, h5, h6 {
   gap:            4px;
 }
 
-/* Avatar */
+/* Avatar — sidebar yopiqda ham to'liq ko'rinsin */
 .nav__avatar {
   display:     flex;
   align-items: center;
@@ -1026,26 +1026,40 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav__avatar-img {
-  width:         28px;
-  height:        28px;
-  min-width:     28px;
+  width:         36px;
+  height:        36px;
+  min-width:     36px;
   border-radius: 50%;
   object-fit:    cover;
-  border:        1px solid var(--divider);
+  border:        2px solid var(--divider);
 }
 
 .nav__avatar-placeholder {
-  width:           28px;
-  height:          28px;
-  min-width:       28px;
+  width:           36px;
+  height:          36px;
+  min-width:       36px;
   border-radius:   50%;
   background:      var(--ochre);
   color:           var(--surface);
   display:         flex;
   align-items:     center;
   justify-content: center;
-  font-size:       0.75rem;
+  font-size:       0.9375rem;
   font-weight:     700;
+}
+
+/* Profil link */
+.nav__profile-link {
+  padding: 10px 10px;
+}
+
+/* Sozlamalar link */
+.nav__settings-link {
+  padding: 8px 12px;
+  color: var(--ink-faint);
+}
+.nav__settings-link:hover {
+  color: var(--ink);
 }
 
 .nav__auth-name {
@@ -1055,6 +1069,7 @@ h1, h2, h3, h4, h5, h6 {
   text-overflow: ellipsis;
   transition:  opacity 0.18s ease 0.06s;
   font-size:   0.8125rem;
+  font-weight: 600;
 }
 .navbar:hover .nav__auth-name,
 .navbar.sidebar--open .nav__auth-name {
@@ -1096,30 +1111,23 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--error);
 }
 
-/* Theme toggle sidebar ichida */
+/* Theme toggle — faqat ikonka, markazlashtirilgan */
 .theme-toggle {
-  font-size:   0.875rem;
-  color:       var(--ink-muted);
-  display:     flex;
-  align-items: center;
-  gap:         10px;
-  padding:     10px 12px;
-  border-radius: var(--radius-md);
-  min-height:  40px;
-  white-space: nowrap;
-  overflow:    hidden;
+  font-size:       0.875rem;
+  color:           var(--ink-muted);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  padding:         10px 0;
+  border-radius:   var(--radius-md);
+  min-height:      40px;
+  width:           40px;
+  min-width:       40px;
+  margin:          0 auto;
 }
 .theme-toggle:hover {
   background: var(--paper-alt);
-}
-.theme-toggle-label {
-  opacity: 0;
-  transition: opacity 0.18s ease 0.06s;
-  font-size: 0.8125rem;
-}
-.navbar:hover .theme-toggle-label,
-.navbar.sidebar--open .theme-toggle-label {
-  opacity: 1;
+  color: var(--ochre);
 }
 
 /* Hamburger — faqat mobilda ko'rinadi */
