@@ -101,7 +101,7 @@ function _renderBooks(books) {
   if (!books.length) {
     grid.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
-        <div class="empty-state__icon">🔍</div>
+        <div class="empty-state__icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
         <p class="empty-state__title">Kitob topilmadi</p>
         <p class="empty-state__desc">Boshqa kalit so'z yoki filtr bilan qidiring.</p>
         <button id="clear-filter" class="btn btn-outline" style="margin-top:12px;">Filtrni tozalash</button>

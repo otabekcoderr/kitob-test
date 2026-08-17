@@ -1017,27 +1017,30 @@ h1, h2, h3, h4, h5, h6 {
   gap:            4px;
 }
 
-/* Avatar — sidebar yopiqda ham to'liq ko'rinsin */
+/* Avatar — sidebar yopiqda ham to'liq va markazda ko'rinsin */
 .nav__avatar {
-  display:     flex;
-  align-items: center;
-  gap:         10px;
-  overflow:    hidden;
-}
-
-.nav__avatar-img {
-  width:         36px;
-  height:        36px;
-  min-width:     36px;
-  border-radius: 50%;
-  object-fit:    cover;
-  border:        2px solid var(--divider);
-}
-
-.nav__avatar-placeholder {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
   width:           36px;
   height:          36px;
   min-width:       36px;
+  border-radius:   50%;
+  flex-shrink:     0;
+  overflow:        hidden;
+}
+
+.nav__avatar-img {
+  width:         100%;
+  height:        100%;
+  border-radius: 50%;
+  object-fit:    cover;
+  border:        1.5px solid var(--divider);
+}
+
+.nav__avatar-placeholder {
+  width:           100%;
+  height:          100%;
   border-radius:   50%;
   background:      var(--ochre);
   color:           var(--surface);
@@ -1050,16 +1053,44 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Profil link */
 .nav__profile-link {
-  padding: 10px 10px;
+  display:         flex;
+  align-items:     center;
+  gap:             10px;
+  padding:         4px 2px;
+  border-radius:   var(--radius-md);
+  text-decoration: none;
+  transition:      var(--transition-fast);
+  overflow:        hidden;
+  min-height:      44px;
+}
+.nav__profile-link:hover {
+  background: var(--paper-alt);
+  text-decoration: none;
 }
 
 /* Sozlamalar link */
 .nav__settings-link {
-  padding: 8px 12px;
-  color: var(--ink-faint);
+  display:         flex;
+  align-items:     center;
+  gap:             10px;
+  padding:         8px 10px;
+  color:           var(--ink-muted);
+  border-radius:   var(--radius-md);
+  text-decoration: none;
+  transition:      var(--transition-fast);
+  white-space:     nowrap;
+  overflow:        hidden;
+  min-height:      36px;
 }
 .nav__settings-link:hover {
-  color: var(--ink);
+  color:      var(--ink);
+  background: var(--paper-alt);
+  text-decoration: none;
+}
+
+/* Faqat mobil ekranlarda ko'rinadigan nav elementlar */
+.nav__item--mobile-only {
+  display: none;
 }
 
 .nav__auth-name {
@@ -1435,6 +1466,7 @@ h1, h2, h3, h4, h5, h6 {
     overflow:       visible;
   }
   .nav__links li { flex: 1; }
+  .nav__item--mobile-only { display: block; }
   .nav__link {
     flex-direction: column;
     align-items:    center;

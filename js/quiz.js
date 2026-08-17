@@ -101,7 +101,7 @@ function _registerViolation(reason) {
     _finishQuiz(true); // forceZero = true
   } else {
     showNotification(
-      `⚠️ Ogohlantirish! ${remaining} ta ogohlantirish qoldi. Jarima: ${state.penaltyTotal}%`,
+      `Ogohlantirish! ${remaining} ta ogohlantirish qoldi. Jarima: ${state.penaltyTotal}%`,
       'warning',
       4000
     );

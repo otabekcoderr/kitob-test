@@ -159,7 +159,7 @@ function _bindEvents() {
       const result = await login(username, password);
 
       if (result.success) {
-        showNotification(`Xush kelibsiz! 👋`, 'success');
+        showNotification('Xush kelibsiz!', 'success');
         window.navigate('home');
       } else {
         _showGlobalError(globalError, result.error);

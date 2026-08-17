@@ -310,6 +310,20 @@ function _buildNavbarHTML() {
       </li>`
     : '';
 
+  const mobileProfileLink = user
+    ? `<li class="nav__item--mobile-only">
+        <a href="#profile" class="nav__link" data-path="profile">
+          <span class="nav__link-icon">${ICONS.profile}</span>
+          <span class="nav__link-label">Profil</span>
+        </a>
+      </li>`
+    : `<li class="nav__item--mobile-only">
+        <a href="#login" class="nav__link" data-path="login">
+          <span class="nav__link-icon">${ICONS.profile}</span>
+          <span class="nav__link-label">Kirish</span>
+        </a>
+      </li>`;
+
   // Auth — profil yoki kirish/ro'yxat
   const authSection = user
     ? `<a href="#profile" class="nav__link nav__profile-link" data-path="profile">
@@ -361,6 +375,7 @@ function _buildNavbarHTML() {
             </a>
           </li>
           ${adminLink}
+          ${mobileProfileLink}
         </ul>
 
         <!-- Pastki qism: auth + tema + status -->
@@ -419,14 +434,9 @@ function _mountNavbar() {
  * Navbar auth qismini yangilaydi (login/logout o'zgarganida).
  */
 function _updateNavbar() {
-  const user        = getCurrentUser();
-  const authLinks   = _buildAuthLinksHTML(user);
-
-  const navAuth     = document.getElementById('nav-auth');
-  if (navAuth)     navAuth.innerHTML = authLinks;
-
-  // Logout listener qayta ulash
-  _bindLogoutBtn();
+  _mountNavbar();
+  const { path } = _parseHash();
+  _setActiveNavLink(path);
 }
 
 /**
@@ -580,6 +590,9 @@ async function _init() {
   _applyTheme(_getSavedTheme());
   _watchAuth();
   window.addEventListener('hashchange', _loadPage);
+  window.addEventListener('kitobchi_profile_updated', () => {
+    _updateNavbar();
+  });
 
   // Online / Offline holat belgisi
   function _updateOnlineStatus() {

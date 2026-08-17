@@ -241,7 +241,7 @@ function _bindEvents() {
       const result = await register(fullName, username, password);
 
       if (result.success) {
-        showNotification('Muvaffaqiyatli ro\'yxatdan o\'tdingiz! 🎉', 'success');
+        showNotification("Muvaffaqiyatli ro'yxatdan o'tdingiz!", 'success');
         window.navigate('home');
       } else {
         _showGlobalError(globalError, result.error);

@@ -210,11 +210,12 @@ function _bindEvents(user) {
       });
 
       if (result.success) {
-        showNotification('Profil yangilandi! ✅', 'success');
+        showNotification('Profil yangilandi.', 'success');
         const avatarDisp = document.getElementById('avatar-display');
         if (avatarDisp) avatarDisp.innerHTML = _avatarHTML(result.user);
         const nameEl = document.querySelector('.profile-hero__name');
         if (nameEl) nameEl.textContent = result.user.fullName || result.user.username;
+        window.dispatchEvent(new CustomEvent('kitobchi_profile_updated', { detail: result.user }));
       } else {
         errEl.textContent = result.error;
         errEl.hidden = false;

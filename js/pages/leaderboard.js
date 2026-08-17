@@ -80,21 +80,33 @@ function _renderPodium(top3, currentUser) {
 
   if (!top3 || top3.length === 0) {
     el.hidden = true;
+    el.style.display = 'none';
     return;
   }
+  el.hidden = false;
+  el.style.display = 'block';
 
-  // Vizual tartib: 2-1-3
-  const order = [top3[1], top3[0], top3[2]].filter(Boolean);
-  const rankOf = { 0: 2, 1: 1, 2: 3 };
+  // Har bir o'yinchiga o'zining haqiqiy 1-o'rin, 2-o'rin, 3-o'rin raqamini beramiz
+  const ranked = top3.map((u, i) => ({ ...u, rank: i + 1 }));
+
+  // Vizual tartib: 3ta bo'lsa (2-1-3), 2ta bo'lsa (2-1), 1ta bo'lsa (1)
+  let order = [];
+  if (ranked.length === 3) {
+    order = [ranked[1], ranked[0], ranked[2]];
+  } else if (ranked.length === 2) {
+    order = [ranked[1], ranked[0]];
+  } else if (ranked.length === 1) {
+    order = [ranked[0]];
+  }
 
   el.innerHTML = `
     <div class="podium" aria-label="Top 3 o'yinchilar" role="list">
-      ${order.map((u, i) => {
-        const rank    = rankOf[i] ?? (i + 1);
+      ${order.map((u) => {
+        const rank    = u.rank;
         const isMe    = currentUser && u.id === currentUser.id;
         const initial = (u.full_name || u.username || '?')[0].toUpperCase();
         return `
-          <div class="podium__item podium__item--${rank} ${isMe ? '' : ''}" role="listitem"
+          <div class="podium__item podium__item--${rank}" role="listitem"
                aria-label="${rank}. o'rin: ${escapeHtml(u.full_name || u.username)}">
             <div class="podium__rank">${rank}</div>
             <div class="podium__avatar"${isMe ? ' style="border-color:var(--ochre);"' : ''}>
@@ -120,14 +132,24 @@ function _renderTable(leaders, currentUser) {
   const wrap = document.getElementById('lb-table-wrap');
   if (!wrap) return;
 
+  if (!leaders.length) {
+    wrap.innerHTML = `
+      <div class="empty-state">
+        <p class="empty-state__title">Hali hech kim test yechmagan</p>
+        <p class="empty-state__desc">Birinchi bo'ling!</p>
+      </div>
+    `;
+    return;
+  }
+
   // Top-3 podiumda ko'rsatiladi, jadvalda 4+ o'rinlar
   const tableData = leaders.slice(3);
 
   if (!tableData.length) {
     wrap.innerHTML = `
       <div class="empty-state">
-        <p class="empty-state__title">Hali 4-o'rindan boshlab ishtirokchi yo'q</p>
-        <p class="empty-state__desc">Ko'proq testlar yeching!</p>
+        <p class="empty-state__title">Top 3 o'rin yuqoridagi podiumda ko'rsatilgan</p>
+        <p class="empty-state__desc">4-o'rin va undan keyingi ishtirokchilar bu yerda paydo bo'ladi.</p>
       </div>
     `;
     return;
