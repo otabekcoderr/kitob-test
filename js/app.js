@@ -253,9 +253,6 @@ function _applyTheme(theme) {
   const icon = document.getElementById('theme-icon');
   if (icon) icon.innerHTML = theme === 'dark' ? SUN_SVG : MOON_SVG;
 
-  const label = document.getElementById('theme-label');
-  if (label) label.textContent = theme === 'dark' ? 'Kunduzgi rejim' : 'Tungi rejim';
-
   const btn = document.getElementById('theme-toggle');
   if (btn) btn.setAttribute('aria-label', theme === 'dark' ? 'Kunduzgi rejim' : 'Tungi rejim');
 }
@@ -390,16 +387,15 @@ function _buildNavbarHTML() {
             <span id="nav-status-text" class="text-xs" style="display:none;">Offline</span>
           </div>
 
-          <!-- Tema toggle -->
+          <!-- Tema toggle (faqat zamonaviy oy/quyosh ikonka, chapga tekislangan) -->
           <button
             id="theme-toggle"
-            class="nav__link theme-toggle"
+            class="theme-toggle"
             type="button"
-            aria-label="Tungi rejim"
+            aria-label="Temani almashtirish"
             title="Temani almashtirish"
           >
             <span class="nav__link-icon" id="theme-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
-            <span class="nav__link-label" id="theme-label">Tungi rejim</span>
           </button>
 
           <!-- Auth -->

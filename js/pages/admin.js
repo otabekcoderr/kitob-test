@@ -6,6 +6,10 @@
 // ============================================================
 import { supabase }              from '../supabase-client.js';
 import { getCurrentUser }        from '../auth.js';
+import { getBooks, saveBook,
+         deleteBook, getQuestions,
+         saveQuestion,
+         deleteQuestion }        from '../db.js';
 import { escapeHtml,
          showNotification,
          setButtonLoading,
@@ -103,15 +107,17 @@ export async function render(container, { params, user }) {
 // ============================================================
 async function _loadQuickStats() {
   try {
-    let bCnt = 0, qCnt = 0, uCnt = 0;
+    const books = await getBooks();
+    const bCnt  = books.length;
 
-    const resB = await supabase.from('books').select('id', { count: 'exact', head: true }).catch(() => null);
-    const resQ = await supabase.from('questions').select('id', { count: 'exact', head: true }).catch(() => null);
+    let qCnt = 0;
+    for (const b of books) {
+      const qs = await getQuestions(b.id);
+      qCnt += qs.length;
+    }
+
     const resU = await supabase.from('profiles').select('id', { count: 'exact', head: true }).catch(() => null);
-
-    bCnt = resB?.count ?? (localData.books?.length || 0);
-    qCnt = resQ?.count ?? (Object.values(localData.questions || {}).flat().length || 0);
-    uCnt = resU?.count ?? 1;
+    const uCnt = resU?.count ?? 1;
 
     const el = document.getElementById('admin-quick-stats');
     if (!el) return;
@@ -156,12 +162,7 @@ async function _loadTab(tab) {
 async function _renderBooks(panel) {
   let books = [];
   try {
-    const { data, error } = await supabase.from('books').select('*').order('id');
-    if (!error && Array.isArray(data) && data.length > 0) {
-      books = data;
-    } else {
-      books = localData.books || [];
-    }
+    books = await getBooks(true);
   } catch {
     books = localData.books || [];
   }
@@ -392,7 +393,7 @@ async function _handleBatchCoverUpload(files, books) {
           matchedCount++;
 
           // Supabase va local saqlash
-          _safeSaveData('books', matchedBook.id, { cover_url: dataUrl, cover: dataUrl }).catch(() => {});
+          saveBook(matchedBook, matchedBook.id).catch(() => {});
         }
       } catch { /* ignore */ }
     }
@@ -462,7 +463,7 @@ async function _autoFetchAllCovers(books) {
       count++;
 
       // Supabase va local xatosiz yangilash
-      _safeSaveData('books', b.id, { cover_url: img, cover: img }).catch(() => {});
+      saveBook(b, b.id).catch(() => {});
     }
   }
 
@@ -533,11 +534,12 @@ function _bindBookForm() {
     };
 
     try {
-      const res = await _safeSaveData('books', id, data);
-      if (!res.success) throw new Error(res.error);
+      const res = await saveBook(data, id || null);
+      if (!res.success) throw new Error(res.error || "Kitob saqlanmadi");
 
       showNotification(id ? 'Kitob yangilandi.' : "Kitob qo'shildi.", 'success');
       await _loadTab('books');
+      _loadQuickStats().catch(() => {});
     } catch (err) {
       showNotification(`Xato: ${err.message}`, 'error');
     } finally {
@@ -546,46 +548,14 @@ function _bindBookForm() {
   });
 }
 
-/**
- * Supabase jadvalida mavjud bo'lmagan ustunlarni (schema cache error) avtomatik
- * o'chirib, saqlashni qayta urinadi.
- */
-async function _safeSaveData(tableName, id, initialData) {
-  const payload = { ...initialData };
-
-  for (let attempt = 0; attempt < 6; attempt++) {
-    const query = id
-      ? supabase.from(tableName).update(payload).eq('id', id)
-      : supabase.from(tableName).insert(payload);
-
-    const { error } = await query;
-
-    if (!error) return { success: true };
-
-    const match = error.message?.match(/Could not find the '([^']+)' column/i);
-    if (match && match[1]) {
-      const missingCol = match[1];
-      console.warn(`[admin] '${tableName}' jadvalida '${missingCol}' ustuni yo'q. Ustun olib tashlanib qayta urinilmoqda...`);
-      if (missingCol === 'cover_url' && payload.cover_url && !payload.cover) {
-        payload.cover = payload.cover_url;
-      }
-      delete payload[missingCol];
-      continue;
-    }
-
-    return { success: false, error: error.message };
-  }
-
-  return { success: true };
-}
-
 async function _deleteBook(id) {
   if (!confirm(`ID: ${id} kitobni o'chirishni tasdiqlaysizmi?`)) return;
   try {
-    const { error } = await supabase.from('books').delete().eq('id', id);
-    if (error) throw error;
+    const res = await deleteBook(id);
+    if (!res.success) throw new Error(res.error || "O'chirishda xatolik");
     showNotification("Kitob o'chirildi", 'success');
     document.getElementById(`book-row-${id}`)?.remove();
+    _loadQuickStats().catch(() => {});
   } catch (err) {
     showNotification(`Xato: ${err.message}`, 'error');
   }
@@ -597,36 +567,24 @@ async function _deleteBook(id) {
 async function _renderQuestions(panel) {
   let books = [];
   try {
-    const { data } = await supabase.from('books').select('id, title').order('title');
-    if (Array.isArray(data) && data.length > 0) books = data;
-    else books = localData.books || [];
+    books = await getBooks();
   } catch {
     books = localData.books || [];
   }
 
   let qs = [];
   try {
-    const { data, error } = await supabase
-      .from('questions').select('*, books(title)').order('book_id').order('id');
-    if (!error && Array.isArray(data) && data.length > 0) {
-      qs = data;
+    for (const b of books) {
+      const bQs = await getQuestions(b.id);
+      bQs.forEach(q => {
+        qs.push({
+          ...q,
+          book_id: b.id,
+          books: { title: b.title }
+        });
+      });
     }
   } catch { /* ignore */ }
-
-  if (qs.length === 0 && localData.questions) {
-    Object.entries(localData.questions).forEach(([bid, list]) => {
-      if (Array.isArray(list)) {
-        list.forEach(q => {
-          const bTitle = books.find(b => String(b.id) === String(bid))?.title || `#${bid}`;
-          qs.push({
-            ...q,
-            book_id: parseInt(bid),
-            books: { title: bTitle }
-          });
-        });
-      }
-    });
-  }
 
   const bookOptions = books.map(b =>
     `<option value="${b.id}">${escapeHtml(b.title)}</option>`
@@ -791,11 +749,12 @@ function _bindQRowEvents(qs, bookOptions, allQs) {
   document.querySelectorAll('.del-q-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       if (!confirm(`Savol ID: ${btn.dataset.id} ni o'chirasizmi?`)) return;
-      const { error } = await supabase.from('questions').delete().eq('id', btn.dataset.id);
-      if (error) { showNotification(`Xato: ${error.message}`, 'error'); return; }
+      const res = await deleteQuestion(btn.dataset.id);
+      if (!res.success) { showNotification(`Xato: ${res.error}`, 'error'); return; }
       showNotification("Savol o'chirildi", 'success');
       const row = document.getElementById(`q-row-${btn.dataset.id}`);
       if (row && row.parentNode) row.parentNode.removeChild(row);
+      _loadQuickStats().catch(() => {});
     });
   });
 }
@@ -815,18 +774,19 @@ function _bindQuestionForm(existingId) {
       .filter(Boolean);
 
     const data = {
-      book_id:        parseInt(document.getElementById('qf-book')?.value),
+      book_id:        parseInt(document.getElementById('qf-book')?.value, 10) || document.getElementById('qf-book')?.value,
       question:       document.getElementById('qf-text')?.value.trim(),
       options:        opts,
       correct_answer: document.getElementById('qf-answer')?.value.trim(),
     };
 
     try {
-      const res = await _safeSaveData('questions', existingId, data);
-      if (!res.success) throw new Error(res.error);
+      const res = await saveQuestion(data, existingId || null);
+      if (!res.success) throw new Error(res.error || "Savol saqlanmadi");
 
       showNotification(existingId ? 'Savol yangilandi.' : "Savol qo'shildi.", 'success');
       await _loadTab('questions');
+      _loadQuickStats().catch(() => {});
     } catch (err) {
       showNotification(`Xato: ${err.message}`, 'error');
     } finally {

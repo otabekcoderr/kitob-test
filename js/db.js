@@ -78,19 +78,54 @@ async function runQuery(query) {
 }
 
 // ============================================================
-// KITOBLAR
+// KITOBLAR (HYBRID PERSISTENCE: SUPABASE + LOCALSTORAGE + DATA.JS)
 // ============================================================
 
+function _getLocalCustomBooks() {
+  try {
+    const raw = localStorage.getItem('kitobchi_books_store');
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function _getDeletedBookIds() {
+  try {
+    const raw = localStorage.getItem('kitobchi_deleted_books');
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function _getLocalCustomQuestions() {
+  try {
+    const raw = localStorage.getItem('kitobchi_custom_questions');
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function _getDeletedQuestionIds() {
+  try {
+    const raw = localStorage.getItem('kitobchi_deleted_questions');
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+export function clearDbCache() {
+  _booksCache = null;
+  _questionsCache.clear();
+}
+
 /**
- * Barcha kitoblarni qaytaradi (Kesh va tezkor fallback bilan).
+ * Barcha kitoblarni qaytaradi (Supabase + localStorage + data.js birlashmasi).
  *
+ * @param {boolean} [forceRefresh=false]
  * @returns {Promise<object[]>} — kitoblar massivi
  */
-export async function getBooks() {
-  if (_booksCache && _booksCache.length > 0) {
+export async function getBooks(forceRefresh = false) {
+  if (!forceRefresh && _booksCache && _booksCache.length > 0) {
     return _booksCache;
   }
 
+  let baseBooks = [];
   try {
     const { data, error } = await runQuery(
       supabase
@@ -100,15 +135,37 @@ export async function getBooks() {
     );
 
     if (!error && Array.isArray(data) && data.length > 0) {
-      _booksCache = data;
-      return data;
+      baseBooks = data;
     }
   } catch (err) {
     console.warn('[db] getBooks Supabase fallback:', err);
   }
 
-  // Supabase ishlamadi — localData fallback
-  _booksCache = localData.books ?? [];
+  if (baseBooks.length === 0) {
+    baseBooks = (localData.books ?? []).map(b => ({ ...b }));
+  }
+
+  const customBooks = _getLocalCustomBooks();
+  const deletedIds  = _getDeletedBookIds().map(String);
+
+  const bookMap = new Map();
+
+  baseBooks.forEach(b => {
+    const idStr = String(b.id);
+    if (!deletedIds.includes(idStr)) {
+      bookMap.set(idStr, { ...b });
+    }
+  });
+
+  customBooks.forEach(cb => {
+    const idStr = String(cb.id);
+    if (!deletedIds.includes(idStr)) {
+      const existing = bookMap.get(idStr) || {};
+      bookMap.set(idStr, { ...existing, ...cb });
+    }
+  });
+
+  _booksCache = Array.from(bookMap.values());
   return _booksCache;
 }
 
@@ -118,16 +175,6 @@ function _slugify(text) {
     .replace(/['`’"']/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
-}
-
-function _findLocalBook(bookId) {
-  const books = localData.books ?? [];
-  const strId = String(bookId);
-  return books.find(b =>
-    String(b.id) === strId ||
-    _slugify(b.title) === strId ||
-    (b.slug && _slugify(b.slug) === strId)
-  ) ?? null;
 }
 
 function _formatQuestion(q) {
@@ -158,28 +205,118 @@ function _formatQuestion(q) {
 export async function getBookById(bookId) {
   if (!bookId) return null;
 
-  const isNumeric = /^\d+$/.test(String(bookId));
+  const all = await getBooks();
+  const strId = String(bookId);
+  const slug  = _slugify(bookId);
 
-  if (isNumeric) {
-    try {
-      const { data, error } = await runQuery(
-        supabase
-          .from('books')
-          .select('*')
-          .eq('id', parseInt(bookId, 10))
-          .maybeSingle()
-      );
+  return all.find(b =>
+    String(b.id) === strId ||
+    _slugify(b.title) === strId ||
+    _slugify(b.title) === slug ||
+    (b.slug && (_slugify(b.slug) === strId || _slugify(b.slug) === slug))
+  ) ?? null;
+}
 
-      if (!error && data) return data;
-    } catch { /* ignore */ }
+/**
+ * Yangi kitob qo'shadi yoki mavjud kitobni yangilaydi (Supabase + localStorage).
+ */
+export async function saveBook(data, id = null) {
+  const isEdit = Boolean(id);
+  const targetId = id || (data.id || String(Date.now()));
+  const fullBook = {
+    id: targetId,
+    ...data,
+    cover_url:  data.cover_url || data.cover || '',
+    cover:      data.cover_url || data.cover || '',
+    coverImage: data.cover_url || data.cover || data.coverImage || '',
+    updated_at: new Date().toISOString(),
+  };
+
+  // 1. LocalStorage ga saqlash
+  const custom = _getLocalCustomBooks();
+  const idx = custom.findIndex(b => String(b.id) === String(targetId));
+  if (idx >= 0) {
+    custom[idx] = { ...custom[idx], ...fullBook };
+  } else {
+    custom.push(fullBook);
+  }
+  localStorage.setItem('kitobchi_books_store', JSON.stringify(custom));
+
+  const deleted = _getDeletedBookIds().filter(d => String(d) !== String(targetId));
+  localStorage.setItem('kitobchi_deleted_books', JSON.stringify(deleted));
+
+  // 2. Keshni tozalash
+  _booksCache = null;
+
+  // 3. Supabase ga saqlashga urinish
+  try {
+    const numericId = /^\d+$/.test(String(targetId)) ? parseInt(targetId, 10) : null;
+    const sbPayload = {
+      title:       data.title,
+      author:      data.author,
+      category:    data.category || '',
+      year:        data.year || null,
+      pages:       data.pages || null,
+      cover_url:   data.cover_url || data.cover || '',
+      description: data.description || '',
+    };
+
+    if (numericId !== null) {
+      if (isEdit) {
+        await supabase.from('books').update(sbPayload).eq('id', numericId);
+      } else {
+        await supabase.from('books').insert({ id: numericId, ...sbPayload });
+      }
+    } else {
+      if (isEdit) {
+        await supabase.from('books').update(sbPayload).eq('id', targetId);
+      } else {
+        await supabase.from('books').insert(sbPayload);
+      }
+    }
+  } catch (err) {
+    console.warn('[db] Supabase save book fallback to localStorage:', err);
   }
 
-  // Fallback yoki slug bilan qidirish
-  return _findLocalBook(bookId);
+  return { success: true, book: fullBook };
+}
+
+/**
+ * Kitobni o'chiradi (Supabase + localStorage).
+ */
+export async function deleteBook(id) {
+  const strId = String(id);
+
+  // 1. LocalStorage yangilash
+  const custom = _getLocalCustomBooks().filter(b => String(b.id) !== strId);
+  localStorage.setItem('kitobchi_books_store', JSON.stringify(custom));
+
+  const deleted = _getDeletedBookIds();
+  if (!deleted.includes(strId)) {
+    deleted.push(strId);
+    localStorage.setItem('kitobchi_deleted_books', JSON.stringify(deleted));
+  }
+
+  // 2. Keshni tozalash
+  _booksCache = null;
+
+  // 3. Supabase dan o'chirish
+  try {
+    const numericId = /^\d+$/.test(strId) ? parseInt(strId, 10) : null;
+    if (numericId !== null) {
+      await supabase.from('books').delete().eq('id', numericId);
+    } else {
+      await supabase.from('books').delete().eq('id', strId);
+    }
+  } catch (err) {
+    console.warn('[db] Supabase delete book fallback:', err);
+  }
+
+  return { success: true };
 }
 
 // ============================================================
-// SAVOLLAR
+// SAVOLLAR (HYBRID PERSISTENCE)
 // ============================================================
 
 /**
@@ -191,10 +328,11 @@ export async function getBookById(bookId) {
 export async function getQuestions(bookId) {
   if (!bookId) return [];
 
-  const book = _findLocalBook(bookId);
-  const targetId = book ? book.id : bookId;
-  const isNumeric = /^\d+$/.test(String(targetId));
+  const targetBook = await getBookById(bookId);
+  const targetId   = targetBook ? targetBook.id : bookId;
+  const isNumeric  = /^\d+$/.test(String(targetId));
 
+  let dbQuestions = [];
   if (isNumeric) {
     try {
       const { data, error } = await runQuery(
@@ -206,12 +344,11 @@ export async function getQuestions(bookId) {
       );
 
       if (!error && Array.isArray(data) && data.length > 0) {
-        return data.map(_formatQuestion).filter(Boolean);
+        dbQuestions = data.map(_formatQuestion).filter(Boolean);
       }
     } catch { /* ignore */ }
   }
 
-  // Fallback — data.js
   let localList = [];
   if (Array.isArray(localData.questions)) {
     localList = localData.questions;
@@ -225,18 +362,126 @@ export async function getQuestions(bookId) {
     }
   }
 
-  const targetSlug = _slugify(book ? book.title : bookId);
+  const targetSlug = _slugify(targetBook ? targetBook.title : bookId);
 
-  const matched = localList.filter(q => {
+  const staticMatched = localList.filter(q => {
     if (!q) return false;
     const qBookId = String(q.bookId || q.book_id || '');
     if (qBookId === String(bookId) || qBookId === String(targetId)) return true;
-    if (book && _slugify(qBookId) === _slugify(book.id)) return true;
-    if (book && _slugify(qBookId) === targetSlug) return true;
+    if (targetBook && _slugify(qBookId) === _slugify(targetBook.id)) return true;
+    if (targetBook && _slugify(qBookId) === targetSlug) return true;
     return false;
+  }).map(_formatQuestion).filter(Boolean);
+
+  const customQs = _getLocalCustomQuestions();
+  const deletedQIds = _getDeletedQuestionIds().map(String);
+
+  const qMap = new Map();
+
+  const baseList = dbQuestions.length > 0 ? dbQuestions : staticMatched;
+  baseList.forEach(q => {
+    const qId = String(q.id);
+    if (!deletedQIds.includes(qId)) {
+      qMap.set(qId, { ...q });
+    }
   });
 
-  return matched.map(_formatQuestion).filter(Boolean);
+  customQs.forEach(cq => {
+    const qBookId = String(cq.book_id || cq.bookId || '');
+    if (qBookId === String(bookId) || qBookId === String(targetId) || (targetBook && _slugify(qBookId) === targetSlug)) {
+      const qId = String(cq.id);
+      if (!deletedQIds.includes(qId)) {
+        const existing = qMap.get(qId) || {};
+        qMap.set(qId, { ...existing, ..._formatQuestion(cq) });
+      }
+    }
+  });
+
+  return Array.from(qMap.values());
+}
+
+/**
+ * Savol qo'shadi yoki tahrirlaydi (Supabase + localStorage).
+ */
+export async function saveQuestion(data, id = null) {
+  const isEdit = Boolean(id);
+  const targetId = id || (data.id || String(Date.now()));
+  const fullQ = {
+    id: targetId,
+    ...data,
+    updated_at: new Date().toISOString(),
+  };
+
+  const custom = _getLocalCustomQuestions();
+  const idx = custom.findIndex(q => String(q.id) === String(targetId));
+  if (idx >= 0) {
+    custom[idx] = { ...custom[idx], ...fullQ };
+  } else {
+    custom.push(fullQ);
+  }
+  localStorage.setItem('kitobchi_custom_questions', JSON.stringify(custom));
+
+  const deleted = _getDeletedQuestionIds().filter(d => String(d) !== String(targetId));
+  localStorage.setItem('kitobchi_deleted_questions', JSON.stringify(deleted));
+
+  // Supabase ga urinish
+  try {
+    const sbPayload = {
+      book_id:        parseInt(data.book_id, 10) || data.book_id,
+      question:       data.question,
+      options:        data.options,
+      correct_answer: data.correct_answer,
+      explanation:    data.explanation || '',
+    };
+
+    const numericId = /^\d+$/.test(String(targetId)) ? parseInt(targetId, 10) : null;
+    if (numericId !== null) {
+      if (isEdit) {
+        await supabase.from('questions').update(sbPayload).eq('id', numericId);
+      } else {
+        await supabase.from('questions').insert({ id: numericId, ...sbPayload });
+      }
+    } else {
+      if (isEdit) {
+        await supabase.from('questions').update(sbPayload).eq('id', targetId);
+      } else {
+        await supabase.from('questions').insert(sbPayload);
+      }
+    }
+  } catch (err) {
+    console.warn('[db] Supabase save question fallback:', err);
+  }
+
+  return { success: true, question: fullQ };
+}
+
+/**
+ * Savolni o'chiradi (Supabase + localStorage).
+ */
+export async function deleteQuestion(id) {
+  const strId = String(id);
+
+  const custom = _getLocalCustomQuestions().filter(q => String(q.id) !== strId);
+  localStorage.setItem('kitobchi_custom_questions', JSON.stringify(custom));
+
+  const deleted = _getDeletedQuestionIds();
+  if (!deleted.includes(strId)) {
+    deleted.push(strId);
+    localStorage.setItem('kitobchi_deleted_questions', JSON.stringify(deleted));
+  }
+
+  try {
+    const numericId = /^\d+$/.test(strId) ? parseInt(strId, 10) : null;
+    if (numericId !== null) {
+      await supabase.from('questions').delete().eq('id', numericId);
+    } else {
+      await supabase.from('questions').delete().eq('id', strId);
+    }
+  } catch (err) {
+    console.warn('[db] Supabase delete question fallback:', err);
+  }
+
+  return { success: true };
 }
 
 // ============================================================
