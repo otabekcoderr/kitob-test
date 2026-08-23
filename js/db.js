@@ -83,8 +83,15 @@ async function runQuery(query) {
 
 function _getLocalCustomBooks() {
   try {
-    const raw = localStorage.getItem('kitobchi_books_store');
-    return raw ? JSON.parse(raw) : [];
+    const raw = localStorage.getItem('kitobchi_books_store') ||
+                localStorage.getItem('custom_books') ||
+                localStorage.getItem('kitobchi_custom_books') ||
+                localStorage.getItem('books_store');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+    return [];
   } catch { return []; }
 }
 
@@ -97,8 +104,14 @@ function _getDeletedBookIds() {
 
 function _getLocalCustomQuestions() {
   try {
-    const raw = localStorage.getItem('kitobchi_custom_questions');
-    return raw ? JSON.parse(raw) : [];
+    const raw = localStorage.getItem('kitobchi_custom_questions') ||
+                localStorage.getItem('custom_questions') ||
+                localStorage.getItem('kitobchi_questions_store');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+    return [];
   } catch { return []; }
 }
 
@@ -115,7 +128,8 @@ export function clearDbCache() {
 }
 
 /**
- * Barcha kitoblarni qaytaradi (Supabase + localStorage + data.js birlashmasi).
+ * Barcha kitoblarni qaytaradi (data.js 52ta kitobi + Supabase + localStorage birlashmasi).
+ * Hech qanday kitob yoki tahrir yo'qolmaydi!
  *
  * @param {boolean} [forceRefresh=false]
  * @returns {Promise<object[]>} — kitoblar massivi
@@ -125,7 +139,28 @@ export async function getBooks(forceRefresh = false) {
     return _booksCache;
   }
 
-  let baseBooks = [];
+  const bookMap = new Map();
+  const deletedIds = _getDeletedBookIds().map(String);
+
+  // 1. Asosiy zaxira: data.js dagi barcha 52 ta kitobni yuklaymiz
+  (localData.books ?? []).forEach(b => {
+    if (!b || !b.id) return;
+    const idStr = String(b.id);
+    if (!deletedIds.includes(idStr)) {
+      const cover = b.cover_url || b.coverImage || b.cover || '';
+      bookMap.set(idStr, {
+        ...b,
+        id: idStr,
+        category: b.category || b.genre || 'Badiiy',
+        genre: b.genre || b.category || 'Badiiy',
+        cover_url: cover,
+        coverImage: cover,
+        cover: cover,
+      });
+    }
+  });
+
+  // 2. Supabase dan yangi yoki yangilangan kitoblarni birlashtiramiz
   try {
     const { data, error } = await runQuery(
       supabase
@@ -135,33 +170,47 @@ export async function getBooks(forceRefresh = false) {
     );
 
     if (!error && Array.isArray(data) && data.length > 0) {
-      baseBooks = data;
+      data.forEach(sb => {
+        if (!sb || !sb.id) return;
+        const idStr = String(sb.id);
+        if (!deletedIds.includes(idStr)) {
+          const existing = bookMap.get(idStr) || {};
+          const cover = sb.cover_url || sb.coverImage || sb.cover || existing.cover || '';
+          bookMap.set(idStr, {
+            ...existing,
+            ...sb,
+            id: idStr,
+            category: sb.category || sb.genre || existing.category || 'Badiiy',
+            genre: sb.genre || sb.category || existing.genre || 'Badiiy',
+            cover_url: cover,
+            coverImage: cover,
+            cover: cover,
+          });
+        }
+      });
     }
   } catch (err) {
     console.warn('[db] getBooks Supabase fallback:', err);
   }
 
-  if (baseBooks.length === 0) {
-    baseBooks = (localData.books ?? []).map(b => ({ ...b }));
-  }
-
+  // 3. Foydalanuvchi/Admin tomonidan kiritilgan yoki tahrirlangan kitoblarni ustiga yozamiz
   const customBooks = _getLocalCustomBooks();
-  const deletedIds  = _getDeletedBookIds().map(String);
-
-  const bookMap = new Map();
-
-  baseBooks.forEach(b => {
-    const idStr = String(b.id);
-    if (!deletedIds.includes(idStr)) {
-      bookMap.set(idStr, { ...b });
-    }
-  });
-
   customBooks.forEach(cb => {
+    if (!cb || !cb.id) return;
     const idStr = String(cb.id);
     if (!deletedIds.includes(idStr)) {
       const existing = bookMap.get(idStr) || {};
-      bookMap.set(idStr, { ...existing, ...cb });
+      const cover = cb.cover_url || cb.coverImage || cb.cover || existing.cover || '';
+      bookMap.set(idStr, {
+        ...existing,
+        ...cb,
+        id: idStr,
+        category: cb.category || cb.genre || existing.category || 'Badiiy',
+        genre: cb.genre || cb.category || existing.genre || 'Badiiy',
+        cover_url: cover,
+        coverImage: cover,
+        cover: cover,
+      });
     }
   });
 
@@ -222,19 +271,33 @@ export async function getBookById(bookId) {
  */
 export async function saveBook(data, id = null) {
   const isEdit = Boolean(id);
-  const targetId = id || (data.id || String(Date.now()));
+  const targetId = String(id || data.id || _slugify(data.title) || ('book-' + Date.now()));
+
+  // Mavjud kitob ma'lumotlarini olamiz
+  const existingBook = await getBookById(targetId);
+
+  const coverVal = data.cover_url || data.cover || data.coverImage || existingBook?.cover || '';
   const fullBook = {
-    id: targetId,
+    ...(existingBook || {}),
     ...data,
-    cover_url:  data.cover_url || data.cover || '',
-    cover:      data.cover_url || data.cover || '',
-    coverImage: data.cover_url || data.cover || data.coverImage || '',
+    id: targetId,
+    title: String(data.title || existingBook?.title || '').trim(),
+    author: String(data.author || existingBook?.author || '').trim(),
+    category: data.category || data.genre || existingBook?.category || 'Badiiy',
+    genre: data.genre || data.category || existingBook?.genre || 'Badiiy',
+    year: data.year ? parseInt(data.year, 10) : (existingBook?.year || null),
+    pages: data.pages ? parseInt(data.pages, 10) : (existingBook?.pages || null),
+    cover: coverVal,
+    cover_url: coverVal,
+    coverImage: coverVal,
+    description: String(data.description !== undefined ? data.description : (existingBook?.description || '')).trim(),
+    questionCount: data.questionCount || existingBook?.questionCount || 10,
     updated_at: new Date().toISOString(),
   };
 
-  // 1. LocalStorage ga saqlash
+  // 1. LocalStorage ga mustahkam saqlash
   const custom = _getLocalCustomBooks();
-  const idx = custom.findIndex(b => String(b.id) === String(targetId));
+  const idx = custom.findIndex(b => String(b.id) === targetId);
   if (idx >= 0) {
     custom[idx] = { ...custom[idx], ...fullBook };
   } else {
@@ -242,37 +305,32 @@ export async function saveBook(data, id = null) {
   }
   localStorage.setItem('kitobchi_books_store', JSON.stringify(custom));
 
-  const deleted = _getDeletedBookIds().filter(d => String(d) !== String(targetId));
+  const deleted = _getDeletedBookIds().filter(d => String(d) !== targetId);
   localStorage.setItem('kitobchi_deleted_books', JSON.stringify(deleted));
 
-  // 2. Keshni tozalash
+  // 2. Keshni tozalash va hodisa jo'natish
   _booksCache = null;
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('kitobchi_books_updated', { detail: fullBook }));
+  }
 
-  // 3. Supabase ga saqlashga urinish
+  // 3. Supabase ga saqlashga urinish (xatosiz fallback)
   try {
-    const numericId = /^\d+$/.test(String(targetId)) ? parseInt(targetId, 10) : null;
     const sbPayload = {
-      title:       data.title,
-      author:      data.author,
-      category:    data.category || '',
-      year:        data.year || null,
-      pages:       data.pages || null,
-      cover_url:   data.cover_url || data.cover || '',
-      description: data.description || '',
+      id:          targetId,
+      title:       fullBook.title,
+      author:      fullBook.author,
+      genre:       fullBook.genre,
+      year:        fullBook.year,
+      cover:       fullBook.cover,
+      coverImage:  fullBook.coverImage,
+      description: fullBook.description,
     };
 
-    if (numericId !== null) {
-      if (isEdit) {
-        await supabase.from('books').update(sbPayload).eq('id', numericId);
-      } else {
-        await supabase.from('books').insert({ id: numericId, ...sbPayload });
-      }
+    if (isEdit) {
+      await supabase.from('books').update(sbPayload).eq('id', targetId);
     } else {
-      if (isEdit) {
-        await supabase.from('books').update(sbPayload).eq('id', targetId);
-      } else {
-        await supabase.from('books').insert(sbPayload);
-      }
+      await supabase.from('books').insert(sbPayload);
     }
   } catch (err) {
     console.warn('[db] Supabase save book fallback to localStorage:', err);
@@ -297,8 +355,11 @@ export async function deleteBook(id) {
     localStorage.setItem('kitobchi_deleted_books', JSON.stringify(deleted));
   }
 
-  // 2. Keshni tozalash
+  // 2. Keshni tozalash va hodisa jo'natish
   _booksCache = null;
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('kitobchi_books_updated', { detail: { id: strId, deleted: true } }));
+  }
 
   // 3. Supabase dan o'chirish
   try {
@@ -329,25 +390,21 @@ export async function getQuestions(bookId) {
   if (!bookId) return [];
 
   const targetBook = await getBookById(bookId);
-  const targetId   = targetBook ? targetBook.id : bookId;
-  const isNumeric  = /^\d+$/.test(String(targetId));
+  const targetId   = targetBook ? String(targetBook.id) : String(bookId);
+  const targetSlug = _slugify(targetBook ? targetBook.title : bookId);
 
   let dbQuestions = [];
-  if (isNumeric) {
-    try {
-      const { data, error } = await runQuery(
-        supabase
-          .from('questions')
-          .select('*')
-          .eq('book_id', parseInt(targetId, 10))
-          .order('id', { ascending: true })
-      );
+  try {
+    const isNumeric = /^\d+$/.test(targetId);
+    const query = isNumeric
+      ? supabase.from('questions').select('*').eq('book_id', parseInt(targetId, 10))
+      : supabase.from('questions').select('*').or(`book_id.eq.${targetId},bookId.eq.${targetId}`);
 
-      if (!error && Array.isArray(data) && data.length > 0) {
-        dbQuestions = data.map(_formatQuestion).filter(Boolean);
-      }
-    } catch { /* ignore */ }
-  }
+    const { data, error } = await runQuery(query);
+    if (!error && Array.isArray(data) && data.length > 0) {
+      dbQuestions = data.map(_formatQuestion).filter(Boolean);
+    }
+  } catch { /* ignore */ }
 
   let localList = [];
   if (Array.isArray(localData.questions)) {
@@ -362,12 +419,10 @@ export async function getQuestions(bookId) {
     }
   }
 
-  const targetSlug = _slugify(targetBook ? targetBook.title : bookId);
-
   const staticMatched = localList.filter(q => {
     if (!q) return false;
     const qBookId = String(q.bookId || q.book_id || '');
-    if (qBookId === String(bookId) || qBookId === String(targetId)) return true;
+    if (qBookId === String(bookId) || qBookId === targetId) return true;
     if (targetBook && _slugify(qBookId) === _slugify(targetBook.id)) return true;
     if (targetBook && _slugify(qBookId) === targetSlug) return true;
     return false;
@@ -378,17 +433,27 @@ export async function getQuestions(bookId) {
 
   const qMap = new Map();
 
-  const baseList = dbQuestions.length > 0 ? dbQuestions : staticMatched;
-  baseList.forEach(q => {
+  // 1. Zaxira savollar
+  staticMatched.forEach(q => {
     const qId = String(q.id);
     if (!deletedQIds.includes(qId)) {
       qMap.set(qId, { ...q });
     }
   });
 
+  // 2. Supabase savollari
+  dbQuestions.forEach(q => {
+    const qId = String(q.id);
+    if (!deletedQIds.includes(qId)) {
+      const existing = qMap.get(qId) || {};
+      qMap.set(qId, { ...existing, ...q });
+    }
+  });
+
+  // 3. Custom / yangi savollar
   customQs.forEach(cq => {
     const qBookId = String(cq.book_id || cq.bookId || '');
-    if (qBookId === String(bookId) || qBookId === String(targetId) || (targetBook && _slugify(qBookId) === targetSlug)) {
+    if (qBookId === String(bookId) || qBookId === targetId || (targetBook && _slugify(qBookId) === targetSlug)) {
       const qId = String(cq.id);
       if (!deletedQIds.includes(qId)) {
         const existing = qMap.get(qId) || {};

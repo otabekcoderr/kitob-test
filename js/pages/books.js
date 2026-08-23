@@ -172,8 +172,11 @@ function _getFilteredBooks() {
   const difficulty = document.getElementById('books-difficulty')?.value || '';
 
   return _allBooks.filter(book => {
-    const matchCat  = activeTab === 'all' || book.category === activeTab;
-    const matchDiff = !difficulty || book.difficulty === difficulty || book.genre === difficulty;
+    const bookCat = (book.category || book.genre || 'Adabiyot').toLowerCase();
+    const matchCat = activeTab === 'all' || 
+                     bookCat.includes(activeTab.toLowerCase()) || 
+                     (activeTab === 'Adabiyot' && (bookCat.includes('roman') || bookCat.includes('qissa') || bookCat.includes('ertak') || bookCat.includes('doston')));
+    const matchDiff = !difficulty || book.difficulty === difficulty;
     const matchQ    = !query ||
       (book.title  || '').toLowerCase().includes(query) ||
       (book.author || '').toLowerCase().includes(query);
@@ -213,6 +216,16 @@ function _bindEvents() {
       _renderBooks(_getFilteredBooks());
     });
   });
+
+  // Jonli kitoblar yangilanishini tinglash
+  const onBooksUpdated = async () => {
+    try {
+      _allBooks = await getBooks(true);
+      _renderBooks(_getFilteredBooks());
+    } catch { /* ignore */ }
+  };
+  window.addEventListener('kitobchi_books_updated', onBooksUpdated);
+  _cleanup.push(() => window.removeEventListener('kitobchi_books_updated', onBooksUpdated));
 }
 
 function _skeletonBookCards(n) {

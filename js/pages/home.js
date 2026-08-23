@@ -123,8 +123,16 @@ export async function render(container, { params, user }) {
     // Kitoblar
     _renderBooks(booksList.slice(0, 6));
 
-    // Mini leaderboard
-    _renderLeaderboardMini(leaderList, user);
+    // Jonli kitoblar yangilanishini tinglash
+    const onBooksUpdated = async () => {
+      try {
+        const fresh = await getBooks(true);
+        _renderBooks(fresh.slice(0, 6));
+        _renderDailyChallenge(_getDailyChallenge(fresh));
+      } catch { /* ignore */ }
+    };
+    window.addEventListener('kitobchi_books_updated', onBooksUpdated);
+    _cleanup.push(() => window.removeEventListener('kitobchi_books_updated', onBooksUpdated));
 
   } catch (err) {
     console.error('[home] Yuklash xatosi:', err);
