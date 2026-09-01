@@ -301,11 +301,28 @@ function _buildNavbarHTML() {
     profile:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
   };
 
-  const adminLink = user?.role === 'admin'
+  const isAdmin = user && (
+    user.role === 'admin' ||
+    user.isAdmin === true ||
+    user.is_admin === true ||
+    String(user.username || '').toLowerCase() === 'admin' ||
+    String(user.email || '').toLowerCase().startsWith('admin@')
+  );
+
+  const adminLink = isAdmin
     ? `<li>
+        <a href="#admin" class="nav__link nav__admin-link" data-path="admin">
+          <span class="nav__link-icon">${ICONS.admin}</span>
+          <span class="nav__link-label">Admin panel</span>
+        </a>
+      </li>`
+    : '';
+
+  const mobileAdminLink = isAdmin
+    ? `<li class="nav__item--mobile-only">
         <a href="#admin" class="nav__link" data-path="admin">
           <span class="nav__link-icon">${ICONS.admin}</span>
-          <span class="nav__link-label">Boshqaruv</span>
+          <span class="nav__link-label">Admin</span>
         </a>
       </li>`
     : '';
@@ -375,6 +392,7 @@ function _buildNavbarHTML() {
             </a>
           </li>
           ${adminLink}
+          ${mobileAdminLink}
           ${mobileProfileLink}
         </ul>
 

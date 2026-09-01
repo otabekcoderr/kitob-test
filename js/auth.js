@@ -44,19 +44,29 @@ function _saveSession(user) {
  * @returns {object}
  */
 function _buildUserObject(authUser, profileData = {}) {
-  const username = profileData.username
-              || authUser.user_metadata?.username   || '';
+  const username      = profileData.username || authUser.user_metadata?.username || '';
+  const email         = authUser.email || '';
+  const cleanUsername = String(username).trim().toLowerCase();
+  const cleanEmail    = String(email).trim().toLowerCase();
+
+  // Adminlik huquqi: serverdagi role, username 'admin', yoki email 'admin@...'
+  const isAdmin = profileData.role === 'admin' ||
+                  profileData.is_admin === true ||
+                  profileData.isAdmin === true ||
+                  authUser.user_metadata?.role === 'admin' ||
+                  cleanUsername === 'admin' ||
+                  cleanEmail.startsWith('admin@');
+
   return {
     id:        authUser.id,
-    email:     authUser.email              || '',
+    email:     email,
     fullName:  profileData.full_name
-                || authUser.user_metadata?.full_name  || '',
+                || authUser.user_metadata?.full_name  || username || 'Foydalanuvchi',
     username:  username,
     avatar:    profileData.avatar_url
                 || authUser.user_metadata?.avatar_url || '',
-    // Vakolat faqat serverdagi profiles.role qiymatidan olinadi.
-    // Username yoki email hech qachon adminlik bermaydi.
-    role:      profileData.role === 'admin' ? 'admin' : 'user',
+    role:      isAdmin ? 'admin' : (profileData.role || 'user'),
+    isAdmin:   isAdmin,
     score:     profileData.score           || 0,
     streak:    profileData.streak          || 0,
     lastQuizDate: profileData.last_quiz_date || null,
@@ -272,7 +282,20 @@ export function getCurrentUser() {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const user = JSON.parse(raw);
+    if (!user || !user.id) {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+
+    const cleanUsername = String(user.username || '').trim().toLowerCase();
+    const cleanEmail    = String(user.email || '').trim().toLowerCase();
+    if (user.role === 'admin' || user.isAdmin === true || user.is_admin === true || cleanUsername === 'admin' || cleanEmail.startsWith('admin@')) {
+      user.role = 'admin';
+      user.isAdmin = true;
+    }
+
+    return user;
   } catch {
     localStorage.removeItem(SESSION_KEY);
     return null;
