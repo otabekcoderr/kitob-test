@@ -130,9 +130,20 @@ function _onQuestion({ question, index, total, timeLeft }) {
 
   _onTick(timeLeft);
 
-  // Savol matni
+  // Badge va savol matni
   const questionEl = document.getElementById('quiz-question');
-  if (questionEl) questionEl.textContent = question.question || question.text || '';
+  if (questionEl) {
+    const badges = ['🎯 Falsafiy tahlil', '🧠 Qahramon ruhiyati', '📖 Syujet va mantiq', '💡 Asar tagmatni'];
+    const badgeText = badges[index % badges.length];
+    questionEl.innerHTML = `
+      <div style="margin-bottom:12px;">
+        <span class="badge" style="font-size:0.75rem;padding:3px 10px;background:var(--ochre-light);color:var(--ochre);border:1px solid var(--ochre);font-weight:600;">
+          ${badgeText}
+        </span>
+      </div>
+      <span>${escapeHtml(question.question || question.text || '')}</span>
+    `;
+  }
 
   // Variantlar
   const optionsEl = document.getElementById('quiz-options');
@@ -200,11 +211,23 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
     }
   });
 
-  // Darhol izoh paneli
+  // Darhol boyitilgan izoh paneli
   const explanationEl = document.getElementById('quiz-explanation');
   if (explanationEl) {
-    const label = isCorrect ? "To'g'ri javob" : 'Javob izohi';
-    explanationEl.innerHTML = `<strong>${escapeHtml(label)}. </strong>${escapeHtml(explanation || "Keyingi savolda davom etamiz.")}`;
+    const titleText = isCorrect ? "To'g'ri javob! Chuqur tahlil:" : "Mantiqiy tahlil va izoh:";
+    explanationEl.innerHTML = `
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span style="font-size:1.3rem;line-height:1;flex-shrink:0;">💡</span>
+        <div style="flex:1;">
+          <div style="font-weight:700;color:var(--ink);margin-bottom:6px;font-size:0.9375rem;">
+            ${titleText}
+          </div>
+          <div style="font-size:0.875rem;line-height:1.65;color:var(--ink);">
+            ${escapeHtml(explanation || "Ushbu asar inson ruhiyati va hayotiy qonuniyatlarni chuqur mushohada qilishga undaydi.")}
+          </div>
+        </div>
+      </div>
+    `;
     explanationEl.hidden = false;
   }
 
@@ -212,10 +235,14 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
   const nextWrap = document.getElementById('quiz-next-wrap');
   if (nextWrap) {
     nextWrap.hidden = false;
-    document.getElementById('next-btn').onclick = () => {
-      nextWrap.hidden = true;
-      if (explanationEl) explanationEl.hidden = true;
-    };
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn) {
+      nextBtn.innerHTML = `Keyingi savolga o'tish →`;
+      nextBtn.onclick = () => {
+        nextWrap.hidden = true;
+        if (explanationEl) explanationEl.hidden = true;
+      };
+    }
   }
 }
 
