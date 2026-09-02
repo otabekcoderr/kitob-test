@@ -771,7 +771,6 @@ export async function getLeaderboard(limit = 50) {
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .order('score', { ascending: false })
       .limit(limit);
 
     if (!error && Array.isArray(data) && data.length > 0) {

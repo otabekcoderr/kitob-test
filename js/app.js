@@ -342,13 +342,25 @@ function _buildNavbarHTML() {
       </li>`;
 
   // Auth — profil yoki kirish/ro'yxat
+  let avatarHTML = '';
+  if (user) {
+    const avatarImgSrc = user.avatarImage || (user.avatar && (user.avatar.startsWith('http') || user.avatar.startsWith('data:image/') || user.avatar.startsWith('/')) ? user.avatar : null);
+    const avatarEmoji = (!avatarImgSrc && user.avatar) ? user.avatar : null;
+    const initial = (user.fullName || user.username || 'U')[0].toUpperCase();
+
+    if (avatarImgSrc) {
+      avatarHTML = `<img src="${escapeHtml(avatarImgSrc)}" alt="" class="nav__avatar-img" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    } else if (avatarEmoji) {
+      avatarHTML = `<span class="nav__avatar-emoji">${escapeHtml(avatarEmoji)}</span>`;
+    } else {
+      avatarHTML = `<span class="nav__avatar-placeholder">${escapeHtml(initial)}</span>`;
+    }
+  }
+
   const authSection = user
-    ? `<a href="#profile" class="nav__link nav__profile-link" data-path="profile">
+    ? `<a href="#profile" class="nav__link nav__profile-link" data-path="profile" title="Profil">
         <span class="nav__avatar" aria-hidden="true">
-          ${user.avatar
-              ? `<img src="${escapeHtml(user.avatar)}" alt="" class="nav__avatar-img">`
-              : `<span class="nav__avatar-placeholder">${escapeHtml(user.fullName?.[0] ?? 'U')}</span>`
-          }
+          ${avatarHTML}
         </span>
         <span class="nav__auth-name">${escapeHtml(user.fullName || user.username)}</span>
       </a>
@@ -581,19 +593,43 @@ async function _syncSession() {
       profile = data;
     } catch { /* ignore */ }
 
+    // Mavjud foydalanuvchi ma'lumotlarini o'qiymiz
+    const existingRaw = localStorage.getItem(SESSION_KEY);
+    let existingUser = null;
+    try {
+      if (existingRaw) existingUser = JSON.parse(existingRaw);
+    } catch { /* ignore */ }
+
+    let storedUser = null;
+    try {
+      const allRaw = localStorage.getItem('kitobchi_all_users');
+      if (allRaw) {
+        const all = JSON.parse(allRaw);
+        storedUser = all[session.user.id] || null;
+      }
+    } catch { /* ignore */ }
+
+    const cleanUsername = String(profile?.username || session.user.user_metadata?.username || existingUser?.username || '').trim().toLowerCase();
+    const cleanEmail = String(session.user.email || '').trim().toLowerCase();
+    const isAdmin = profile?.role === 'admin' || profile?.is_admin === true || cleanUsername === 'admin' || cleanEmail.startsWith('admin@');
+
     const userObj = {
-      id:          session.user.id,
-      email:       session.user.email        || '',
-      fullName:    profile?.full_name        || session.user.user_metadata?.full_name  || '',
-      username:    profile?.username         || session.user.user_metadata?.username   || '',
-      avatar:      profile?.avatar_url       || session.user.user_metadata?.avatar_url || '',
-      role:        profile?.role             || 'user',
-      score:       profile?.score            || 0,
-      streak:      profile?.streak           || 0,
-      lastQuizDate: profile?.last_quiz_date  || null,
+      id:           session.user.id,
+      email:        session.user.email        || '',
+      fullName:     profile?.full_name        || session.user.user_metadata?.full_name  || existingUser?.fullName || 'Foydalanuvchi',
+      username:     profile?.username         || session.user.user_metadata?.username   || existingUser?.username || '',
+      avatar:       existingUser?.avatar      || storedUser?.avatar || profile?.avatar_url || session.user.user_metadata?.avatar_url || '🎭',
+      avatarImage:  existingUser?.avatarImage !== undefined ? existingUser?.avatarImage : (storedUser?.avatarImage || null),
+      avatarCharId: existingUser?.avatarCharId !== undefined ? existingUser?.avatarCharId : (storedUser?.avatarCharId || null),
+      role:         isAdmin ? 'admin' : (profile?.role || existingUser?.role || 'user'),
+      isAdmin:      isAdmin,
+      score:        Math.max(existingUser?.score || 0, storedUser?.score || 0, profile?.score || 0),
+      streak:       Math.max(existingUser?.streak || 0, storedUser?.streak || 0, profile?.streak || 0),
+      lastQuizDate: existingUser?.lastQuizDate || storedUser?.lastQuizDate || profile?.last_quiz_date || null,
     };
 
     localStorage.setItem(SESSION_KEY, JSON.stringify(userObj));
+    _updateNavbar();
 
   } catch (err) {
     console.warn('[init] Sessiya sinxronlash xatosi:', err.message);
