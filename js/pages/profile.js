@@ -2,10 +2,12 @@
 // pages/profile.js — Profil va sozlamalar sahifasi (Editorial uslub)
 // ============================================================
 import { getCurrentUser, updateProfile, logout } from '../auth.js';
-import { getUserResults }                         from '../db.js';
+import { getUserResults, getCharacters }          from '../db.js';
 import { escapeHtml, showNotification,
          setButtonLoading }                       from '../utils.js';
+
 let _cleanup = [];
+let _allCharacters = [];
 
 export async function render(container, { params, user }) {
   if (!user) { window.navigate('login'); return; }
@@ -79,6 +81,10 @@ export async function render(container, { params, user }) {
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             Tahrirlash
           </button>
+          <button class="tab" data-tab="characters" role="tab" aria-selected="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
+            Personaj tanlash 🎭
+          </button>
           <button class="tab" data-tab="history" role="tab" aria-selected="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             Tarix
@@ -144,6 +150,23 @@ export async function render(container, { params, user }) {
           </div>
         </div>
 
+        <!-- Personaj tanlash paneli -->
+        <div id="tab-characters" class="profile-panel animate-slide-up" hidden>
+          <div class="card">
+            <div style="margin-bottom: 20px;">
+              <h2 class="card__title" style="margin-bottom: 4px;">Adabiy personajingizni tanlang</h2>
+              <p class="text-sm text-muted" style="margin:0;">O'zingizga yoqqan qahramonni tanlang — u sizning profilingizdagi bosh avatar timsoliga aylanadi.</p>
+            </div>
+
+            <div id="character-grid-container">
+              <div class="loading-state">
+                <div class="spinner spinner--sm"></div>
+                <span>Personajlar yuklanmoqda...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Tarix paneli -->
         <div id="tab-history" class="profile-panel" hidden>
           <div class="card">
@@ -160,6 +183,12 @@ export async function render(container, { params, user }) {
       </div>
     </div>
   `;
+
+  _addStyles();
+  _bindEvents(user);
+  _loadCharacters(user);
+  _loadHistory(user);
+}
 
   _addStyles();
   _bindEvents(user);
@@ -180,8 +209,9 @@ function _bindEvents(user) {
       t.setAttribute('aria-selected', String(t === btn));
     });
 
-    document.getElementById('tab-edit').hidden    = (tab !== 'edit');
-    document.getElementById('tab-history').hidden = (tab !== 'history');
+    document.getElementById('tab-edit').hidden       = (tab !== 'edit');
+    document.getElementById('tab-characters').hidden = (tab !== 'characters');
+    document.getElementById('tab-history').hidden    = (tab !== 'history');
   };
   tabsEl?.addEventListener('click', onTabClick);
   _cleanup.push(() => tabsEl?.removeEventListener('click', onTabClick));
@@ -281,6 +311,91 @@ function _bindEvents(user) {
   _cleanup.push(() => logoutBtn?.removeEventListener('click', onLogout));
 }
 
+// ---- CHARACTERS ----
+async function _loadCharacters(user) {
+  const container = document.getElementById('character-grid-container');
+  if (!container) return;
+
+  try {
+    _allCharacters = await getCharacters();
+    _renderCharacterGrid(user);
+  } catch (err) {
+    console.error('[profile] loadCharacters xatosi:', err);
+    container.innerHTML = `<p class="text-muted text-sm">Personajlarni yuklab bo'lmadi.</p>`;
+  }
+}
+
+function _renderCharacterGrid(user) {
+  const container = document.getElementById('character-grid-container');
+  if (!container) return;
+
+  const curCharId = user.avatarCharId || null;
+
+  if (!_allCharacters || _allCharacters.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p class="empty-state__title">Hozircha personajlar mavjud emas</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="character-grid">
+      ${_allCharacters.map(char => {
+        const isSelected = String(char.id) === String(curCharId) ||
+          (user.avatar && user.avatar === char.avatar && !curCharId && !user.avatarImage);
+        return `
+          <div class="character-card ${isSelected ? 'selected' : ''}" data-char-id="${escapeHtml(char.id)}">
+            <div class="character-avatar">
+              ${char.avatarImage
+                ? `<img src="${escapeHtml(char.avatarImage)}" alt="${escapeHtml(char.name)}" class="character-avatar-img">`
+                : `<span class="character-avatar-emoji">${escapeHtml(char.avatar || '🎭')}</span>`
+              }
+            </div>
+            <div class="character-name">${escapeHtml(char.name)}</div>
+            <div class="character-book">${escapeHtml(char.bookTitle || '')}</div>
+            ${isSelected ? `<div class="character-selected-badge">✓ Tanlangan</div>` : ''}
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  // Click handler
+  container.querySelectorAll('.character-card').forEach(card => {
+    card.addEventListener('click', async () => {
+      const charId = card.dataset.charId;
+      await _selectCharacter(charId);
+    });
+  });
+}
+
+async function _selectCharacter(charId) {
+  const char = _allCharacters.find(c => String(c.id) === String(charId));
+  if (!char) return;
+
+  try {
+    const res = await updateProfile({
+      avatar: char.avatar || '🎭',
+      avatarImage: char.avatarImage || null,
+      avatarCharId: char.id,
+    });
+
+    if (res.success) {
+      showNotification(`${char.name} personaji tanlandi! 🎭`, 'success');
+      const avatarDisp = document.getElementById('avatar-display');
+      if (avatarDisp) avatarDisp.innerHTML = _avatarHTML(res.user);
+      _renderCharacterGrid(res.user);
+      window.dispatchEvent(new CustomEvent('kitobchi_profile_updated', { detail: res.user }));
+    } else {
+      showNotification(res.error || 'Xatolik yuz berdi', 'error');
+    }
+  } catch (err) {
+    showNotification(`Xato: ${err.message}`, 'error');
+  }
+}
+
 // ---- HISTORY ----
 async function _loadHistory(user) {
   try {
@@ -362,8 +477,15 @@ function _renderHistory(results) {
 
 // ---- AVATAR HTML ----
 function _avatarHTML(user) {
+  if (user.avatarImage) {
+    return `<img src="${escapeHtml(user.avatarImage)}" alt="${escapeHtml(user.fullName || '')}" class="profile-hero__avatar-img">`;
+  }
   if (user.avatar) {
-    return `<img src="${escapeHtml(user.avatar)}" alt="${escapeHtml(user.fullName || '')}" class="profile-hero__avatar-img">`;
+    if (user.avatar.startsWith('http://') || user.avatar.startsWith('https://') || user.avatar.startsWith('data:image/')) {
+      return `<img src="${escapeHtml(user.avatar)}" alt="${escapeHtml(user.fullName || '')}" class="profile-hero__avatar-img">`;
+    }
+    // emoji avatar
+    return `<span class="profile-hero__avatar-letter" style="font-size: 2.2rem; display:flex; align-items:center; justify-content:center;">${escapeHtml(user.avatar)}</span>`;
   }
   const initial = (user.fullName || user.username || 'U')[0].toUpperCase();
   return `<span class="profile-hero__avatar-letter">${escapeHtml(initial)}</span>`;
@@ -403,6 +525,76 @@ function _addStyles() {
     /* Tabs */
     .profile-tabs { margin-bottom: 24px; }
     .profile-tabs .tab { display: inline-flex; align-items: center; gap: 6px; }
+
+    /* Character grid */
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .character-card {
+      cursor: pointer;
+      border: 2px solid var(--border-color, var(--divider, #e2e8f0));
+      border-radius: var(--radius-md, 12px);
+      padding: 14px 12px;
+      text-align: center;
+      background: var(--surface, var(--bg-primary, #fff));
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .character-card:hover {
+      border-color: var(--color-primary, var(--ochre, #6366f1));
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .character-card.selected {
+      border-color: var(--color-primary, var(--ochre, #6366f1));
+      background: rgba(99, 102, 241, 0.08);
+      box-shadow: 0 0 0 1px var(--color-primary, var(--ochre, #6366f1));
+    }
+    .character-avatar {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .character-avatar-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto;
+      border: 1.5px solid var(--divider, #e2e8f0);
+    }
+    .character-avatar-emoji {
+      font-size: 2.5rem;
+      line-height: 1;
+      display: block;
+    }
+    .character-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--ink, var(--text-primary, #1e293b));
+      margin-bottom: 2px;
+    }
+    .character-book {
+      font-size: 0.75rem;
+      color: var(--ink-muted, var(--text-muted, #64748b));
+    }
+    .character-selected-badge {
+      color: var(--color-success, #10b981);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
 
     /* Avatar preview */
     .pf-avatar-preview {
@@ -445,6 +637,12 @@ function _addStyles() {
       .profile-logout { margin: 8px auto 0; width: 100%; }
       .profile-form-actions { flex-direction: column; }
       .profile-form-actions .btn { width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   `;
   document.head.appendChild(style);

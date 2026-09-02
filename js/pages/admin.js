@@ -9,7 +9,9 @@ import { getCurrentUser }        from '../auth.js';
 import { getBooks, saveBook,
          deleteBook, getQuestions,
          saveQuestion,
-         deleteQuestion }        from '../db.js';
+         deleteQuestion,
+         getCharacters, saveCharacter,
+         deleteCharacter }        from '../db.js';
 import { escapeHtml,
          showNotification,
          setButtonLoading,
@@ -1011,23 +1013,9 @@ async function _renderComments(panel) {
 async function _renderCharacters(panel) {
   let chars = [];
   try {
-    const { data, error } = await supabase
-      .from('characters')
-      .select('*, books(title)')
-      .order('book_id');
-    if (!error && Array.isArray(data) && data.length > 0) {
-      chars = data;
-    }
-  } catch { /* ignore */ }
-
-  if (chars.length === 0 && localData.characters) {
-    chars = (localData.characters || []).map(c => ({
-      id: c.id,
-      name: c.name,
-      book_id: c.bookId || c.book_id || '',
-      books: { title: c.bookTitle || '' },
-      description: c.description || '',
-    }));
+    chars = await getCharacters();
+  } catch {
+    chars = localData.characters || [];
   }
 
   let books = [];
@@ -1055,14 +1043,20 @@ async function _renderCharacters(panel) {
       <div class="admin-table-wrap">
         <table class="admin-table" aria-label="Personajlar">
           <thead>
-            <tr><th>ID</th><th>Ism</th><th>Kitob</th><th>Ta'rif</th><th>Amallar</th></tr>
+            <tr><th>ID</th><th>Avatar / Rasm</th><th>Ism</th><th>Kitob</th><th>Ta'rif</th><th>Amallar</th></tr>
           </thead>
           <tbody id="chars-tbody">
             ${chars.map(c => `
               <tr id="char-row-${c.id}">
                 <td>${c.id}</td>
+                <td>
+                  ${c.avatarImage
+                    ? `<img src="${escapeHtml(c.avatarImage)}" alt="${escapeHtml(c.name || '')}" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1.5px solid var(--border-color);">`
+                    : `<span style="font-size:1.6rem; display:inline-block;">${escapeHtml(c.avatar || '🎭')}</span>`
+                  }
+                </td>
                 <td><strong>${escapeHtml(c.name || '')}</strong></td>
-                <td><span class="badge">${escapeHtml(c.books?.title || c.book_id || '')}</span></td>
+                <td><span class="badge">${escapeHtml(c.bookTitle || c.books?.title || c.book_id || '')}</span></td>
                 <td class="admin-q-text">${escapeHtml(truncate(c.description || '', 60))}</td>
                 <td class="admin-actions">
                   <button class="btn btn-ghost btn-sm edit-char-btn" data-id="${c.id}">Tahrir</button>
@@ -1082,10 +1076,10 @@ async function _renderCharacters(panel) {
     wrap.innerHTML = _charFormHTML({}, bookOptions);
     wrap.hidden = false;
     wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    _bindCharForm(null);
+    _bindCharForm(null, chars);
   });
 
-  // Tahrirlash / o'chirish
+  // Tahrirlash
   document.querySelectorAll('.edit-char-btn').forEach(btn => {
     const c = (chars || []).find(x => String(x.id) === btn.dataset.id);
     if (!c) return;
@@ -1093,20 +1087,24 @@ async function _renderCharacters(panel) {
       const wrap = document.getElementById('char-form-wrap');
       wrap.innerHTML = _charFormHTML(c, bookOptions);
       const sel = document.getElementById('chf-book');
-      if (sel) sel.value = String(c.book_id || '');
+      if (sel) sel.value = String(c.book_id || c.bookId || '');
       wrap.hidden = false;
       wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      _bindCharForm(c.id);
+      _bindCharForm(c.id, chars);
     });
   });
 
+  // O'chirish
   document.querySelectorAll('.del-char-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       if (!confirm('Personajni o\'chirasizmi?')) return;
-      const { error: e } = await supabase.from('characters').delete().eq('id', btn.dataset.id);
-      if (e) { showNotification(`Xato: ${e.message}`, 'error'); return; }
-      showNotification("Personaj o'chirildi", 'success');
-      document.getElementById(`char-row-${btn.dataset.id}`)?.remove();
+      try {
+        await deleteCharacter(btn.dataset.id);
+        showNotification("Personaj o'chirildi", 'success');
+        document.getElementById(`char-row-${btn.dataset.id}`)?.remove();
+      } catch (e) {
+        showNotification(`Xato: ${e.message}`, 'error');
+      }
     });
   });
 }
@@ -1114,26 +1112,55 @@ async function _renderCharacters(panel) {
 function _charFormHTML(c = {}, bookOptions = '') {
   return `
     <form id="char-form" class="admin-form card">
-      <h3 class="admin-form__title">${c.id ? 'Personajni tahrirlash' : "Yangi personaj"}</h3>
+      <h3 class="admin-form__title">${c.id ? 'Personajni tahrirlash' : "Yangi personaj qo'shish"}</h3>
       <input type="hidden" id="chf-id" value="${c.id || ''}">
+      
       <div class="admin-form__grid">
         <div class="input-group">
           <label for="chf-name">Ism *</label>
           <input id="chf-name" class="input" type="text" maxlength="100"
-                 value="${escapeHtml(c.name||'')}" required>
+                 value="${escapeHtml(c.name||'')}" placeholder="Masalan: Otabek" required>
         </div>
         <div class="input-group">
-          <label for="chf-book">Kitob *</label>
+          <label for="chf-book">Tegishli Kitob *</label>
           <select id="chf-book" class="input" required>
             <option value="">— Kitobni tanlang —</option>
             ${bookOptions}
           </select>
         </div>
+        <div class="input-group">
+          <label for="chf-avatar">Emoji Avatar (ixtiyoriy)</label>
+          <input id="chf-avatar" class="input" type="text" maxlength="10"
+                 value="${escapeHtml(c.avatar || '🎭')}" placeholder="🎭">
+        </div>
       </div>
-      <div class="input-group">
-        <label for="chf-desc">Ta'rif</label>
-        <textarea id="chf-desc" class="input" rows="3" maxlength="500">${escapeHtml(c.description||'')}</textarea>
+
+      <!-- Rasm yuklash (File input & preview) -->
+      <div class="input-group" style="margin-top:12px;">
+        <label>Personaj rasmi (ixtiyoriy)</label>
+        
+        <!-- Preview -->
+        <div id="char-img-preview" style="${c.avatarImage ? 'display:block;' : 'display:none;'} margin-bottom: 8px;">
+          <img id="char-img-preview-img" src="${escapeHtml(c.avatarImage || '')}"
+               style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid var(--border-color);">
+        </div>
+        
+        <!-- File input -->
+        <input type="file" 
+               id="char-avatar-file" 
+               class="input" 
+               accept="image/jpeg,image/png,image/webp,image/gif">
+        
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+          JPEG, PNG, WEBP, GIF — max 2MB
+        </p>
       </div>
+
+      <div class="input-group" style="margin-top:12px;">
+        <label for="chf-desc">Ta'rif va xarakter</label>
+        <textarea id="chf-desc" class="input" rows="3" maxlength="500" placeholder="Personaj haqida qisqacha ta'rif...">${escapeHtml(c.description||'')}</textarea>
+      </div>
+
       <div class="admin-form__actions">
         <button type="submit" id="chf-save" class="btn btn-primary">${c.id ? 'Saqlash' : "Qo'shish"}</button>
         <button type="button" id="chf-cancel" class="btn btn-ghost">Bekor qilish</button>
@@ -1142,9 +1169,39 @@ function _charFormHTML(c = {}, bookOptions = '') {
   `;
 }
 
-function _bindCharForm(existingId) {
+function _bindCharForm(existingId, chars = []) {
   document.getElementById('chf-cancel')?.addEventListener('click', () => {
     document.getElementById('char-form-wrap').hidden = true;
+  });
+
+  const fileInput = document.getElementById('char-avatar-file');
+  fileInput?.addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowed.includes(file.type)) {
+      showNotification('Faqat JPEG, PNG, WEBP yoki GIF ruxsat etiladi', 'error');
+      this.value = '';
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      showNotification('Rasm hajmi 2MB dan oshmasligi kerak', 'error');
+      this.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const preview = document.getElementById('char-img-preview');
+      const img = document.getElementById('char-img-preview-img');
+      if (preview && img) {
+        img.src = e.target.result;
+        preview.style.display = 'block';
+      }
+    };
+    reader.readAsDataURL(file);
   });
 
   document.getElementById('char-form')?.addEventListener('submit', async (e) => {
@@ -1153,18 +1210,32 @@ function _bindCharForm(existingId) {
     setButtonLoading(saveBtn, true);
 
     const bookVal = document.getElementById('chf-book')?.value;
-    const data = {
+    const existingObj = existingId ? chars.find(x => String(x.id) === String(existingId)) : null;
+    let avatarImage = existingObj?.avatarImage || null;
+
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+      try {
+        avatarImage = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (ev) => resolve(ev.target.result);
+          reader.onerror = (err) => reject(err);
+          reader.readAsDataURL(fileInput.files[0]);
+        });
+      } catch (err) {
+        console.warn('Base64 convert error:', err);
+      }
+    }
+
+    const payload = {
       name:        document.getElementById('chf-name')?.value.trim(),
       book_id:     /^\d+$/.test(bookVal) ? parseInt(bookVal, 10) : bookVal,
+      avatar:      document.getElementById('chf-avatar')?.value.trim() || '🎭',
+      avatarImage: avatarImage,
       description: document.getElementById('chf-desc')?.value.trim(),
     };
 
     try {
-      if (existingId) {
-        await supabase.from('characters').update(data).eq('id', existingId).catch(() => {});
-      } else {
-        await supabase.from('characters').insert({ id: 'char-' + Date.now(), ...data }).catch(() => {});
-      }
+      await saveCharacter(payload, existingId);
       showNotification(existingId ? 'Personaj yangilandi.' : "Personaj qo'shildi.", 'success');
       await _loadTab('characters');
     } catch (err) {

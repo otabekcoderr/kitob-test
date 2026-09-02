@@ -65,6 +65,8 @@ function _buildUserObject(authUser, profileData = {}) {
     username:  username,
     avatar:    profileData.avatar_url
                 || authUser.user_metadata?.avatar_url || '',
+    avatarImage: profileData.avatar_image || authUser.user_metadata?.avatar_image || null,
+    avatarCharId: profileData.avatar_char_id || authUser.user_metadata?.avatar_char_id || null,
     role:      isAdmin ? 'admin' : (profileData.role || 'user'),
     isAdmin:   isAdmin,
     score:     profileData.score           || 0,
@@ -362,6 +364,8 @@ export async function updateProfile(updates) {
     const dbUpdates = {};
     if (updates.fullName     !== undefined) dbUpdates.full_name       = updates.fullName;
     if (updates.avatar       !== undefined) dbUpdates.avatar_url      = updates.avatar;
+    if (updates.avatarImage  !== undefined) dbUpdates.avatar_image    = updates.avatarImage;
+    if (updates.avatarCharId !== undefined) dbUpdates.avatar_char_id  = updates.avatarCharId;
     if (updates.score        !== undefined) dbUpdates.score           = updates.score;
     if (updates.streak       !== undefined) dbUpdates.streak          = updates.streak;
     if (updates.lastQuizDate !== undefined) dbUpdates.last_quiz_date  = updates.lastQuizDate;
@@ -370,14 +374,14 @@ export async function updateProfile(updates) {
       return { success: false, error: 'Yangilanadigan ma\'lumot yo\'q.' };
     }
 
-    // profiles jadvalini yangilash
-    const { error: dbError } = await supabase
-      .from('profiles')
-      .update(dbUpdates)
-      .eq('id', currentUser.id);
-
-    if (dbError) {
-      return { success: false, error: uzbekifyError(dbError) };
+    // profiles jadvalini yangilash (xatolik bo'lsa ham localStorage saqlanadi)
+    try {
+      await supabase
+        .from('profiles')
+        .update(dbUpdates)
+        .eq('id', currentUser.id);
+    } catch (err) {
+      console.warn('[auth] profiles update Supabase fallback:', err);
     }
 
     // localStorage dagi sessiyani yangilash
@@ -385,6 +389,8 @@ export async function updateProfile(updates) {
       ...currentUser,
       fullName:     updates.fullName     ?? currentUser.fullName,
       avatar:       updates.avatar       ?? currentUser.avatar,
+      avatarImage:  updates.avatarImage  !== undefined ? updates.avatarImage : currentUser.avatarImage,
+      avatarCharId: updates.avatarCharId !== undefined ? updates.avatarCharId : currentUser.avatarCharId,
       score:        updates.score        ?? currentUser.score,
       streak:       updates.streak       ?? currentUser.streak,
       lastQuizDate: updates.lastQuizDate ?? currentUser.lastQuizDate,

@@ -886,3 +886,133 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     return { success: false, newStreak: 0, newScore: 0, error: err.message };
   }
 }
+
+// ============================================================
+// PERSONAJLAR (CHARACTERS CRUD)
+// ============================================================
+
+/**
+ * Barcha personajlarni qaytaradi (Supabase + localData + localStorage).
+ * @returns {Promise<object[]>}
+ */
+export async function getCharacters() {
+  let list = [];
+
+  // 1. Supabase dan olish
+  try {
+    const { data, error } = await runQuery(
+      supabase.from('characters').select('*, books(title)').order('created_at', { ascending: false })
+    );
+    if (!error && Array.isArray(data) && data.length > 0) {
+      list = data.map(c => ({
+        id: c.id,
+        name: c.name,
+        book_id: c.book_id ?? c.bookId,
+        bookTitle: c.books?.title ?? c.bookTitle ?? '',
+        avatar: c.avatar || '🎭',
+        avatarImage: c.avatarImage || c.avatar_image || c.image || null,
+        color: c.color || 'var(--color-primary)',
+        description: c.description || '',
+      }));
+    }
+  } catch { /* ignore */ }
+
+  // 2. localData zaxirasi
+  const staticChars = (localData.characters || []).map(c => ({
+    id: c.id,
+    name: c.name,
+    book_id: c.bookId ?? c.book_id ?? '',
+    bookTitle: c.bookTitle ?? '',
+    avatar: c.avatar || '🎭',
+    avatarImage: c.avatarImage || c.image || null,
+    color: c.color || 'var(--color-primary)',
+    description: c.description || '',
+  }));
+
+  // 3. LocalStorage dan olish
+  let customChars = [];
+  try {
+    const raw = localStorage.getItem('kitobchi_custom_characters');
+    if (raw) customChars = JSON.parse(raw);
+  } catch { /* ignore */ }
+
+  // Birlashtirish
+  const charMap = new Map();
+  staticChars.forEach(c => charMap.set(String(c.id), c));
+  list.forEach(c => charMap.set(String(c.id), { ...(charMap.get(String(c.id)) || {}), ...c }));
+  customChars.forEach(c => charMap.set(String(c.id), { ...(charMap.get(String(c.id)) || {}), ...c }));
+
+  return Array.from(charMap.values());
+}
+
+/**
+ * Personaj qo'shadi yoki yangilaydi (Supabase + localStorage).
+ */
+export async function saveCharacter(data, id = null) {
+  const targetId = id || data.id || ('char-' + Date.now());
+  const fullChar = {
+    ...data,
+    id: targetId,
+    avatar: data.avatar || '🎭',
+    avatarImage: data.avatarImage || null,
+    updated_at: new Date().toISOString(),
+  };
+
+  // LocalStorage
+  let custom = [];
+  try {
+    const raw = localStorage.getItem('kitobchi_custom_characters');
+    if (raw) custom = JSON.parse(raw);
+  } catch { /* ignore */ }
+
+  const idx = custom.findIndex(c => String(c.id) === String(targetId));
+  if (idx >= 0) {
+    custom[idx] = { ...custom[idx], ...fullChar };
+  } else {
+    custom.unshift(fullChar);
+  }
+  localStorage.setItem('kitobchi_custom_characters', JSON.stringify(custom));
+
+  // Supabase
+  try {
+    const sbPayload = {
+      id: targetId,
+      name: fullChar.name,
+      book_id: fullChar.book_id,
+      description: fullChar.description || '',
+      avatar: fullChar.avatar || '🎭',
+      avatar_image: fullChar.avatarImage || null,
+    };
+    if (id) {
+      await supabase.from('characters').update(sbPayload).eq('id', targetId);
+    } else {
+      await supabase.from('characters').insert(sbPayload);
+    }
+  } catch (err) {
+    console.warn('[db] saveCharacter Supabase fallback:', err);
+  }
+
+  return { success: true, character: fullChar };
+}
+
+/**
+ * Personajni o'chiradi.
+ */
+export async function deleteCharacter(id) {
+  const strId = String(id);
+  let custom = [];
+  try {
+    const raw = localStorage.getItem('kitobchi_custom_characters');
+    if (raw) custom = JSON.parse(raw);
+  } catch { /* ignore */ }
+  custom = custom.filter(c => String(c.id) !== strId);
+  localStorage.setItem('kitobchi_custom_characters', JSON.stringify(custom));
+
+  try {
+    await supabase.from('characters').delete().eq('id', strId);
+  } catch (err) {
+    console.warn('[db] deleteCharacter Supabase fallback:', err);
+  }
+
+  return { success: true };
+}

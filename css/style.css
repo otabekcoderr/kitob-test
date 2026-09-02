@@ -1973,3 +1973,91 @@ h1, h2, h3, h4, h5, h6 {
   .daily-challenge { flex-direction: column; align-items: flex-start; }
   .podium { gap: 8px; }
 }
+
+/* ============================================================
+   PERSONAJLAR (CHARACTER GRID & CARDS)
+   ============================================================ */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.character-card {
+  cursor: pointer;
+  border: 2px solid var(--border-color, var(--divider, #e2e8f0));
+  border-radius: var(--radius-md, 12px);
+  padding: 14px 12px;
+  text-align: center;
+  background: var(--surface, var(--bg-primary, #fff));
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.character-card:hover {
+  border-color: var(--color-primary, var(--ochre, #6366f1));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.character-card.selected {
+  border-color: var(--color-primary, var(--ochre, #6366f1));
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: 0 0 0 1px var(--color-primary, var(--ochre, #6366f1));
+}
+
+.character-avatar {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-avatar-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  border: 1.5px solid var(--divider, #e2e8f0);
+}
+
+.character-avatar-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+  display: block;
+}
+
+.character-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink, var(--text-primary, #1e293b));
+  margin-bottom: 2px;
+}
+
+.character-book {
+  font-size: 0.75rem;
+  color: var(--ink-muted, var(--text-muted, #64748b));
+}
+
+.character-selected-badge {
+  color: var(--color-success, #10b981);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 480px) {
+  .character-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
