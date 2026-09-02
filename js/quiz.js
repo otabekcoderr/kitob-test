@@ -270,6 +270,32 @@ async function _finishQuiz(forceZero = false) {
 // ============================================================
 
 /**
+ * Savol variantlarini tasodifiy aralashtiradi va correctAnswer indeksini moslashtiradi.
+ * @param {object} question
+ * @returns {object}
+ */
+export function shuffleOptions(question) {
+  if (!question || !Array.isArray(question.options)) return question;
+
+  const originalOptions = [...question.options];
+  let correctText = question.correct_answer ?? question.correctAnswer;
+  if (typeof correctText === 'number' && originalOptions[correctText] !== undefined) {
+    correctText = originalOptions[correctText];
+  }
+
+  // Variantlarni aralashtiramiz
+  const shuffled = shuffle(originalOptions);
+  const newCorrectIndex = shuffled.indexOf(correctText);
+
+  return {
+    ...question,
+    options: shuffled,
+    correct_answer: String(correctText ?? ''),
+    correctAnswer: newCorrectIndex >= 0 ? newCorrectIndex : 0,
+  };
+}
+
+/**
  * Yangi test sessiyasini boshlaydi.
  *
  * @param {object}   config
@@ -304,7 +330,7 @@ export async function startQuiz(config, callbacks = {}) {
   });
 
   try {
-    // Savollarni yuklash
+    // 1. Savollarni yuklash
     const raw = await getQuestions(bookId);
 
     if (!raw || raw.length === 0) {
@@ -314,22 +340,17 @@ export async function startQuiz(config, callbacks = {}) {
       return;
     }
 
-    // Savollarni va ularning har birining variantlarini dinamik aralashtirish
-    state.questions = shuffle(raw).map(q => {
-      const opts = Array.isArray(q.options) ? [...q.options] : [];
-      return {
-        ...q,
-        options: shuffle(opts),
-      };
-    });
+    // 2. Savollarni aralashtirish va har birining variantlarini mustaqil shuffle qilish
+    const shuffledQuestions = shuffle([...raw]);
+    state.questions = shuffledQuestions.map(shuffleOptions);
     state.isRunning = true;
 
-    // Anti-cheat yoqish
+    // 3. Anti-cheat yoqish
     _enableAntiCheat();
 
     if (typeof onReady === 'function') onReady(state.questions);
 
-    // Birinchi savol
+    // 4. Birinchi savolni ko'rsatish
     _showQuestion(callbacks);
 
   } catch (err) {

@@ -12,7 +12,7 @@ export const books = [
     "coverTitleColor": "#F8FAFC",
     "coverImage": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
     "description": "O'zbek adabiyotidagi birinchi roman. Qo'qon xonligi davridagi ijtimoiy-siyosiy nizo, ichki parokandalik hamda Otabek va Kumushbibining pok muhabbat fojiasi yuksak mahorat bilan tasvirlangan.",
-    "questionCount": 10
+    "questionCount": 7
   },
   {
     "id": "mehrobdan-chayon",
@@ -27,7 +27,7 @@ export const books = [
     "coverTitleColor": "#FDF2F8",
     "coverImage": "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=600&auto=format&fit=crop&q=80",
     "description": "Xudoyorxon davridagi saroy fitnalari, adolatsizlik va ma'naviy buzuqliklarga qarshi Anvar va Ra'noning pokiza sevgisi, Sultonali mirzoning mardligi aks ettirilgan shoh asar.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "kecha-va-kunduz",
@@ -42,7 +42,7 @@ export const books = [
     "coverTitleColor": "#EEF2FF",
     "coverImage": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&auto=format&fit=crop&q=80",
     "description": "Mustamlakachilik zulmati, jaholat va xurofot girdobida qolgan xalq fojiasi, begunoh Zebi qismati va milliy uyg'onish g'oyasi teran falsafiy ifodalangan roman.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "sarob",
@@ -57,7 +57,7 @@ export const books = [
     "coverTitleColor": "#FEF3C7",
     "coverImage": "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&auto=format&fit=crop&q=80",
     "description": "O'z ildizlaridan uzilgan, soxta sarobiy g'oyalarga aldanib o'zligini va vijdonini yo'qotgan Rahimjon Saidiy fojiasi orqali ma'naviy tanazzul tahlili.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "shum-bola",
@@ -72,7 +72,7 @@ export const books = [
     "coverTitleColor": "#ECFDF5",
     "coverImage": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&auto=format&fit=crop&q=80",
     "description": "Yetim bolaning og'ir qashshoqlik va zulm davrida o'zining topqirligi, o'tkir yumori va hayotsevarligi bilan omon qolish sarguzashtlari.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "qorqma",
@@ -87,7 +87,7 @@ export const books = [
     "coverTitleColor": "#FEF2F2",
     "coverImage": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&auto=format&fit=crop&q=80",
     "description": "1920-yillarda Germaniyaga o'qishga yuborilgan va keyinchalik qatag'on qilingan 70 nafar o'zbek yoshlarining fojiali taqdiri va bugungi yoshlarning ma'naviy uyg'onishi haqidagi bestseller roman.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "halqa",
@@ -102,7 +102,7 @@ export const books = [
     "coverTitleColor": "#F3F4F6",
     "coverImage": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80",
     "description": "Inson ruhiyatining chuqur iztiroblari, dunyo havoyi nafsining tuzoqlari va qalb ozodligiga erishish yo'lidagi ruhiy zanjirlarni uzish falsafasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "javob",
@@ -117,7 +117,7 @@ export const books = [
     "coverTitleColor": "#CCFBF1",
     "coverImage": "https://images.unsplash.com/photo-1532012164546-f432f2e3edd7?w=600&auto=format&fit=crop&q=80",
     "description": "'Halqa' asarining mantiqiy davomi bo'lib, unda inson vijdoni, tavba va ma'naviy najot yo'lidagi savollarga teran javoblar izlanadi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "dard",
@@ -132,7 +132,7 @@ export const books = [
     "coverTitleColor": "#FFEDD5",
     "coverImage": "https://images.unsplash.com/photo-1495640388908-05fa85288e61?w=600&auto=format&fit=crop&q=80",
     "description": "Insoniy dard, ruhiy jarohatlar va ularning shifo topishi, qalbning Yaratganga bo'lgan muhabbati orqali komillikka yetish yo'li.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "shamol-ortidan-yugurib",
@@ -147,7 +147,7 @@ export const books = [
     "coverTitleColor": "#FEF9C3",
     "coverImage": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&auto=format&fit=crop&q=80",
     "description": "Afg'onistondagi urush fojialari, do'stlik, xiyonat va kechikkan pushaymonlikning vijdondagi abadiy iztirobi haqidagi jahon miqyosidagi buyuk asar.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "ming-quyosh-shulasi",
@@ -162,7 +162,7 @@ export const books = [
     "coverTitleColor": "#FEF3C7",
     "coverImage": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=600&auto=format&fit=crop&q=80",
     "description": "Ikki afg'on ayoli — Maryam va Layloning fojeali, ammo matonatli qismati, shafqatsiz jamiyatda ayol sha'ni va buyuk qurbonlik hikoyasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "dengiz-sadosi",
@@ -177,7 +177,7 @@ export const books = [
     "coverTitleColor": "#E0F2FE",
     "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
     "description": "Ayriliq, oilaviy mehr va avlodlar o'rtasidagi uzilmas rishtalar haqidagi to'lqinlantiruvchi ko'p tarmoqli roman.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "atom-odatlar",
@@ -192,7 +192,7 @@ export const books = [
     "coverTitleColor": "#F8FAFC",
     "coverImage": "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=600&auto=format&fit=crop&q=80",
     "description": "Kichik o'zgarishlarning ulkan natijasi. Yomon odatlardan qutulish va foydali tizimlarni shakllantirish bo'yicha global bestseller.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "sapiens",
@@ -207,7 +207,7 @@ export const books = [
     "coverTitleColor": "#F1F5F9",
     "coverImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
     "description": "Ong inqilobi, qishloq xo'jaligi va fan-texnika taraqqiyoti orqali insoniyatning qanday qilib Yer yuzining hukmron turiga aylangani tahlili.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "pul-psixologiyasi",
@@ -222,7 +222,7 @@ export const books = [
     "coverTitleColor": "#D1FAE5",
     "coverImage": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&auto=format&fit=crop&q=80",
     "description": "Boylik va moliyaviy erkinlik bilimdan ko'ra ko'proq insonning xulq-atvori, sabr-toqati va qarorlariga bog'liqligini isbotlovchi bestseller.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "ikigai",
@@ -237,7 +237,7 @@ export const books = [
     "coverTitleColor": "#FFE4E6",
     "coverImage": "https://images.unsplash.com/photo-1528164344705-475426879c0d?w=600&auto=format&fit=crop&q=80",
     "description": "Har bir insonning o'z hayotiy maqsadini topishi, xotirjamlik, to'g'ri ovqatlanish va uzoq umr ko'rishning yaponcha falsafasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "farengeyt-451",
@@ -252,7 +252,7 @@ export const books = [
     "coverTitleColor": "#FFEDD5",
     "coverImage": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&auto=format&fit=crop&q=80",
     "description": "Kitob o'qish qat'iyan taqiqlangan va kitoblar yoqib yuboriladigan kelajak jamiyatida o't o'chiruvchi Gay Montegning uyg'onish fojiasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "choliqushi",
@@ -267,7 +267,7 @@ export const books = [
     "coverTitleColor": "#E0E7FF",
     "coverImage": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&auto=format&fit=crop&q=80",
     "description": "Faridaning qishloqma-qishloq kezib ma'rifat ulashishi, mag'rur qalb iztiroblari va Komronga bo'lgan samimiy muhabbati tasvirlangan o'lmas asar.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "ichimizdagi-shayton",
@@ -282,7 +282,7 @@ export const books = [
     "coverTitleColor": "#F9FAFB",
     "coverImage": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
     "description": "Inson o'z irodasizliklari, zaifliklari va xatolarini 'ichimdagi shayton majbur qildi' deb oqlashining psixologik fosh etilishi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "mork-postinli-madonna",
@@ -297,7 +297,7 @@ export const books = [
     "coverTitleColor": "#FCE7F3",
     "coverImage": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
     "description": "Raif afandining qalbida butun umr saqlangan sirli portret va Mariya Puderga bo'lgan cheksiz, ammo fojiali sevgisi hikoyasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "orwell-1984",
@@ -312,7 +312,7 @@ export const books = [
     "coverTitleColor": "#FAFAFA",
     "coverImage": "https://images.unsplash.com/photo-1507842229451-79b1be8d62ee?w=600&auto=format&fit=crop&q=80",
     "description": "Katta Og'a nazorati, Haqiqat vazirligi, ongli manipulyatsiya va insoniy tuyg'ularning totalitar tizim tomonidan poymol qilinishi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "molxona",
@@ -327,7 +327,7 @@ export const books = [
     "coverTitleColor": "#FEE2E2",
     "coverImage": "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=600&auto=format&fit=crop&q=80",
     "description": "Tenglik va erkinlik shiorlari bilan boshlangan inqilobning qanday qilib dahshatli diktaturaga aylanishining satirik xaritasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "alkimyogar",
@@ -342,7 +342,7 @@ export const books = [
     "coverTitleColor": "#FEF3C7",
     "coverImage": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&auto=format&fit=crop&q=80",
     "description": "Santiyagoning Misr piramidalari tomon safari orqali har bir insonning o'z 'Shaxsiy Afsonasi' va qalb orzusiga yetish siri.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "kichkina-shohzoda",
@@ -357,7 +357,7 @@ export const books = [
     "coverTitleColor": "#DBEAFE",
     "coverImage": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80",
     "description": "Yurak bilan ko'riladigan haqiqat, atirgulga bo'lgan mas'uliyat va kattalar yo'qotgan qalb sofligi haqidagi abadiy asar.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "jinoyat-va-jazo",
@@ -372,7 +372,7 @@ export const books = [
     "coverTitleColor": "#F5F5F4",
     "coverImage": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&auto=format&fit=crop&q=80",
     "description": "Raskolnikovning intellektual nazariyasi, kampirning o'ldirilishi va vijdoni oldidagi dahshatli ruhiy qiynoqlar hamda iymon orqali najot topishi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "aka-uka-karamazovlar",
@@ -387,7 +387,7 @@ export const books = [
     "coverTitleColor": "#FAF5FF",
     "coverImage": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&auto=format&fit=crop&q=80",
     "description": "Inson qalbidagi ezgulik va yovuzlik kurashi, Xudo va erkin iroda, 'Buyuk Inkvizitor' afsonasi orqali insoniyat taqdiri tahlili.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "evrilish",
@@ -402,7 +402,7 @@ export const books = [
     "coverTitleColor": "#F4F4F5",
     "coverImage": "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=600&auto=format&fit=crop&q=80",
     "description": "Gregor Zamzaning hasharotga aylanib qolishi orqali oilaning soxta mehri, insoniy yolg'izlik va jamiyatning shafqatsiz yuzining fosh etilishi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "begona",
@@ -417,7 +417,7 @@ export const books = [
     "coverTitleColor": "#FEF3C7",
     "coverImage": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&auto=format&fit=crop&q=80",
     "description": "Merso obrazining soxta ijtimoiy qoidalarga bo'ysunmasligi, hayotning bema'niligi (absurd) va mutlaq rostgo'ylikning fojiasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "baxtiyor-oila",
@@ -432,7 +432,7 @@ export const books = [
     "coverTitleColor": "#ECFDF5",
     "coverImage": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop&q=80",
     "description": "Oila qurish, er-xotin burchlari, farzand tarbiyasi va mustahkam, totuv xonadon poydevorini qurish bo'yicha eng mashhur milliy qo'llanma.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "ruhiy-tarbiya",
@@ -447,7 +447,7 @@ export const books = [
     "coverTitleColor": "#EFF6FF",
     "coverImage": "https://images.unsplash.com/photo-1532012164546-f432f2e3edd7?w=600&auto=format&fit=crop&q=80",
     "description": "Qalbni poklash, nafs illatlaridan forig' bo'lish, ixlos va go'zal xulq-atvorga erishishning islomiy ma'rifiy yo'li.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "saodat-asri",
@@ -462,7 +462,7 @@ export const books = [
     "coverTitleColor": "#F0FDF4",
     "coverImage": "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&auto=format&fit=crop&q=80",
     "description": "Payg'ambarimiz (s.a.v.) va ularning sahobalari hayoti, islom dinining ilk yillardagi kurashlari va yuksak insoniy fazilatlari haqidagi 4 jildlik asar.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "halol-luqma",
@@ -477,7 +477,7 @@ export const books = [
     "coverTitleColor": "#F0FDFA",
     "coverImage": "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=600&auto=format&fit=crop&q=80",
     "description": "Halol mehnat, ota-ona tarbiyasi va halol luqmaning inson kelajagi va farzandlar axloqiga ko'rsatadigan beqiyos ta'siri.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "shaytanat",
@@ -492,7 +492,7 @@ export const books = [
     "coverTitleColor": "#FAFAFA",
     "coverImage": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
     "description": "Asadbek fojiasi orqali jinoyat olami, nafsu xudbinlik botqog'i va har qanday yovuzlik o'z egasini va yaqinlarini mahv etishining isboti.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "asrga-tatigulik-kun",
@@ -507,7 +507,7 @@ export const books = [
     "coverTitleColor": "#FEF9C3",
     "coverImage": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&auto=format&fit=crop&q=80",
     "description": "Edigeyning do'stini dafn qilish safari, Nayman ona fojiasi va o'z o'tmishi va xotirasidan ayrilgan 'mankurt'lik ramzi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "jamila",
@@ -522,7 +522,7 @@ export const books = [
     "coverTitleColor": "#DCFCE7",
     "coverImage": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
     "description": "Urush yillaridagi og'ir qishloq hayoti, Daniyor va Jamilaning cheksiz samimiy va erkin sevgisi (Lui Aragon tomonidan 'dunyodagi eng go'zal sevgi qissasi' deb atalgan).",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "oq-kema",
@@ -537,7 +537,7 @@ export const books = [
     "coverTitleColor": "#F0F9FF",
     "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
     "description": "Begunoh bola orzulari, Shoxdor ona kiyik afsonasi va shafqatsiz kattalar dunyosiga taslim bo'lmagan toza qalb fojeasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "otamdan-qolgan-dalalar",
@@ -552,7 +552,7 @@ export const books = [
     "coverTitleColor": "#FEF08A",
     "coverImage": "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=600&auto=format&fit=crop&q=80",
     "description": "Dehqonqul fojiasi orqali paxta zulmi asoratida qolgan o'zbek dehqonining dardi va milliy g'ururni qayta tiklash hayqirig'i.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "yulduzli-tunlar",
@@ -567,7 +567,7 @@ export const books = [
     "coverTitleColor": "#EDE9FE",
     "coverImage": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80",
     "description": "Zahiriddin Muhammad Boburning murakkab qismati, Movarounnahrdagi ichki nizolar, Hindistonda buyuk saltanat qurishi va so'nmas Vatan sog'inchi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "ulugbek-xazinasi",
@@ -582,7 +582,7 @@ export const books = [
     "coverTitleColor": "#F3F4F6",
     "coverImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
     "description": "Mirzo Ulug'bekning aqliy dahosi, ilm nuri va Abdullatif boshchiligidagi qorong'u jaholat o'rtasidagi murosasiz tarixiy to'qnashuv.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "ikki-eshik-orasi",
@@ -597,7 +597,7 @@ export const books = [
     "coverTitleColor": "#FEF3C7",
     "coverImage": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80",
     "description": "Urush yillaridagi o'zbek xalqining cheksiz matonati, Robiya va Kimsanning sadoqati, vijdoniylik va insoniylik sinovi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "dunyoning-ishlari",
@@ -612,7 +612,7 @@ export const books = [
     "coverTitleColor": "#FCE7F3",
     "coverImage": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop&q=80",
     "description": "Mushtipar Ona siymosi, mehr-oqibat, o'tgan kunlar xotirasi va dunyoning mayda tashvishlari ortidagi eng qadrli tuyg'ular.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "bahor-qaytmaydi",
@@ -627,7 +627,7 @@ export const books = [
     "coverTitleColor": "#ECFDF5",
     "coverImage": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&auto=format&fit=crop&q=80",
     "description": "Yoshlikning beg'ubor orzulari, xatolar, kech anglangan muhabbat va orqaga qaytmas umr bahori haqidagi samimiy qissa.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "tushda-kechgan-umrlar",
@@ -642,7 +642,7 @@ export const books = [
     "coverTitleColor": "#F9FAFB",
     "coverImage": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&auto=format&fit=crop&q=80",
     "description": "Afg'on urushi qatnashchisi Rustamning fojiali qismati, qatag'on yillari va mustabid tuzum sindirgan insonlar taqdiri.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "ufq",
@@ -657,7 +657,7 @@ export const books = [
     "coverTitleColor": "#FEF3C7",
     "coverImage": "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&auto=format&fit=crop&q=80",
     "description": "Katta Farg'ona kanali qurilishi, urush yillari va urushdan keyingi davr manzaralari, Ikromjon, Jannat xola va Tursunboy taqdirlari.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "jimjitlik",
@@ -672,7 +672,7 @@ export const books = [
     "coverTitleColor": "#F8FAFC",
     "coverImage": "https://images.unsplash.com/photo-1495640388908-05fa85288e61?w=600&auto=format&fit=crop&q=80",
     "description": "Turg'unlik davridagi poraxo'rlik, ma'naviy inqiroz va jamiyatdagi soxtaliklarni dadillik bilan fosh etgan o'tkir roman.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "sariq-devni-minib",
@@ -687,7 +687,7 @@ export const books = [
     "coverTitleColor": "#FEF08A",
     "coverImage": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&auto=format&fit=crop&q=80",
     "description": "Hoshimjonning sehrli qalpoqcha orqali qilgan quvnoq va ibratli sarguzashtlari, mehnatsiz topilgan boylikning bebahraligi haqidagi sarguzasht.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "lolazor",
@@ -702,7 +702,7 @@ export const books = [
     "coverTitleColor": "#FEE2E2",
     "coverImage": "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=600&auto=format&fit=crop&q=80",
     "description": "O'zbek nasrining cho'qqisi: sovet turg'unligi, amaldorlik o'yinlari, Yaxshiboyev va Nazar Yaxshiboyevlar o'rtasidagi ma'naviy duel.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "kafansiz-komilganlar",
@@ -717,7 +717,7 @@ export const books = [
     "coverTitleColor": "#F5F5F4",
     "coverImage": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&auto=format&fit=crop&q=80",
     "description": "Stalin qatag'oni, Sibir surgunining sovuq dahshatlari va nohaq jazolangan begunoh insonlarning matonati haqidagi hujjatli roman.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "temur-tuzuklari",
@@ -732,7 +732,7 @@ export const books = [
     "coverTitleColor": "#EFF6FF",
     "coverImage": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
     "description": "Buyuk Sohibqironning davlatni boshqarish, adolat o'rnatish, harbiy san'at va raiyat farovonligini ta'minlash qoidalari.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "boburnoma",
@@ -747,7 +747,7 @@ export const books = [
     "coverTitleColor": "#FDF2F8",
     "coverImage": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&auto=format&fit=crop&q=80",
     "description": "Jahon adabiyotidagi eng nodir memuar: Bobur Mirzoning shaxsiy kechinmalari, Movarounnahr, Afg'oniston va Hindiston tarixi, tabiati va xalqlari tasviri.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "qutadgu-bilig",
@@ -762,7 +762,7 @@ export const books = [
     "coverTitleColor": "#EEF2FF",
     "coverImage": "https://images.unsplash.com/photo-1532012164546-f432f2e3edd7?w=600&auto=format&fit=crop&q=80",
     "description": "Kuntug'di (Adolat), Oytoldi (Davlat), O'gdulmish (Aql) va O'zg'urmish (Qanoat) timsolida inson va jamiyat saodatining axloqiy asosi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "hamsa",
@@ -777,7 +777,7 @@ export const books = [
     "coverTitleColor": "#EDE9FE",
     "coverImage": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
     "description": "Turkiy tildagi birinchi beshlik: 'Hayrat ul-abror', 'Farhod va Shirin', 'Layli va Majnun', 'Sab'ai sayyor', 'Saddi Iskandariy'. Insoniyat tafakkurining yuksak cho'qqisi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "lison-ut-tayr",
@@ -792,7 +792,7 @@ export const books = [
     "coverTitleColor": "#ECFDF5",
     "coverImage": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80",
     "description": "Simurg'ni qidirib yo'lga chiqqan qushlarning 7 vodiyni bosib o'tishi orqali insonning o'zligini anglashi va Haqqa yetish falsafasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "siyosatnoma",
@@ -807,7 +807,7 @@ export const books = [
     "coverTitleColor": "#FEF3C7",
     "coverImage": "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?w=600&auto=format&fit=crop&q=80",
     "description": "Saljuqiylar bosh vazirining adolatli davlat tuzilishi, vazirlar burchi va xalq farovonligi haqidagi mashhur pandnomasi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "qobusnoma",
@@ -822,7 +822,7 @@ export const books = [
     "coverTitleColor": "#D1FAE5",
     "coverImage": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
     "description": "Farzandga nasihat sifatida yozilgan, kasb-hunar, halollik, do'stlik va jamiyatda o'z o'rnini topish bo'yicha qomusiy asar.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "guliston",
@@ -837,7 +837,7 @@ export const books = [
     "coverTitleColor": "#FDF2F8",
     "coverImage": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
     "description": "Podshohlar odobi, qanoat fazilati, jim turish san'ati va insoniy hikmatlar gavhari bo'lgan o'lmas asar.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "alpomish",
@@ -852,7 +852,7 @@ export const books = [
     "coverTitleColor": "#EFF6FF",
     "coverImage": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&auto=format&fit=crop&q=80",
     "description": "O'zbek xalqining eng ulug' qahramonlik dostoni: Alpomish va Barchinoyning sadoqati, vatanparvarlik va el-yurt birligi.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "chol-va-dengiz",
@@ -867,7 +867,7 @@ export const books = [
     "coverTitleColor": "#E0F2FE",
     "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
     "description": "Santyagoning ulkan baliq bilan tengsiz kurashi: 'Insonni yengib bo'lmaydi, uni faqat mahv etish mumkin, xolos'.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "martin-iden",
@@ -882,7 +882,7 @@ export const books = [
     "coverTitleColor": "#F9FAFB",
     "coverImage": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&auto=format&fit=crop&q=80",
     "description": "Oddiy dengizchining yuksak iroda va mehnat bilan buyuk yozuvchiga aylanishi, soxta burjua jamiyatining fojiasi va ruhiy yolg'izlik.",
-    "questionCount": 10
+    "questionCount": 6
   },
   {
     "id": "graf-monte-kristo",
@@ -897,7 +897,7 @@ export const books = [
     "coverTitleColor": "#EDE9FE",
     "coverImage": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&auto=format&fit=crop&q=80",
     "description": "Edmon Dantesning If qal'asidagi 14 yillik tutqunligi, xazina topishi va xiyonatkorlardan o'ch olishi hamda afv etish sabog'i.",
-    "questionCount": 10
+    "questionCount": 6
   }
 ];
 
@@ -906,281 +906,141 @@ export const questions = [
     "id": "q_otkan-kunlar_1",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Yusufbek hojining 'Bizning xonlikdagi parokandalik — o'zimizning jaholatimiz va xudbinligimiz mevasidir' degan xulosasi asarning qaysi asosiy ijtimoiy mantiqini ochib beradi?",
+    "question": "Kumushning o'limi asarda qanday ramziy ma'no kasb etadi?",
     "options": [
-      "Tashqi dushmandan ko'ra ichki nifoq va saroy fitnalari millatni halokatga yetaklashi",
-      "Xonlikning faqat iqtisodiy jihatdan qashshoqlashib qolganligi",
-      "Faqat Toshkent bekligi mustaqil bo'lishi kerakligi",
-      "Xon farmonlariga so'zsiz bo'ysunish lozimligi"
+      "Jamiyatdagi ichki nizo, eskilik sarqitlari va zulmning begunoh insonlar taqdiriga ko'rsatgan fojiali ta'sirini",
+      "Otabek va Zaynab o'rtasidagi oilaviy to'siqni butunlay bartaraf etish vositasini",
+      "O'zbek ayolining qismatini faqat taqdirga tan beruvchi qilib ko'rsatishni",
+      "Asar syujetining melodramatik yechimini ta'minlashni"
     ],
     "correctAnswer": 0,
-    "explanation": "Abdulla Qodiriy Yusufbek hoji obrazi orqali milliy fojianing bosh sababi — ichki nifoq, xudbinlik va birlikning yo'qligida ekanligini chuqur falsafiy va tarixiy mantiq bilan isbotlaydi."
+    "explanation": "Kumushbibi shunchaki shaxsiy hasad qurboni emas, balki Qo'qon xonligidagi parokandalik, ma'rifatsizlik va mutaassiblik muhiti barbod qilgan poklik va go'zallik ramzidir."
   },
   {
     "id": "q_otkan-kunlar_2",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Asarda Otabekning Homid bilan to'qnashuvida uning boshqalardan ajralib turuvchi asosiy fazilati va dunyoqarashi nimada namoyon bo'ladi?",
+    "question": "Yusufbek hojining 'Bizning xonlikdagi parokandalik — o'zimizning jaholatimiz mevasidir' degan xulosasi asarning qaysi g'oyasini ochadi?",
     "options": [
-      "Faqat savdo-sotiqda ko'proq foyda ko'rish ilinjida",
-      "Zamonaviy bilim, yangicha fikrlash va inson qadr-qimmatini an'anaviy jaholatdan ustun qo'yishida",
-      "Saroy amaldorlariga yaqinlashish istagida",
-      "Qadimgi bid'at va urf-odatlarga ko'r-ko'rona ergashishida"
+      "Tashqi bosqindan ko'ra millatning ichki bo'linishi va xudbinligi halokatga olib kelishini",
+      "Faqat Toshkent bekligining Qo'qondan ajralib chiqishi zarurligini",
+      "Xon farmonlariga so'zsiz bo'ysunish lozimligini",
+      "Iqtisodiy inqiroz barcha muammolarning yagona sababi ekanini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Otabek — jadidona fikrlovchi, jaholat va qotib qolgan aqidalarga qarshi chiqa oladigan, inson sha'nini oliy qadriyat deb biluvchi yangi davr qahramonidir."
+    "correctAnswer": 0,
+    "explanation": "Abdulla Qodiriy Yusufbek hoji orqali Turkiston fojiasining tub sababi — o'zaro nifoq, saroy o'yinlari va milliy birlikning yo'qligida ekanini uqtiradi."
   },
   {
     "id": "q_otkan-kunlar_3",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "O'zbek oyimning Otabekni majburlab Zaynabga uylantirishi asarda qaysi ijtimoiy illatning fojiali oqibatini mantiqiy tarzda ko'rsatadi?",
+    "question": "Otabekning Marg'ilonda Homid va Ziyo shohichi bilan bahslarida ilgari surgan asosiy nuqtai nazari nimadan iborat?",
     "options": [
-      "Qudalarning boylik talashishi",
-      "Toshkent va Marg'ilon savdogarlarining o'zaro raqobatini",
-      "Farzand taqdirini uning irodasisiz, eskilik sarqitlari va quruq orzu-havas asosida hal qilish fojiasini",
-      "Uylanish to'ylarining haddan tashqari dabdabali o'tkazilishini"
+      "Savdo-sotiqda faqat o'z shaxsiy manfaatini ko'zlash",
+      "Milliy sanoatni rivojlantirish, jaholatdan qutulish va inson erki uchun ma'rifat zarurligi",
+      "Eski udum va aqidalarni o'zgartirmasdan saqlab qolish",
+      "Saroy amaldorlari bilan kelishib ish yuritish"
     ],
-    "correctAnswer": 2,
-    "explanation": "O'zbek oyimning xudbinona xatti-harakati ikki yoshning pok muhabbatini poymol qiladi va uch inson (Otabek, Kumush, Zaynab) hayotini fojeaga giriftor etadi."
+    "correctAnswer": 1,
+    "explanation": "Otabek — jadidona fikrlovchi yangi avlod vakili; u taraqqiyot kaliti ilm-fan, erkin fikr va milliy sanoatda ekanini anglab yetgan."
   },
   {
     "id": "q_otkan-kunlar_4",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Kumushbibining zaharlanish sahnasida uning so'nggi so'zlari orqali qahramonning qalb go'zalligi va ruhiy yuksakligi qanday ifodalangan?",
+    "question": "O'zbek oyimning Otabekni Zaynabga majburlab uylantirishi zamirida qanday psixologik omil yotadi?",
     "options": [
-      "Zaynabdan o'ch olishni vasiyat qilishi",
-      "Toshkentga kelganidan qattiq pushaymon bo'lgani",
-      "Merosini o'z ota-onasiga qoldirishni talab qilgani",
-      "Otabekka bo'lgan sadoqati va hatto o'lim oldida ham mehr-oqibatni saqlab qolgani"
+      "Zaynabning oilasidan moddiy boylik undirish ilinji",
+      "Farzand ustidan mutlaq egalik hissi va eskirgan orzu-havaslarni an'ana deb bilish xudbinligi",
+      "Marg'ilonliklar bilan qudalikni bekor qilish istagi",
+      "Toshkent urf-odatlarini Marg'ilondan ustun qo'yish niyati"
     ],
-    "correctAnswer": 3,
-    "explanation": "Kumushbibi o'lim to'shagida ham qasoskorlikdan yiroq bo'lib, Otabekka bo'lgan so'nmas muhabbati va bolasi taqdiri haqida qayg'uradi, bu uning yuksak axloqiy siymosini namoyon etadi."
+    "correctAnswer": 1,
+    "explanation": "O'zbek oyim o'g'lining shaxsiy baxtini emas, o'zining 'onachilik kibri' va el oldidagi quruq obro'sini ustun qo'yib, fojia poydevorini quradi."
   },
   {
     "id": "q_otkan-kunlar_5",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Asar so'ngida Otabekning Vatan himoyasi yo'lida Oqmasjid jangida shahid bo'lishi muallifning qanday g'oyaviy niyatini ifodalaydi?",
+    "question": "Zaynabning Kumushga zahar berish darajasiga yetib borishi qahramonning qaysi holatini ko'rsatadi?",
     "options": [
-      "Shaxsiy baxtini yo'qotgan qahramonning o'z hayotini millat va yurt erkiga baxshida etishi",
-      "Savdo ishlarining butunlay to'xtab qolgani sababli",
-      "Toshkent hokimidan qochib ketish zarurati",
-      "Tog'alari bilan kelisha olmagani sababli"
+      "Tug'ma yovuzlik va qotillikka moyillikni",
+      "Sevilmagan ayolning ma'naviy nochorligi, kundoshlik alami va tashqi ig'volar ta'sirida o'zini yo'qotishini",
+      "Otabekning boyligiga to'liq egalik qilish rejasini",
+      "O'zbek oyimning to'g'ridan-to'g'ri buyrug'ini bajarishini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Otabekning shaxsiy fojiasi umummilliy fojia bilan uyg'unlashadi; u yurt ozodligi yo'lida jon fido qilib, o'zining yuksak fuqarolik burchini ado etadi."
+    "correctAnswer": 1,
+    "explanation": "Zaynab shunchaki qotil emas, balki muhabbatsiz nikoh, kundoshlik botqog'i va xotin-qizlar huquqsizligining yana bir fojiali qurbonidir."
   },
   {
     "id": "q_otkan-kunlar_6",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Ushbu asarda Hasanali obrazi orqali o'zbek xonadonidagi qaysi qadimiy qadriyat ulug'lanadi?",
+    "question": "Hasanali obrazining asardagi asosiy badiiy-falsafiy vazifasi nima?",
     "options": [
-      "Xizmatkorning faqat buyruqlarni so'zsiz bajarishi",
-      "Xolis sadoqat, oilaviy mehr-oqibat va vafodorlikning qon-qardoshlikdan kam bo'lmagan yuksak darajasi",
-      "Meros talashishdagi ustamonlik",
-      "Xon saroyi bilan aloqa o'rnatish mahorati"
+      "Xonadondagi oddiy xizmatkorlik majburiyatlarini bajarish",
+      "Qullik maqomiga qaramay, yuksak insoniy sadoqat, hikmat va ma'naviy otalik fazilatini namoyon etish",
+      "Otabekning Marg'ilondagi sirlarini Yusufbek hojiga yetkazib turish",
+      "Savdo ishlarini nazorat qilish"
     ],
     "correctAnswer": 1,
-    "explanation": "Hasanali qul bo'lsa-da, Yusufbek hoji oilasining suyukli a'zosi, Otabekning eng ishonchli maslahatgo'yi va haqiqiy ma'naviy otasidir."
+    "explanation": "Hasanali o'zbek adabiyotidagi eng nurli timsollardan biri; u inson qadri uning ijtimoiy kelib chiqishi bilan emas, qalb tozaligi bilan o'lchanishini isbotlaydi."
   },
   {
     "id": "q_otkan-kunlar_7",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Asarda Ziyo shohichi xonadonida bo'lib o'tgan suhbatlarda qanday ilg'or g'oyalar ilgari suriladi?",
+    "question": "Homidning Otabekka bo'lgan murosasiz nafrati va fitnalarining asl sababi nima?",
     "options": [
-      "Solitsiz savdo qilish imtiyozlari",
-      "Chet el savdogarlarini yurtga kiritmaslik",
-      "Milliy sanoatni rivojlantirish, zamonaviy taraqqiyotdan saboq olish va xonlikdagi zulmga chek qo'yish zarurati",
-      "Faqat diniy marosimlarni ko'paytirish"
+      "Savdo bozoridagi tijoriy raqobat",
+      "Kumushga erisha olmaganlik alami, kibr va mag'rurlikning hasadga aylanishi",
+      "Toshkentliklarga nisbatan Marg'ilon bekligining noroziligi",
+      "Otabekning saroy bilan aloqadorligidan cho'chish"
     ],
-    "correctAnswer": 2,
-    "explanation": "Ziyo shohichinikidagi munozaralar — jadid ma'rifatparvarlarining jamiyatni isloh qilish, zamonaviy fan va texnikani o'zlashtirish haqidagi orzulari ifodasidir."
+    "correctAnswer": 1,
+    "explanation": "Homid o'z xohishiga yetisholmagach, hasad va xudbinlik girdobida tobora tubanlashadi va butun borlig'ini qasos o'tiga qurbon qiladi."
   },
   {
     "id": "q_otkan-kunlar_8",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Homidning Otabekka qarshi uyushtirgan fitnalari qanday xarakter fojeasini ko'rsatadi?",
+    "question": "Mirzakarim qutidorning Otabekka qizini berishdagi ma'naviy mezoni nima edi?",
     "options": [
-      "Savdo sohasidagi raqobatning tabiiy holini",
-      "Boylik orttirish yo'lidagi qonuniy intilishni",
-      "Toshkentliklarga bo'lgan hurmatni",
-      "Hasad, xudbinlik va manmanlik insonni qotillik va tubanlikka yetaklashi muqarrarligini"
+      "Otabekning boyligi va Toshkentdagi mavqei",
+      "Yigitning odobi, aql-idroki, zamonaviy dunyoqarashi va toza axloqi",
+      "Yusufbek hojining xonlikdagi nufuzidan foydalanish",
+      "Savdo yo'llarini kengaytirish maqsadi"
     ],
-    "correctAnswer": 3,
-    "explanation": "Homid o'z nafsining quliga aylangan kimsa bo'lib, hasad va xudbinlik uni butunlay insoniy qiyofadan chiqaradi."
+    "correctAnswer": 1,
+    "explanation": "Qutidor moddiy manfaatlardan ustun turib, yoshlarning qalb uyg'unligi va insoniy fazilatlarini bosh mezon qilib oladi."
   },
   {
     "id": "q_otkan-kunlar_9",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Mirzakarim qutidor xonadonidagi mehmondo'stlik va Otabekka bo'lgan munosabat qaysi milliy fazilatni ochadi?",
+    "question": "Asar yakunida Otabekning Oqmasjid jangida Vatan himoyasi yo'lida shahid bo'lishi qanday g'oyaviy ma'noga ega?",
     "options": [
-      "Halollik, mehmonga cheksiz ehtirom va inson sha'nini moddiy manfaatdan ustun qo'yishni",
-      "Qudachilik orqali boylik orttirish niyatini",
-      "Toshkent bekligidan madad so'rash ilinjini",
-      "Faqat savdo aloqalarini mustahkamlashni"
+      "Shaxsiy baxt fojiasining umummilliy ozodlik burchi va Vatan muhabbatiga ulanishi",
+      "Qahramonning hayotdan butunlay hafsalasi pir bo'lib o'lim qidirgani",
+      "Toshkentdan uzoqroqda yashash istagi",
+      "Savdo ishlarini to'xtatish majburiyati"
     ],
     "correctAnswer": 0,
-    "explanation": "Qutidor oilasi o'zbek xalqining eng pokiza, samimiy va mehmondo'st xonadoni timsolidir."
+    "explanation": "Otabek shaxsiy judoliklariga qaramay, o'z umrini yurt ozodligi va millat himoyasiga bag'ishlab, buyuk fuqarolik qahramonligini ko'rsatadi."
   },
   {
     "id": "q_otkan-kunlar_10",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Muallif Abdulla Qodiriyning asar muqaddimasidagi 'O'tkan kunlarimizga bir nazar tashlamoq xushdir' degan xitobi nimaga da'vat etadi?",
+    "question": "Abdulla Qodiriy ushbu romani orqali kelajak avlodga qoldirgan eng bosh ogohlantiruvchi saboq nima?",
     "options": [
-      "O'tmishdagi urf-odatlarni ko'r-ko'rona takrorlashga",
-      "Tarix saboqlaridan to'g'ri xulosa chiqarib, kelajak avlodni birlik va ma'rifatga undashga",
-      "Faqat badiiy ertaklar to'qishga",
-      "Xonliklar tarixini unutishga"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Qodiriy tarixiy xatolardan saboq olish orqaligina millat o'z mustaqilligi va yorug' kelajagini qura olishini ta'kidlaydi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_1",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
-    "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Millat o'z o'tmishidan saboq olmasa, ichki nifoq va jaholat uni har qanday mustamlakaga qul qilib qo'yishi muqarrarligi",
+      "Uylanish masalasida faqat ota-ona qaroriga bo'ysunish kerakligi",
+      "Shaharlararo savdo aloqalarini to'xtatish zarurligi",
+      "Tarixiy voqealarni eslamaslik afzalligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Ushbu asarda Abdulla Qodiriy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_2",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
-    "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_3",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
-    "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
-    ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_4",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
-    "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
-    ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_5",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
-    "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_6",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
-    "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_7",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
-    "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
-    ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_8",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
-    "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
-    ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_9",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
-    "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_10",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
-    "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "explanation": "Roman nafaqat o'tmish fojiasi, balki kelajak avlod uchun birlik, ma'rifat va mustaqillikni ko'z qorachig'idek asrash bo'yicha tarixiy manifestdir."
   },
   {
     "id": "q_kecha-va-kunduz_1",
@@ -9301,6 +9161,146 @@ export const questions = [
     ],
     "correctAnswer": 1,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+  },
+  {
+    "id": "q_mehrobdan-chayon_1",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Abdulla Qodiriyning asarni 'Mehrobdan chayon' deb nomlashidagi asosiy ramziy-falsafiy ma'no nima?",
+    "options": [
+      "Eng muqaddas dargoh niqobi ostida turib jamiyatga zahar sochuvchi munofiqlarni fosh etish",
+      "Xon saroyidagi mirzalar va din peshvolari o'rtasidagi yashirin siyosiy kurashni ko'rsatish",
+      "Qo'qon xonligidagi masjidlar va madrasalarning jamiyat hayotidagi o'rnini to'la tasvirlash",
+      "Oddiy xalq hayotining qat'iy diniy aqidalar bilan boshqarilishini realistik yoritish"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Muallif 'mehrob' (poklik va e'tiqod timsoli) hamda 'chayon' (yovuzlik va xiyonat ramzi) qarama-qarshiligi orqali dinni o'z nafsi uchun niqob qilgan kimsalarning ma'naviy xatarini ochib beradi. Boshqa variantlar davr muhitiga oid bo'lsa-da, asar nomining tub ramziy mohiyatini to'la ifodalamaydi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_2",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Salih mahdumning Ra'noga puxta ta'lim berib, so'ngra uni xonga berishga ko'nishi qaysi ziddiyatni ochadi?",
+    "options": [
+      "Xon saroyidagi amaldorlar bilan munosabatni yaxshilab, yangi davlat lavozimiga erishish rejasini",
+      "Ziyolilik va ma'rifatparvarlik bilan moddiy manfaatparastlik va xudbinlikning fojiali to'qnashuvini",
+      "Qizining xon saroyida dabdabali va to'kin hayot kechirishiga bo'lgan samimiy otalik ishonchini",
+      "Xon farmoniga mutlaqo qarshi chiqa olmaslik va taqdir oldidagi ojizlikka butunlay tan berishni"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Mahdum qiziga yaxshi tarbiya bergan bo'lsa-da, moddiy boylik va saroy dabdabasi oldida o'z axloqiy prinsiplaridan voz kechadi. Bu holat bilimli, ammo vijdoni nafsi oldida zaif kimsalarning ruhiy tanazzulini yaqqol ko'rsatadi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_3",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Anvarning Xudoyorxonga yozgan ochiq maktubida qanday axloqiy va siyosiy jasorat mujassamlashgan?",
+    "options": [
+      "Qo'qon saroyidagi barcha boshqaruv qonunlarini zudlik bilan qayta isloh qilish talabini qo'yish",
+      "Xondan o'zining shaxsiy xavfsizligini so'rab, Toshkent bekligiga tinch ko'chib ketishga ruxsat olish",
+      "Inson qadr-qimmati, shaxsiy erk va muhabbatni zolim hukmdorning mutlaq irodasidan ustun qo'yish",
+      "Saroydagi boshqa mirzalarning noqonuniy xatti-harakatlarini xonga dalillar bilan fosh etib berish"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Anvar saroy mirzosi bo'lishiga qaramay, xonning zolimona haram siyosatiga ochiq qarshi chiqadi. U inson sha'ni va sevgi erkinligi har qanday shohona farmondan yuksak ekanini o'limga tik boqib isbotlaydi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_4",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Sultonali mirzoning Anvar o'rniga o'lim jazosiga rozi bo'lishidagi bosh ma'naviy sabab nima?",
+    "options": [
+      "O'z umrining oxiriga yetganini his qilib, saroy zulmiga nisbatan namoyishkorona isyon ko'rsatish",
+      "Haqiqiy do'stlik, fidoiylik va kelajak umidi bo'lgan Anvarni adolat yo'lida asrab qolish istagi",
+      "Xon tomonidan oxirgi lahzada afv etilishiga va xalq orasida buyuk obro' qozonishiga ishonish",
+      "Salih mahdum xonadoniga nisbatan yillar davomida to'plangan qarindoshlik burchini to'lash"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Sultonali mirzo Anvarni o'z farzandidek va millatning pokiza kelajagi deb biladi. Uning o'zini qurbon qilishi hech qanday shaxsiy manfaatsiz, sof fidoiylik va haqiqiy do'stlikning eng yuksak namunasidir."
+  },
+  {
+    "id": "q_mehrobdan-chayon_5",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Ra'noning saroy dabdabasidan ko'ra o'limni afzal bilishi qahramonning qaysi fazilatini namoyon etadi?",
+    "options": [
+      "Otasining qattiqqo'l xonadon tartiblariga nisbatan o'smirlik isyoni va noroziligini ko'rsatishini",
+      "Insoniy sha'n, sevgiga sadoqat va erkin shaxs bo'lish huquqini saroy boyligidan ustun bilishini",
+      "Saroydagi boshqa kanizaklar bilan bo'ladigan xatarli raqobat va ichki fitnalardan cho'chishini",
+      "Anvar bilan birgalikda qishloqqa qochib ketish rejasining muvaffaqiyatiga to'liq ishonishini"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Ra'no shunchaki ojiza jabrdiyda emas, balki o'z or-nomusi va qalb erkinligini hech qanday boylik yoki shohona qasrga alishmaydigan mustaqil irodali ayol siymosidir."
+  },
+  {
+    "id": "q_mehrobdan-chayon_6",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Asarda Xudoyorxon obrazining ochib berilgan ruhiy qiyofasi qaysi jihati bilan ajralib turadi?",
+    "options": [
+      "Mamlakatni taraqqiy ettirishni istagan, ammo atrofidagi ig'volar sababli adashgan shaxs sifatida",
+      "Xushomadgo'ylar qurshovida qolgan, o'z nafsiga qul va shubhalar girdobidagi zolim hukmdor sifatida",
+      "Faqat harbiy janglar va qo'shni davlatlar bilan chegaraviy mojarolar bilan band bo'lgan shoh sifatida",
+      "Diniy ulamolar va xalq oqsoqollarining barcha maslahatlariga qat'iy tayanuvchi odil arbob sifatida"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Qodiriy Xudoyorxonni mutlaq qudrat egasi bo'lsa-da, ichki qo'rquv, shubha va xushomadgo'ylar ta'sirida ojiz qolgan fojiali despot sifatida mahorat bilan chizadi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_7",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Nigora oyimning Ra'no taqdiridagi onalik roli va uning mahdumdan farqi nimada namoyon bo'ladi?",
+    "options": [
+      "Erining barcha qarorlarini ma'qullab, qizini tezroq saroyga jo'natish tarafdori bo'lishida",
+      "Qizining dardini qalbida his qilib, soxta obro'dan ko'ra farzand baxtini himoya qilishga intilishida",
+      "Saroydan keladigan sovg'a-salomlarni ko'paytirish uchun eriga ta'sir o'tkazishga urinishida",
+      "Qizini faqat o'ziga yaqin qarindoshlarga uzatish tarafdori bo'lgan eskirgan qarashida"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Nigora oyim mahdumning moddiy hisob-kitoblariga qarshi turib, onalik fozilligi bilan qizining pok tuyg'ularini tushunadi va uni saroy balosidan asrashga intiladi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_8",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Asardagi Qilichboz boshchiligidagi sarbozlar va xalq noroziligi qanday ijtimoiy ma'noni ifodalaydi?",
+    "options": [
+      "Xonlikdagi og'ir soliqlar, adolatsizlik va zulmga qarshi xalq g'azabining muqarrar uyg'onishini",
+      "Faqat Qo'qon shahrining bozor qoidalarini o'zgartirish maqsadida qilingan stixiyali harakatni",
+      "Toshkent bekligi bilan tuzilgan maxfiy harbiy ittifoqning rejasini amalga oshirish niyatini",
+      "Saroy mirzolarining maoshlarini oshirish talabi bilan chiqqan guruhning noroziligini"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Muallif saroy ichidagi shaxsiy intriqalar bilan cheklanmay, butun jamiyatdagi ziddiyatlar va ezilgan ommaning zulmga qarshi nafratini ham real aks ettiradi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_9",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Asar so'ngida Anvar va Ra'noning saroydan uzoq qishloqqa chekinishi qanday falsafiy xulosani beradi?",
+    "options": [
+      "Haqiqiy baxt va xotirjamlik saroy kibridan yiroqda, halol mehnat va pokiza muhabbatda ekanligini",
+      "Siyosiy faoliyatning mutlaqo foydasiz ekani va davlat ishlaridan doim qochish zarurligini",
+      "Shahar hayotining xavfli ekanligi va faqat qishloq xo'jaligi bilan shug'ullanish to'g'riligini",
+      "Vaqt o'tib yangi podshoh davrida saroyga qaytib kelish uchun vaqtinchalik pana joy topishni"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Qahramonlar shon-shuhrat va saroy manfaatlaridan voz kechib, ma'naviy erkinlik va oilaviy osoyishtalikni oliy qadriyat sifatida tanlaydilar."
+  },
+  {
+    "id": "q_mehrobdan-chayon_10",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Abdulla Qodiriy ushbu asar orqali jamiyatga qoldirgan eng bosh ma'naviy saboq nima?",
+    "options": [
+      "Har qanday shaxsiy manfaat va mansabparastlikdan ko'ra vijdon, sadoqat va adolat ustun bo'lishi kerakligi",
+      "Tarixiy voqealarni faqat saroy yilnomalari orqali o'rganish lozimligi haqidagi fikrni",
+      "Faqat xattotlik va mirzolik kasbini mukammal egallash zarurligi haqidagi tavsiyani",
+      "Saroy qonun-qoidalarini buzmasdan harakat qilish eng xavfsiz yo'l ekanligi sabog'ini"
+    ],
+    "correctAnswer": 0,
+    "explanation": "'Mehrobdan chayon' zamonlar osha insonni munofiqlikdan hazar qilishga, o'z vijdoni va sevgisiga sodiq qolishga va adolat yo'lida matonatli bo'lishga undaydi."
   }
 ];
 
