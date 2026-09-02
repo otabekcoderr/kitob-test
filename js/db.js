@@ -82,17 +82,35 @@ async function runQuery(query) {
 // ============================================================
 
 function _getLocalCustomBooks() {
-  try {
-    const raw = localStorage.getItem('kitobchi_books_store') ||
-                localStorage.getItem('custom_books') ||
-                localStorage.getItem('kitobchi_custom_books') ||
-                localStorage.getItem('books_store');
-    if (raw) {
+  const result = [];
+  const seenIds = new Set();
+  const keys = [
+    'kitobchi_books_store',
+    'custom_books',
+    'kitobchi_custom_books',
+    'books_store',
+    'kitobchi_books',
+    'books'
+  ];
+
+  for (const k of keys) {
+    try {
+      const raw = localStorage.getItem(k);
+      if (!raw) continue;
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) return parsed;
-    }
-    return [];
-  } catch { return []; }
+      const items = Array.isArray(parsed) ? parsed : (parsed && typeof parsed === 'object' ? [parsed] : []);
+      for (const item of items) {
+        if (item && (item.id || item.title)) {
+          const itemKey = String(item.id || _slugify(item.title));
+          if (!seenIds.has(itemKey)) {
+            seenIds.add(itemKey);
+            result.push(item);
+          }
+        }
+      }
+    } catch { /* ignore */ }
+  }
+  return result;
 }
 
 function _getDeletedBookIds() {
@@ -103,16 +121,35 @@ function _getDeletedBookIds() {
 }
 
 function _getLocalCustomQuestions() {
-  try {
-    const raw = localStorage.getItem('kitobchi_custom_questions') ||
-                localStorage.getItem('custom_questions') ||
-                localStorage.getItem('kitobchi_questions_store');
-    if (raw) {
+  const result = [];
+  const seenIds = new Set();
+  const keys = [
+    'kitobchi_custom_questions',
+    'custom_questions',
+    'kitobchi_questions_store',
+    'questions_store',
+    'kitobchi_questions',
+    'questions'
+  ];
+
+  for (const k of keys) {
+    try {
+      const raw = localStorage.getItem(k);
+      if (!raw) continue;
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) return parsed;
-    }
-    return [];
-  } catch { return []; }
+      const items = Array.isArray(parsed) ? parsed : (parsed && typeof parsed === 'object' ? [parsed] : []);
+      for (const item of items) {
+        if (item && item.question) {
+          const itemKey = String(item.id || ((item.book_id || item.bookId) + '_' + item.question));
+          if (!seenIds.has(itemKey)) {
+            seenIds.add(itemKey);
+            result.push(item);
+          }
+        }
+      }
+    } catch { /* ignore */ }
+  }
+  return result;
 }
 
 function _getDeletedQuestionIds() {
@@ -128,7 +165,7 @@ export function clearDbCache() {
 }
 
 /**
- * Barcha kitoblarni qaytaradi (data.js 52ta kitobi + Supabase + localStorage birlashmasi).
+ * Barcha kitoblarni qaytaradi (data.js kitoblari + Supabase + localStorage birlashmasi).
  * Hech qanday kitob yoki tahrir yo'qolmaydi!
  *
  * @param {boolean} [forceRefresh=false]
@@ -142,16 +179,16 @@ export async function getBooks(forceRefresh = false) {
   const bookMap = new Map();
   const deletedIds = _getDeletedBookIds().map(String);
 
-  // 1. Asosiy zaxira: data.js dagi barcha 52 ta kitobni yuklaymiz
+  // 1. Asosiy zaxira: data.js dagi barcha kitoblarni yuklaymiz
   (localData.books ?? []).forEach(b => {
-    if (!b || !b.id) return;
-    const idStr = String(b.id);
+    if (!b || (!b.id && !b.title)) return;
+    const idStr = String(b.id || _slugify(b.title));
     if (!deletedIds.includes(idStr)) {
-      const cover = b.cover_url || b.coverImage || b.cover || '';
+      const cover = b.cover_url || b.coverImage || (typeof b.cover === 'string' && b.cover.startsWith('http') ? b.cover : '') || `https://picsum.photos/seed/${idStr}/300/400`;
       bookMap.set(idStr, {
         ...b,
         id: idStr,
-        category: b.category || b.genre || 'Badiiy',
+        category: b.category || b.genre || 'Adabiyot',
         genre: b.genre || b.category || 'Badiiy',
         cover_url: cover,
         coverImage: cover,
@@ -171,17 +208,28 @@ export async function getBooks(forceRefresh = false) {
 
     if (!error && Array.isArray(data) && data.length > 0) {
       data.forEach(sb => {
-        if (!sb || !sb.id) return;
-        const idStr = String(sb.id);
+        if (!sb || (!sb.id && !sb.title)) return;
+        const idStr = String(sb.id || _slugify(sb.title));
         if (!deletedIds.includes(idStr)) {
-          const existing = bookMap.get(idStr) || {};
-          const cover = sb.cover_url || sb.coverImage || sb.cover || existing.cover || '';
-          bookMap.set(idStr, {
+          // Find matching key by ID or title slug
+          let targetKey = idStr;
+          if (!bookMap.has(targetKey)) {
+            for (const [key, existing] of bookMap.entries()) {
+              if (existing && _slugify(existing.title) === _slugify(sb.title)) {
+                targetKey = key;
+                break;
+              }
+            }
+          }
+
+          const existing = bookMap.get(targetKey) || {};
+          const cover = sb.cover_url || sb.coverImage || sb.cover || existing.cover || existing.cover_url || '';
+          bookMap.set(targetKey, {
             ...existing,
             ...sb,
-            id: idStr,
-            category: sb.category || sb.genre || existing.category || 'Badiiy',
-            genre: sb.genre || sb.category || existing.genre || 'Badiiy',
+            id: targetKey,
+            category: sb.category || sb.genre || existing.category || existing.genre || 'Adabiyot',
+            genre: sb.genre || sb.category || existing.genre || existing.category || 'Badiiy',
             cover_url: cover,
             coverImage: cover,
             cover: cover,
@@ -196,22 +244,35 @@ export async function getBooks(forceRefresh = false) {
   // 3. Foydalanuvchi/Admin tomonidan kiritilgan yoki tahrirlangan kitoblarni ustiga yozamiz
   const customBooks = _getLocalCustomBooks();
   customBooks.forEach(cb => {
-    if (!cb || !cb.id) return;
-    const idStr = String(cb.id);
-    if (!deletedIds.includes(idStr)) {
-      const existing = bookMap.get(idStr) || {};
-      const cover = cb.cover_url || cb.coverImage || cb.cover || existing.cover || '';
-      bookMap.set(idStr, {
-        ...existing,
-        ...cb,
-        id: idStr,
-        category: cb.category || cb.genre || existing.category || 'Badiiy',
-        genre: cb.genre || cb.category || existing.genre || 'Badiiy',
-        cover_url: cover,
-        coverImage: cover,
-        cover: cover,
-      });
+    if (!cb || (!cb.id && !cb.title)) return;
+    const idStr = String(cb.id || _slugify(cb.title));
+    if (deletedIds.includes(idStr)) return;
+
+    // Find matching key by ID or slugified title
+    let targetKey = idStr;
+    if (!bookMap.has(targetKey)) {
+      for (const [key, existing] of bookMap.entries()) {
+        if (existing && (_slugify(existing.title) === _slugify(cb.title) || (cb.slug && _slugify(existing.slug) === _slugify(cb.slug)))) {
+          targetKey = key;
+          break;
+        }
+      }
     }
+
+    const existing = bookMap.get(targetKey) || {};
+    const cover = cb.cover_url || cb.coverImage || cb.cover || existing.cover || existing.cover_url || '';
+    bookMap.set(targetKey, {
+      ...existing,
+      ...cb,
+      id: targetKey,
+      title: cb.title || existing.title,
+      author: cb.author || existing.author,
+      category: cb.category || cb.genre || existing.category || existing.genre || 'Adabiyot',
+      genre: cb.genre || cb.category || existing.genre || existing.category || 'Badiiy',
+      cover_url: cover,
+      coverImage: cover,
+      cover: cover,
+    });
   });
 
   _booksCache = Array.from(bookMap.values());
@@ -295,17 +356,18 @@ export async function saveBook(data, id = null) {
     updated_at: new Date().toISOString(),
   };
 
-  // 1. LocalStorage ga mustahkam saqlash
+  // 1. LocalStorage ga barcha mos kalitlar bo'yicha saqlash
   const custom = _getLocalCustomBooks();
-  const idx = custom.findIndex(b => String(b.id) === targetId);
+  const idx = custom.findIndex(b => String(b.id) === targetId || _slugify(b.title) === _slugify(fullBook.title));
   if (idx >= 0) {
     custom[idx] = { ...custom[idx], ...fullBook };
   } else {
     custom.push(fullBook);
   }
   localStorage.setItem('kitobchi_books_store', JSON.stringify(custom));
+  localStorage.setItem('custom_books', JSON.stringify(custom));
 
-  const deleted = _getDeletedBookIds().filter(d => String(d) !== targetId);
+  const deleted = _getDeletedBookIds().filter(d => String(d) !== targetId && String(d) !== _slugify(fullBook.title));
   localStorage.setItem('kitobchi_deleted_books', JSON.stringify(deleted));
 
   // 2. Keshni tozalash va hodisa jo'natish
@@ -346,8 +408,9 @@ export async function deleteBook(id) {
   const strId = String(id);
 
   // 1. LocalStorage yangilash
-  const custom = _getLocalCustomBooks().filter(b => String(b.id) !== strId);
+  const custom = _getLocalCustomBooks().filter(b => String(b.id) !== strId && _slugify(b.title) !== strId);
   localStorage.setItem('kitobchi_books_store', JSON.stringify(custom));
+  localStorage.setItem('custom_books', JSON.stringify(custom));
 
   const deleted = _getDeletedBookIds();
   if (!deleted.includes(strId)) {
@@ -363,12 +426,7 @@ export async function deleteBook(id) {
 
   // 3. Supabase dan o'chirish
   try {
-    const numericId = /^\d+$/.test(strId) ? parseInt(strId, 10) : null;
-    if (numericId !== null) {
-      await supabase.from('books').delete().eq('id', numericId);
-    } else {
-      await supabase.from('books').delete().eq('id', strId);
-    }
+    await supabase.from('books').delete().eq('id', strId);
   } catch (err) {
     console.warn('[db] Supabase delete book fallback:', err);
   }
