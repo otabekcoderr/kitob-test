@@ -314,8 +314,14 @@ export async function startQuiz(config, callbacks = {}) {
       return;
     }
 
-    // Aralashtirish
-    state.questions = shuffle(raw);
+    // Savollarni va ularning har birining variantlarini dinamik aralashtirish
+    state.questions = shuffle(raw).map(q => {
+      const opts = Array.isArray(q.options) ? [...q.options] : [];
+      return {
+        ...q,
+        options: shuffle(opts),
+      };
+    });
     state.isRunning = true;
 
     // Anti-cheat yoqish
