@@ -884,22 +884,6 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     const { updateProfile } = await import('./auth.js');
     await updateProfile({ score: newScore, streak: newStreak, lastQuizDate: todayDate });
 
-    // 2. Supabase profiles jadvalini upsert orqali fonda yangilaymiz
-    try {
-      await supabase
-        .from('profiles')
-        .upsert({
-          id:             user.id,
-          full_name:      user.fullName || user.username,
-          username:       user.username,
-          score:          newScore,
-          streak:         newStreak,
-          last_quiz_date: todayDate,
-        }, { onConflict: 'id' });
-    } catch (err) {
-      console.warn('[db] updateStreakAndScore Supabase fallback:', err);
-    }
-
     return { success: true, newStreak, newScore };
 
   } catch (err) {

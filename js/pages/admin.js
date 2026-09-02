@@ -814,12 +814,43 @@ async function _renderUsers(panel) {
   try {
     const { data, error } = await supabase
       .from('profiles')
-      .select('*')
-      .order('score', { ascending: false });
+      .select('*');
     if (!error && Array.isArray(data) && data.length > 0) {
       users = data;
     }
   } catch { /* ignore */ }
+
+  // Mahalliy foydalanuvchilar bilan birlashtirish
+  let localUsers = {};
+  try {
+    const raw = localStorage.getItem('kitobchi_all_users');
+    if (raw) localUsers = JSON.parse(raw);
+  } catch { /* ignore */ }
+
+  Object.values(localUsers).forEach(u => {
+    if (!u || !u.id) return;
+    const idx = users.findIndex(item => item.id === u.id || (item.username && item.username === u.username));
+    if (idx >= 0) {
+      users[idx] = {
+        ...users[idx],
+        score: Math.max(users[idx].score || 0, u.score || 0),
+        streak: Math.max(users[idx].streak || 0, u.streak || 0),
+        role: u.role || users[idx].role || 'user',
+        full_name: u.fullName || users[idx].full_name || u.username,
+      };
+    } else {
+      users.push({
+        id: u.id,
+        full_name: u.fullName || u.username,
+        username: u.username,
+        score: u.score || 0,
+        streak: u.streak || 0,
+        role: u.role || 'user',
+      });
+    }
+  });
+
+  users.sort((a, b) => (b.score || 0) - (a.score || 0));
 
   if (users.length === 0) {
     const cur = getCurrentUser();
