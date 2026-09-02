@@ -1449,7 +1449,7 @@ export const questions = [
     "question": "Yusufbek hojining 'Bizning xonlikdagi parokandalik — o'zimizning jaholatimiz va xudbinligimiz mevasidir' degan xulosasi asarning qaysi asosiy ijtimoiy mantiqini ochib beradi?",
     "options": [
       "Tashqi dushmandan ko'ra ichki nifoq va saroy fitnalari millatni halokatga yetaklashi",
-      "Qo'qon xonligi iqtisodiy jihatdan butunlay qashshoqlashib qolganligi",
+      "Xonlikning faqat iqtisodiy jihatdan qashshoqlashib qolganligi",
       "Faqat Toshkent bekligi mustaqil bo'lishi kerakligi",
       "Xon farmonlariga so'zsiz bo'ysunish lozimligi"
     ],
@@ -1460,7 +1460,7 @@ export const questions = [
     "id": "q_otkan-kunlar_2",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Otabekning Marg'ilonda Homid bilan to'qnashuvida uning boshqalardan ajralib turuvchi asosiy fazilati va dunyoqarashi nimada namoyon bo'ladi?",
+    "question": "Asarda Otabekning Homid bilan to'qnashuvida uning boshqalardan ajralib turuvchi asosiy fazilati va dunyoqarashi nimada namoyon bo'ladi?",
     "options": [
       "Faqat savdo-sotiqda ko'proq foyda ko'rish ilinjida",
       "Zamonaviy bilim, yangicha fikrlash va inson qadr-qimmatini an'anaviy jaholatdan ustun qo'yishida",
@@ -1488,7 +1488,7 @@ export const questions = [
     "id": "q_otkan-kunlar_4",
     "bookId": "otkan-kunlar",
     "book_id": "otkan-kunlar",
-    "question": "Kumushbibining zaharlanish sahnasida uning so'nggi so'zlari orqali uning qalb go'zalligi va ruhiy yuksakligi qanday ifodalangan?",
+    "question": "Kumushbibining zaharlanish sahnasida uning so'nggi so'zlari orqali qahramonning qalb go'zalligi va ruhiy yuksakligi qanday ifodalangan?",
     "options": [
       "Zaynabdan o'ch olishni vasiyat qilishi",
       "Otabekka bo'lgan sadoqati va hatto o'lim oldida ham mehr-oqibatni saqlab qolgani",
@@ -1560,7 +1560,7 @@ export const questions = [
     "book_id": "mehrobdan-chayon",
     "question": "Asar nomidagi 'Mehrobdan chayon' iborasi qanday ramziy ma'noni ifodalaydi?",
     "options": [
-      "Masjid binosida chayonlar ko'pligini",
+      "Masjid binosida hasharotlar ko'pligini",
       "Eng muqaddas va pokiza joy (mehrob) niqobi ostida yovuzlik va xiyonat qiluvchi kimsalarni",
       "Qo'qon tabiatining o'ziga xosligini",
       "Saroy sarbozlarining harbiy kiyimini"
@@ -1572,119 +1572,63 @@ export const questions = [
     "id": "q_sarob_1",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Abdulla Qahhorning \"Sarob\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asarda Saidiyning fojiasi qaysi psixologik va ijtimoiy mantiq asosiga qurilgan?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Tadbirkorlikda omadi chopmaganligi",
+      "O'z xalqi va milliy ildizlaridan uzilib, soxta mafkura va sarobiy xomxayollarga aldanib o'zligini yo'qotishi",
+      "Qashshoq oiladan chiqqanligi sababli kamsitilishi",
+      "Tibbiyot sohasini tanlamaganligi"
     ],
-    "correctAnswer": 0,
-    "explanation": "\"Sarob\" asarida Abdulla Qahhor inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 1,
+    "explanation": "Saidiy iste'dodli bo'lsa-da, mustaqil e'tiqodga ega emas edi; u sarobiy g'oyalarga ergashib, ma'naviy tanazzulga uchraydi."
   },
   {
     "id": "q_sarob_2",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "\"Sarob\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Munisxon obrazining Saidiy hayotidagi o'rni orqali asarda qanday axloqiy saboq beriladi?",
     "options": [
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Faqat boy qizlarga uylanish baxt keltirishi",
+      "Soxta dabdaba, ma'naviy qashshoqlik va samimiyatsizlik insonni baxtli qila olmasligi",
+      "Yozuvchilik faqat shaharda rivojlanishi",
+      "Boylik barcha muammolarni hal qilishi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
-  },
-  {
-    "id": "q_sarob_3",
-    "bookId": "sarob",
-    "book_id": "sarob",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
-    "options": [
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
-  },
-  {
-    "id": "q_sarob_4",
-    "bookId": "sarob",
-    "book_id": "sarob",
-    "question": "\"Sarob\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
-    "options": [
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Muallif Abdulla Qahhor kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "Munisxon va uning muhiti tashqi tomondan jozibali bo'lsa-da, ichki ma'naviyatsizlik va xudbinlik timsolidir."
   },
   {
     "id": "q_shum-bola_1",
     "bookId": "shum-bola",
     "book_id": "shum-bola",
-    "question": "G'afur G'ulomning \"Shum bola\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asarda bosh qahramonning aldov va hiylalari qanday ijtimoiy himoya mexanizmi vazifasini o'taydi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Boylarni qasddan xonavayron qilish uchun",
+      "Zolimlarga, ochlik va adolatsiz tuzumga qarshi nochor yetim bolaning tirik qolish va o'zligini saqlash quroli",
+      "Boshqalarga yomonlik qilish istagi tufayli",
+      "Faqat vaqtni ko'ngilli o'tkazish ilinjida"
     ],
-    "correctAnswer": 0,
-    "explanation": "\"Shum bola\" asarida G'afur G'ulom inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 1,
+    "explanation": "Shum bolaning topqirligi va kutilmagan hiylalari — beshafqat dunyoda ezilgan oddiy xalq farzandining ruhiy va jismoniy omon qolish mahoratidir."
   },
   {
     "id": "q_shum-bola_2",
     "bookId": "shum-bola",
     "book_id": "shum-bola",
-    "question": "\"Shum bola\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Qoravoyning Sariboy bo'lis xonadonidagi sarguzashtlari orqali jamiyatning qaysi illati fosh etiladi?",
     "options": [
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Dehqonlarning mehnatsiz boyib ketganini",
+      "Boylarning ochko'zligi, soxta dindorligi va mehnatchi xalqni ayovsiz ezishini",
+      "Qishloq xo'jaligining rivojlanganligini",
+      "Hosilning har yili mo'l bo'lishini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
-  },
-  {
-    "id": "q_shum-bola_3",
-    "bookId": "shum-bola",
-    "book_id": "shum-bola",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
-    "options": [
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
-  },
-  {
-    "id": "q_shum-bola_4",
-    "bookId": "shum-bola",
-    "book_id": "shum-bola",
-    "question": "\"Shum bola\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
-    "options": [
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Muallif G'afur G'ulom kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "Sariboy obrazi orqali o'z xizmatkorlarining haqqini yeydigan, xasis va zolim tabaqaning asl basharasi achchiq kulgi ostiga olinadi."
   },
   {
     "id": "q_ikki-eshik-orasi_1",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "O'tkir Hoshimovning \"Ikki eshik orasi\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -1692,13 +1636,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Ikki eshik orasi\" asarida O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ikki-eshik-orasi_2",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "\"Ikki eshik orasi\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -1726,7 +1670,7 @@ export const questions = [
     "id": "q_ikki-eshik-orasi_4",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "\"Ikki eshik orasi\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -1734,13 +1678,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif O'tkir Hoshimov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_dunyoning-ishlari_1",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "O'tkir Hoshimovning \"Dunyoning ishlari\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -1748,13 +1692,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Dunyoning ishlari\" asarida O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_dunyoning-ishlari_2",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "\"Dunyoning ishlari\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -1782,7 +1726,7 @@ export const questions = [
     "id": "q_dunyoning-ishlari_4",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "\"Dunyoning ishlari\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -1790,69 +1734,55 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif O'tkir Hoshimov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_kecha-va-kunduz_1",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Abdulhamid Cho'lponning \"Kecha va kunduz\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi 'Kecha' ramzi qanday chuqur ijtimoiy ma'noni ifodalaydi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Tungi vaqtda bo'ladigan sayllarni",
+      "Mustamlakachilik zulmati, milliy qoloqlik, xurofot va xalqning mudroq uyqudagi ayanchli ahvolini",
+      "Zebining qorong'uda sayr qilishini",
+      "Farg'ona vodiysining tabiat manzaralarini"
     ],
-    "correctAnswer": 0,
-    "explanation": "\"Kecha va kunduz\" asarida Abdulhamid Cho'lpon inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 1,
+    "explanation": "'Kecha' — bu mustamlakachilik, jaholat va erkdan mahrumlik davrining umumlashtirilgan badiiy-falsafiy ramzidir."
   },
   {
     "id": "q_kecha-va-kunduz_2",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "\"Kecha va kunduz\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Akbarali mingboshining fojiali o'limi qaysi sabab-oqibat qonuniyatining natijasidir?",
     "options": [
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Tasodifiy zaharlanish hodisasi",
+      "Hokimiyatga ko'r-ko'rona intilish, xalq dardi bilan qiziqmaslik va saroy o'yinlarining qurboniga aylanish",
+      "Haddan ortiq saxovat ko'rsatgani",
+      "Sibirga sayohat qilish istagi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 1,
+    "explanation": "Mingboshi mustamlaka ma'murlariga malaylik qilib, o'z xalqiga zulm o'tkazdi; uning fojeasi — adolatsiz boshqaruvning muqarrar oqibatidir."
   },
   {
     "id": "q_kecha-va-kunduz_3",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Miryoqub obrazining asar davomidagi ichki evolyutsiyasi va o'zgarish mantig'i nimada?",
     "options": [
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Faqat boylik orttirish yo'llarini o'rgangani",
+      "Jadidlar va ma'rifatli insonlar bilan muloqotda bo'lib, o'zining qora o'tmishidan pushaymon bo'lishi va ma'rifatga intilishi",
+      "Chet elga butunlay ko'chib ketishga qaror qilgani",
+      "Mingboshining o'rnini egallash rejasi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
-  },
-  {
-    "id": "q_kecha-va-kunduz_4",
-    "bookId": "kecha-va-kunduz",
-    "book_id": "kecha-va-kunduz",
-    "question": "\"Kecha va kunduz\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
-    "options": [
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Muallif Abdulhamid Cho'lpon kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "Miryoqub — asarda eng dinamik rivojlanuvchi qahramon; u jaholat botqog'idan chiqib, ma'rifat va milliy uyg'onish zaruratini anglab yetadi."
   },
   {
     "id": "q_ulugbek-xazinasi_1",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Odil Yoqubovning \"Ulug'bek xazinasi\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -1860,13 +1790,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Ulug'bek xazinasi\" asarida Odil Yoqubov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ulugbek-xazinasi_2",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "\"Ulug'bek xazinasi\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -1894,7 +1824,7 @@ export const questions = [
     "id": "q_ulugbek-xazinasi_4",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "\"Ulug'bek xazinasi\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -1902,13 +1832,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Odil Yoqubov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_yulduzli-tunlar_1",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Pirimqul Qodirovning \"Yulduzli tunlar\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -1916,13 +1846,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Yulduzli tunlar\" asarida Pirimqul Qodirov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_yulduzli-tunlar_2",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "\"Yulduzli tunlar\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -1950,7 +1880,7 @@ export const questions = [
     "id": "q_yulduzli-tunlar_4",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "\"Yulduzli tunlar\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -1958,13 +1888,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Pirimqul Qodirov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_baxt-kochasi_1",
     "bookId": "baxt-kochasi",
     "book_id": "baxt-kochasi",
-    "question": "Tohir Malikning \"Baxt ko'chasi\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -1972,13 +1902,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Baxt ko'chasi\" asarida Tohir Malik inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_baxt-kochasi_2",
     "bookId": "baxt-kochasi",
     "book_id": "baxt-kochasi",
-    "question": "\"Baxt ko'chasi\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2006,7 +1936,7 @@ export const questions = [
     "id": "q_baxt-kochasi_4",
     "bookId": "baxt-kochasi",
     "book_id": "baxt-kochasi",
-    "question": "\"Baxt ko'chasi\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2014,13 +1944,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Tohir Malik kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_hamsa_1",
     "bookId": "hamsa",
     "book_id": "hamsa",
-    "question": "Alisher Navoiyning \"Hamsa\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2028,13 +1958,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Hamsa\" asarida Alisher Navoiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_hamsa_2",
     "bookId": "hamsa",
     "book_id": "hamsa",
-    "question": "\"Hamsa\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2062,7 +1992,7 @@ export const questions = [
     "id": "q_hamsa_4",
     "bookId": "hamsa",
     "book_id": "hamsa",
-    "question": "\"Hamsa\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2070,13 +2000,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Alisher Navoiy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_lison-ut-tayr_1",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Alisher Navoiyning \"Lison ut-tayr\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2084,13 +2014,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Lison ut-tayr\" asarida Alisher Navoiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_lison-ut-tayr_2",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "\"Lison ut-tayr\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2118,7 +2048,7 @@ export const questions = [
     "id": "q_lison-ut-tayr_4",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "\"Lison ut-tayr\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2126,13 +2056,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Alisher Navoiy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_boburnoma_1",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Zahiriddin Muhammad Boburning \"Boburnoma\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2140,13 +2070,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Boburnoma\" asarida Zahiriddin Muhammad Bobur inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_boburnoma_2",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "\"Boburnoma\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2174,7 +2104,7 @@ export const questions = [
     "id": "q_boburnoma_4",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "\"Boburnoma\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2182,13 +2112,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Zahiriddin Muhammad Bobur kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_qutadgu-bilig_1",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Yusuf Xos Hojibning \"Qutadg'u bilig\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2196,13 +2126,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Qutadg'u bilig\" asarida Yusuf Xos Hojib inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_qutadgu-bilig_2",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "\"Qutadg'u bilig\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2230,7 +2160,7 @@ export const questions = [
     "id": "q_qutadgu-bilig_4",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "\"Qutadg'u bilig\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2238,13 +2168,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Yusuf Xos Hojib kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_devonu-lugotit-turk_1",
     "bookId": "devonu-lugotit-turk",
     "book_id": "devonu-lugotit-turk",
-    "question": "Mahmud Qashg'ariyning \"Devonu lug'otit turk\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2252,13 +2182,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Devonu lug'otit turk\" asarida Mahmud Qashg'ariy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_devonu-lugotit-turk_2",
     "bookId": "devonu-lugotit-turk",
     "book_id": "devonu-lugotit-turk",
-    "question": "\"Devonu lug'otit turk\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2286,7 +2216,7 @@ export const questions = [
     "id": "q_devonu-lugotit-turk_4",
     "bookId": "devonu-lugotit-turk",
     "book_id": "devonu-lugotit-turk",
-    "question": "\"Devonu lug'otit turk\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2294,13 +2224,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Mahmud Qashg'ariy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_alpomish_1",
     "bookId": "alpomish",
     "book_id": "alpomish",
-    "question": "Xalq dostonining \"Alpomish\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2308,13 +2238,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Alpomish\" asarida Xalq dostoni inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_alpomish_2",
     "bookId": "alpomish",
     "book_id": "alpomish",
-    "question": "\"Alpomish\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2342,7 +2272,7 @@ export const questions = [
     "id": "q_alpomish_4",
     "bookId": "alpomish",
     "book_id": "alpomish",
-    "question": "\"Alpomish\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2350,13 +2280,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Xalq dostoni kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_gorogli_1",
     "bookId": "gorogli",
     "book_id": "gorogli",
-    "question": "Xalq dostonining \"Go'ro'g'li\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2364,13 +2294,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Go'ro'g'li\" asarida Xalq dostoni inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_gorogli_2",
     "bookId": "gorogli",
     "book_id": "gorogli",
-    "question": "\"Go'ro'g'li\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2398,7 +2328,7 @@ export const questions = [
     "id": "q_gorogli_4",
     "bookId": "gorogli",
     "book_id": "gorogli",
-    "question": "\"Go'ro'g'li\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2406,13 +2336,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Xalq dostoni kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_qissasi-rabguziy_1",
     "bookId": "qissasi-rabguziy",
     "book_id": "qissasi-rabguziy",
-    "question": "Rabg'uziyning \"Qissasi Rabg'uziy\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2420,13 +2350,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Qissasi Rabg'uziy\" asarida Rabg'uziy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_qissasi-rabguziy_2",
     "bookId": "qissasi-rabguziy",
     "book_id": "qissasi-rabguziy",
-    "question": "\"Qissasi Rabg'uziy\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2454,7 +2384,7 @@ export const questions = [
     "id": "q_qissasi-rabguziy_4",
     "bookId": "qissasi-rabguziy",
     "book_id": "qissasi-rabguziy",
-    "question": "\"Qissasi Rabg'uziy\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2462,13 +2392,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Rabg'uziy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_sahih-buxoriy_1",
     "bookId": "sahih-buxoriy",
     "book_id": "sahih-buxoriy",
-    "question": "Imom Buxoriyning \"Al-Jome as-Sahih\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2476,13 +2406,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Al-Jome as-Sahih\" asarida Imom Buxoriy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_sahih-buxoriy_2",
     "bookId": "sahih-buxoriy",
     "book_id": "sahih-buxoriy",
-    "question": "\"Al-Jome as-Sahih\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2510,7 +2440,7 @@ export const questions = [
     "id": "q_sahih-buxoriy_4",
     "bookId": "sahih-buxoriy",
     "book_id": "sahih-buxoriy",
-    "question": "\"Al-Jome as-Sahih\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2518,13 +2448,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Imom Buxoriy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_ruhiy-tarbiya_1",
     "bookId": "ruhiy-tarbiya",
     "book_id": "ruhiy-tarbiya",
-    "question": "Imom al-Gazzoliyning \"Ihyo ulumid-din\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2532,13 +2462,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Ihyo ulumid-din\" asarida Imom al-Gazzoliy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ruhiy-tarbiya_2",
     "bookId": "ruhiy-tarbiya",
     "book_id": "ruhiy-tarbiya",
-    "question": "\"Ihyo ulumid-din\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2566,7 +2496,7 @@ export const questions = [
     "id": "q_ruhiy-tarbiya_4",
     "bookId": "ruhiy-tarbiya",
     "book_id": "ruhiy-tarbiya",
-    "question": "\"Ihyo ulumid-din\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2574,13 +2504,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Imom al-Gazzoliy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_hamlet_1",
     "bookId": "hamlet",
     "book_id": "hamlet",
-    "question": "William Shakespearening \"Hamlet\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2588,13 +2518,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Hamlet\" asarida William Shakespeare inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_hamlet_2",
     "bookId": "hamlet",
     "book_id": "hamlet",
-    "question": "\"Hamlet\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2622,7 +2552,7 @@ export const questions = [
     "id": "q_hamlet_4",
     "bookId": "hamlet",
     "book_id": "hamlet",
-    "question": "\"Hamlet\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2630,13 +2560,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif William Shakespeare kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_romeo-juliet_1",
     "bookId": "romeo-juliet",
     "book_id": "romeo-juliet",
-    "question": "William Shakespearening \"Romeo va Juliet\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2644,13 +2574,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Romeo va Juliet\" asarida William Shakespeare inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_romeo-juliet_2",
     "bookId": "romeo-juliet",
     "book_id": "romeo-juliet",
-    "question": "\"Romeo va Juliet\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2678,7 +2608,7 @@ export const questions = [
     "id": "q_romeo-juliet_4",
     "bookId": "romeo-juliet",
     "book_id": "romeo-juliet",
-    "question": "\"Romeo va Juliet\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2686,7 +2616,7 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif William Shakespeare kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_jinoyat-va-jazo_1",
@@ -2734,7 +2664,7 @@ export const questions = [
     "id": "q_urush-va-tinchlik_1",
     "bookId": "urush-va-tinchlik",
     "book_id": "urush-va-tinchlik",
-    "question": "Lev Tolstoyning \"Urush va tinchlik\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2742,13 +2672,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Urush va tinchlik\" asarida Lev Tolstoy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_urush-va-tinchlik_2",
     "bookId": "urush-va-tinchlik",
     "book_id": "urush-va-tinchlik",
-    "question": "\"Urush va tinchlik\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2776,7 +2706,7 @@ export const questions = [
     "id": "q_urush-va-tinchlik_4",
     "bookId": "urush-va-tinchlik",
     "book_id": "urush-va-tinchlik",
-    "question": "\"Urush va tinchlik\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2784,13 +2714,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Lev Tolstoy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_anna-karenina_1",
     "bookId": "anna-karenina",
     "book_id": "anna-karenina",
-    "question": "Lev Tolstoyning \"Anna Karenina\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2798,13 +2728,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Anna Karenina\" asarida Lev Tolstoy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_anna-karenina_2",
     "bookId": "anna-karenina",
     "book_id": "anna-karenina",
-    "question": "\"Anna Karenina\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2832,7 +2762,7 @@ export const questions = [
     "id": "q_anna-karenina_4",
     "bookId": "anna-karenina",
     "book_id": "anna-karenina",
-    "question": "\"Anna Karenina\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2840,13 +2770,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Lev Tolstoy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_robinzon-kruzo_1",
     "bookId": "robinzon-kruzo",
     "book_id": "robinzon-kruzo",
-    "question": "Daniel Defoening \"Robinzon Kruzo\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2854,13 +2784,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Robinzon Kruzo\" asarida Daniel Defoe inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_robinzon-kruzo_2",
     "bookId": "robinzon-kruzo",
     "book_id": "robinzon-kruzo",
-    "question": "\"Robinzon Kruzo\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2888,7 +2818,7 @@ export const questions = [
     "id": "q_robinzon-kruzo_4",
     "bookId": "robinzon-kruzo",
     "book_id": "robinzon-kruzo",
-    "question": "\"Robinzon Kruzo\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2896,13 +2826,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Daniel Defoe kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_don-kixot_1",
     "bookId": "don-kixot",
     "book_id": "don-kixot",
-    "question": "Miguel de Cervantesning \"Don Kixot\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2910,13 +2840,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Don Kixot\" asarida Miguel de Cervantes inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_don-kixot_2",
     "bookId": "don-kixot",
     "book_id": "don-kixot",
-    "question": "\"Don Kixot\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -2944,7 +2874,7 @@ export const questions = [
     "id": "q_don-kixot_4",
     "bookId": "don-kixot",
     "book_id": "don-kixot",
-    "question": "\"Don Kixot\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -2952,13 +2882,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Miguel de Cervantes kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_faust_1",
     "bookId": "faust",
     "book_id": "faust",
-    "question": "Johann Wolfgang von Goethening \"Faust\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -2966,13 +2896,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Faust\" asarida Johann Wolfgang von Goethe inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_faust_2",
     "bookId": "faust",
     "book_id": "faust",
-    "question": "\"Faust\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3000,7 +2930,7 @@ export const questions = [
     "id": "q_faust_4",
     "bookId": "faust",
     "book_id": "faust",
-    "question": "\"Faust\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3008,13 +2938,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Johann Wolfgang von Goethe kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_sherlock-holmes_1",
     "bookId": "sherlock-holmes",
     "book_id": "sherlock-holmes",
-    "question": "Arthur Conan Doylening \"Sherlock Holmes sarguzashtlari\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3022,13 +2952,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Sherlock Holmes sarguzashtlari\" asarida Arthur Conan Doyle inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_sherlock-holmes_2",
     "bookId": "sherlock-holmes",
     "book_id": "sherlock-holmes",
-    "question": "\"Sherlock Holmes sarguzashtlari\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3056,7 +2986,7 @@ export const questions = [
     "id": "q_sherlock-holmes_4",
     "bookId": "sherlock-holmes",
     "book_id": "sherlock-holmes",
-    "question": "\"Sherlock Holmes sarguzashtlari\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3064,7 +2994,7 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Arthur Conan Doyle kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_kichkina-shohzoda_1",
@@ -3098,7 +3028,7 @@ export const questions = [
     "id": "q_temur-tuzuklari_1",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Amir Temurning \"Temur tuzuklari\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3106,13 +3036,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Temur tuzuklari\" asarida Amir Temur inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_temur-tuzuklari_2",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "\"Temur tuzuklari\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3140,7 +3070,7 @@ export const questions = [
     "id": "q_temur-tuzuklari_4",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "\"Temur tuzuklari\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3148,13 +3078,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Amir Temur kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_siyosatnoma_1",
     "bookId": "siyosatnoma",
     "book_id": "siyosatnoma",
-    "question": "Nizamulmulkning \"Siyosatnoma\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3162,13 +3092,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Siyosatnoma\" asarida Nizamulmulk inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_siyosatnoma_2",
     "bookId": "siyosatnoma",
     "book_id": "siyosatnoma",
-    "question": "\"Siyosatnoma\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3196,7 +3126,7 @@ export const questions = [
     "id": "q_siyosatnoma_4",
     "bookId": "siyosatnoma",
     "book_id": "siyosatnoma",
-    "question": "\"Siyosatnoma\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3204,13 +3134,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Nizamulmulk kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_qobusnoma_1",
     "bookId": "qobusnoma",
     "book_id": "qobusnoma",
-    "question": "Kaykovusning \"Qobusnoma\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3218,13 +3148,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Qobusnoma\" asarida Kaykovus inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_qobusnoma_2",
     "bookId": "qobusnoma",
     "book_id": "qobusnoma",
-    "question": "\"Qobusnoma\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3252,7 +3182,7 @@ export const questions = [
     "id": "q_qobusnoma_4",
     "bookId": "qobusnoma",
     "book_id": "qobusnoma",
-    "question": "\"Qobusnoma\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3260,13 +3190,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Kaykovus kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_guliston_1",
     "bookId": "guliston",
     "book_id": "guliston",
-    "question": "Sa'diy Sheroziyning \"Guliston\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3274,13 +3204,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Guliston\" asarida Sa'diy Sheroziy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_guliston_2",
     "bookId": "guliston",
     "book_id": "guliston",
-    "question": "\"Guliston\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3308,7 +3238,7 @@ export const questions = [
     "id": "q_guliston_4",
     "bookId": "guliston",
     "book_id": "guliston",
-    "question": "\"Guliston\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3316,13 +3246,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Sa'diy Sheroziy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_atom-odatlar_1",
     "bookId": "atom-odatlar",
     "book_id": "atom-odatlar",
-    "question": "Jeyms Klir 'Odatlar o'zgarishi natijalarga emas, balki shaxsiyatga (identities) asoslanishi kerak' deganda nimani nazarda tutadi?",
+    "question": "'Odatlar o'zgarishi natijalarga emas, balki shaxsiyatga (identities) asoslanishi kerak' deganda nima nazarda tutiladi?",
     "options": [
       "Faqat tashqi ko'rinishni o'zgartirishni",
       "'Men kitob o'qimoqchiman' emas, balki 'Men kitobxonman' deb o'zini yangi maqomda his qilish harakatni doimiy qilishini",
@@ -3333,38 +3263,66 @@ export const questions = [
     "explanation": "Haqiqiy xulq-atvor o'zgarishi — inson o'z-o'ziga beradigan baho va o'z shaxsiyatini yangilashi bilan yuz beradi."
   },
   {
-    "id": "q_atom-odatlar_2",
-    "bookId": "atom-odatlar",
-    "book_id": "atom-odatlar",
-    "question": "Har kuni 1% ga yaxshilanish qoidasi (The 1% Rule) qanday kuchli mantiqiy natijani beradi?",
-    "options": [
-      "Yil oxirida natija deyarli o'zgarmaydi",
-      "Murakkab foiz (compound effect) tufayli yil oxiriga borib 37 barobar o'sishga erishiladi",
-      "Inson darhol charchab qoladi",
-      "Faqat sportchilar uchun foydali bo'ladi"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Kichik, ammo doimiy qadamlar vaqt o'tishi bilan mislsiz ulkan natijaga (37x) aylanadi — bu o'sishning matematik va hayotiy qonuniyatidir."
-  },
-  {
     "id": "q_qorqma_1",
     "bookId": "qorqma",
     "book_id": "qorqma",
-    "question": "Javlon Jovliyevning 'Qo'rqma' romanida 1920-yillarda Germaniyaga o'qishga yuborilgan 70 nafar talabaning fojiasi qanday ulug'vor g'oyani ko'taradi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
-      "Xorijda yashab qolish yaxshiroq ekanini",
-      "Millat ma'rifati va erki uchun jon fido qilgan fidoiy yoshlarning xotirasi mangu yashashi va yangi avlodni uyg'oq bo'lishga chorlashi",
-      "Faqat chet tillarini o'rganish zarurligini",
-      "Sayohat xotiralarini yozib borishni"
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
+      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Voqealarning oddiy ketma-ketligini hech qanday xulosasiz bayon etishda",
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar millat kelajagi uchun o'z hayotini qurbon qilgan fidoyilar qismati orqali bugungi avlodni qo'rquvni yengishga va o'zligini asrashga undaydi."
+    "correctAnswer": 0,
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
+  },
+  {
+    "id": "q_qorqma_2",
+    "bookId": "qorqma",
+    "book_id": "qorqma",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "options": [
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
+      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+  },
+  {
+    "id": "q_qorqma_3",
+    "bookId": "qorqma",
+    "book_id": "qorqma",
+    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+  },
+  {
+    "id": "q_qorqma_4",
+    "bookId": "qorqma",
+    "book_id": "qorqma",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_molxona_1",
     "bookId": "molxona",
     "book_id": "molxona",
-    "question": "George Orwellning 'Molxona' (Animal Farm) asaridagi 'Barcha hayvonlar tengdir, ammo ba'zi hayvonlar boshqalariga qaraganda tengroqdir' qoidasi qanday ijtimoiy mantiqni fosh etadi?",
+    "question": "Asardagi 'Barcha hayvonlar tengdir, ammo ba'zi hayvonlar boshqalariga qaraganda tengroqdir' qoidasi qanday ijtimoiy mantiqni fosh etadi?",
     "options": [
       "Hayvonlarning vazniga qarab taqsimlanishini",
       "Inqilobiy shiorlar ostida hokimiyatga kelgan elitist tabaqaning asta-sekin o'z xalqini avvalgi zolimlardan ham battarroq ezishini",
@@ -3375,24 +3333,10 @@ export const questions = [
     "explanation": "Cho'chqalar dastlabki tenglik qoidalarini o'z manfaati uchun o'zgartirib, totalitar diktatura o'rnatadilar — bu hokimiyat korrupsiyasining klassik allegoriyasidir."
   },
   {
-    "id": "q_molxona_2",
-    "bookId": "molxona",
-    "book_id": "molxona",
-    "question": "Mehnatkash 'Boxer' (Bokser) otining fojiali taqdiri nimaning timsoli hisoblanadi?",
-    "options": [
-      "Fermadagi transport yetishmasligini",
-      "Tizimga ko'r-ko'rona ishonib, jonini jabborga berib mehnat qilgan mehnatchilar sinfining foydasi tugagach shafqatsizlarcha tashlab yuborilishini",
-      "Qarigan hayvonlarga alohida pensiya berilishini",
-      "Boshqa fermalar bilan savdo aloqalarini"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Bokser tinimsiz mehnat qildi ('Men yanada qattiqroq ishlayman'), ammo kuchi ketgach cho'chqalar uni qassobga sotib yuborishadi — bu xiyonatning eng achinarli timsolidir."
-  },
-  {
     "id": "q_orwell-1984_1",
     "bookId": "orwell-1984",
     "book_id": "orwell-1984",
-    "question": "Orwellning '1984' asarida 'Haqiqat vazirligi' (Ministry of Truth) ning asosiy vazifasi tarixni doimiy o'zgartirishdan iborat bo'lishidagi mantiqiy maqsad nima?",
+    "question": "Asardagi 'Haqiqat vazirligi' (Ministry of Truth) ning asosiy vazifasi tarixni doimiy o'zgartirishdan iborat bo'lishidagi mantiqiy maqsad nima?",
     "options": [
       "Kutubxonalardagi kitoblar sonini ko'paytirish",
       "O'tmishni nazorat qilgan kimsa kelajakni ham, insonlar xotirasi va tafakkurini ham to'liq boshqarishi",
@@ -3415,20 +3359,6 @@ export const questions = [
     ],
     "correctAnswer": 1,
     "explanation": "Agar inson partiya buyrug'i bilan ko'z o'ngidagi 2+2=4 haqiqatidan voz kechib 5 deb ishonsa, u o'z ongi va erkinligini to'liq tizimga topshirgan bo'ladi."
-  },
-  {
-    "id": "q_orwell-1984_3",
-    "bookId": "orwell-1984",
-    "book_id": "orwell-1984",
-    "question": "Winston Smithning 101-xonada o'z sevgilisi Julia'ga xiyonat qilishi ('Menga emas, Julia'ga bering!') inson ruhiyatining qaysi nozik chegarasini ko'rsatadi?",
-    "options": [
-      "Julia'ni umuman sevmaganligini",
-      "Mutlaq dahshat va chuqur fobiya qarshisida insonning so'nggi ma'naviy tayanchi ham sinishi mumkinligini",
-      "Faqat pul uchun qilingan qarorni",
-      "Partiya a'zoligiga qabul qilinish quvonchini"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Partiya insonni nafaqat jismonan jazolaydi, balki uning eng nozik qo'rquvlaridan foydalanib, qalbida qolgan so'nggi insoniy mehr va sadoqatni ham yo'q qiladi."
   },
   {
     "id": "q_alkimyogar_1",
@@ -3462,7 +3392,7 @@ export const questions = [
     "id": "q_sariq-devni-minib_1",
     "bookId": "sariq-devni-minib",
     "book_id": "sariq-devni-minib",
-    "question": "Xudoyberdi To'xtaboyevning \"Sariq devni minib\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3470,13 +3400,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Sariq devni minib\" asarida Xudoyberdi To'xtaboyev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_sariq-devni-minib_2",
     "bookId": "sariq-devni-minib",
     "book_id": "sariq-devni-minib",
-    "question": "\"Sariq devni minib\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3504,7 +3434,7 @@ export const questions = [
     "id": "q_sariq-devni-minib_4",
     "bookId": "sariq-devni-minib",
     "book_id": "sariq-devni-minib",
-    "question": "\"Sariq devni minib\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3512,13 +3442,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Xudoyberdi To'xtaboyev kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_ufq_1",
     "bookId": "ufq",
     "book_id": "ufq",
-    "question": "Said Ahmadning \"Ufq\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3526,13 +3456,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Ufq\" asarida Said Ahmad inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ufq_2",
     "bookId": "ufq",
     "book_id": "ufq",
-    "question": "\"Ufq\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3560,7 +3490,7 @@ export const questions = [
     "id": "q_ufq_4",
     "bookId": "ufq",
     "book_id": "ufq",
-    "question": "\"Ufq\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3568,41 +3498,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Said Ahmad kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_1",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Tog'ay Murodning 'Otamdan qolgan dalalar' romanida Dehqonqul fojiasi orqali o'zbek xalqining qaysi tarixiy dardi nola qilib aytiladi?",
-    "options": [
-      "Paxta yetishtirish texnologiyasining eskiligi",
-      "Paxta yakkahokimligi (monokultura) asoratida kechayu kunduz mehnat qilib, o'z erkidan va qadriyatlaridan mosuvo bo'lgan o'zbek dehqonining fojiasi",
-      "Traktorlarning yetishmasligi",
-      "Qishloqda yashashning qiyinligi"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Dehqonqul o'z otasi va bobolarining erkin ruhini unutib, mustabid tuzumning fidoyi quliga aylangan edi; asar millatni o'z qadrini va tarixini anglashga chaqiradi."
-  },
-  {
-    "id": "q_oq-kema_1",
-    "bookId": "oq-kema",
-    "book_id": "oq-kema",
-    "question": "Chingiz Aytmatovning 'Oq kema' qissasida Bolaning baliqqa aylanib daryoga cho'kishi qanday ramziy va fojiaviy ma'noga ega?",
-    "options": [
-      "Suzishni o'rganish istagini",
-      "Poklik, ertaklar va mehr dunyosining O'rozqul kabi beshafqat va yovuz kimsalarning iflos realligiga bo'ysunmasligi — ma'naviy murosasizlikni",
-      "Baliq ovlashga qiziqishini",
-      "Bobosidan arazlab ketganini"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Bola o'z idealidagi go'zallik va Shoxdor ona kiyikning o'ldirilishini qabul qilolmaydi; u yovuzlikka taslim bo'lishdan ko'ra, toza qalb bilan o'z ertagiga ketishni afzal biladi."
-  },
-  {
-    "id": "q_boy-ota-kambagal-ota_1",
-    "bookId": "boy-ota-kambagal-ota",
-    "book_id": "boy-ota-kambagal-ota",
-    "question": "Robert Kiyosakining \"Boy ota, kambag'al ota\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3610,13 +3512,125 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Boy ota, kambag'al ota\" asarida Robert Kiyosaki inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
+  },
+  {
+    "id": "q_otamdan-qolgan-dalalar_2",
+    "bookId": "otamdan-qolgan-dalalar",
+    "book_id": "otamdan-qolgan-dalalar",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "options": [
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
+      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+  },
+  {
+    "id": "q_otamdan-qolgan-dalalar_3",
+    "bookId": "otamdan-qolgan-dalalar",
+    "book_id": "otamdan-qolgan-dalalar",
+    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+  },
+  {
+    "id": "q_otamdan-qolgan-dalalar_4",
+    "bookId": "otamdan-qolgan-dalalar",
+    "book_id": "otamdan-qolgan-dalalar",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+  },
+  {
+    "id": "q_oq-kema_1",
+    "bookId": "oq-kema",
+    "book_id": "oq-kema",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "options": [
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
+      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Voqealarning oddiy ketma-ketligini hech qanday xulosasiz bayon etishda",
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
+  },
+  {
+    "id": "q_oq-kema_2",
+    "bookId": "oq-kema",
+    "book_id": "oq-kema",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "options": [
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
+      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+  },
+  {
+    "id": "q_oq-kema_3",
+    "bookId": "oq-kema",
+    "book_id": "oq-kema",
+    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+  },
+  {
+    "id": "q_oq-kema_4",
+    "bookId": "oq-kema",
+    "book_id": "oq-kema",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+  },
+  {
+    "id": "q_boy-ota-kambagal-ota_1",
+    "bookId": "boy-ota-kambagal-ota",
+    "book_id": "boy-ota-kambagal-ota",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "options": [
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
+      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Voqealarning oddiy ketma-ketligini hech qanday xulosasiz bayon etishda",
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_boy-ota-kambagal-ota_2",
     "bookId": "boy-ota-kambagal-ota",
     "book_id": "boy-ota-kambagal-ota",
-    "question": "\"Boy ota, kambag'al ota\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3644,7 +3658,7 @@ export const questions = [
     "id": "q_boy-ota-kambagal-ota_4",
     "bookId": "boy-ota-kambagal-ota",
     "book_id": "boy-ota-kambagal-ota",
-    "question": "\"Boy ota, kambag'al ota\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3652,13 +3666,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Robert Kiyosaki kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_samaradorlik-21_1",
     "bookId": "samaradorlik-21",
     "book_id": "samaradorlik-21",
-    "question": "Brayan Treysining \"Samaradorlikning 21 yo'li\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3666,13 +3680,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Samaradorlikning 21 yo'li\" asarida Brayan Treysi inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_samaradorlik-21_2",
     "bookId": "samaradorlik-21",
     "book_id": "samaradorlik-21",
-    "question": "\"Samaradorlikning 21 yo'li\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3700,7 +3714,7 @@ export const questions = [
     "id": "q_samaradorlik-21_4",
     "bookId": "samaradorlik-21",
     "book_id": "samaradorlik-21",
-    "question": "\"Samaradorlikning 21 yo'li\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3708,13 +3722,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Brayan Treysi kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_diqqat-deep-work_1",
     "bookId": "diqqat-deep-work",
     "book_id": "diqqat-deep-work",
-    "question": "Kal Nyuportning \"Diqqat (Deep Work)\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3722,13 +3736,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Diqqat (Deep Work)\" asarida Kal Nyuport inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_diqqat-deep-work_2",
     "bookId": "diqqat-deep-work",
     "book_id": "diqqat-deep-work",
-    "question": "\"Diqqat (Deep Work)\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3756,7 +3770,7 @@ export const questions = [
     "id": "q_diqqat-deep-work_4",
     "bookId": "diqqat-deep-work",
     "book_id": "diqqat-deep-work",
-    "question": "\"Diqqat (Deep Work)\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3764,13 +3778,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Kal Nyuport kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_halqa_1",
     "bookId": "halqa",
     "book_id": "halqa",
-    "question": "Akrom Malikning \"Halqa\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3778,13 +3792,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Halqa\" asarida Akrom Malik inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_halqa_2",
     "bookId": "halqa",
     "book_id": "halqa",
-    "question": "\"Halqa\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3812,7 +3826,7 @@ export const questions = [
     "id": "q_halqa_4",
     "bookId": "halqa",
     "book_id": "halqa",
-    "question": "\"Halqa\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3820,27 +3834,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Akrom Malik kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_shaytanat_1",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Tohir Malikning 'Shaytanat' asarida Asadbek fojiasining tub ma'naviy va mantiqiy ildizi nimada?",
-    "options": [
-      "Faqat huquq-tartibot organlarining ta'qibida",
-      "Yomonlik va jinoyat yo'li bilan qudratga erishgan kimsa, o'z oilasi va qalb xotirjamligini shaytaniy tuzoqqa qurbon qilishi muqarrarligida",
-      "Pulining tugab qolganligida",
-      "Do'stlarining kamligida"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Asadbek qanchalik qudratli mafiya yetakchisiga aylanmasin, u o'z qizi, xotini va vijdonini jinoyat olamining zahridan asrab qololmaydi — har qanday qabihlik o'z egasini mahv etadi."
-  },
-  {
-    "id": "q_saodat-asri_1",
-    "bookId": "saodat-asri",
-    "book_id": "saodat-asri",
-    "question": "Ahmad Lutfiy Qozonchining \"Saodat asri qissalari\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3848,13 +3848,69 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Saodat asri qissalari\" asarida Ahmad Lutfiy Qozonchi inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
+  },
+  {
+    "id": "q_shaytanat_2",
+    "bookId": "shaytanat",
+    "book_id": "shaytanat",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "options": [
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
+      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+  },
+  {
+    "id": "q_shaytanat_3",
+    "bookId": "shaytanat",
+    "book_id": "shaytanat",
+    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+  },
+  {
+    "id": "q_shaytanat_4",
+    "bookId": "shaytanat",
+    "book_id": "shaytanat",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+  },
+  {
+    "id": "q_saodat-asri_1",
+    "bookId": "saodat-asri",
+    "book_id": "saodat-asri",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "options": [
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
+      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Voqealarning oddiy ketma-ketligini hech qanday xulosasiz bayon etishda",
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_saodat-asri_2",
     "bookId": "saodat-asri",
     "book_id": "saodat-asri",
-    "question": "\"Saodat asri qissalari\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3882,7 +3938,7 @@ export const questions = [
     "id": "q_saodat-asri_4",
     "bookId": "saodat-asri",
     "book_id": "saodat-asri",
-    "question": "\"Saodat asri qissalari\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3890,13 +3946,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Ahmad Lutfiy Qozonchi kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_muvaffaqiyat-7_1",
     "bookId": "muvaffaqiyat-7",
     "book_id": "muvaffaqiyat-7",
-    "question": "Stiven Kovining \"Muvaffaqiyatli insonlarning 7 ko'nikmasi\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3904,13 +3960,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Muvaffaqiyatli insonlarning 7 ko'nikmasi\" asarida Stiven Kovi inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_muvaffaqiyat-7_2",
     "bookId": "muvaffaqiyat-7",
     "book_id": "muvaffaqiyat-7",
-    "question": "\"Muvaffaqiyatli insonlarning 7 ko'nikmasi\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3938,7 +3994,7 @@ export const questions = [
     "id": "q_muvaffaqiyat-7_4",
     "bookId": "muvaffaqiyat-7",
     "book_id": "muvaffaqiyat-7",
-    "question": "\"Muvaffaqiyatli insonlarning 7 ko'nikmasi\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -3946,13 +4002,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Stiven Kovi kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_yodgor_1",
     "bookId": "yodgor",
     "book_id": "yodgor",
-    "question": "G'afur G'ulomning \"Yodgor\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -3960,13 +4016,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Yodgor\" asarida G'afur G'ulom inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_yodgor_2",
     "bookId": "yodgor",
     "book_id": "yodgor",
-    "question": "\"Yodgor\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -3994,7 +4050,7 @@ export const questions = [
     "id": "q_yodgor_4",
     "bookId": "yodgor",
     "book_id": "yodgor",
-    "question": "\"Yodgor\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4002,13 +4058,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif G'afur G'ulom kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_qutlug-qon_1",
     "bookId": "qutlug-qon",
     "book_id": "qutlug-qon",
-    "question": "Oybekning \"Qutlug' qon\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4016,13 +4072,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Qutlug' qon\" asarida Oybek inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_qutlug-qon_2",
     "bookId": "qutlug-qon",
     "book_id": "qutlug-qon",
-    "question": "\"Qutlug' qon\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4050,7 +4106,7 @@ export const questions = [
     "id": "q_qutlug-qon_4",
     "bookId": "qutlug-qon",
     "book_id": "qutlug-qon",
-    "question": "\"Qutlug' qon\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4058,13 +4114,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Oybek kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_navoiy_1",
     "bookId": "navoiy",
     "book_id": "navoiy",
-    "question": "Oybekning \"Navoiy\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4072,13 +4128,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Navoiy\" asarida Oybek inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_navoiy_2",
     "bookId": "navoiy",
     "book_id": "navoiy",
-    "question": "\"Navoiy\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4106,7 +4162,7 @@ export const questions = [
     "id": "q_navoiy_4",
     "bookId": "navoiy",
     "book_id": "navoiy",
-    "question": "\"Navoiy\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4114,13 +4170,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Oybek kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_birinchi-muallim_1",
     "bookId": "birinchi-muallim",
     "book_id": "birinchi-muallim",
-    "question": "Oybekning \"Birinchi muallim\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4128,13 +4184,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Birinchi muallim\" asarida Oybek inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_birinchi-muallim_2",
     "bookId": "birinchi-muallim",
     "book_id": "birinchi-muallim",
-    "question": "\"Birinchi muallim\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4162,7 +4218,7 @@ export const questions = [
     "id": "q_birinchi-muallim_4",
     "bookId": "birinchi-muallim",
     "book_id": "birinchi-muallim",
-    "question": "\"Birinchi muallim\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4170,13 +4226,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Oybek kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_chol-farishtalari_1",
     "bookId": "chol-farishtalari",
     "book_id": "chol-farishtalari",
-    "question": "Oybekning \"Cho'l farishtalari\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4184,13 +4240,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Cho'l farishtalari\" asarida Oybek inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_chol-farishtalari_2",
     "bookId": "chol-farishtalari",
     "book_id": "chol-farishtalari",
-    "question": "\"Cho'l farishtalari\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4218,7 +4274,7 @@ export const questions = [
     "id": "q_chol-farishtalari_4",
     "bookId": "chol-farishtalari",
     "book_id": "chol-farishtalari",
-    "question": "\"Cho'l farishtalari\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4226,13 +4282,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Oybek kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_xamsa_1",
     "bookId": "xamsa",
     "book_id": "xamsa",
-    "question": "Alisher Navoiyning \"Xamsa\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4240,13 +4296,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Xamsa\" asarida Alisher Navoiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_xamsa_2",
     "bookId": "xamsa",
     "book_id": "xamsa",
-    "question": "\"Xamsa\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4274,7 +4330,7 @@ export const questions = [
     "id": "q_xamsa_4",
     "bookId": "xamsa",
     "book_id": "xamsa",
-    "question": "\"Xamsa\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4282,13 +4338,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Alisher Navoiy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_mahbub-ul-qulub_1",
     "bookId": "mahbub-ul-qulub",
     "book_id": "mahbub-ul-qulub",
-    "question": "Alisher Navoiyning \"Mahbub ul-qulub\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4296,13 +4352,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Mahbub ul-qulub\" asarida Alisher Navoiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_mahbub-ul-qulub_2",
     "bookId": "mahbub-ul-qulub",
     "book_id": "mahbub-ul-qulub",
-    "question": "\"Mahbub ul-qulub\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4330,7 +4386,7 @@ export const questions = [
     "id": "q_mahbub-ul-qulub_4",
     "bookId": "mahbub-ul-qulub",
     "book_id": "mahbub-ul-qulub",
-    "question": "\"Mahbub ul-qulub\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4338,13 +4394,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Alisher Navoiy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_devoni-foniy_1",
     "bookId": "devoni-foniy",
     "book_id": "devoni-foniy",
-    "question": "Alisher Navoiyning \"Devoni Foniy\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4352,13 +4408,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Devoni Foniy\" asarida Alisher Navoiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_devoni-foniy_2",
     "bookId": "devoni-foniy",
     "book_id": "devoni-foniy",
-    "question": "\"Devoni Foniy\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4386,7 +4442,7 @@ export const questions = [
     "id": "q_devoni-foniy_4",
     "bookId": "devoni-foniy",
     "book_id": "devoni-foniy",
-    "question": "\"Devoni Foniy\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4394,13 +4450,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Alisher Navoiy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_tushda-kechgan-umrlar_1",
     "bookId": "tushda-kechgan-umrlar",
     "book_id": "tushda-kechgan-umrlar",
-    "question": "O'tkir Hoshimovning \"Tushda kechgan umrlar\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4408,13 +4464,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Tushda kechgan umrlar\" asarida O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_tushda-kechgan-umrlar_2",
     "bookId": "tushda-kechgan-umrlar",
     "book_id": "tushda-kechgan-umrlar",
-    "question": "\"Tushda kechgan umrlar\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4442,7 +4498,7 @@ export const questions = [
     "id": "q_tushda-kechgan-umrlar_4",
     "bookId": "tushda-kechgan-umrlar",
     "book_id": "tushda-kechgan-umrlar",
-    "question": "\"Tushda kechgan umrlar\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4450,13 +4506,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif O'tkir Hoshimov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_diydor_1",
     "bookId": "diydor",
     "book_id": "diydor",
-    "question": "Odil Yoqubovning \"Diydor\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4464,13 +4520,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Diydor\" asarida Odil Yoqubov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_diydor_2",
     "bookId": "diydor",
     "book_id": "diydor",
-    "question": "\"Diydor\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4498,7 +4554,7 @@ export const questions = [
     "id": "q_diydor_4",
     "bookId": "diydor",
     "book_id": "diydor",
-    "question": "\"Diydor\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4506,13 +4562,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Odil Yoqubov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_adolat-manzili_1",
     "bookId": "adolat-manzili",
     "book_id": "adolat-manzili",
-    "question": "Odil Yoqubovning \"Adolat manzili\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4520,13 +4576,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Adolat manzili\" asarida Odil Yoqubov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_adolat-manzili_2",
     "bookId": "adolat-manzili",
     "book_id": "adolat-manzili",
-    "question": "\"Adolat manzili\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4554,7 +4610,7 @@ export const questions = [
     "id": "q_adolat-manzili_4",
     "bookId": "adolat-manzili",
     "book_id": "adolat-manzili",
-    "question": "\"Adolat manzili\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4562,13 +4618,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Odil Yoqubov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_qora-kozlar_1",
     "bookId": "qora-kozlar",
     "book_id": "qora-kozlar",
-    "question": "Asqad Muxtorning \"Qora ko'zlar\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4576,13 +4632,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Qora ko'zlar\" asarida Asqad Muxtor inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_qora-kozlar_2",
     "bookId": "qora-kozlar",
     "book_id": "qora-kozlar",
-    "question": "\"Qora ko'zlar\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4610,7 +4666,7 @@ export const questions = [
     "id": "q_qora-kozlar_4",
     "bookId": "qora-kozlar",
     "book_id": "qora-kozlar",
-    "question": "\"Qora ko'zlar\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4618,13 +4674,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Asqad Muxtor kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_oltin-zanglamas_1",
     "bookId": "oltin-zanglamas",
     "book_id": "oltin-zanglamas",
-    "question": "Pirimqul Qodirovning \"Oltin zanglamas\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4632,13 +4688,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Oltin zanglamas\" asarida Pirimqul Qodirov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_oltin-zanglamas_2",
     "bookId": "oltin-zanglamas",
     "book_id": "oltin-zanglamas",
-    "question": "\"Oltin zanglamas\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4666,7 +4722,7 @@ export const questions = [
     "id": "q_oltin-zanglamas_4",
     "bookId": "oltin-zanglamas",
     "book_id": "oltin-zanglamas",
-    "question": "\"Oltin zanglamas\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4674,13 +4730,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Pirimqul Qodirov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_avlodlar_1",
     "bookId": "avlodlar",
     "book_id": "avlodlar",
-    "question": "Pirimqul Qodirovning \"Avlodlar\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4688,13 +4744,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Avlodlar\" asarida Pirimqul Qodirov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_avlodlar_2",
     "bookId": "avlodlar",
     "book_id": "avlodlar",
-    "question": "\"Avlodlar\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4722,7 +4778,7 @@ export const questions = [
     "id": "q_avlodlar_4",
     "bookId": "avlodlar",
     "book_id": "avlodlar",
-    "question": "\"Avlodlar\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4730,13 +4786,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Pirimqul Qodirov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_ikki-irmoq_1",
     "bookId": "ikki-irmoq",
     "book_id": "ikki-irmoq",
-    "question": "Shukur Xolmirzayevning \"Ikki irmoq\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4744,13 +4800,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Ikki irmoq\" asarida Shukur Xolmirzayev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ikki-irmoq_2",
     "bookId": "ikki-irmoq",
     "book_id": "ikki-irmoq",
-    "question": "\"Ikki irmoq\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4778,7 +4834,7 @@ export const questions = [
     "id": "q_ikki-irmoq_4",
     "bookId": "ikki-irmoq",
     "book_id": "ikki-irmoq",
-    "question": "\"Ikki irmoq\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4786,13 +4842,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Shukur Xolmirzayev kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_sarbadorlar_1",
     "bookId": "sarbadorlar",
     "book_id": "sarbadorlar",
-    "question": "Mirmuhsinning \"Sarbadorlar\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4800,13 +4856,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Sarbadorlar\" asarida Mirmuhsin inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_sarbadorlar_2",
     "bookId": "sarbadorlar",
     "book_id": "sarbadorlar",
-    "question": "\"Sarbadorlar\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4834,7 +4890,7 @@ export const questions = [
     "id": "q_sarbadorlar_4",
     "bookId": "sarbadorlar",
     "book_id": "sarbadorlar",
-    "question": "\"Sarbadorlar\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4842,13 +4898,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Mirmuhsin kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_mehmonxona_1",
     "bookId": "mehmonxona",
     "book_id": "mehmonxona",
-    "question": "Shukrulloning \"Mehmonxona\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4856,13 +4912,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Mehmonxona\" asarida Shukrullo inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_mehmonxona_2",
     "bookId": "mehmonxona",
     "book_id": "mehmonxona",
-    "question": "\"Mehmonxona\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4890,7 +4946,7 @@ export const questions = [
     "id": "q_mehmonxona_4",
     "bookId": "mehmonxona",
     "book_id": "mehmonxona",
-    "question": "\"Mehmonxona\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4898,13 +4954,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Shukrullo kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_temir-darvoza_1",
     "bookId": "temir-darvoza",
     "book_id": "temir-darvoza",
-    "question": "Shukur Xolmirzayevning \"Temir darvoza\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4912,13 +4968,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Temir darvoza\" asarida Shukur Xolmirzayev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_temir-darvoza_2",
     "bookId": "temir-darvoza",
     "book_id": "temir-darvoza",
-    "question": "\"Temir darvoza\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -4946,7 +5002,7 @@ export const questions = [
     "id": "q_temir-darvoza_4",
     "bookId": "temir-darvoza",
     "book_id": "temir-darvoza",
-    "question": "\"Temir darvoza\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -4954,13 +5010,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Shukur Xolmirzayev kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_afsona_1",
     "bookId": "afsona",
     "book_id": "afsona",
-    "question": "Erkin A'zamning \"Afsona\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -4968,13 +5024,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Afsona\" asarida Erkin A'zam inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_afsona_2",
     "bookId": "afsona",
     "book_id": "afsona",
-    "question": "\"Afsona\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5002,7 +5058,7 @@ export const questions = [
     "id": "q_afsona_4",
     "bookId": "afsona",
     "book_id": "afsona",
-    "question": "\"Afsona\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5010,13 +5066,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Erkin A'zam kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_ozbegim_1",
     "bookId": "ozbegim",
     "book_id": "ozbegim",
-    "question": "Erkin Vohidovning \"O'zbegim\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5024,13 +5080,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"O'zbegim\" asarida Erkin Vohidov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ozbegim_2",
     "bookId": "ozbegim",
     "book_id": "ozbegim",
-    "question": "\"O'zbegim\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5058,7 +5114,7 @@ export const questions = [
     "id": "q_ozbegim_4",
     "bookId": "ozbegim",
     "book_id": "ozbegim",
-    "question": "\"O'zbegim\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5066,13 +5122,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Erkin Vohidov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_tanho_1",
     "bookId": "tanho",
     "book_id": "tanho",
-    "question": "Erkin Vohidovning \"Tanho\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5080,13 +5136,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Tanho\" asarida Erkin Vohidov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_tanho_2",
     "bookId": "tanho",
     "book_id": "tanho",
-    "question": "\"Tanho\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5114,7 +5170,7 @@ export const questions = [
     "id": "q_tanho_4",
     "bookId": "tanho",
     "book_id": "tanho",
-    "question": "\"Tanho\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5122,13 +5178,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Erkin Vohidov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_kongil_1",
     "bookId": "kongil",
     "book_id": "kongil",
-    "question": "Muhammad Yusufning \"Ko'ngil\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5136,13 +5192,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Ko'ngil\" asarida Muhammad Yusuf inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_kongil_2",
     "bookId": "kongil",
     "book_id": "kongil",
-    "question": "\"Ko'ngil\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5170,7 +5226,7 @@ export const questions = [
     "id": "q_kongil_4",
     "bookId": "kongil",
     "book_id": "kongil",
-    "question": "\"Ko'ngil\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5178,13 +5234,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Muhammad Yusuf kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_yaxshilik_1",
     "bookId": "yaxshilik",
     "book_id": "yaxshilik",
-    "question": "Muhammad Yusufning \"Yaxshilik\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5192,13 +5248,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Yaxshilik\" asarida Muhammad Yusuf inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_yaxshilik_2",
     "bookId": "yaxshilik",
     "book_id": "yaxshilik",
-    "question": "\"Yaxshilik\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5226,7 +5282,7 @@ export const questions = [
     "id": "q_yaxshilik_4",
     "bookId": "yaxshilik",
     "book_id": "yaxshilik",
-    "question": "\"Yaxshilik\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5234,13 +5290,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Muhammad Yusuf kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_yurtim-shamoli_1",
     "bookId": "yurtim-shamoli",
     "book_id": "yurtim-shamoli",
-    "question": "Abdulla Oripovning \"Yurtim shamoli\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5248,13 +5304,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Yurtim shamoli\" asarida Abdulla Oripov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_yurtim-shamoli_2",
     "bookId": "yurtim-shamoli",
     "book_id": "yurtim-shamoli",
-    "question": "\"Yurtim shamoli\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5282,7 +5338,7 @@ export const questions = [
     "id": "q_yurtim-shamoli_4",
     "bookId": "yurtim-shamoli",
     "book_id": "yurtim-shamoli",
-    "question": "\"Yurtim shamoli\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5290,13 +5346,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Abdulla Oripov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_ozbekiston_1",
     "bookId": "ozbekiston",
     "book_id": "ozbekiston",
-    "question": "Abdulla Oripovning \"O'zbekiston\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5304,13 +5360,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"O'zbekiston\" asarida Abdulla Oripov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ozbekiston_2",
     "bookId": "ozbekiston",
     "book_id": "ozbekiston",
-    "question": "\"O'zbekiston\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5338,7 +5394,7 @@ export const questions = [
     "id": "q_ozbekiston_4",
     "bookId": "ozbekiston",
     "book_id": "ozbekiston",
-    "question": "\"O'zbekiston\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5346,13 +5402,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Abdulla Oripov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_jon-aziz_1",
     "bookId": "jon-aziz",
     "book_id": "jon-aziz",
-    "question": "Erkin Vohidovning \"Jon aziz\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5360,13 +5416,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Jon aziz\" asarida Erkin Vohidov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_jon-aziz_2",
     "bookId": "jon-aziz",
     "book_id": "jon-aziz",
-    "question": "\"Jon aziz\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5394,7 +5450,7 @@ export const questions = [
     "id": "q_jon-aziz_4",
     "bookId": "jon-aziz",
     "book_id": "jon-aziz",
-    "question": "\"Jon aziz\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5402,13 +5458,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Erkin Vohidov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_hayot_1",
     "bookId": "hayot",
     "book_id": "hayot",
-    "question": "Erkin Vohidovning \"Hayot\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5416,13 +5472,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Hayot\" asarida Erkin Vohidov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_hayot_2",
     "bookId": "hayot",
     "book_id": "hayot",
-    "question": "\"Hayot\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5450,7 +5506,7 @@ export const questions = [
     "id": "q_hayot_4",
     "bookId": "hayot",
     "book_id": "hayot",
-    "question": "\"Hayot\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5458,13 +5514,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Erkin Vohidov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_turkiston_1",
     "bookId": "turkiston",
     "book_id": "turkiston",
-    "question": "Abdurauf Fitratning \"Turkiston\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5472,13 +5528,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Turkiston\" asarida Abdurauf Fitrat inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_turkiston_2",
     "bookId": "turkiston",
     "book_id": "turkiston",
-    "question": "\"Turkiston\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5506,7 +5562,7 @@ export const questions = [
     "id": "q_turkiston_4",
     "bookId": "turkiston",
     "book_id": "turkiston",
-    "question": "\"Turkiston\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5514,13 +5570,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Abdurauf Fitrat kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_julqun_1",
     "bookId": "julqun",
     "book_id": "julqun",
-    "question": "Cho'lponning \"Julqun\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5528,13 +5584,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Julqun\" asarida Cho'lpon inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_julqun_2",
     "bookId": "julqun",
     "book_id": "julqun",
-    "question": "\"Julqun\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5562,7 +5618,7 @@ export const questions = [
     "id": "q_julqun_4",
     "bookId": "julqun",
     "book_id": "julqun",
-    "question": "\"Julqun\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5570,13 +5626,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Cho'lpon kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_behbudiy_1",
     "bookId": "behbudiy",
     "book_id": "behbudiy",
-    "question": "Abdulhamid Cho'lponning \"Behbudiy\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5584,13 +5640,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Behbudiy\" asarida Abdulhamid Cho'lpon inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_behbudiy_2",
     "bookId": "behbudiy",
     "book_id": "behbudiy",
-    "question": "\"Behbudiy\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5618,7 +5674,7 @@ export const questions = [
     "id": "q_behbudiy_4",
     "bookId": "behbudiy",
     "book_id": "behbudiy",
-    "question": "\"Behbudiy\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5626,13 +5682,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Abdulhamid Cho'lpon kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_jahongir_1",
     "bookId": "jahongir",
     "book_id": "jahongir",
-    "question": "Mirmuhsinning \"Jahongir\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5640,13 +5696,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Jahongir\" asarida Mirmuhsin inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_jahongir_2",
     "bookId": "jahongir",
     "book_id": "jahongir",
-    "question": "\"Jahongir\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5674,7 +5730,7 @@ export const questions = [
     "id": "q_jahongir_4",
     "bookId": "jahongir",
     "book_id": "jahongir",
-    "question": "\"Jahongir\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5682,13 +5738,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Mirmuhsin kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_sohibqiron_1",
     "bookId": "sohibqiron",
     "book_id": "sohibqiron",
-    "question": "Maqsud Shayxzodaning \"Sohibqiron\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5696,13 +5752,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Sohibqiron\" asarida Maqsud Shayxzoda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_sohibqiron_2",
     "bookId": "sohibqiron",
     "book_id": "sohibqiron",
-    "question": "\"Sohibqiron\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5730,7 +5786,7 @@ export const questions = [
     "id": "q_sohibqiron_4",
     "bookId": "sohibqiron",
     "book_id": "sohibqiron",
-    "question": "\"Sohibqiron\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5738,13 +5794,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Maqsud Shayxzoda kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_ipak-yoli_1",
     "bookId": "ipak-yoli",
     "book_id": "ipak-yoli",
-    "question": "Mirmuhsinning \"Ipak yo'li\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5752,13 +5808,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Ipak yo'li\" asarida Mirmuhsin inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_ipak-yoli_2",
     "bookId": "ipak-yoli",
     "book_id": "ipak-yoli",
-    "question": "\"Ipak yo'li\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5786,7 +5842,7 @@ export const questions = [
     "id": "q_ipak-yoli_4",
     "bookId": "ipak-yoli",
     "book_id": "ipak-yoli",
-    "question": "\"Ipak yo'li\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5794,13 +5850,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Mirmuhsin kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_boy-ila-xizmatchi_1",
     "bookId": "boy-ila-xizmatchi",
     "book_id": "boy-ila-xizmatchi",
-    "question": "Hamza Hakimzoda Niyoziyning \"Boy ila xizmatchi\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5808,13 +5864,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Boy ila xizmatchi\" asarida Hamza Hakimzoda Niyoziy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_boy-ila-xizmatchi_2",
     "bookId": "boy-ila-xizmatchi",
     "book_id": "boy-ila-xizmatchi",
-    "question": "\"Boy ila xizmatchi\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5842,7 +5898,7 @@ export const questions = [
     "id": "q_boy-ila-xizmatchi_4",
     "bookId": "boy-ila-xizmatchi",
     "book_id": "boy-ila-xizmatchi",
-    "question": "\"Boy ila xizmatchi\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5850,13 +5906,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Hamza Hakimzoda Niyoziy kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_yoriltosh_1",
     "bookId": "yoriltosh",
     "book_id": "yoriltosh",
-    "question": "Komil Yashinning \"Yoriltosh\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5864,13 +5920,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Yoriltosh\" asarida Komil Yashin inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_yoriltosh_2",
     "bookId": "yoriltosh",
     "book_id": "yoriltosh",
-    "question": "\"Yoriltosh\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5898,7 +5954,7 @@ export const questions = [
     "id": "q_yoriltosh_4",
     "bookId": "yoriltosh",
     "book_id": "yoriltosh",
-    "question": "\"Yoriltosh\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5906,13 +5962,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Komil Yashin kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_alisher-navoiy_1",
     "bookId": "alisher-navoiy",
     "book_id": "alisher-navoiy",
-    "question": "Uyg'un va Izzat Sultonning \"Alisher Navoiy\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5920,13 +5976,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Alisher Navoiy\" asarida Uyg'un va Izzat Sulton inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_alisher-navoiy_2",
     "bookId": "alisher-navoiy",
     "book_id": "alisher-navoiy",
-    "question": "\"Alisher Navoiy\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -5954,7 +6010,7 @@ export const questions = [
     "id": "q_alisher-navoiy_4",
     "bookId": "alisher-navoiy",
     "book_id": "alisher-navoiy",
-    "question": "\"Alisher Navoiy\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -5962,13 +6018,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Uyg'un va Izzat Sulton kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_hikoyalar_1",
     "bookId": "hikoyalar",
     "book_id": "hikoyalar",
-    "question": "Shukur Xolmirzayevning \"Hikoyalar\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -5976,13 +6032,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Hikoyalar\" asarida Shukur Xolmirzayev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_hikoyalar_2",
     "bookId": "hikoyalar",
     "book_id": "hikoyalar",
-    "question": "\"Hikoyalar\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6010,7 +6066,7 @@ export const questions = [
     "id": "q_hikoyalar_4",
     "bookId": "hikoyalar",
     "book_id": "hikoyalar",
-    "question": "\"Hikoyalar\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6018,13 +6074,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Shukur Xolmirzayev kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_olmas-ertaklar_1",
     "bookId": "olmas-ertaklar",
     "book_id": "olmas-ertaklar",
-    "question": "Xudoyshukur To'xtaboyevning \"O'lmas ertaklar\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6032,13 +6088,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"O'lmas ertaklar\" asarida Xudoyshukur To'xtaboyev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_olmas-ertaklar_2",
     "bookId": "olmas-ertaklar",
     "book_id": "olmas-ertaklar",
-    "question": "\"O'lmas ertaklar\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6066,7 +6122,7 @@ export const questions = [
     "id": "q_olmas-ertaklar_4",
     "bookId": "olmas-ertaklar",
     "book_id": "olmas-ertaklar",
-    "question": "\"O'lmas ertaklar\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6074,13 +6130,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Xudoyshukur To'xtaboyev kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_sher-va-toshbaqa_1",
     "bookId": "sher-va-toshbaqa",
     "book_id": "sher-va-toshbaqa",
-    "question": "Xudoyshukur To'xtaboyevning \"Sher va toshbaqa\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6088,13 +6144,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Sher va toshbaqa\" asarida Xudoyshukur To'xtaboyev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_sher-va-toshbaqa_2",
     "bookId": "sher-va-toshbaqa",
     "book_id": "sher-va-toshbaqa",
-    "question": "\"Sher va toshbaqa\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6122,7 +6178,7 @@ export const questions = [
     "id": "q_sher-va-toshbaqa_4",
     "bookId": "sher-va-toshbaqa",
     "book_id": "sher-va-toshbaqa",
-    "question": "\"Sher va toshbaqa\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6130,13 +6186,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Xudoyshukur To'xtaboyev kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_sadoqat_1",
     "bookId": "sadoqat",
     "book_id": "sadoqat",
-    "question": "Ulug'bek Hamdamning \"Sadoqat\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6144,13 +6200,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Sadoqat\" asarida Ulug'bek Hamdam inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_sadoqat_2",
     "bookId": "sadoqat",
     "book_id": "sadoqat",
-    "question": "\"Sadoqat\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6178,7 +6234,7 @@ export const questions = [
     "id": "q_sadoqat_4",
     "bookId": "sadoqat",
     "book_id": "sadoqat",
-    "question": "\"Sadoqat\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6186,13 +6242,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Ulug'bek Hamdam kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_mangu-muhabbat_1",
     "bookId": "mangu-muhabbat",
     "book_id": "mangu-muhabbat",
-    "question": "Ulug'bek Hamdamning \"Mangu muhabbat\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6200,13 +6256,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Mangu muhabbat\" asarida Ulug'bek Hamdam inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_mangu-muhabbat_2",
     "bookId": "mangu-muhabbat",
     "book_id": "mangu-muhabbat",
-    "question": "\"Mangu muhabbat\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6234,7 +6290,7 @@ export const questions = [
     "id": "q_mangu-muhabbat_4",
     "bookId": "mangu-muhabbat",
     "book_id": "mangu-muhabbat",
-    "question": "\"Mangu muhabbat\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6242,13 +6298,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Ulug'bek Hamdam kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_birinchi-muhabbat_1",
     "bookId": "birinchi-muhabbat",
     "book_id": "birinchi-muhabbat",
-    "question": "Oydin Hojiyevaning \"Birinchi muhabbat\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6256,13 +6312,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Birinchi muhabbat\" asarida Oydin Hojiyeva inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_birinchi-muhabbat_2",
     "bookId": "birinchi-muhabbat",
     "book_id": "birinchi-muhabbat",
-    "question": "\"Birinchi muhabbat\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6290,7 +6346,7 @@ export const questions = [
     "id": "q_birinchi-muhabbat_4",
     "bookId": "birinchi-muhabbat",
     "book_id": "birinchi-muhabbat",
-    "question": "\"Birinchi muhabbat\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6298,13 +6354,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Oydin Hojiyeva kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_yoqotilgan-xat_1",
     "bookId": "yoqotilgan-xat",
     "book_id": "yoqotilgan-xat",
-    "question": "Erkin A'zamning \"Yo'qotilgan xat\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6312,13 +6368,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Yo'qotilgan xat\" asarida Erkin A'zam inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_yoqotilgan-xat_2",
     "bookId": "yoqotilgan-xat",
     "book_id": "yoqotilgan-xat",
-    "question": "\"Yo'qotilgan xat\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6346,7 +6402,7 @@ export const questions = [
     "id": "q_yoqotilgan-xat_4",
     "bookId": "yoqotilgan-xat",
     "book_id": "yoqotilgan-xat",
-    "question": "\"Yo'qotilgan xat\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6354,13 +6410,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Erkin A'zam kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_kashmirdan-kelgan-qiz_1",
     "bookId": "kashmirdan-kelgan-qiz",
     "book_id": "kashmirdan-kelgan-qiz",
-    "question": "O'tkir Hoshimovning \"Kashmirdan kelgan qiz\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6368,13 +6424,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Kashmirdan kelgan qiz\" asarida O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_kashmirdan-kelgan-qiz_2",
     "bookId": "kashmirdan-kelgan-qiz",
     "book_id": "kashmirdan-kelgan-qiz",
-    "question": "\"Kashmirdan kelgan qiz\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6402,7 +6458,7 @@ export const questions = [
     "id": "q_kashmirdan-kelgan-qiz_4",
     "bookId": "kashmirdan-kelgan-qiz",
     "book_id": "kashmirdan-kelgan-qiz",
-    "question": "\"Kashmirdan kelgan qiz\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6410,13 +6466,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif O'tkir Hoshimov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_songgi-kun_1",
     "bookId": "songgi-kun",
     "book_id": "songgi-kun",
-    "question": "Mirmuhsinning \"So'nggi kun\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6424,13 +6480,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"So'nggi kun\" asarida Mirmuhsin inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_songgi-kun_2",
     "bookId": "songgi-kun",
     "book_id": "songgi-kun",
-    "question": "\"So'nggi kun\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6458,7 +6514,7 @@ export const questions = [
     "id": "q_songgi-kun_4",
     "bookId": "songgi-kun",
     "book_id": "songgi-kun",
-    "question": "\"So'nggi kun\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6466,13 +6522,13 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Mirmuhsin kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
     "id": "q_qadrim_1",
     "bookId": "qadrim",
     "book_id": "qadrim",
-    "question": "Abdulla Oripovning \"Qadrim\" asaridagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
+    "question": "Asardagi bosh g'oyaviy mantiq va insonparvarlik falsafasi nimada namoyon bo'ladi?",
     "options": [
       "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
@@ -6480,13 +6536,13 @@ export const questions = [
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
     "correctAnswer": 0,
-    "explanation": "\"Qadrim\" asarida Abdulla Oripov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asarda inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlar teran ochib beriladi."
   },
   {
     "id": "q_qadrim_2",
     "bookId": "qadrim",
     "book_id": "qadrim",
-    "question": "\"Qadrim\" asaridagi qahramonlar xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
@@ -6514,7 +6570,7 @@ export const questions = [
     "id": "q_qadrim_4",
     "bookId": "qadrim",
     "book_id": "qadrim",
-    "question": "\"Qadrim\" asarining tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
@@ -6522,7 +6578,7 @@ export const questions = [
       "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Muallif Abdulla Oripov kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   }
 ];
 

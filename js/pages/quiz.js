@@ -83,7 +83,7 @@ export async function render(container, { params, user }) {
   // Kitob nomini olish
   getBookById(bookId).then(book => {
     const nameEl = document.getElementById('quiz-book-name');
-    if (nameEl && book) nameEl.textContent = book.title;
+    if (nameEl && book) nameEl.textContent = `Asar: ${book.title}`;
   }).catch(() => {});
 
   // Abort tugmasi
