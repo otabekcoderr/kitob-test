@@ -28,7 +28,7 @@ function _getBookCover(book) {
 }
 
 export async function render(container, { params, user }) {
-  const bookId = params.id;
+  const bookId = params?.id || params?.bookId || params?.slug;
 
   if (!bookId) {
     window.navigate('books');
@@ -52,8 +52,11 @@ export async function render(container, { params, user }) {
       getQuestions(bookId),
     ]);
 
+    const contentEl = container.querySelector('#book-content') || document.getElementById('book-content');
+    if (!contentEl) return;
+
     if (!book) {
-      document.getElementById('book-content').innerHTML = `
+      contentEl.innerHTML = `
         <div class="empty-state">
           <p class="empty-state__title">Kitob topilmadi</p>
           <p class="empty-state__desc">Bu kitob mavjud emas yoki o'chirilgan.</p>
@@ -63,27 +66,31 @@ export async function render(container, { params, user }) {
       return;
     }
 
-    _renderBook(book, questions, user);
-    _bindEvents(book, user);
+    _renderBook(contentEl, book, questions, user);
+    _bindEvents(container, book, user);
 
   } catch (err) {
     console.error('[book-detail] Xato:', err);
-    document.getElementById('book-content').innerHTML = `
-      <div class="empty-state">
-        <p class="empty-state__title">Yuklashda xato</p>
-        <p class="empty-state__desc">Sahifani yangilang yoki internet ulanishini tekshiring.</p>
-      </div>
-    `;
+    const contentEl = container.querySelector('#book-content') || document.getElementById('book-content');
+    if (contentEl) {
+      contentEl.innerHTML = `
+        <div class="empty-state">
+          <p class="empty-state__title">Yuklashda xato</p>
+          <p class="empty-state__desc">Sahifani yangilang yoki internet ulanishini tekshiring.</p>
+        </div>
+      `;
+    }
   }
 }
 
-function _renderBook(book, questions, user) {
+function _renderBook(contentEl, book, questions, user) {
+  if (!contentEl) return;
   const cover  = _getBookCover(book);
   const qCount = questions.length;
   const isFav  = _getFavorites().includes(String(book.id));
   const initial = (book.title || '?')[0].toUpperCase();
 
-  document.getElementById('book-content').innerHTML = `
+  contentEl.innerHTML = `
     <div class="book-detail">
 
       <div class="book-detail__top">
@@ -94,7 +101,7 @@ function _renderBook(book, questions, user) {
                     alt="${escapeHtml(book.title)}"
                     class="book-detail__cover"
                     loading="eager"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                    onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
                />
                <div class="book-detail__cover-placeholder" style="display:none">
                  <span class="placeholder-initial">${escapeHtml(initial)}</span>
@@ -166,20 +173,22 @@ function _renderBook(book, questions, user) {
   `;
 }
 
-function _bindEvents(book, user) {
-  const startBtn = document.getElementById('start-quiz-btn');
+function _bindEvents(container, book, user) {
+  const startBtn = container.querySelector('#start-quiz-btn') || document.getElementById('start-quiz-btn');
   if (startBtn) {
     const onClick = () => window.navigate('quiz', { bookId: String(book.id) });
     startBtn.addEventListener('click', onClick);
     _cleanup.push(() => startBtn.removeEventListener('click', onClick));
   }
 
-  const favBtn = document.getElementById('fav-btn');
+  const favBtn = container.querySelector('#fav-btn') || document.getElementById('fav-btn');
   if (favBtn) {
     const onFav = () => {
       const added = _toggleFavorite(book.id);
-      document.getElementById('fav-icon').textContent  = added ? '♥' : '♡';
-      document.getElementById('fav-label').textContent = added ? 'Sevimli' : 'Qo\'shish';
+      const iconEl = container.querySelector('#fav-icon') || document.getElementById('fav-icon');
+      const labelEl = container.querySelector('#fav-label') || document.getElementById('fav-label');
+      if (iconEl) iconEl.textContent = added ? '♥' : '♡';
+      if (labelEl) labelEl.textContent = added ? 'Sevimli' : 'Qo\'shish';
       favBtn.setAttribute('aria-label', added ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish');
     };
     favBtn.addEventListener('click', onFav);
