@@ -454,13 +454,13 @@ export async function getQuestions(bookId) {
   let dbQuestions = [];
   try {
     const isNumeric = /^\d+$/.test(targetId);
-    const query = isNumeric
-      ? supabase.from('questions').select('*').eq('book_id', parseInt(targetId, 10))
-      : supabase.from('questions').select('*').or(`book_id.eq.${targetId},bookId.eq.${targetId}`);
-
-    const { data, error } = await runQuery(query);
-    if (!error && Array.isArray(data) && data.length > 0) {
-      dbQuestions = data.map(_formatQuestion).filter(Boolean);
+    if (isNumeric) {
+      const { data, error } = await runQuery(
+        supabase.from('questions').select('*').eq('book_id', parseInt(targetId, 10))
+      );
+      if (!error && Array.isArray(data) && data.length > 0) {
+        dbQuestions = data.map(_formatQuestion).filter(Boolean);
+      }
     }
   } catch { /* ignore */ }
 

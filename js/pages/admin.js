@@ -941,7 +941,7 @@ async function _renderComments(panel) {
   try {
     const { data, error } = await supabase
       .from('comments')
-      .select('*, profiles(username, full_name), books(title)')
+      .select('*')
       .order('created_at', { ascending: false })
       .limit(100);
     if (!error && Array.isArray(data)) {
