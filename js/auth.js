@@ -362,10 +362,15 @@ export async function updateProfile(updates) {
 
     // Faqat Supabase profiles jadvalida MAVJUD maydonlarni yuboramiz (400 xatolik oldini olish)
     const dbUpdates = {};
-    if (updates.fullName     !== undefined) dbUpdates.full_name      = updates.fullName;
-    if (updates.avatar       !== undefined) dbUpdates.avatar_url     = updates.avatar;
-    if (updates.score        !== undefined) dbUpdates.score          = updates.score;
-    if (updates.streak       !== undefined) dbUpdates.streak         = updates.streak;
+    if (updates.fullName !== undefined) dbUpdates.full_name = updates.fullName;
+    if (updates.avatar !== undefined && typeof updates.avatar === 'string') {
+      // 500 belgidan uzun bo'lsa (masalan base64), Supabase varchar limitidan oshmasligi uchun yubormaymiz
+      if (updates.avatar.length <= 500 && !updates.avatar.startsWith('data:image/')) {
+        dbUpdates.avatar_url = updates.avatar;
+      }
+    }
+    if (updates.score !== undefined) dbUpdates.score = updates.score;
+    if (updates.streak !== undefined) dbUpdates.streak = updates.streak;
     if (updates.lastQuizDate !== undefined) dbUpdates.last_quiz_date = updates.lastQuizDate;
 
     if (Object.keys(dbUpdates).length > 0) {
