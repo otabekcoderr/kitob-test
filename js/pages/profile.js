@@ -190,11 +190,6 @@ export async function render(container, { params, user }) {
   _loadHistory(user);
 }
 
-  _addStyles();
-  _bindEvents(user);
-  _loadHistory(user);
-}
-
 // ---- EVENTS ----
 function _bindEvents(user) {
   // Tablar
