@@ -766,29 +766,59 @@ const SAMPLE_LEADERBOARD = [
 export async function getLeaderboard(limit = 50) {
   let list = [];
 
+  // 1. Supabase dan olish
   try {
-    const { data, error } = await runQuery(
-      supabase
-        .from('profiles')
-        .select('*')
-        .limit(limit)
-    );
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .order('score', { ascending: false })
+      .limit(limit);
 
     if (!error && Array.isArray(data) && data.length > 0) {
       list = data;
     }
   } catch { /* ignore */ }
 
-  // Agar Supabase dan kam yoki 0 ta ishtirokchi kelsa — namunaviy ishtirokchilarni qo'shamiz
-  if (list.length === 0) {
-    list = [...SAMPLE_LEADERBOARD];
-  }
+  // 2. Mahalliy xotiradagi barcha foydalanuvchilar natijalarini birlashtirish
+  let localUsers = {};
+  try {
+    const raw = localStorage.getItem('kitobchi_all_users');
+    if (raw) localUsers = JSON.parse(raw);
+  } catch { /* ignore */ }
 
-  // Joriy foydalanuvchini ro'yxatda bor-yo'qligini tekshiramiz va qo'shamiz
+  Object.values(localUsers).forEach(u => {
+    if (!u || !u.id) return;
+    const idx = list.findIndex(item => item.id === u.id || (item.username && item.username === u.username));
+    if (idx >= 0) {
+      list[idx] = {
+        ...list[idx],
+        score: Math.max(list[idx].score || 0, u.score || 0),
+        streak: Math.max(list[idx].streak || 0, u.streak || 0),
+        avatar_url: u.avatar || list[idx].avatar_url || '',
+        full_name: u.fullName || list[idx].full_name || u.username,
+      };
+    } else {
+      list.push({
+        id: u.id,
+        full_name: u.fullName || u.username,
+        username: u.username,
+        score: u.score || 0,
+        streak: u.streak || 0,
+        avatar_url: u.avatar || '',
+      });
+    }
+  });
+
+  // 3. Joriy foydalanuvchi natijasini ham yangilash
   const cur = getCurrentUser();
   if (cur && cur.id) {
-    const exists = list.some(u => u.id === cur.id || (u.username && u.username === cur.username));
-    if (!exists) {
+    const idx = list.findIndex(u => u.id === cur.id || (u.username && u.username === cur.username));
+    if (idx >= 0) {
+      list[idx].score = Math.max(list[idx].score || 0, cur.score || 0);
+      list[idx].streak = Math.max(list[idx].streak || 0, cur.streak || 0);
+      list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
+      list[idx].avatar_url = cur.avatar || list[idx].avatar_url || '';
+    } else {
       list.push({
         id: cur.id,
         full_name: cur.fullName || cur.username,
@@ -797,14 +827,15 @@ export async function getLeaderboard(limit = 50) {
         streak: cur.streak || 0,
         avatar_url: cur.avatar || '',
       });
-    } else {
-      const item = list.find(u => u.id === cur.id || u.username === cur.username);
-      if (item && ((cur.score || 0) > (item.score || 0))) {
-        item.score = cur.score;
-        item.streak = cur.streak;
-      }
     }
   }
+
+  // 4. Namunaviy foydalanuvchilarni qo'shish
+  SAMPLE_LEADERBOARD.forEach(s => {
+    if (!list.some(u => u.username === s.username || u.id === s.id)) {
+      list.push(s);
+    }
+  });
 
   // Ball bo'yicha kamayish tartibida saralaymiz
   list.sort((a, b) => (b.score || 0) - (a.score || 0));
@@ -813,16 +844,11 @@ export async function getLeaderboard(limit = 50) {
 }
 
 // ============================================================
-// STREAK YANGILASH
+// STREAK VA BALL YANGILASH
 // ============================================================
 
 /**
  * Streak va ballni yangilaydi (test tugaganidan keyin chaqiriladi).
- *
- * Mantiq:
- *   - lastQuizDate kecha bo'lsa → streak + 1
- *   - lastQuizDate bundan oldin bo'lsa → streak = 1
- *   - Bugun allaqachon yechilgan bo'lsa → streak o'zgarmaydi
  *
  * @param {number} earnedScore  — bu testdan olingan ball
  * @param {string} todayDate    — "YYYY-MM-DD" formatida (formatDate() dan)
@@ -846,38 +872,34 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     // Streak mantiq
     let newStreak;
     if (lastDate === todayDate) {
-      // Bugun allaqachon yechilgan — streak o'zgarmaydi
-      newStreak = oldStreak;
+      newStreak = Math.max(1, oldStreak);
     } else if (lastDate === yesterdayStr) {
-      // Ketma-ket kun — streak ortadi
       newStreak = oldStreak + 1;
     } else {
-      // Ko'p kun o'tib ketgan — streak nollanadi
       newStreak = 1;
     }
 
     const newScore = oldScore + earnedScore;
 
-    // Supabase profiles yangilash
-    const { error } = await runQuery(
-      supabase
+    // 1. Mahalliy profil va sessiyani yangilaymiz (har qanday sharoitda xatosiz ishlaydi)
+    const { updateProfile } = await import('./auth.js');
+    await updateProfile({ score: newScore, streak: newStreak, lastQuizDate: todayDate });
+
+    // 2. Supabase profiles jadvalini upsert orqali fonda yangilaymiz
+    try {
+      await supabase
         .from('profiles')
-        .update({
+        .upsert({
+          id:             user.id,
+          full_name:      user.fullName || user.username,
+          username:       user.username,
           score:          newScore,
           streak:         newStreak,
           last_quiz_date: todayDate,
-        })
-        .eq('id', user.id)
-    );
-
-    if (error) {
-      console.error('[db] updateStreakAndScore xatosi:', error.message);
-      return { success: false, newStreak: oldStreak, newScore: oldScore, error: error.message };
+        }, { onConflict: 'id' });
+    } catch (err) {
+      console.warn('[db] updateStreakAndScore Supabase fallback:', err);
     }
-
-    // localStorage ni ham yangilaymiz
-    const { updateProfile } = await import('./auth.js');
-    await updateProfile({ score: newScore, streak: newStreak, lastQuizDate: todayDate });
 
     return { success: true, newStreak, newScore };
 

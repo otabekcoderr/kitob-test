@@ -28,8 +28,25 @@ const SESSION_KEY = 'kitobchi_user';
  * @param {object|null} user
  */
 function _saveSession(user) {
-  if (user) {
+  if (user && user.id) {
     localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+    // Barcha foydalanuvchilar reyting xotirasiga ham doimiy yozib boramiz
+    try {
+      const raw = localStorage.getItem('kitobchi_all_users');
+      const all = raw ? JSON.parse(raw) : {};
+      all[user.id] = {
+        id: user.id,
+        username: user.username,
+        fullName: user.fullName || user.username,
+        avatar: user.avatar || '',
+        avatarImage: user.avatarImage || null,
+        score: user.score || 0,
+        streak: user.streak || 0,
+        lastQuizDate: user.lastQuizDate || null,
+        role: user.role || 'user',
+      };
+      localStorage.setItem('kitobchi_all_users', JSON.stringify(all));
+    } catch { /* ignore */ }
   } else {
     localStorage.removeItem(SESSION_KEY);
   }
@@ -78,7 +95,7 @@ function _buildUserObject(authUser, profileData = {}) {
 
 /**
  * profiles jadvalidan foydalanuvchi qatorini olib keladi.
- * Topilmasa null qaytaradi (xato otmaydi).
+ * Topilmasa null qaytaradi (406 xatolik bermasligi uchun maybeSingle ishlatiladi).
  *
  * @param {string} userId
  * @returns {Promise<object|null>}
@@ -89,7 +106,7 @@ async function _fetchProfile(userId) {
       .from('profiles')
       .select('*')
       .eq('id', userId)
-      .single();
+      .maybeSingle();
 
     if (error) return null;
     return data;

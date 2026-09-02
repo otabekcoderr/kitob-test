@@ -110,9 +110,9 @@ function _renderPodium(top3, currentUser) {
                aria-label="${rank}. o'rin: ${escapeHtml(u.full_name || u.username)}">
             <div class="podium__rank">${rank}</div>
             <div class="podium__avatar"${isMe ? ' style="border-color:var(--ochre);"' : ''}>
-              ${u.avatar_url
+              ${u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/'))
                 ? `<img src="${escapeHtml(u.avatar_url)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                : escapeHtml(initial)
+                : (u.avatar_url || escapeHtml(initial))
               }
             </div>
             <div class="podium__name">
@@ -161,7 +161,7 @@ function _renderTable(leaders, currentUser) {
         <tbody>
           ${tableData.map((u, i) => {
             const rank    = i + 4; // 4-o'rindan boshlaymiz
-            const isMe    = currentUser && u.id === currentUser.id;
+            const isMe    = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
             const initial = (u.full_name || u.username || '?')[0].toUpperCase();
             return `
               <tr${isMe ? ' style="background:var(--ochre-light);"' : ''}>
@@ -169,9 +169,9 @@ function _renderTable(leaders, currentUser) {
                 <td style="padding:12px 8px;">
                   <div style="display:flex;align-items:center;gap:10px;">
                     <div style="width:32px;height:32px;border-radius:50%;background:var(--paper-alt);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8125rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
-                      ${u.avatar_url
+                      ${u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/'))
                         ? `<img src="${escapeHtml(u.avatar_url)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                        : escapeHtml(initial)
+                        : (u.avatar_url || escapeHtml(initial))
                       }
                     </div>
                     <span style="font-weight:${isMe ? 600 : 400};">
