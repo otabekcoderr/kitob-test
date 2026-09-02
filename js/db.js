@@ -898,17 +898,15 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
 export async function getCharacters() {
   let list = [];
 
-  // 1. Supabase dan olish
+  // 1. Supabase dan olish (sodda select)
   try {
-    const { data, error } = await runQuery(
-      supabase.from('characters').select('*, books(title)').order('created_at', { ascending: false })
-    );
+    const { data, error } = await supabase.from('characters').select('*');
     if (!error && Array.isArray(data) && data.length > 0) {
       list = data.map(c => ({
         id: c.id,
         name: c.name,
         book_id: c.book_id ?? c.bookId,
-        bookTitle: c.books?.title ?? c.bookTitle ?? '',
+        bookTitle: c.bookTitle || c.book_title || '',
         avatar: c.avatar || '🎭',
         avatarImage: c.avatarImage || c.avatar_image || c.image || null,
         color: c.color || 'var(--color-primary)',
@@ -942,7 +940,17 @@ export async function getCharacters() {
   list.forEach(c => charMap.set(String(c.id), { ...(charMap.get(String(c.id)) || {}), ...c }));
   customChars.forEach(c => charMap.set(String(c.id), { ...(charMap.get(String(c.id)) || {}), ...c }));
 
-  return Array.from(charMap.values());
+  // Kitob nomlarini to'ldirish
+  const allBooks = localData.books || [];
+  const result = Array.from(charMap.values()).map(c => {
+    if (!c.bookTitle && c.book_id) {
+      const b = allBooks.find(x => String(x.id) === String(c.book_id));
+      if (b) c.bookTitle = b.title;
+    }
+    return c;
+  });
+
+  return result;
 }
 
 /**
@@ -973,7 +981,7 @@ export async function saveCharacter(data, id = null) {
   }
   localStorage.setItem('kitobchi_custom_characters', JSON.stringify(custom));
 
-  // Supabase
+  // Supabase (agar jadval mavjud bo'lsa)
   try {
     const sbPayload = {
       id: targetId,
@@ -981,7 +989,6 @@ export async function saveCharacter(data, id = null) {
       book_id: fullChar.book_id,
       description: fullChar.description || '',
       avatar: fullChar.avatar || '🎭',
-      avatar_image: fullChar.avatarImage || null,
     };
     if (id) {
       await supabase.from('characters').update(sbPayload).eq('id', targetId);

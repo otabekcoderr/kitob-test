@@ -360,28 +360,24 @@ export async function updateProfile(updates) {
       return { success: false, error: 'Tizimga kirmagansiz.' };
     }
 
-    // Faqat ruxsat etilgan maydonlarni qabul qilamiz
+    // Faqat Supabase profiles jadvalida MAVJUD maydonlarni yuboramiz (400 xatolik oldini olish)
     const dbUpdates = {};
-    if (updates.fullName     !== undefined) dbUpdates.full_name       = updates.fullName;
-    if (updates.avatar       !== undefined) dbUpdates.avatar_url      = updates.avatar;
-    if (updates.avatarImage  !== undefined) dbUpdates.avatar_image    = updates.avatarImage;
-    if (updates.avatarCharId !== undefined) dbUpdates.avatar_char_id  = updates.avatarCharId;
-    if (updates.score        !== undefined) dbUpdates.score           = updates.score;
-    if (updates.streak       !== undefined) dbUpdates.streak          = updates.streak;
-    if (updates.lastQuizDate !== undefined) dbUpdates.last_quiz_date  = updates.lastQuizDate;
+    if (updates.fullName     !== undefined) dbUpdates.full_name      = updates.fullName;
+    if (updates.avatar       !== undefined) dbUpdates.avatar_url     = updates.avatar;
+    if (updates.score        !== undefined) dbUpdates.score          = updates.score;
+    if (updates.streak       !== undefined) dbUpdates.streak         = updates.streak;
+    if (updates.lastQuizDate !== undefined) dbUpdates.last_quiz_date = updates.lastQuizDate;
 
-    if (Object.keys(dbUpdates).length === 0) {
-      return { success: false, error: 'Yangilanadigan ma\'lumot yo\'q.' };
-    }
-
-    // profiles jadvalini yangilash (xatolik bo'lsa ham localStorage saqlanadi)
-    try {
-      await supabase
-        .from('profiles')
-        .update(dbUpdates)
-        .eq('id', currentUser.id);
-    } catch (err) {
-      console.warn('[auth] profiles update Supabase fallback:', err);
+    if (Object.keys(dbUpdates).length > 0) {
+      // profiles jadvalini yangilash
+      try {
+        await supabase
+          .from('profiles')
+          .update(dbUpdates)
+          .eq('id', currentUser.id);
+      } catch (err) {
+        console.warn('[auth] profiles update Supabase fallback:', err);
+      }
     }
 
     // localStorage dagi sessiyani yangilash
