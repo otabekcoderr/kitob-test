@@ -476,13 +476,23 @@ function _updateNavbar() {
  */
 function _buildAuthLinksHTML(user) {
   if (user) {
+    const avatarImgSrc = user.avatarImage || (user.avatar && (user.avatar.startsWith('http') || user.avatar.startsWith('data:image/') || user.avatar.startsWith('/')) ? user.avatar : null);
+    const avatarEmoji = (!avatarImgSrc && user.avatar) ? user.avatar : null;
+    const initial = (user.fullName || user.username || 'U')[0].toUpperCase();
+
+    let avatarHTML = '';
+    if (avatarImgSrc) {
+      avatarHTML = `<img src="${escapeHtml(avatarImgSrc)}" alt="" class="nav__avatar-img" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    } else if (avatarEmoji) {
+      avatarHTML = `<span class="nav__avatar-emoji">${escapeHtml(avatarEmoji)}</span>`;
+    } else {
+      avatarHTML = `<span class="nav__avatar-placeholder">${escapeHtml(initial)}</span>`;
+    }
+
     return `
       <a href="#profile" class="nav__link nav__profile-link" data-path="profile">
         <span class="nav__avatar" aria-hidden="true">
-          ${user.avatar
-              ? `<img src="${escapeHtml(user.avatar)}" alt="" class="nav__avatar-img">`
-              : `<span class="nav__avatar-placeholder">${escapeHtml(user.fullName?.[0] ?? 'U')}</span>`
-          }
+          ${avatarHTML}
         </span>
         <span class="nav__auth-name">${escapeHtml(user.fullName || user.username)}</span>
       </a>
@@ -609,6 +619,12 @@ async function _syncSession() {
       }
     } catch { /* ignore */ }
 
+    let charData = null;
+    try {
+      const charRaw = localStorage.getItem(`kitobchi_user_character_${session.user.id}`);
+      if (charRaw) charData = JSON.parse(charRaw);
+    } catch { /* ignore */ }
+
     const cleanUsername = String(profile?.username || session.user.user_metadata?.username || existingUser?.username || '').trim().toLowerCase();
     const cleanEmail = String(session.user.email || '').trim().toLowerCase();
     const isAdmin = profile?.role === 'admin' || profile?.is_admin === true || cleanUsername === 'admin' || cleanEmail.startsWith('admin@');
@@ -618,9 +634,9 @@ async function _syncSession() {
       email:        session.user.email        || '',
       fullName:     profile?.full_name        || session.user.user_metadata?.full_name  || existingUser?.fullName || 'Foydalanuvchi',
       username:     profile?.username         || session.user.user_metadata?.username   || existingUser?.username || '',
-      avatar:       existingUser?.avatar      || storedUser?.avatar || profile?.avatar_url || session.user.user_metadata?.avatar_url || '🎭',
-      avatarImage:  existingUser?.avatarImage !== undefined ? existingUser?.avatarImage : (storedUser?.avatarImage || null),
-      avatarCharId: existingUser?.avatarCharId !== undefined ? existingUser?.avatarCharId : (storedUser?.avatarCharId || null),
+      avatar:       charData?.avatar          || existingUser?.avatar || storedUser?.avatar || (profile?.avatar_url && (profile.avatar_url.startsWith('http') || profile.avatar_url.startsWith('data:image/')) ? profile.avatar_url : null) || session.user.user_metadata?.avatar || '🎭',
+      avatarImage:  charData?.avatarImage !== undefined ? charData.avatarImage : (existingUser?.avatarImage !== undefined ? existingUser?.avatarImage : (storedUser?.avatarImage || session.user.user_metadata?.avatarImage || null)),
+      avatarCharId: charData?.avatarCharId !== undefined ? charData.avatarCharId : (existingUser?.avatarCharId !== undefined ? existingUser?.avatarCharId : (storedUser?.avatarCharId || session.user.user_metadata?.avatarCharId || null)),
       role:         isAdmin ? 'admin' : (profile?.role || existingUser?.role || 'user'),
       isAdmin:      isAdmin,
       score:        Math.max(existingUser?.score || 0, storedUser?.score || 0, profile?.score || 0),

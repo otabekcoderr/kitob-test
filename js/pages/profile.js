@@ -12,6 +12,19 @@ let _allCharacters = [];
 export async function render(container, { params, user }) {
   if (!user) { window.navigate('login'); return; }
 
+  // Agar foydalanuvchining personaji mustaqil xotirada saqlangan bo'lsa, birlashtiramiz
+  if (user && user.id) {
+    try {
+      const savedChar = localStorage.getItem(`kitobchi_user_character_${user.id}`);
+      if (savedChar) {
+        const parsed = JSON.parse(savedChar);
+        if (parsed.avatarCharId && !user.avatarCharId) user.avatarCharId = parsed.avatarCharId;
+        if (parsed.avatarImage && !user.avatarImage)   user.avatarImage   = parsed.avatarImage;
+        if (parsed.avatar && (!user.avatar || user.avatar === '🎭')) user.avatar = parsed.avatar;
+      }
+    } catch {}
+  }
+
   const isAdmin = user?.role === 'admin' ||
                   user?.isAdmin === true ||
                   user?.is_admin === true ||
@@ -255,10 +268,14 @@ function _bindEvents(user) {
     setButtonLoading(saveBtn, true);
 
     try {
-      const result = await updateProfile({
-        fullName,
-        avatar: document.getElementById('pf-avatar')?.value.trim() || '',
-      });
+      const avatarInputVal = document.getElementById('pf-avatar')?.value.trim() || '';
+      const updateData = { fullName };
+      if (avatarInputVal) {
+        updateData.avatar = avatarInputVal;
+        updateData.avatarImage = avatarInputVal;
+        updateData.avatarCharId = null;
+      }
+      const result = await updateProfile(updateData);
 
       if (result.success) {
         showNotification('Profil yangilandi.', 'success');
@@ -324,7 +341,13 @@ function _renderCharacterGrid(user) {
   const container = document.getElementById('character-grid-container');
   if (!container) return;
 
-  const curCharId = user.avatarCharId || null;
+  let curCharId = user.avatarCharId || null;
+  if (!curCharId && user?.id) {
+    try {
+      const saved = localStorage.getItem(`kitobchi_user_character_${user.id}`);
+      if (saved) curCharId = JSON.parse(saved).avatarCharId || null;
+    } catch {}
+  }
 
   if (!_allCharacters || _allCharacters.length === 0) {
     container.innerHTML = `

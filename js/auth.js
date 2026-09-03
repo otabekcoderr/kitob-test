@@ -30,6 +30,18 @@ const SESSION_KEY = 'kitobchi_user';
 function _saveSession(user) {
   if (user && user.id) {
     localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+
+    // Tanlangan personaj va avatarni hech qachon yo'qolmaydigan alohida kalitda mustahkam saqlaymiz
+    if (user.avatarCharId || user.avatarImage || user.avatar) {
+      try {
+        localStorage.setItem(`kitobchi_user_character_${user.id}`, JSON.stringify({
+          avatar: user.avatar || '🎭',
+          avatarImage: user.avatarImage || null,
+          avatarCharId: user.avatarCharId || null,
+        }));
+      } catch { /* ignore */ }
+    }
+
     // Barcha foydalanuvchilar reyting xotirasiga ham doimiy yozib boramiz
     try {
       const raw = localStorage.getItem('kitobchi_all_users');
@@ -40,6 +52,7 @@ function _saveSession(user) {
         fullName: user.fullName || user.username,
         avatar: user.avatar || '',
         avatarImage: user.avatarImage || null,
+        avatarCharId: user.avatarCharId || null,
         score: user.score || 0,
         streak: user.streak || 0,
         lastQuizDate: user.lastQuizDate || null,
@@ -55,14 +68,37 @@ function _saveSession(user) {
 /**
  * Supabase auth.user va uning user_metadata dan
  * dasturda ishlatiladigan oddiy obyekt yasaydi.
+ * Avvalgi sessiya va tanlangan personajni yo'qotmaydi.
  *
  * @param {import('@supabase/supabase-js').User} authUser
  * @param {object} [profileData] — profiles jadvalidan kelgan qo'shimcha ma'lumot
  * @returns {object}
  */
 function _buildUserObject(authUser, profileData = {}) {
-  const username      = profileData.username || authUser.user_metadata?.username || '';
-  const email         = authUser.email || '';
+  // Avvalgi saqlangan ma'lumotlarni o'qiymiz
+  const existingUser = getCurrentUser();
+
+  let storedUser = null;
+  try {
+    const allRaw = localStorage.getItem('kitobchi_all_users');
+    if (allRaw) {
+      const all = JSON.parse(allRaw);
+      storedUser = all[authUser.id] || null;
+    }
+  } catch {}
+
+  let charData = null;
+  try {
+    const charRaw = localStorage.getItem(`kitobchi_user_character_${authUser.id}`);
+    if (charRaw) charData = JSON.parse(charRaw);
+  } catch {}
+
+  const username      = profileData.username 
+                     || authUser.user_metadata?.username 
+                     || existingUser?.username 
+                     || storedUser?.username 
+                     || '';
+  const email         = authUser.email || existingUser?.email || '';
   const cleanUsername = String(username).trim().toLowerCase();
   const cleanEmail    = String(email).trim().toLowerCase();
 
@@ -74,22 +110,55 @@ function _buildUserObject(authUser, profileData = {}) {
                   cleanUsername === 'admin' ||
                   cleanEmail.startsWith('admin@');
 
+  // Avatar va Personaj ustuvorligi:
+  const avatarImage = charData?.avatarImage !== undefined 
+    ? charData.avatarImage 
+    : (existingUser?.avatarImage !== undefined ? existingUser.avatarImage : (storedUser?.avatarImage || authUser.user_metadata?.avatarImage || authUser.user_metadata?.avatar_image || profileData.avatar_image || null));
+
+  const avatarCharId = charData?.avatarCharId !== undefined 
+    ? charData.avatarCharId 
+    : (existingUser?.avatarCharId !== undefined ? existingUser.avatarCharId : (storedUser?.avatarCharId || authUser.user_metadata?.avatarCharId || authUser.user_metadata?.avatar_char_id || profileData.avatar_char_id || null));
+
+  const avatar = charData?.avatar 
+    || existingUser?.avatar 
+    || storedUser?.avatar 
+    || (profileData.avatar_url && (profileData.avatar_url.startsWith('http') || profileData.avatar_url.startsWith('data:image/')) ? profileData.avatar_url : null)
+    || authUser.user_metadata?.avatar 
+    || authUser.user_metadata?.avatar_url 
+    || '🎭';
+
+  const score = Math.max(
+    existingUser?.score || 0,
+    storedUser?.score || 0,
+    profileData.score || 0
+  );
+
+  const streak = Math.max(
+    existingUser?.streak || 0,
+    storedUser?.streak || 0,
+    profileData.streak || 0
+  );
+
+  const lastQuizDate = existingUser?.lastQuizDate 
+                    || storedUser?.lastQuizDate 
+                    || profileData.last_quiz_date 
+                    || null;
+
   return {
     id:        authUser.id,
     email:     email,
     fullName:  profileData.full_name
-                || authUser.user_metadata?.full_name  || username || 'Foydalanuvchi',
+                || authUser.user_metadata?.full_name  || existingUser?.fullName || username || 'Foydalanuvchi',
     username:  username,
-    avatar:    profileData.avatar_url
-                || authUser.user_metadata?.avatar_url || '',
-    avatarImage: profileData.avatar_image || authUser.user_metadata?.avatar_image || null,
-    avatarCharId: profileData.avatar_char_id || authUser.user_metadata?.avatar_char_id || null,
-    role:      isAdmin ? 'admin' : (profileData.role || 'user'),
+    avatar:    avatar,
+    avatarImage: avatarImage,
+    avatarCharId: avatarCharId,
+    role:      isAdmin ? 'admin' : (profileData.role || existingUser?.role || 'user'),
     isAdmin:   isAdmin,
-    score:     profileData.score           || 0,
-    streak:    profileData.streak          || 0,
-    lastQuizDate: profileData.last_quiz_date || null,
-    createdAt: authUser.created_at         || '',
+    score:     score,
+    streak:    streak,
+    lastQuizDate: lastQuizDate,
+    createdAt: authUser.created_at || '',
   };
 }
 
@@ -396,6 +465,31 @@ export async function updateProfile(updates) {
       } catch (err) {
         console.warn('[auth] profiles update Supabase fallback:', err);
       }
+    }
+
+    // Supabase auth user_metadata ni ham yangilab qo'yamiz (har doim xatosiz sessiyaga tushadi)
+    try {
+      await supabase.auth.updateUser({
+        data: {
+          avatar: updates.avatar !== undefined ? updates.avatar : currentUser.avatar,
+          avatarImage: updates.avatarImage !== undefined ? updates.avatarImage : currentUser.avatarImage,
+          avatarCharId: updates.avatarCharId !== undefined ? updates.avatarCharId : currentUser.avatarCharId,
+          full_name: updates.fullName !== undefined ? updates.fullName : currentUser.fullName,
+        }
+      });
+    } catch (metaErr) {
+      console.warn('[auth] updateUser metadata fallback:', metaErr);
+    }
+
+    // Mustaqil personaj kalitini yangilash
+    if (updates.avatarCharId !== undefined || updates.avatarImage !== undefined || updates.avatar !== undefined) {
+      try {
+        localStorage.setItem(`kitobchi_user_character_${currentUser.id}`, JSON.stringify({
+          avatar: updates.avatar ?? currentUser.avatar ?? '🎭',
+          avatarImage: updates.avatarImage !== undefined ? updates.avatarImage : (currentUser.avatarImage || null),
+          avatarCharId: updates.avatarCharId !== undefined ? updates.avatarCharId : (currentUser.avatarCharId || null),
+        }));
+      } catch {}
     }
 
     // localStorage dagi sessiyani yangilash
