@@ -2,7 +2,7 @@
 // pages/profile.js — Profil va sozlamalar sahifasi (Editorial uslub)
 // ============================================================
 import { getCurrentUser, updateProfile, logout } from '../auth.js';
-import { getUserResults, getCharacters }          from '../db.js';
+import { getUserResults, getCharacters, getStreakStatus } from '../db.js';
 import { escapeHtml, showNotification,
          setButtonLoading }                       from '../utils.js';
 
@@ -39,7 +39,7 @@ export async function render(container, { params, user }) {
                 <span class="profile-hero__stat-val">${user.score ?? 0}</span>
                 <span class="profile-hero__stat-label">Ball</span>
               </div>
-              <div class="profile-hero__stat">
+              <div class="profile-hero__stat" id="streak-stat">
                 <span class="profile-hero__stat-val" style="display:inline-flex; align-items:center; gap:4px;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
                   ${user.streak ?? 0}
@@ -399,6 +399,16 @@ async function _loadHistory(user) {
     if (statEl) {
       statEl.querySelector('.profile-hero__stat-val').textContent = results.length;
     }
+
+    const streakStatus = await getStreakStatus(user, results);
+    const streakEl = document.getElementById('streak-stat');
+    if (streakEl) {
+      streakEl.querySelector('.profile-hero__stat-val').innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+        ${streakStatus.currentStreak}
+      `;
+    }
+
     _renderHistory(results);
   } catch {
     _renderHistory([]);

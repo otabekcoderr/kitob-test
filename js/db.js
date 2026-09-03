@@ -872,8 +872,42 @@ export async function getLeaderboard(limit = 50) {
 }
 
 // ============================================================
-// STREAK VA BALL YANGILASH
+// STREAK VA BALL YANGILASH HAMDA FOALLIK STATUSI
 // ============================================================
+
+/**
+ * Foydalanuvchining faol kunlari ro'yxatini qaytaradi.
+ * @param {string} userId
+ * @returns {string[]}
+ */
+export function getActiveDates(userId) {
+  if (!userId) return [];
+  try {
+    const raw = localStorage.getItem(`kitobchi_active_dates_${userId}`);
+    const list = raw ? JSON.parse(raw) : [];
+    return Array.isArray(list) ? list : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Foydalanuvchiga faol kun qo'shadi.
+ * @param {string} userId
+ * @param {string} dateStr
+ */
+export function saveActiveDate(userId, dateStr) {
+  if (!userId || !dateStr) return;
+  try {
+    const list = getActiveDates(userId);
+    if (!list.includes(dateStr)) {
+      list.push(dateStr);
+      localStorage.setItem(`kitobchi_active_dates_${userId}`, JSON.stringify(list));
+    }
+  } catch (e) {
+    console.warn('[db] saveActiveDate xatosi:', e);
+  }
+}
 
 /**
  * Streak va ballni yangilaydi (test tugaganidan keyin chaqiriladi).
@@ -887,29 +921,37 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     const user = getCurrentUser();
     if (!user) return { success: false, newStreak: 0, newScore: 0, error: 'Tizimga kirmagansiz.' };
 
+    const { yesterday } = await import('./utils.js');
+    const yesterdayStr = yesterday();
+
     const lastDate   = user.lastQuizDate ?? null;
     const oldStreak  = user.streak       ?? 0;
     const oldScore   = user.score        ?? 0;
 
-    // Kecha sanasini hisoblash
-    const todayObj     = new Date(todayDate);
-    const yesterdayObj = new Date(todayObj);
-    yesterdayObj.setDate(yesterdayObj.getDate() - 1);
-    const yesterdayStr = yesterdayObj.toISOString().slice(0, 10);
-
-    // Streak mantiq
+    // Streak mantiq (mukammal hisoblash)
     let newStreak;
     if (lastDate === todayDate) {
+      // Bugun allaqachon test yechilgan — streak o'zgarmaydi
       newStreak = Math.max(1, oldStreak);
     } else if (lastDate === yesterdayStr) {
+      // Kecha yechilgan — bugungi kun bilan streak 1 taga oshadi
       newStreak = oldStreak + 1;
     } else {
+      // Avval yechilmagan yoki 2+ kun o'tkazib yuborilgan — yangi streak boshlanadi
       newStreak = 1;
     }
 
     const newScore = oldScore + earnedScore;
 
-    // 1. Mahalliy profil va sessiyani yangilaymiz (har qanday sharoitda xatosiz ishlaydi)
+    // Faol kunlar bazasiga kiritish
+    saveActiveDate(user.id, todayDate);
+
+    // Agar streak bekor qilingan xabari bo'lsa, uni tozalaymiz
+    try {
+      localStorage.removeItem(`kitobchi_streak_broken_ack_${user.id}`);
+    } catch {}
+
+    // Mahalliy profil va sessiyani yangilaymiz
     const { updateProfile } = await import('./auth.js');
     await updateProfile({ score: newScore, streak: newStreak, lastQuizDate: todayDate });
 
@@ -919,6 +961,120 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     console.error('[db] updateStreakAndScore xatosi:', err);
     return { success: false, newStreak: 0, newScore: 0, error: err.message };
   }
+}
+
+/**
+ * Foydalanuvchining joriy streak holatini va haftalik taqvimini hisoblab beradi.
+ * Agar foydalanuvchi streakni uzgan bo'lsa (kecha kirmagan bo'lsa), buni aniqlaydi va streakni 0 ga tushiradi.
+ * 
+ * @param {object|null} user
+ * @param {object[]} [userResults=[]]
+ * @returns {Promise<object>}
+ */
+export async function getStreakStatus(user, userResults = []) {
+  if (!user) {
+    return {
+      isGuest: true,
+      currentStreak: 0,
+      isCompletedToday: false,
+      isPendingToday: false,
+      isBroken: false,
+      brokenStreakAmount: 0,
+      activeDates: [],
+      weekDays: []
+    };
+  }
+
+  const { today, yesterday, formatDate } = await import('./utils.js');
+  const todayStr = today();
+  const yesterdayStr = yesterday();
+  const lastDate = user.lastQuizDate || null;
+  const rawStreak = user.streak || 0;
+
+  // Faol kunlarni yig'ish (localStorage + test natijalari)
+  const localActive = getActiveDates(user.id);
+  const resultDates = (userResults || [])
+    .map(r => r.date || (r.created_at ? r.created_at.slice(0, 10) : null))
+    .filter(Boolean);
+  if (lastDate) localActive.push(lastDate);
+  const allActiveDates = Array.from(new Set([...localActive, ...resultDates]));
+
+  let currentStreak = rawStreak;
+  let isCompletedToday = false;
+  let isPendingToday = false;
+  let isBroken = false;
+  let brokenStreakAmount = 0;
+
+  if (lastDate === todayStr || allActiveDates.includes(todayStr)) {
+    // Bugun allaqachon muvaffaqiyatli bajarilgan
+    isCompletedToday = true;
+    isPendingToday = false;
+    currentStreak = Math.max(1, rawStreak);
+  } else if (lastDate === yesterdayStr || allActiveDates.includes(yesterdayStr)) {
+    // Kecha bajarilgan, lekin bugun hali bajarilmagan — streak hali buzilmagan
+    isCompletedToday = false;
+    isPendingToday = true;
+    currentStreak = rawStreak;
+  } else {
+    // Kecha ham, bugun ham test yechilmagan (2 yoki undan ortiq kun o'tgan)
+    isCompletedToday = false;
+    isPendingToday = true;
+    if (rawStreak > 0) {
+      // STREAK BUZILDI!
+      isBroken = true;
+      brokenStreakAmount = rawStreak;
+      currentStreak = 0;
+
+      // Profil va sessiyada streakni 0 ga tushiramiz
+      const { updateProfile } = await import('./auth.js');
+      await updateProfile({ streak: 0 }).catch(() => {});
+    } else {
+      currentStreak = 0;
+    }
+  }
+
+  // 7 kunlik joriy haftalik taqvim (Dushanba - Yakshanba)
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0: Yak, 1: Du, ...
+  const distanceToMon = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + distanceToMon);
+
+  const dayNames = ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya'];
+  const fullDayNames = ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba', 'Yakshanba'];
+  const weekDays = [];
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dStr = formatDate(d);
+    const isToday = dStr === todayStr;
+    const isPast = dStr < todayStr;
+    const isFuture = dStr > todayStr;
+    const isActive = allActiveDates.includes(dStr) || (isToday && isCompletedToday);
+
+    weekDays.push({
+      name: dayNames[i],
+      fullName: fullDayNames[i],
+      date: dStr,
+      dayNum: d.getDate(),
+      isActive,
+      isToday,
+      isPast,
+      isFuture
+    });
+  }
+
+  return {
+    isGuest: false,
+    currentStreak,
+    isCompletedToday,
+    isPendingToday,
+    isBroken,
+    brokenStreakAmount,
+    activeDates: allActiveDates,
+    weekDays
+  };
 }
 
 // ============================================================

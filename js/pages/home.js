@@ -1,8 +1,8 @@
 // ============================================================
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
-import { getBooks, getLeaderboard, getUserResults } from '../db.js';
-import { escapeHtml, truncate }                      from '../utils.js';
+import { getBooks, getLeaderboard, getUserResults, getStreakStatus } from '../db.js';
+import { escapeHtml, truncate }                                    from '../utils.js';
 let _cleanup = [];
 
 // ---- Deterministik kunlik sinov (sanaga asoslangan) ----
@@ -48,6 +48,18 @@ export async function render(container, { params, user }) {
                  <a href="#books"    class="btn btn-outline btn-lg">Kitoblar</a>
                </div>`
           }
+        </section>
+
+        <!-- Streak uzilganligi haqida bildirishnoma (agar kecha kirmagan bo'lsa) -->
+        <div id="streak-broken-notice-wrap"></div>
+
+        <!-- Kunlik Streak va Haftalik Faollik Tracker -->
+        <section class="section" id="streak-section" aria-label="Kunlik streak va faollik">
+          <div id="streak-widget-wrap">
+            <div class="streak-card card">
+              <div class="loading-state"><div class="spinner spinner--sm"></div><span>Streak yuklanmoqda...</span></div>
+            </div>
+          </div>
         </section>
 
         <!-- Bugungi sinov (skeleton) -->
@@ -117,11 +129,16 @@ export async function render(container, { params, user }) {
     const daily = _getDailyChallenge(booksList);
     _renderDailyChallenge(daily);
 
-    // Statistika
-    if (user) _renderStats(user, resultList);
+    // Kunlik streak holatini hisoblash va ko'rsatish
+    const streakStatus = await getStreakStatus(user, resultList);
+    _renderStreakWidget(streakStatus, user, daily);
 
-    // Kitoblar
+    // Statistika
+    if (user) _renderStats(user, resultList, streakStatus.currentStreak);
+
+    // Kitoblar va Mini reyting
     _renderBooks(booksList.slice(0, 6));
+    _renderLeaderboardMini(leaderList, user);
 
     // Jonli kitoblar yangilanishini tinglash
     const onBooksUpdated = async () => {
@@ -137,6 +154,150 @@ export async function render(container, { params, user }) {
   } catch (err) {
     console.error('[home] Yuklash xatosi:', err);
   }
+}
+
+// ---- KUNLIK STREAK WIDGET & ANIMATSIYA ----
+function _renderStreakWidget(streakStatus, user, dailyBook) {
+  const widgetWrap = document.getElementById('streak-widget-wrap');
+  const brokenWrap = document.getElementById('streak-broken-notice-wrap');
+  if (!widgetWrap) return;
+
+  const dailyId = dailyBook ? String(dailyBook.id) : '';
+
+  // 1. Agar streak buzilgan bo'lsa va hali ko'rsatilmagan bo'lsa — animatsiyali bildirishnoma chiqaramiz
+  if (brokenWrap && streakStatus.isBroken && user) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const ackKey = `kitobchi_streak_broken_ack_${user.id}`;
+    const alreadyAcked = localStorage.getItem(ackKey) === todayStr;
+
+    if (!alreadyAcked) {
+      brokenWrap.innerHTML = `
+        <div class="streak-broken-banner animate-shake" id="streak-broken-banner">
+          <div class="streak-broken-banner__icon">💔</div>
+          <div style="flex:1;min-width:0;">
+            <div class="streak-broken-banner__title">Ketma-ketlik (Streak) uzildi!</div>
+            <div class="streak-broken-banner__desc">
+              Afsus, kecha kunlik test yechilmagani sababli <strong>${streakStatus.brokenStreakAmount} kunlik</strong> streakingiz nolga tushdi. 
+              Tushkunlikka tushmang — haqiqiy kitobxonlar to'xtamaydi! Bugun yangi rekord o'rnatishni boshlang!
+            </div>
+          </div>
+          <div class="streak-broken-banner__actions">
+            ${dailyId ? `<a href="#book?id=${escapeHtml(dailyId)}" class="btn btn-primary btn-sm">Yangi streakni boshlash 🔥</a>` : ''}
+            <button class="btn btn-ghost btn-sm" id="btn-dismiss-broken-streak">Tushundim</button>
+          </div>
+        </div>
+      `;
+
+      const dismissBtn = document.getElementById('btn-dismiss-broken-streak');
+      if (dismissBtn) {
+        dismissBtn.onclick = () => {
+          localStorage.setItem(ackKey, todayStr);
+          const banner = document.getElementById('streak-broken-banner');
+          if (banner) {
+            banner.style.transition = 'all 0.35s ease';
+            banner.style.opacity = '0';
+            banner.style.transform = 'translateY(-12px)';
+            setTimeout(() => { brokenWrap.innerHTML = ''; }, 350);
+          }
+        };
+      }
+    } else {
+      brokenWrap.innerHTML = '';
+    }
+  } else if (brokenWrap) {
+    brokenWrap.innerHTML = '';
+  }
+
+  // 2. Mehmon (Guest) foydalanuvchi ko'rinishi
+  if (!user || streakStatus.isGuest) {
+    widgetWrap.innerHTML = `
+      <div class="streak-card card">
+        <div class="streak-card__header">
+          <div class="streak-card__flame-wrap">
+            <div class="streak-card__flame streak-card__flame--idle">🔥</div>
+            <div>
+              <div class="streak-card__title">
+                <span class="streak-card__count">0</span>
+                <span class="streak-card__unit">kunlik streak</span>
+              </div>
+              <div class="streak-card__subtitle">
+                Har kuni kamida bitta kitobdan test yechib, o'z bilim zanjiringizni uzmasdan davom ettiring!
+              </div>
+            </div>
+          </div>
+          <div class="streak-card__action">
+            <a href="#login" class="btn btn-primary btn-sm pulse-button">Kirish va boshlash 🔥</a>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // 3. Tizimga kirgan foydalanuvchi uchun to'liq interaktiv streak kartasi
+  const streak = streakStatus.currentStreak;
+  const isDone = streakStatus.isCompletedToday;
+
+  let subtitleText = '';
+  if (isDone) {
+    subtitleText = '🎉 Ajoyib! Bugungi kunlik sinov muvaffaqiyatli bajarildi. Ertaga streakni davom ettiring!';
+  } else if (streak > 0) {
+    subtitleText = `⚡ Bugun hali sinov yechilmadi! 1 ta test yechib, ${streak + 1}-kunlik streakka erishing va olovni saqlab qoling.`;
+  } else {
+    subtitleText = '🚀 Bugun birinchi testni yeching va yangi g\'alabali streakingizni boshlang!';
+  }
+
+  widgetWrap.innerHTML = `
+    <div class="streak-card card">
+      <div class="streak-card__header">
+        <div class="streak-card__flame-wrap">
+          <div class="streak-card__flame ${streak > 0 ? 'streak-card__flame--active' : 'streak-card__flame--idle'}">
+            🔥
+          </div>
+          <div>
+            <div class="streak-card__title">
+              <span class="streak-card__count">${streak}</span>
+              <span class="streak-card__unit">kunlik streak</span>
+            </div>
+            <div class="streak-card__subtitle">${subtitleText}</div>
+          </div>
+        </div>
+        <div class="streak-card__action">
+          ${!isDone ? `
+            <a href="#book?id=${escapeHtml(dailyId)}" class="btn btn-primary btn-sm pulse-button">
+              Bugungi sinovni yechish 🔥
+            </a>
+          ` : `
+            <span class="streak-card__badge-done">
+              <span style="font-weight:900;">✓</span> Bugun bajarildi
+            </span>
+          `}
+        </div>
+      </div>
+
+      <div class="streak-card__divider"></div>
+
+      <!-- 7 kunlik haftalik faollik (animatsiyali taqvim) -->
+      <div class="streak-week">
+        <div class="streak-week__label">Haftalik faollik (Dushanba — Yakshanba):</div>
+        <div class="streak-week__grid">
+          ${streakStatus.weekDays.map((d, idx) => `
+            <div class="streak-day ${d.isActive ? 'streak-day--active' : ''} ${d.isToday ? 'streak-day--today' : ''} ${d.isPast && !d.isActive ? 'streak-day--missed' : ''}" style="animation-delay: ${idx * 65}ms;">
+              <span class="streak-day__name">${d.name}</span>
+              <div class="streak-day__circle" title="${d.fullName}, ${d.date}">
+                ${d.isActive 
+                  ? '<span class="streak-day__flame">🔥</span>' 
+                  : d.isToday 
+                    ? '<span class="streak-day__target">🎯</span>' 
+                    : `<span class="streak-day__num">${d.dayNum}</span>`}
+              </div>
+              ${d.isToday ? '<span class="streak-day__today-indicator">Bugun</span>' : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 // ---- BUGUNGI SINOV ----
@@ -164,7 +325,7 @@ function _renderDailyChallenge(book) {
 }
 
 // ---- STAT CARDS ----
-function _renderStats(user, results) {
+function _renderStats(user, results, currentStreak = null) {
   const grid = document.getElementById('stats-grid');
   if (!grid) return;
 
@@ -173,15 +334,17 @@ function _renderStats(user, results) {
     ? Math.round(results.reduce((s, r) => s + (r.percentage || 0), 0) / totalTests)
     : 0;
 
+  const displayStreak = currentStreak !== null ? currentStreak : (user.streak ?? 0);
+
   grid.innerHTML = `
     <div class="stat-card">
       <div class="stat-card__value">${user.score ?? 0}</div>
       <div class="stat-card__label">Umumiy ball</div>
     </div>
     <div class="stat-card">
-      <div class="stat-card__value">${user.streak ?? 0}</div>
+      <div class="stat-card__value">${displayStreak}</div>
       <div class="stat-card__label">Ketma-ket kun</div>
-      ${(user.streak ?? 0) > 0 ? `<div class="progress-bar" style="margin-top:8px;"><div class="progress-bar__fill" style="width:${Math.min((user.streak/30)*100,100)}%"></div></div>` : ''}
+      ${displayStreak > 0 ? `<div class="progress-bar" style="margin-top:8px;"><div class="progress-bar__fill" style="width:${Math.min((displayStreak/30)*100,100)}%"></div></div>` : ''}
     </div>
     <div class="stat-card">
       <div class="stat-card__value">${totalTests}</div>
