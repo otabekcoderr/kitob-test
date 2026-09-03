@@ -5,6 +5,7 @@ import {
   startQuiz,
   submitAnswer,
   abortQuiz,
+  advanceNextQuestion,
   getQuizState,
 } from '../quiz.js';
 import { getBookById } from '../db.js';
@@ -241,6 +242,7 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
       nextBtn.onclick = () => {
         nextWrap.hidden = true;
         if (explanationEl) explanationEl.hidden = true;
+        advanceNextQuestion(_callbacks);
       };
     }
   }

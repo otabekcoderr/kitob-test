@@ -922,12 +922,12 @@ export const questions = [
     "book_id": "otkan-kunlar",
     "question": "Yusufbek hojining 'Bizning xonlikdagi parokandalik — o'zimizning jaholatimiz mevasidir' degan xulosasi asarning qaysi g'oyasini ochadi?",
     "options": [
-      "Tashqi bosqindan ko'ra millatning ichki bo'linishi va xudbinligi halokatga olib kelishini",
       "Faqat Toshkent bekligining Qo'qondan ajralib chiqishi zarurligini",
+      "Tashqi bosqindan ko'ra millatning ichki bo'linishi va xudbinligi halokatga olib kelishini",
       "Xon farmonlariga so'zsiz bo'ysunish lozimligini",
       "Iqtisodiy inqiroz barcha muammolarning yagona sababi ekanini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Abdulla Qodiriy Yusufbek hoji orqali Turkiston fojiasining tub sababi — o'zaro nifoq, saroy o'yinlari va milliy birlikning yo'qligida ekanini uqtiradi."
   },
   {
@@ -937,11 +937,11 @@ export const questions = [
     "question": "Otabekning Marg'ilonda Homid va Ziyo shohichi bilan bahslarida ilgari surgan asosiy nuqtai nazari nimadan iborat?",
     "options": [
       "Savdo-sotiqda faqat o'z shaxsiy manfaatini ko'zlash",
-      "Milliy sanoatni rivojlantirish, jaholatdan qutulish va inson erki uchun ma'rifat zarurligi",
       "Eski udum va aqidalarni o'zgartirmasdan saqlab qolish",
+      "Milliy sanoatni rivojlantirish, jaholatdan qutulish va inson erki uchun ma'rifat zarurligi",
       "Saroy amaldorlari bilan kelishib ish yuritish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Otabek — jadidona fikrlovchi yangi avlod vakili; u taraqqiyot kaliti ilm-fan, erkin fikr va milliy sanoatda ekanini anglab yetgan."
   },
   {
@@ -951,11 +951,11 @@ export const questions = [
     "question": "O'zbek oyimning Otabekni Zaynabga majburlab uylantirishi zamirida qanday psixologik omil yotadi?",
     "options": [
       "Zaynabning oilasidan moddiy boylik undirish ilinji",
-      "Farzand ustidan mutlaq egalik hissi va eskirgan orzu-havaslarni an'ana deb bilish xudbinligi",
       "Marg'ilonliklar bilan qudalikni bekor qilish istagi",
-      "Toshkent urf-odatlarini Marg'ilondan ustun qo'yish niyati"
+      "Toshkent urf-odatlarini Marg'ilondan ustun qo'yish niyati",
+      "Farzand ustidan mutlaq egalik hissi va eskirgan orzu-havaslarni an'ana deb bilish xudbinligi"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "O'zbek oyim o'g'lining shaxsiy baxtini emas, o'zining 'onachilik kibri' va el oldidagi quruq obro'sini ustun qo'yib, fojia poydevorini quradi."
   },
   {
@@ -964,12 +964,12 @@ export const questions = [
     "book_id": "otkan-kunlar",
     "question": "Zaynabning Kumushga zahar berish darajasiga yetib borishi qahramonning qaysi holatini ko'rsatadi?",
     "options": [
-      "Tug'ma yovuzlik va qotillikka moyillikni",
       "Sevilmagan ayolning ma'naviy nochorligi, kundoshlik alami va tashqi ig'volar ta'sirida o'zini yo'qotishini",
+      "Tug'ma yovuzlik va qotillikka moyillikni",
       "Otabekning boyligiga to'liq egalik qilish rejasini",
       "O'zbek oyimning to'g'ridan-to'g'ri buyrug'ini bajarishini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Zaynab shunchaki qotil emas, balki muhabbatsiz nikoh, kundoshlik botqog'i va xotin-qizlar huquqsizligining yana bir fojiali qurbonidir."
   },
   {
@@ -993,11 +993,11 @@ export const questions = [
     "question": "Homidning Otabekka bo'lgan murosasiz nafrati va fitnalarining asl sababi nima?",
     "options": [
       "Savdo bozoridagi tijoriy raqobat",
-      "Kumushga erisha olmaganlik alami, kibr va mag'rurlikning hasadga aylanishi",
       "Toshkentliklarga nisbatan Marg'ilon bekligining noroziligi",
+      "Kumushga erisha olmaganlik alami, kibr va mag'rurlikning hasadga aylanishi",
       "Otabekning saroy bilan aloqadorligidan cho'chish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Homid o'z xohishiga yetisholmagach, hasad va xudbinlik girdobida tobora tubanlashadi va butun borlig'ini qasos o'tiga qurbon qiladi."
   },
   {
@@ -1007,11 +1007,11 @@ export const questions = [
     "question": "Mirzakarim qutidorning Otabekka qizini berishdagi ma'naviy mezoni nima edi?",
     "options": [
       "Otabekning boyligi va Toshkentdagi mavqei",
-      "Yigitning odobi, aql-idroki, zamonaviy dunyoqarashi va toza axloqi",
       "Yusufbek hojining xonlikdagi nufuzidan foydalanish",
-      "Savdo yo'llarini kengaytirish maqsadi"
+      "Savdo yo'llarini kengaytirish maqsadi",
+      "Yigitning odobi, aql-idroki, zamonaviy dunyoqarashi va toza axloqi"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Qutidor moddiy manfaatlardan ustun turib, yoshlarning qalb uyg'unligi va insoniy fazilatlarini bosh mezon qilib oladi."
   },
   {
@@ -1034,293 +1034,433 @@ export const questions = [
     "book_id": "otkan-kunlar",
     "question": "Abdulla Qodiriy ushbu romani orqali kelajak avlodga qoldirgan eng bosh ogohlantiruvchi saboq nima?",
     "options": [
-      "Millat o'z o'tmishidan saboq olmasa, ichki nifoq va jaholat uni har qanday mustamlakaga qul qilib qo'yishi muqarrarligi",
       "Uylanish masalasida faqat ota-ona qaroriga bo'ysunish kerakligi",
+      "Millat o'z o'tmishidan saboq olmasa, ichki nifoq va jaholat uni har qanday mustamlakaga qul qilib qo'yishi muqarrarligi",
       "Shaharlararo savdo aloqalarini to'xtatish zarurligi",
       "Tarixiy voqealarni eslamaslik afzalligi"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Roman nafaqat o'tmish fojiasi, balki kelajak avlod uchun birlik, ma'rifat va mustaqillikni ko'z qorachig'idek asrash bo'yicha tarixiy manifestdir."
+  },
+  {
+    "id": "q_mehrobdan-chayon_1",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Abdulla Qodiriyning asarni 'Mehrobdan chayon' deb nomlashidagi asosiy ramziy-falsafiy ma'no nima?",
+    "options": [
+      "Xon saroyidagi mirzalar va din peshvolari o'rtasidagi yashirin siyosiy kurashni ko'rsatish",
+      "Eng muqaddas dargoh niqobi ostida turib jamiyatga zahar sochuvchi munofiqlarni fosh etish",
+      "Qo'qon xonligidagi masjidlar va madrasalarning jamiyat hayotidagi o'rnini to'la tasvirlash",
+      "Oddiy xalq hayotining qat'iy diniy aqidalar bilan boshqarilishini realistik yoritish"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Muallif 'mehrob' (poklik va e'tiqod timsoli) hamda 'chayon' (yovuzlik va xiyonat ramzi) qarama-qarshiligi orqali dinni o'z nafsi uchun niqob qilgan kimsalarning ma'naviy xatarini ochib beradi. Boshqa variantlar davr muhitiga oid bo'lsa-da, asar nomining tub ramziy mohiyatini to'la ifodalamaydi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_2",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Salih mahdumning Ra'noga puxta ta'lim berib, so'ngra uni xonga berishga ko'nishi qaysi ziddiyatni ochadi?",
+    "options": [
+      "Xon saroyidagi amaldorlar bilan munosabatni yaxshilab, yangi davlat lavozimiga erishish rejasini",
+      "Qizining xon saroyida dabdabali va to'kin hayot kechirishiga bo'lgan samimiy otalik ishonchini",
+      "Ziyolilik va ma'rifatparvarlik bilan moddiy manfaatparastlik va xudbinlikning fojiali to'qnashuvini",
+      "Xon farmoniga mutlaqo qarshi chiqa olmaslik va taqdir oldidagi ojizlikka butunlay tan berishni"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Mahdum qiziga yaxshi tarbiya bergan bo'lsa-da, moddiy boylik va saroy dabdabasi oldida o'z axloqiy prinsiplaridan voz kechadi. Bu holat bilimli, ammo vijdoni nafsi oldida zaif kimsalarning ruhiy tanazzulini yaqqol ko'rsatadi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_3",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Anvarning Xudoyorxonga yozgan ochiq maktubida qanday axloqiy va siyosiy jasorat mujassamlashgan?",
+    "options": [
+      "Qo'qon saroyidagi barcha boshqaruv qonunlarini zudlik bilan qayta isloh qilish talabini qo'yish",
+      "Xondan o'zining shaxsiy xavfsizligini so'rab, Toshkent bekligiga tinch ko'chib ketishga ruxsat olish",
+      "Saroydagi boshqa mirzalarning noqonuniy xatti-harakatlarini xonga dalillar bilan fosh etib berish",
+      "Inson qadr-qimmati, shaxsiy erk va muhabbatni zolim hukmdorning mutlaq irodasidan ustun qo'yish"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Anvar saroy mirzosi bo'lishiga qaramay, xonning zolimona haram siyosatiga ochiq qarshi chiqadi. U inson sha'ni va sevgi erkinligi har qanday shohona farmondan yuksak ekanini o'limga tik boqib isbotlaydi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_4",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Sultonali mirzoning Anvar o'rniga o'lim jazosiga rozi bo'lishidagi bosh ma'naviy sabab nima?",
+    "options": [
+      "Haqiqiy do'stlik, fidoiylik va kelajak umidi bo'lgan Anvarni adolat yo'lida asrab qolish istagi",
+      "O'z umrining oxiriga yetganini his qilib, saroy zulmiga nisbatan namoyishkorona isyon ko'rsatish",
+      "Xon tomonidan oxirgi lahzada afv etilishiga va xalq orasida buyuk obro' qozonishiga ishonish",
+      "Salih mahdum xonadoniga nisbatan yillar davomida to'plangan qarindoshlik burchini to'lash"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Sultonali mirzo Anvarni o'z farzandidek va millatning pokiza kelajagi deb biladi. Uning o'zini qurbon qilishi hech qanday shaxsiy manfaatsiz, sof fidoiylik va haqiqiy do'stlikning eng yuksak namunasidir."
+  },
+  {
+    "id": "q_mehrobdan-chayon_5",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Ra'noning saroy dabdabasidan ko'ra o'limni afzal bilishi qahramonning qaysi fazilatini namoyon etadi?",
+    "options": [
+      "Otasining qattiqqo'l xonadon tartiblariga nisbatan o'smirlik isyoni va noroziligini ko'rsatishini",
+      "Insoniy sha'n, sevgiga sadoqat va erkin shaxs bo'lish huquqini saroy boyligidan ustun bilishini",
+      "Saroydagi boshqa kanizaklar bilan bo'ladigan xatarli raqobat va ichki fitnalardan cho'chishini",
+      "Anvar bilan birgalikda qishloqqa qochib ketish rejasining muvaffaqiyatiga to'liq ishonishini"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Ra'no shunchaki ojiza jabrdiyda emas, balki o'z or-nomusi va qalb erkinligini hech qanday boylik yoki shohona qasrga alishmaydigan mustaqil irodali ayol siymosidir."
+  },
+  {
+    "id": "q_mehrobdan-chayon_6",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Asarda Xudoyorxon obrazining ochib berilgan ruhiy qiyofasi qaysi jihati bilan ajralib turadi?",
+    "options": [
+      "Mamlakatni taraqqiy ettirishni istagan, ammo atrofidagi ig'volar sababli adashgan shaxs sifatida",
+      "Faqat harbiy janglar va qo'shni davlatlar bilan chegaraviy mojarolar bilan band bo'lgan shoh sifatida",
+      "Xushomadgo'ylar qurshovida qolgan, o'z nafsiga qul va shubhalar girdobidagi zolim hukmdor sifatida",
+      "Diniy ulamolar va xalq oqsoqollarining barcha maslahatlariga qat'iy tayanuvchi odil arbob sifatida"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Qodiriy Xudoyorxonni mutlaq qudrat egasi bo'lsa-da, ichki qo'rquv, shubha va xushomadgo'ylar ta'sirida ojiz qolgan fojiali despot sifatida mahorat bilan chizadi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_7",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Nigora oyimning Ra'no taqdiridagi onalik roli va uning mahdumdan farqi nimada namoyon bo'ladi?",
+    "options": [
+      "Erining barcha qarorlarini ma'qullab, qizini tezroq saroyga jo'natish tarafdori bo'lishida",
+      "Saroydan keladigan sovg'a-salomlarni ko'paytirish uchun eriga ta'sir o'tkazishga urinishida",
+      "Qizini faqat o'ziga yaqin qarindoshlarga uzatish tarafdori bo'lgan eskirgan qarashida",
+      "Qizining dardini qalbida his qilib, soxta obro'dan ko'ra farzand baxtini himoya qilishga intilishida"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Nigora oyim mahdumning moddiy hisob-kitoblariga qarshi turib, onalik fozilligi bilan qizining pok tuyg'ularini tushunadi va uni saroy balosidan asrashga intiladi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_8",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Asardagi Qilichboz boshchiligidagi sarbozlar va xalq noroziligi qanday ijtimoiy ma'noni ifodalaydi?",
+    "options": [
+      "Xonlikdagi og'ir soliqlar, adolatsizlik va zulmga qarshi xalq g'azabining muqarrar uyg'onishini",
+      "Faqat Qo'qon shahrining bozor qoidalarini o'zgartirish maqsadida qilingan stixiyali harakatni",
+      "Toshkent bekligi bilan tuzilgan maxfiy harbiy ittifoqning rejasini amalga oshirish niyatini",
+      "Saroy mirzolarining maoshlarini oshirish talabi bilan chiqqan guruhning noroziligini"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Muallif saroy ichidagi shaxsiy intriqalar bilan cheklanmay, butun jamiyatdagi ziddiyatlar va ezilgan ommaning zulmga qarshi nafratini ham real aks ettiradi."
+  },
+  {
+    "id": "q_mehrobdan-chayon_9",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Asar so'ngida Anvar va Ra'noning saroydan uzoq qishloqqa chekinishi qanday falsafiy xulosani beradi?",
+    "options": [
+      "Siyosiy faoliyatning mutlaqo foydasiz ekani va davlat ishlaridan doim qochish zarurligini",
+      "Haqiqiy baxt va xotirjamlik saroy kibridan yiroqda, halol mehnat va pokiza muhabbatda ekanligini",
+      "Shahar hayotining xavfli ekanligi va faqat qishloq xo'jaligi bilan shug'ullanish to'g'riligini",
+      "Vaqt o'tib yangi podshoh davrida saroyga qaytib kelish uchun vaqtinchalik pana joy topishni"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Qahramonlar shon-shuhrat va saroy manfaatlaridan voz kechib, ma'naviy erkinlik va oilaviy osoyishtalikni oliy qadriyat sifatida tanlaydilar."
+  },
+  {
+    "id": "q_mehrobdan-chayon_10",
+    "bookId": "mehrobdan-chayon",
+    "book_id": "mehrobdan-chayon",
+    "question": "Abdulla Qodiriy ushbu asar orqali jamiyatga qoldirgan eng bosh ma'naviy saboq nima?",
+    "options": [
+      "Tarixiy voqealarni faqat saroy yilnomalari orqali o'rganish lozimligi haqidagi fikrni",
+      "Faqat xattotlik va mirzolik kasbini mukammal egallash zarurligi haqidagi tavsiyani",
+      "Har qanday shaxsiy manfaat va mansabparastlikdan ko'ra vijdon, sadoqat va adolat ustun bo'lishi kerakligi",
+      "Saroy qonun-qoidalarini buzmasdan harakat qilish eng xavfsiz yo'l ekanligi sabog'ini"
+    ],
+    "correctAnswer": 2,
+    "explanation": "'Mehrobdan chayon' zamonlar osha insonni munofiqlikdan hazar qilishga, o'z vijdoni va sevgisiga sodiq qolishga va adolat yo'lida matonatli bo'lishga undaydi."
   },
   {
     "id": "q_kecha-va-kunduz_1",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Cho'lponning 'Kecha va kunduz' romanida 'kecha' timsoli qanday ijtimoiy-tarixiy ramz hisoblanadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Akbarali mingboshining saroyidagi adolatsiz boshqaruv va xufiyona o'yinlar tizimini",
+      "Qurvonbibi va Razzoq so'fi xonadonidagi qashshoqlik va iqtisodiy yetishmovchilik muhitini",
+      "Mustamlakachilik, jaholat, mutaassiblik va millat boshiga tushgan ma'naviy zulmat davrini",
+      "Zebining qamoqda kechirgan og'ir kunlari va chor ma'murlarining tergov qiynoqlarini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Abdulhamid Cho'lpon inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "Cho'lpon 'kecha' orqali chor Rossiyasi mustamlakachiligi ostida erksizlik, xurofot va jaholat girdobida qolgan butun Turkiston fojiasini badiiy umumlashtiradi."
   },
   {
     "id": "q_kecha-va-kunduz_2",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Razzoq so'fining Zebiga nisbatan shafqatsiz munosabatining tub zamirida nima yotadi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Qizining taqdiriga beparvolik va faqat o'z rohatini ko'zlagan xudbinlik",
+      "Mingboshidan katta moddiy boylik va qalin puli undirishga bo'lgan yashirin orzu",
+      "Qishloq odamlari oldida o'zining qat'iyatli obro'-e'tiborini ko'rsatish istagi",
+      "Diniy mutaassiblik, soxta taqvo va qalb ko'zining xurofot bilan berkilgani"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 3,
+    "explanation": "Razzoq so'fi zohiran taqvodor ko'rinsa-da, botinan qotib qolgan aqidaparast bo'lib, o'z qizining baxtini xurofot qurboniga aylantiradi."
   },
   {
     "id": "q_kecha-va-kunduz_3",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Miryoqub obrazining ma'naviy evrilishiga qaysi voqea hal qiluvchi turtki bo'ladi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Poyezdda rus ayoli Mariya bilan tanishuvi va taraqqiyot, erkinlik haqidagi suhbatlar",
+      "Akbarali mingboshining to'satdan vafot etishi va amaldorlik mavqeining qo'ldan ketishi",
+      "Zebining qamalishi va uning begunohligini isbotlash yo'lidagi vijdon azoblari",
+      "Razzoq so'fi bilan bo'lgan ziddiyatli to'qnashuv va qishloqdagi dehqonlar g'alayoni"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 0,
+    "explanation": "Miryoqub dastlab faqat shaxsiy manfaatini ko'zlagan ayyor vositachi bo'lsa, Mariya bilan muloqot va safar uning dunyoqarashini tubdan o'zgartirib, erkinlik mohiyatini anglatadi."
   },
   {
     "id": "q_kecha-va-kunduz_4",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Zebining Akbarali mingboshiga to'rtinchi xotin bo'lib tushishi asarda qanday umummilliy dardni ifodalaydi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Faqat boy xonadonlarning o'zaro raqobati va oilaviy nizolarning fojiali yechimini",
+      "O'zbek xotin-qizlarining huquqsizligi, shaxsiy erki toptalishi va mutelik fojiasini",
+      "Qishloq yoshlarining o'z sevgisi yo'lida qat'iy kurasha olmaslikdagi ojizligini",
+      "Chor ma'murlarining mahalliy boshqaruv ishlariga to'g'ridan-to'g'ri aralashuvini"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "Zebi timsolida Cho'lpon butun Turkiston ayolining orzu-umidlari toptalgan, so'z erki yo'q va ota-ona yoki jamiyat tomonidan qurbon qilinuvchi fojiali holatini tasvirlaydi."
   },
   {
     "id": "q_kecha-va-kunduz_5",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Zebining tabiat qo'ynida, dugonalari davrasida aytgan qo'shiqlari qahramon ruhiyatining qaysi jihatini ochadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Shoirona xomxayollarga beriluvchanlik va qat'iy maqsadsiz hayot kechirishini",
+      "Otasining zulmiga qarshi namoyishkorona qarshilik ko'rsatish vositasini",
+      "Erksevar, tabiatan sof, hayotni cheksiz sevadigan musiqiy va ozod qalb egasi ekanini",
+      "Shaharga ketib, o'z iste'dodini namoyon etishga bo'lgan yashirin intilishini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 2,
+    "explanation": "Zebining qo'shiqlari va dutor chertishi uning ichki pokizaligi, hayotga muhabbati va erkin parvoz etishni istagan qalbining faryodidir."
   },
   {
     "id": "q_kecha-va-kunduz_6",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Akbarali mingboshi o'limida Zebining nohaq ayblanishi mustamlaka sudining qaysi basharasini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sud xodimlarining yetarli ma'lumot va dalillarga ega bo'lmagani sababli adashganini",
+      "Qurvonbibining aralashuvi tufayli tergov jarayonining ataylab chigallashib ketganini",
+      "Mingboshining qarindoshlari talabi bilan tergovning shoshilinch yopib yuborilganini",
+      "Haqiqatni aniqlashdan ko'ra, tayyor aybdorni topib, xalqni qo'rquvda ushlash siyosatini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Chor sud mahkamasi adolat o'rnatish emas, balki begunoh o'zbek qizini Sibirga surgun qilib, mustamlaka tizimining sovuq va beshafqat mashinasini yurgizishdan manfaatdor edi."
   },
   {
     "id": "q_kecha-va-kunduz_7",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Roman oxirida Sibir surguniga ketayotgan Zebi timsoli qanday xulosaga olib keladi?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Zulmat qanchalik quyuqlashmasin, 'kecha' ortidan muqarrar 'kunduz' kelishiga bo'lgan umidga",
+      "Umidning butunlay so'ngani va millatning hech qachon 'kunduz'ga chiqa olmasligiga",
+      "Taqdirning yozig'iga ko'nikish va jazolarga so'zsiz sabr qilish zarurligiga",
+      "Barcha qahramonlarning shaxsiy gunohlari uchun jazo muqarrar ekanligiga"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 0,
+    "explanation": "Cho'lpon asarni fojia bilan tugatsa-da, kitobxonda zulmat ortidan ma'rifat va erkinlik 'kunduz'i albatta porlashi kerak degan yuksak isyonkor tuyg'uni uyg'otadi."
   },
   {
     "id": "q_kecha-va-kunduz_8",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Razzoq so'fining mevali bog'ni vayron qilib, faqat tol va terak ektirishidagi ramziy ma'no nima?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Yog'och sotib, tezroq boylik to'plash va iqtisodiy daromadni oshirish niyatini",
+      "Go'zallik, hayot nashidasi va quvonchga qarshi bo'lgan mutaassibona ruhiy qashshoqlikni",
+      "Bog'dorchilik mashaqqatidan qochish va yengilroq mehnat turini tanlash istagini",
+      "Qo'shnilarining havasini keltirmaslik va hasaddan saqlanish chorasini"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 1,
+    "explanation": "Mevali daraxtlar va gullarni yo'q qilib, quruq tol ektirish — Razzoq so'fining qalbida go'zallik, shodlik va mehrga o'rin qolmaganini, uning hayoti ham shu quruq daraxtlardek samarasiz ekanini ifodalaydi."
   },
   {
     "id": "q_kecha-va-kunduz_9",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Enaxon obrazining Zebi fojiasidagi o'rni asarda qaysi ijtimoiy illatni ko'rsatadi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Zebiga nisbatan dildagi dushmanlik va ataylab uni tuzoqqa tushirish rejasini",
+      "Kattalarning buyrug'ini so'zsiz bajarishga majbur bo'lgan ojiz qiz holatini",
+      "Tashqi dabdabaga uchish, yengiltaklik va do'stlik mas'uliyatini chuqur his qilmaslikni",
+      "Shaharlik qizlarning qishloq ahliga nisbatan kibrli munosabatda bo'lishini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 2,
+    "explanation": "Enaxon yovuz niyatli bo'lmasa-da, uning yengil qarashlari, saroy hashamatiga havas qilishi Zebining halokatiga bilvosita yo'l ochadi."
   },
   {
     "id": "q_kecha-va-kunduz_10",
     "bookId": "kecha-va-kunduz",
     "book_id": "kecha-va-kunduz",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning til va badiiy mahoratidagi eng yorqin xususiyat nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat arxiv hujjatlari va rasmiy qonun moddalarining qat'iy ifodalanishida",
+      "Murakkab arabiy va forsiy istilohlarning ko'plab ishlatilishida",
+      "Personajlarning faqat monologlar orqali o'z fikrini ifoda etishida",
+      "Xalqona jonli til, she'riy ohangdorlik, ruhiy tahlil va nozik istehzoning uyg'unligida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 3,
+    "explanation": "Cho'lpon milliy nasrimizga betakror shoirona nafosat, xalq maqollari va chuqur psixologik ichki monologlarni olib kirgan yuksak so'z san'atkoridir."
   },
   {
     "id": "q_sarob_1",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Abdulla Qahhorning 'Sarob' romanida Rahimjon Saidiy qismati qaysi ijtimoiy qatlam fojiasini ifodalaydi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Faqat moddiy yetishmovchilik tufayli o'qishni davom ettira olmagan qashshoq talabalar guruhini",
+      "Eski tuzum amaldorlarining yangi davr talablariga moslasha olmagan konservativ qatlamini",
+      "Siyosiy kurashlarda o'z g'oyalari uchun qurbon bo'lgan sadoqatli vatanparvar inqilobchilarni",
+      "Iqtidorli, ammo xudbinlik, shuhratparastlik va ma'naviy tayanchsizlik tufayli sarobga aldanib halok bo'lgan ziyolini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Abdulla Qahhor inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Saidiy iste'dodli bo'lishiga qaramay, ma'naviy poydevori mustahkam emasligi, tezda shon-shuhratga erishish ilinji va xudbinligi sababli o'zini ham, atrofidagilarni ham halokatga yetaklaydi."
   },
   {
     "id": "q_sarob_2",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asar nega 'Sarob' deb nomlangan? Ushbu nom qaysi g'oyaviy ma'noni tamsil etadi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Haqiqiy mehnat va ma'naviyatdan yiroq xomxayollar, soxta orzular ortidan quvib, umrni boy berishni",
+      "Saxroyi Kabirda yo'l yo'qotgan sayyohlarning xayoliy ko'rinishlar ortidan ergashishini",
+      "Saidiyning Munisxonga bo'lgan samimiy sevgisining to'siqlarga uchrashini",
+      "Toshkent shahridagi yangi qurilishlarning reja bo'yicha amalga oshmay qolishini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 0,
+    "explanation": "Saidiy hayotdagi haqiqiy qadriyatlarni emas, balki shon-shuhrat, boylik va quruq orzulardan iborat 'sarob'ni haqiqat deb biladi va pirovardida puch illyuziyalar qurboniga aylanadi."
   },
   {
     "id": "q_sarob_3",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Munisxon obrazining Saidiyga bo'lgan munosabatidagi eng katta ziddiyat nimada?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Saidiyning yozuvchilik iste'dodiga shubha bilan qarab, uni boshqa kasb tanlashga undashida",
+      "Saidiyning ma'naviy nochorligi va ikkiyuzlamachiligini ko'rib tursa-da, unga ko'r-ko'rona bog'lanib qolganida",
+      "Otasining boyligiga suyanib, Saidiyni o'ziga to'liq bo'ysundirish istagida",
+      "Saidiy bilan birga chet elga qochib ketish rejasini ilgari surishida"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 1,
+    "explanation": "Munisxon o'zini erkin fikrli ko'rsatishga urinsa-da, Saidiyning tubanlashib borayotganini tushuna olmaydi va uning qilmishlariga sherik bo'lib, o'z taqdirini fojia bilan tugatadi."
   },
   {
     "id": "q_sarob_4",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Esonxon domlaning asardagi roli qaysi illatni fosh etishga qaratilgan?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Zamonaviy ilmni chuqur o'rganishdan qochib, faqat chet el sayohatlariga intilishni",
+      "O'quvchilariga haddan tashqari erkinlik berib, ularning tarbiyasini izdan chiqarishni",
+      "Eski qoliplarga mahkam yopishib olgan, yangilikdan qo'rquvchi soxta olimlik va munofiqlikni",
+      "Davlat mablag'larini o'zlashtirish orqali shaxsiy kutubxona tashkil qilishni"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 2,
+    "explanation": "Esonxon o'z manfaatini har narsadan ustun qo'yuvchi, yoshlarning iste'dodini o'z foydasiga ishlatadigan munofiq va soxta ziyolilar toifasini ifodalaydi."
   },
   {
     "id": "q_sarob_5",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Saidiyning qishloqqa borganida onasi va yaqinlaridan uzoqlashishi uning ruhiyatidagi qaysi o'zgarishni ko'rsatadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Qishloq hayotining xotirjamligidan charchab, shahar shovqinini sog'inishini",
+      "Yangi roman yozish uchun zarur bo'lgan jimjitlikni topa olmaganini",
+      "Qishloq sharoitida qog'oz va siyoh topishning qiyin kechganini",
+      "O'z ildizidan uzilish, oddiy odamlarni mensimaslik va kibrning kuchayib borishini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 3,
+    "explanation": "Saidiy shaharga kelib, o'zining mehribon onasi va qishlog'idan orlanadigan, ularni o'ziga yuk deb biladigan manqurtlashgan kimsaga aylana boshlaydi."
   },
   {
     "id": "q_sarob_6",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Saidiyning Munisxonga yozgan maktublaridagi tilyog'lamalik va balandparvozlik qahramonning qaysi xislatini ochadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Haqiqiy samimiyatdan mahrum bo'lgan, har bir so'zini hisob-kitob bilan aytadigan aktyorlik tabiatini",
+      "O'zbek mumtoz g'azaliyotiga bo'lgan cheksiz mehr va hurmatini",
+      "Munisxonning nozik tabiatini xafa qilib qo'yishdan qo'rquvchi hadiksirashini",
+      "Dunyodagi eng buyuk muhabbat qissasini yaratish yo'lidagi badiiy izlanishini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 0,
+    "explanation": "Saidiy hatto sevgida ham soxtadir; uning his-tuyg'ulari tabiiy emas, balki shaxsiy manfaat va taassurot qoldirishga qaratilgan hisob-kitobli so'zlardan iborat."
   },
   {
     "id": "q_sarob_7",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Abdulla Qahhor ushbu asarda psixologik tahlilni qaysi usul vositasida yuksak mahorat bilan ko'rsatadi?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat tabiat manzaralarining uzoq va batafsil bayoni orqali",
+      "Qahramonlarning o'z-o'zini aldayotgan lahzalari va ichki monologlaridagi ziddiyatlar orqali",
+      "Tarixiy sanalar va hujjatlarning ketma-ket keltirilishi orqali",
+      "Barcha qahramonlarning bir xilda gapirishi va harakatlanishi orqali"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 1,
+    "explanation": "Qahhor har bir qahramonning o'z vijdoni oldidagi ikkiyuzlamachiligini fosh etuvchi ichki kechinmalar va nozik imo-ishoralarni zargarlik aniqligida chizib beradi."
   },
   {
     "id": "q_sarob_8",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Saidiyning qamoqqa tushgandan so'ng qilgan tavbalari nega kechikkan hisoblanadi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Chunki qonun bo'yicha pushaymonlik jazoni umuman yengillatmas edi",
+      "Chunki Saidiy o'zining aybdor ekanligini tergovchilarga ochiq aytishdan bosh tortgan edi",
+      "Chunki uning o'zi qilgan xiyonatlari boshqa begunoh insonlar umrini ham barbod qilib bo'lgan edi",
+      "Chunki uning barcha qo'lyozmalari yoqib yuborilgan edi"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 2,
+    "explanation": "Saidiyning pushaymonligi ma'naviy uyg'onish emas, balki boshiga kulfat tushgandagi nochorlikdir; eng yomoni, uning qilmishlari begunoh qalblarni ham halok etgan edi."
   },
   {
     "id": "q_sarob_9",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Romanda Sarvinoz obrazi Saidiyning hayotida qanday ma'naviy o'rin tutadi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Saidiyning boylik orttirish yo'lidagi asosiy moliyaviy homiysi sifatida",
+      "Saidiyning shaharga ko'chib ketishiga to'sqinlik qilgan qat'iy to'siq sifatida",
+      "Munisxon bilan Saidiy o'rtasidagi kelishmovchiliklarni bartaraf etuvchi do'st sifatida",
+      "Poklik, samimiyat va Saidiy voz kechgan asl toza muhabbatning so'ngan umidi sifatida"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 3,
+    "explanation": "Sarvinoz Saidiyning qishloqdagi begunoh va samimiy o'tmishining timsoli bo'lib, unga xiyonat qilish orqali Saidiy o'z insoniyligidan butunlay ajraladi."
   },
   {
     "id": "q_sarob_10",
     "bookId": "sarob",
     "book_id": "sarob",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Abdulla Qahhorning 'Sarob' romani orqali jamiyatga bergan bosh axloqiy xabari nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Iste'dod ma'naviyat, halollik va xalq dardi bilan sug'orilmasa, u egasini halokatga eltatuvchi illatga aylanadi",
+      "Shon-shuhratga har qanday yo'l bilan bo'lsa ham intilish insonning eng bosh burchidir",
+      "Ziyolilar faqat o'z ilmiy doirasida yashab, jamiyat voqealariga aralashmasligi kerak",
+      "Katta shaharlarda yashash inson fe'l-atvorini faqat yomonlikka qarab o'zgartiradi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 0,
+    "explanation": "Muallif yuksak iste'dod egasi bo'lgan shaxs agar vijdondan va xalqidan uzilsa, uning butun hayoti sarobga aylanib, jamiyatga faqat ziyon keltirishini uqtiradi."
   },
   {
     "id": "q_shum-bola_1",
@@ -1468,12 +1608,12 @@ export const questions = [
     "book_id": "qorqma",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Javlon Jovliyev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -1483,11 +1623,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -1498,10 +1638,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -1510,12 +1650,12 @@ export const questions = [
     "book_id": "qorqma",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -1524,12 +1664,12 @@ export const questions = [
     "book_id": "qorqma",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -1539,11 +1679,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -1554,10 +1694,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -1566,12 +1706,12 @@ export const questions = [
     "book_id": "qorqma",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -1580,12 +1720,12 @@ export const questions = [
     "book_id": "qorqma",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -1595,11 +1735,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -1608,12 +1748,12 @@ export const questions = [
     "book_id": "halqa",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Akrom Malik inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -1623,11 +1763,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -1636,12 +1776,12 @@ export const questions = [
     "book_id": "halqa",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -1651,11 +1791,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -1664,12 +1804,12 @@ export const questions = [
     "book_id": "halqa",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -1679,11 +1819,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -1692,12 +1832,12 @@ export const questions = [
     "book_id": "halqa",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -1707,11 +1847,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -1720,12 +1860,12 @@ export const questions = [
     "book_id": "halqa",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -1735,11 +1875,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -1748,12 +1888,12 @@ export const questions = [
     "book_id": "javob",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Akrom Malik inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -1762,12 +1902,12 @@ export const questions = [
     "book_id": "javob",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -1777,11 +1917,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -1792,10 +1932,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -1804,12 +1944,12 @@ export const questions = [
     "book_id": "javob",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -1818,12 +1958,12 @@ export const questions = [
     "book_id": "javob",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -1833,11 +1973,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -1848,10 +1988,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -1860,12 +2000,12 @@ export const questions = [
     "book_id": "javob",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -1874,12 +2014,12 @@ export const questions = [
     "book_id": "javob",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -2028,12 +2168,12 @@ export const questions = [
     "book_id": "shamol-ortidan-yugurib",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Xolid Husayniy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -2043,11 +2183,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -2058,10 +2198,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -2070,12 +2210,12 @@ export const questions = [
     "book_id": "shamol-ortidan-yugurib",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -2084,12 +2224,12 @@ export const questions = [
     "book_id": "shamol-ortidan-yugurib",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -2099,11 +2239,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -2114,10 +2254,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -2126,12 +2266,12 @@ export const questions = [
     "book_id": "shamol-ortidan-yugurib",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -2140,12 +2280,12 @@ export const questions = [
     "book_id": "shamol-ortidan-yugurib",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -2155,11 +2295,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -2168,12 +2308,12 @@ export const questions = [
     "book_id": "ming-quyosh-shulasi",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Xolid Husayniy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -2183,11 +2323,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -2196,12 +2336,12 @@ export const questions = [
     "book_id": "ming-quyosh-shulasi",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -2211,11 +2351,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -2224,12 +2364,12 @@ export const questions = [
     "book_id": "ming-quyosh-shulasi",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -2239,11 +2379,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -2252,12 +2392,12 @@ export const questions = [
     "book_id": "ming-quyosh-shulasi",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -2267,11 +2407,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -2280,12 +2420,12 @@ export const questions = [
     "book_id": "ming-quyosh-shulasi",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -2295,11 +2435,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -2308,12 +2448,12 @@ export const questions = [
     "book_id": "dengiz-sadosi",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Xolid Husayniy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -2322,12 +2462,12 @@ export const questions = [
     "book_id": "dengiz-sadosi",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -2337,11 +2477,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -2352,10 +2492,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -2364,12 +2504,12 @@ export const questions = [
     "book_id": "dengiz-sadosi",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -2378,12 +2518,12 @@ export const questions = [
     "book_id": "dengiz-sadosi",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -2393,11 +2533,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -2408,10 +2548,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -2420,12 +2560,12 @@ export const questions = [
     "book_id": "dengiz-sadosi",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -2434,12 +2574,12 @@ export const questions = [
     "book_id": "dengiz-sadosi",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -2588,12 +2728,12 @@ export const questions = [
     "book_id": "sapiens",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Yuval Noy Harari inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -2603,11 +2743,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -2618,10 +2758,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -2630,12 +2770,12 @@ export const questions = [
     "book_id": "sapiens",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -2644,12 +2784,12 @@ export const questions = [
     "book_id": "sapiens",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -2659,11 +2799,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -2674,10 +2814,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -2686,12 +2826,12 @@ export const questions = [
     "book_id": "sapiens",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -2700,12 +2840,12 @@ export const questions = [
     "book_id": "sapiens",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -2715,11 +2855,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -2728,12 +2868,12 @@ export const questions = [
     "book_id": "pul-psixologiyasi",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Morgan Xyuzel inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -2743,11 +2883,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -2756,12 +2896,12 @@ export const questions = [
     "book_id": "pul-psixologiyasi",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -2771,11 +2911,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -2784,12 +2924,12 @@ export const questions = [
     "book_id": "pul-psixologiyasi",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -2799,11 +2939,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -2812,12 +2952,12 @@ export const questions = [
     "book_id": "pul-psixologiyasi",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -2827,11 +2967,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -2840,12 +2980,12 @@ export const questions = [
     "book_id": "pul-psixologiyasi",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -2855,11 +2995,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -2868,12 +3008,12 @@ export const questions = [
     "book_id": "ikigai",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Ektor Garsiya, Franchesk Miralles inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -2882,12 +3022,12 @@ export const questions = [
     "book_id": "ikigai",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -2897,11 +3037,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -2912,10 +3052,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -2924,12 +3064,12 @@ export const questions = [
     "book_id": "ikigai",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -2938,12 +3078,12 @@ export const questions = [
     "book_id": "ikigai",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -2953,11 +3093,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -2968,10 +3108,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -2980,12 +3120,12 @@ export const questions = [
     "book_id": "ikigai",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -2994,12 +3134,12 @@ export const questions = [
     "book_id": "ikigai",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -3148,12 +3288,12 @@ export const questions = [
     "book_id": "choliqushi",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Reshat Nuri Guntekin inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -3163,11 +3303,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -3178,10 +3318,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -3190,12 +3330,12 @@ export const questions = [
     "book_id": "choliqushi",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -3204,12 +3344,12 @@ export const questions = [
     "book_id": "choliqushi",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -3219,11 +3359,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -3234,10 +3374,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -3246,12 +3386,12 @@ export const questions = [
     "book_id": "choliqushi",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -3260,12 +3400,12 @@ export const questions = [
     "book_id": "choliqushi",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -3275,11 +3415,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -3288,12 +3428,12 @@ export const questions = [
     "book_id": "ichimizdagi-shayton",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Sabohiddin Ali inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -3303,11 +3443,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -3316,12 +3456,12 @@ export const questions = [
     "book_id": "ichimizdagi-shayton",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -3331,11 +3471,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -3344,12 +3484,12 @@ export const questions = [
     "book_id": "ichimizdagi-shayton",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -3359,11 +3499,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -3372,12 +3512,12 @@ export const questions = [
     "book_id": "ichimizdagi-shayton",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -3387,11 +3527,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -3400,12 +3540,12 @@ export const questions = [
     "book_id": "ichimizdagi-shayton",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -3415,11 +3555,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -3428,12 +3568,12 @@ export const questions = [
     "book_id": "mork-postinli-madonna",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Sabohiddin Ali inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -3442,12 +3582,12 @@ export const questions = [
     "book_id": "mork-postinli-madonna",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -3457,11 +3597,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -3472,10 +3612,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -3484,12 +3624,12 @@ export const questions = [
     "book_id": "mork-postinli-madonna",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -3498,12 +3638,12 @@ export const questions = [
     "book_id": "mork-postinli-madonna",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -3513,11 +3653,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -3528,10 +3668,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -3540,12 +3680,12 @@ export const questions = [
     "book_id": "mork-postinli-madonna",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -3554,12 +3694,12 @@ export const questions = [
     "book_id": "mork-postinli-madonna",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -3708,12 +3848,12 @@ export const questions = [
     "book_id": "molxona",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Jorj Oruell inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -3723,11 +3863,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -3738,10 +3878,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -3750,12 +3890,12 @@ export const questions = [
     "book_id": "molxona",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -3764,12 +3904,12 @@ export const questions = [
     "book_id": "molxona",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -3779,11 +3919,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -3794,10 +3934,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -3806,12 +3946,12 @@ export const questions = [
     "book_id": "molxona",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -3820,12 +3960,12 @@ export const questions = [
     "book_id": "molxona",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -3835,432 +3975,432 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
     "id": "q_alkimyogar_1",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Paulo Koeloning 'Alkimyogar' asaridagi 'O'z Taqsiri' (Shaxsiy afsona / Personal Legend) tushunchasi nimani anglatadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Ota-onaning o'z farzandi uchun tanlagan qat'iy kasbiy va oilaviy yo'nalishini",
+      "Faqat moddiy oltin va javohirlarga erishish uchun tuzilgan maxfiy rejalarni",
+      "Insonning bu dunyoda nima uchun yashayotgani, uning asl qalb da'vati va amalga oshirishi shart bo'lgan ezgu burchini",
+      "Insonning taqdir oldidagi ojizligi va hech qachon o'zgarishi mumkin bo'lmagan qismatini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Paulo Koelo inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "Muallif ta'kidlashicha, har bir inson yoshligida o'z orzusini biladi; O'z Taqsirini amalga oshirish — insonning bu yorug' olamdagi yagona haqiqiy burchidir."
   },
   {
     "id": "q_alkimyogar_2",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Cho'pon Santyagoning podasini sotib, Misr ehromlariga xazina izlab yo'l olishi qanday falsafiy ma'noga ega?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Ispaniyadagi qishloq xo'jaligi inqirozidan qochib, chet elga ish qidirib ketishini",
+      "Otasining boy bo'lish haqidagi vasiyatini bajarishga majbur bo'lganini",
+      "Cho'ponlik kasbining mashaqqatlari unga yoqmay qolganini",
+      "Qulaylik hududidan chiqish, xavf-xatarga tik boqish va orzular yo'lida mavjud boylikdan voz kecha olish jasoratini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 3,
+    "explanation": "Santyago xavfsiz va to'kin cho'ponlik hayotini tashlab, noma'lumlik sari qadam bosadi; bu orzuga erishish uchun qurbonlik bera olishning timsolidir."
   },
   {
     "id": "q_alkimyogar_3",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Melxisedek (Solim shohi) Santyagoga bergan 'Urim va Tumim' toshlari qanday vazifani bajaradi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Inson ikkilangan paytda koinotning 'ha' va 'yo'q' degan ishoralarini (alomatlarini) o'qishga yordam beruvchi vosita sifatida",
+      "Qadimgi Misr saroylariga kirish uchun ruxsatnoma sifatida",
+      "Sahroda suv qidirib topish uchun mo'ljallangan sehrli asbob sifatida",
+      "Savdogarlarni aldash uchun ishlatiladigan soxta javohir sifatida"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 0,
+    "explanation": "Urim va Tumim toshlari qahramonga Koinot tilini tushunish va har qadamda uchraydigan alomatlarni to'g'ri anglashga o'rgatadi."
   },
   {
     "id": "q_alkimyogar_4",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Billur idishlar sotuvchi arab savdogari nega Makkaga borish orzusini amalga oshirishni istamaydi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Chunki u Makkaga borish uchun yetarli mablag' to'play olmagan edi",
+      "Chunki uning uchun orzu bilan yashash orzuni amalga oshirishdan ko'ra qadrliroq edi; agar orzusi ushalsa, yashashdan ma'no qolmaydi deb qo'rqardi",
+      "Chunki u umuman dindor emas va sayohatlarni yoqtirmas edi",
+      "Chunki uning do'koni yopilib qolsa, qashshoqlashib ketish xavfi bor edi"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "Billur sotuvchi ko'plab insonlarning fojiasini ifodalaydi: ular orzuga erishishdan ko'ra, orzu haqida shunchaki xomxayol qilib yurishni qulayroq deb biladilar."
   },
   {
     "id": "q_alkimyogar_5",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Sahrodagi vohada Santyagoning Fotima bilan uchrashishi uning O'z Taqsiriga qanday ta'sir qiladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Santyago muhabbat tufayli o'z maqsadidan butunlay voz kechib, vohada abadiy qolishga qaror qiladi",
+      "Fotima Santyagoning barcha pullarini olib, uni sahroga haydab yuboradi",
+      "Haqiqiy muhabbat insonni o'z orzusidan to'xtatmasligini, aksincha unga yo'lni davom ettirish uchun cheksiz ruhiy quvvat berishini anglatadi",
+      "Santyago Fotimani o'g'irlab, Ispaniyaga qochib ketadi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 2,
+    "explanation": "Fotima — sahro ayoli bo'lib, u haqiqiy sevgi insonning shaxsiy taqdirini cheklamasligi kerakligini yaxshi biladi va Santyagoga o'z xazinasini topish uchun ruxsat beradi."
   },
   {
     "id": "q_alkimyogar_6",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Alkimyogarning oddiy qo'rg'oshinni oltinga aylantirish jarayoni asarda qaysi ramziy haqiqatni ifodalaydi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Boylik orttirishning eng oson kimyoviy formulasini",
+      "O'rta asrlar fanining zamonaviy texnologiyalardan ancha ustun bo'lganini",
+      "Sehr-jodu orqali barcha qashshoqlarga tekin pul tarqatish usulini",
+      "Insonning o'z qalbini, nafsi va zaifliklarini poklab, ma'naviy komillik (oltin) darajasiga ko'tarilishi jarayonini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Alkimyo — bu faqat metallarni o'zgartirish emas, balki inson ruhiyatini tozalab, 'Olam Qalbi' bilan birlashish va komillikka erishish ramzidir."
   },
   {
     "id": "q_alkimyogar_7",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Santyagoning sahroda o'zini shamolga aylantirish sahnasi qanday ma'no kasb etadi?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Inson Koinot Qalbi bilan uyg'unlashgan paytda har qanday jismoniy to'siqlarni yengib o'tish qudratiga ega bo'lishini",
+      "Qaroqchilarning ko'zini bo'yash uchun qilingan gipnoz hiylasini",
+      "Sahrodagi bo'ronlarning ilmiy sabablarini tushuntirish vositasini",
+      "Santyagoning qadimgi ertak qahramonlari kabi ucha olish qobiliyatini"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 0,
+    "explanation": "Bu sahna orqali muallif inson, tabiat, shamol, quyosh va Yaratuvchi bir butun mohiyat ekanini, qalb tili orqali hamma narsa bilan so'zlasha olish mumkinligini ifodalaydi."
   },
   {
     "id": "q_alkimyogar_8",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Asar oxirida Santyago xazinani qayerdan topadi va bu qanday buyuk saboq beradi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Misr ehromlarining eng chuqur yerosti xonasidan",
+      "O'zi sayohatni boshlagan Ispaniyadagi tashlandiq cherkov hovlisidagi anjir daraxti tagidan; haqiqiy xazina insonning o'z qalbida va o'z uyida ekanini anglatadi",
+      "Alkimyogarning sahrodagi yashirin g'oridan",
+      "Makka shahriga boradigan karvon yo'lidan"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 1,
+    "explanation": "Santyago xazinani o'zi uxlagan eski cherkovdan topadi. Ammo u Misrga bormaganida, bu yo'ldagi bilimlarni, muhabbatni va eng muhimi o'zligini topa olmagan bo'lar edi."
   },
   {
     "id": "q_alkimyogar_9",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Alkimyogarning 'Ko'zlar qalb qudratini ifodalaydi' degan so'zlari qaysi insoniy sifatni ulug'laydi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Ko'zoynak taqib yurishning ko'rish qobiliyatiga foydasini",
+      "Harbiy janglarda dushmanga qaramaslik taktikasini",
+      "Insonning ichki samimiyati, qalbining pokligi va haqiqatni so'zsiz anglash qobiliyatini",
+      "Savdo-sotiqda narxlarni ko'z bilan chamalash qulayligini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 2,
+    "explanation": "Asarda ko'zlar — qalb oynasi va Koinot tilining eng toza ifodasi sifatida talqin etiladi."
   },
   {
     "id": "q_alkimyogar_10",
     "bookId": "alkimyogar",
     "book_id": "alkimyogar",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "'Alkimyogar' asarining butun dunyo kitobxonlarini maftun etgan bosh falsafasi nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Dunyo faqat qiyinchiliklardan iborat bo'lib, inson hech qachon orzu qilmasligi kerak",
+      "Eng to'g'ri yo'l — faqat o'z shaxsiy boyligini ko'paytirish yo'lidir",
+      "Sayohatga chiqqan har bir inson albatta qaroqchilarga uchrab xonavayron bo'ladi",
+      "Agar inson biror narsani chin yurakdan orzu qilsa, butun Koinot uning orzusini ro'yobga chiqarish uchun yordamga keladi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 3,
+    "explanation": "Asarning eng mashhur xulosasi: 'Butun borliq sizning chin dildan qilgan ezgu maqsadingiz amalga oshishi uchun ittifoq tuzadi.'"
   },
   {
     "id": "q_kichkina-shohzoda_1",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Antuan de Sent-Ekzyuperining 'Kichkina shohzoda' asarida Tulki bosh qahramonga o'rgatgan eng buyuk sir nima?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "'Sahroda yolg'iz qolganda faqat quduq qidirish kerak'",
+      "'Barcha kattalar faqat raqamlarni va hisob-kitoblarni yaxshi ko'radilar'",
+      "'Tulkilar faqat tovuqlarni ovlash uchun yashaydilar'",
+      "'Faqat qalb bilangina haqiqatni ko'rish mumkin. Eng asosiy narsalar ko'zga ko'rinmaydi'"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Antuan de Sent-Ekzyuperi inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Tulkining bu o'lmas gapi asarning falsafiy yuragidir: tashqi ko'rinish va moddiyat aldamchi, asl haqiqat va muhabbat faqat qalb ko'zi bilan idrok etiladi."
   },
   {
     "id": "q_kichkina-shohzoda_2",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Shohzodaning o'z sayyorasidagi yagona Atirguliga nisbatan munosabati qanday evrilishni boshdan kechiradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Dastlab Atirgulning injiqliklaridan xafa bo'lib ketgan bo'lsa, Yerda minglab atirgullarni ko'rgach, o'z guli sarflagan mehr va vaqti sababli dunyoda yagona ekanini anglaydi",
+      "Yerga kelgach, o'z gulini butunlay unutib, sahrodagi ilon bilan do'st tutinadi",
+      "Atirgulning so'lib qolganini eshitib, boshqa hech qachon o'z sayyorasiga qaytmaslikka qaror qiladi",
+      "Gulining o'rniga yangi daraxtlar ekish uchun urug'lar yig'ishga kirishadi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 0,
+    "explanation": "'Sen o'z atirguling uchun sarflagan vaqting tufayligina u sen uchun shunchalik qadrlidir.' Bu mehr, sabr va sadoqatning eng teran ta'rifidir."
   },
   {
     "id": "q_kichkina-shohzoda_3",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "'O'rgatilgan (ulangan) bo'lish' (Apprivoiser) tushunchasi asarda nimani anglatadi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Yovvoyi hayvonlarni qafasga solib, tsirkda o'ynatishni",
+      "Bir-biriga bog'lanish, mehr rishtalarini o'rnatish va o'zaro bir-biriga muhtoj bo'lishni",
+      "Bolalarga qat'iy intizom va maktab qoidalarini o'rgatishni",
+      "Yangi sotib olingan kiyimlarni kiyib ko'nikishni"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 1,
+    "explanation": "Tulki aytganidek: 'Agar sen meni o'rgatsang, biz bir-birimizga kerak bo'lamiz. Sen men uchun dunyodagi yagona inson bo'lasan, men esa sen uchun dunyodagi yagona tulki bo'laman.'"
   },
   {
     "id": "q_kichkina-shohzoda_4",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Shohzodaning B-612 asteroididagi 'Baobab daraxtlari' qanday xavf-xatar ramzi hisoblanadi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Faqat sayyorada mevali daraxtlarning o'smasligiga sabab bo'luvchi zararkunandani",
+      "Kosmik kemalarning qo'nishiga to'sqinlik qiluvchi baland to'siqni",
+      "Agar inson o'z qalbida paydo bo'lgan yomon odatlar va yovuzlik urug'larini o'z vaqtida yulib tashlamasa, ular butun vujudni portlatib yuborishi xavfini",
+      "Sahrodagi issiq havodan saqlanish uchun yagona soyabonni"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 2,
+    "explanation": "Baobablar — o'z vaqtida bartaraf etilmagan illatlar, fashizm va kibr kabi yovuzliklarning ramzidir: har kuni ertalab o'z sayyorangni (qalbingni) tozalab turishing shart."
   },
   {
     "id": "q_kichkina-shohzoda_5",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Kichkina shohzoda sayohat qilgan sayyoralardagi kattalar (Qirol, Shuhratparast, Ichkilikboz, Ishbilarmon, Chiroqchi) qaysi illatlarni tamsil etadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Olimlik, adolat, jasorat, mehmondo'stlik va saxiylik kabi fazilatlarni",
+      "Faqat koinotni tadqiq qiluvchi fazogirlarning mashaqqatli mehnatini",
+      "Zamonaviy bolalar o'yinchoqlarining turlarini",
+      "Hokimiyatparastlik, maqtovga o'chlik, o'z ojizligidan qochish, ma'nosiz boylik to'plash va ko'r-ko'rona itoatkorlikni"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 3,
+    "explanation": "Ekzyuperi bu personajlar orqali hayotning haqiqiy go'zalligi va ma'nosini unutib, son-sanoqsiz ma'nosiz ishlarga umrini sarflayotgan katta yoshli insonlarning fojiasini ochib beradi."
   },
   {
     "id": "q_kichkina-shohzoda_6",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asar boshidagi 'Filni yutgan bo'g'ma ilon' rasmini kattalarning shunchaki 'shlyapa' deb o'ylashi nima sababdan sodir bo'ladi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Kattalarning tasavvur boyligi, bolalarcha beg'uborligi va qalb ko'zining so'nganligi sababli",
+      "Rassomning qalamidan chiqqan chiziqlarning juda xiraligi sababli",
+      "Barcha kattalarning faqat shlyapa kiyishni yaxshi ko'rganliklari sababli",
+      "Kitobning qog'oz sifati yomon bosilgani sababli"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 0,
+    "explanation": "Kattalar faqat yuzaki ko'rinishga qarab hukm chiqaradilar; ular qalb va tasavvur yordamida narsalarning ichki mohiyatiga qarashni butunlay unutganlar."
   },
   {
     "id": "q_kichkina-shohzoda_7",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Chiroqchi (Fonarshik) obraziga Shohzodaning boshqa kattalarga qaraganda ko'proq hurmat bilan qarashiga sabab nima?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Chiroqchining sayyorasida eng qimmatbaho chiroqlar o'rnatilganligi",
+      "U hech bo'lmaganda o'zidan boshqa narsa haqida — boshqalar uchun chiroq yoqish burchi haqida o'ylayotgan yagona inson bo'lganligi",
+      "Chiroqchining Shohzodaga katta boylik va'da qilganligi",
+      "Uning sayyorasida kun bo'yi uxlash mumkinligi"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 1,
+    "explanation": "Chiroqchi o'z va'dasiga va burchiga sodiqdir; garchi uning mehnati ma'nosizdek tuyulsa-da, u faqat o'z nafsini o'ylaydigan qirol yoki xasisdan ko'ra fozilroqdir."
   },
   {
     "id": "q_kichkina-shohzoda_8",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Tulkining 'Sen o'zing o'rgatgan narsangga bir umr mas'ulsan' degan qoidasi qanday ma'naviy burch yuklaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hayvonot bog'idagi barcha hayvonlarga har kuni ovqat olib borish lozimligini",
+      "Maktabda o'qituvchilar barcha o'quvchilarni bir xil jazolashi kerakligini",
+      "Inson o'ziga yaqinlashtirgan, mehr bergan va bog'langan har bir qalb (do'st, juft, farzand) uchun javobgar ekanligini",
+      "Sotib olingan buyumlarni hech qachon birovga bermaslik shartligini"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 2,
+    "explanation": "Sevgi va do'stlik — bu shunchaki his-tuyg'u emas, balki boshqa qalb oldidagi muqaddas sadoqat va mas'uliyatdir."
   },
   {
     "id": "q_kichkina-shohzoda_9",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Shohzodaning sahrodagi zaharli ilon chaqishi orqali Yer bilan vidolashuvi qanday yechim hisoblanadi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Shohzodaning tasodifiy ehtiyotsizlik qurboni bo'lganini",
+      "Sahrodagi sayyohlarning barchasi ilonlardan ehtiyot bo'lishi kerakligini",
+      "Asar syujetining kutilmaganda to'xtab qolganini",
+      "Qahramonning og'ir tanasini Yerda qoldirib, ruhi va sevgisi bilan o'z Atirguli tomon yuksaklarga qaytishi ramzini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 3,
+    "explanation": "Shohzodaning o'limi — bu jismoniy yo'qolish emas, balki moddiy olam kishanlaridan ozod bo'lib, o'z Atirgulining yuksak ma'naviy sayyorasiga qaytishidir."
   },
   {
     "id": "q_kichkina-shohzoda_10",
     "bookId": "kichkina-shohzoda",
     "book_id": "kichkina-shohzoda",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Ushbu ertak-qissaning butun insoniyatga qoldirgan eng ta'sirli umumiy xulosasi nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Inson qanchalik ulg'aymasin, o'z qalbida bolalarcha beg'uborlik, mehr va haqiqat tuyg'usini tirik saqlashi lozim",
+      "Barcha odamlar faqat astronomiya va fizika ilmini o'rganishlari shart",
+      "Sahrolarga hech qachon samolyotda uchib bormaslik kerak",
+      "Faqat bitta atirgulga ega bo'lish insonni kambag'al qilib qo'yadi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 0,
+    "explanation": "'Barcha kattalar avval bola bo'lganlar, faqat ulardan juda ozchiligi buni eslaydilar.' Asar insonni o'z qalb pokligini yo'qotmaslikka undaydi."
   },
   {
     "id": "q_jinoyat-va-jazo_1",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Dostoevskiyning 'Jinoyat va jazo' romanida Rodion Raskolnikovning foizchi kampirni o'ldirishiga qaysi g'ayriinsoniy nazariya sabab bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Insonlarni 'titroq maxluqlar' va Napoleon kabi buyuk maqsadlar yo'lida hatto qon to'kishga haqli bo'lgan 'favqulodda shaxslar'ga ajratish nazariyasi",
+      "Faqat kambag'allarga tarqatish uchun boylarning barcha mol-mulkini o'g'irlash kerak degan reja",
+      "Peterburg shahridagi barcha jinoyatchilarni shaxsan o'zi jazolash istagi",
+      "O'z singlisi Dunyani majburiy nikohdan qutqarish uchun pul topishning yagona yo'li deb bilishi"
     ],
     "correctAnswer": 0,
-    "explanation": "Ushbu asarda Fyodor Dostoevskiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Raskolnikov o'zini qonundan ustun turuvchi 'favqulodda odam' deb hisoblab, vijdon va axloq chegaralarini buzib o'tishga haqli ekanligini isbotlamoqchi bo'ladi."
   },
   {
     "id": "q_jinoyat-va-jazo_2",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Raskolnikov jinoyat sodir etgach, uning ruhiyatida darhol qanday o'zgarish ro'y beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "U o'zini dunyodagi eng buyuk qahramondek his qilib, xotirjam yashay boshlaydi",
+      "U o'zini butun insoniyatdan, onasi va singlisidan uzilgan, la'natlangan kabi his qilib, dahshatli ruhiy iztirob va yolg'izlikka mahkum bo'ladi",
+      "U o'g'irlangan pullarni darhol katta savdo ishlariga kiritib yuboradi",
+      "U politsiya idorasiga borib, o'zining mutlaqo aybsiz ekanligi haqida ariza beradi"
     ],
     "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "explanation": "Haqiqiy 'jazo' qonuniy qamoqdan avval boshlanadi: inson vijdoni qotillikni qabul qila olmaydi va uni yaqinlaridan, butun tirik olamdan butunlay uzib tashlaydi."
   },
   {
     "id": "q_jinoyat-va-jazo_3",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Sonya Marmeladova obrazining Raskolnikov najot topishidagi o'rni qanday ifodalanadi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Sonya Raskolnikovni tergovchi Porfiriy Petrovichdan yashirish uchun soxta pasport tayyorlab beradi",
+      "Sonya Raskolnikovning nazariyasini qo'llab-quvvatlab, yangi suiqasdlarda unga yordamchi bo'ladi",
+      "Sonya o'zining nochor hayotiga qaramay, chuqur xristianiy e'tiqod, cheksiz muhabbat va fidoiylik orqali Raskolnikovni tavba qilishga va qalbini tiriltirishga yetaklaydi",
+      "Sonya foizchi kampirning qolgan barcha tilla buyumlarini sotib, boyib ketadi"
     ],
     "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "explanation": "Sonya — gunoh botqog'idagi pokiza qalb timsolidir; u sevgisi va fidoiyligi bilan Raskolnikovning muzlagan qalbini eritib, uni ma'naviy tirilish (voskreseniye) sari boshlaydi."
   },
   {
     "id": "q_jinoyat-va-jazo_4",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Tergovchi Porfiriy Petrovichning Raskolnikov bilan suhbatlaridagi asosiy usuli nimadan iborat?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Darhol qamoqqa olib, jismoniy qiynoqlar orqali aybini tan oldirish",
+      "Raskolnikovning do'sti Razumixinni pul evaziga o'z tomoniga og'dirib olish",
+      "Gumonlanuvchini chet elga surgun qilish haqida qaror chiqarish",
+      "Psixologik suhbatlar, mushuk-sichqon o'yini orqali Raskolnikovning o'z vijdoni uni o'zi aybini tan olishga majbur qilishiga sharoit yaratish"
     ],
     "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Porfiriy Petrovich — daho psixolog; u Raskolnikovning g'oyaviy mag'rurligini sindirib, uning qalbida adolat hissi g'olib kelishini sabr bilan kutadi."
   },
   {
     "id": "q_jinoyat-va-jazo_5",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Svidrigaylov obrazining romandagi fojiasi Raskolnikovga qanday dars beradi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Vijdon va axloqdan mutlaqo mahrum bo'lgan insonning oxir-oqibat ruhiy tubanlikka tushib, o'z joniga qasd qilishdan boshqa chorasi qolmasligini",
+      "Katta boylik to'plash insonni barcha gunohlardan xalos etishini",
+      "Singlisi Dunyani majburlab bo'lsa ham sevdirish mumkinligini",
+      "Sankt-Peterburgdan Parijga qochib ketishning qulay yo'llarini"
     ],
     "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "explanation": "Svidrigaylov — Raskolnikov nazariyasining mantiqiy intihosidir: agar hech qanday muqaddas chegara bo'lmasa, inson ichki bo'shliqdan o'zini o'zi o'ldiradi."
   },
   {
     "id": "q_jinoyat-va-jazo_6",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Raskolnikov va Sonyaning 'Lazarusning tirilishi' haqidagi Injil bobini birgalikda o'qish sahnasi qanday ma'noga ega?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Peterburg cherkovlaridagi ibodat tartiblarini o'rganish zarurligini",
+      "Ruhining o'lganini his qilgan eng og'ir gunohkor inson ham tavba va mehr orqali qayta tirilishi mumkinligiga bo'lgan umidni",
+      "Marmeladovning dafn marosimi uchun tayyorgarlik ko'rishni",
+      "Qonuniy sud jarayonida jazo muddatini kamaytirish hiylasini"
     ],
     "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "explanation": "Lazarus to'rt kundan so'ng tirilgani kabi, qotillik sodir etib ma'nan o'lgan Raskolnikov ham muhabbat va azob chekish orqali qayta dunyoga keladi."
   },
   {
     "id": "q_jinoyat-va-jazo_7",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Raskolnikovning maydonga chiqib, xalq oldida yerni o'pishi qanday marosimiy ma'noga ega?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Ruhiy xastalik tufayli hushini yo'qotib yiqilishini",
+      "Shaharda yangi yer sotib olish haqidagi niyatini",
+      "U o'z qonli jinoyati bilan ona tuproqni va insoniyatni bulg'aganini tan olib, jamoatdan kechirim so'rashi va tavba qilishini",
+      "Politsiya xodimlarining buyrug'ini masxaralab bajarishini"
     ],
     "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "explanation": "Sonya unga aytgan edi: 'Sennoy maydoniga bor, odamlar oldida ta'zim qil, yerni o'p va 'Men qotilman!' deb ayt.' Bu kiborlikning sinishi va tavba boshlanishidir."
   },
   {
     "id": "q_jinoyat-va-jazo_8",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Sibir katorgasida Raskolnikov qanday buyuk haqiqatni kashf etadi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Napoleon nazariyasi haqiqat ekani va o'zining faqat jismonan zaiflik qilganini",
+      "Qamoqxonada faqat kuchli va shafqatsiz odamlargina tirik qolishi mumkinligini",
+      "Kelajakda barcha sud tizimlarini yo'q qilish kerakligini",
+      "Inson baxti mantiqiy nazariyalar bilan emas, balki qalbning cheksiz sevgisi, boshqalar dardi bilan yashash va fidoiylik bilan topilishini"
     ],
     "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "explanation": "Epilogda Raskolnikov yostig'i ostidagi Injilni ochadi va Sonyaning poyiga yiqiladi: sovuq aql mag'lub bo'lib, tirik qalb va ilohiy sevgi g'alaba qozonadi."
   },
   {
     "id": "q_jinoyat-va-jazo_9",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Lujin obrazining romandagi 'aqlli xudbinlik' (oqilona egoizm) qarashlari qaysi illatni fosh qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Faqat o'z shaxsiy manfaatini ko'zlab, ezgulik niqobi ostida ojizlarni oyoqosti qiluvchi munofiqlikni",
+      "Kambag'al oilalarga doimiy moliyaviy yordam berish fazilatini",
+      "Rossiyada yuridik sohani rivojlantirishga qaratilgan islohotlarni",
+      "Singlisini beg'araz sevuvchi mehribon aka qiyofasini"
     ],
     "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "explanation": "Lujin o'zidan qashshoqroq qizga uylanib, uni umrbod o'ziga qaram qilib minnatdor tutishni rejalashtirgan jirkanch xudbinlik timsolidir."
   },
   {
     "id": "q_jinoyat-va-jazo_10",
     "bookId": "jinoyat-va-jazo",
     "book_id": "jinoyat-va-jazo",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Dostoevskiy ushbu romani orqali butun insoniyatga qanday xatarli ogohlantirish qoldirgan?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Kambag'allikdan qutulishning yagona yo'li noqonuniy ishlarga qo'l urish ekanligini",
+      "Hech qanday buyuk g'oya yoki insoniyat baxti bitta begunoh insonning to'kilgan qoni ustiga qurilishi mumkin emasligini",
+      "Barcha talabalar faqat amaliy hunarmandchilik bilan shug'ullanishi kerakligini",
+      "Peterburg shahrida ko'chalarni doimo toza saqlash lozimligini"
     ],
     "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "explanation": "Romanning bosh xulosasi: agar maqsadga yetish uchun jinoyat oqlansa, butun dunyo qon daryosiga aylanadi. Axloqiy qonunlar mutlaqdir."
   },
   {
     "id": "q_aka-uka-karamazovlar_1",
@@ -4268,12 +4408,12 @@ export const questions = [
     "book_id": "aka-uka-karamazovlar",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Fyodor Dostoevskiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -4283,11 +4423,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -4298,10 +4438,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -4310,12 +4450,12 @@ export const questions = [
     "book_id": "aka-uka-karamazovlar",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -4324,12 +4464,12 @@ export const questions = [
     "book_id": "aka-uka-karamazovlar",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -4339,11 +4479,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -4354,10 +4494,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -4366,12 +4506,12 @@ export const questions = [
     "book_id": "aka-uka-karamazovlar",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -4380,12 +4520,12 @@ export const questions = [
     "book_id": "aka-uka-karamazovlar",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -4395,11 +4535,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -4408,12 +4548,12 @@ export const questions = [
     "book_id": "evrilish",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Frans Kafka inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -4423,11 +4563,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -4436,12 +4576,12 @@ export const questions = [
     "book_id": "evrilish",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -4451,11 +4591,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -4464,12 +4604,12 @@ export const questions = [
     "book_id": "evrilish",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -4479,11 +4619,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -4492,12 +4632,12 @@ export const questions = [
     "book_id": "evrilish",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -4507,11 +4647,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -4520,12 +4660,12 @@ export const questions = [
     "book_id": "evrilish",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -4535,11 +4675,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -4548,12 +4688,12 @@ export const questions = [
     "book_id": "begona",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Alber Kamyu inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -4562,12 +4702,12 @@ export const questions = [
     "book_id": "begona",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -4577,11 +4717,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -4592,10 +4732,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -4604,12 +4744,12 @@ export const questions = [
     "book_id": "begona",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -4618,12 +4758,12 @@ export const questions = [
     "book_id": "begona",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -4633,11 +4773,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -4648,10 +4788,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -4660,12 +4800,12 @@ export const questions = [
     "book_id": "begona",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -4674,12 +4814,12 @@ export const questions = [
     "book_id": "begona",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -4828,12 +4968,12 @@ export const questions = [
     "book_id": "ruhiy-tarbiya",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Shayx Muhammad Sodiq Muhammad Yusuf inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -4843,11 +4983,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -4858,10 +4998,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -4870,12 +5010,12 @@ export const questions = [
     "book_id": "ruhiy-tarbiya",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -4884,12 +5024,12 @@ export const questions = [
     "book_id": "ruhiy-tarbiya",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -4899,11 +5039,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -4914,10 +5054,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -4926,12 +5066,12 @@ export const questions = [
     "book_id": "ruhiy-tarbiya",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -4940,12 +5080,12 @@ export const questions = [
     "book_id": "ruhiy-tarbiya",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -4955,11 +5095,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -4968,12 +5108,12 @@ export const questions = [
     "book_id": "saodat-asri",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Ahmad Lutfiy Qozonchi inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -4983,11 +5123,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -4996,12 +5136,12 @@ export const questions = [
     "book_id": "saodat-asri",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -5011,11 +5151,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -5024,12 +5164,12 @@ export const questions = [
     "book_id": "saodat-asri",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -5039,11 +5179,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -5052,12 +5192,12 @@ export const questions = [
     "book_id": "saodat-asri",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -5067,11 +5207,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -5080,12 +5220,12 @@ export const questions = [
     "book_id": "saodat-asri",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -5095,11 +5235,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -5108,12 +5248,12 @@ export const questions = [
     "book_id": "halol-luqma",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Rauf Jilasun inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -5122,12 +5262,12 @@ export const questions = [
     "book_id": "halol-luqma",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -5137,11 +5277,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -5152,10 +5292,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -5164,12 +5304,12 @@ export const questions = [
     "book_id": "halol-luqma",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -5178,12 +5318,12 @@ export const questions = [
     "book_id": "halol-luqma",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -5193,11 +5333,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -5208,10 +5348,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -5220,12 +5360,12 @@ export const questions = [
     "book_id": "halol-luqma",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -5234,1273 +5374,1273 @@ export const questions = [
     "book_id": "halol-luqma",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
     "id": "q_shaytanat_1",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Tohir Malikning 'Shaytanat' asaridagi 'Shaytanat' so'zi qanday ijtimoiy-axloqiy ma'noni anglatadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Jinoyat, xiyonat, qasos, nafs va axloqsizlik hukmron bo'lgan, insonni shaytonga aylantiruvchi tuban olamni",
+      "Qadimiy afsonalardagi jinlar va parilar saltanatini",
+      "Faqat politsiya xodimlarining tungi navbatchiligini",
+      "Shahardagi yirik savdo majmualari tizimini"
     ],
     "correctAnswer": 0,
-    "explanation": "Ushbu asarda Tohir Malik inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "'Shaytanat' — jinoyat olamining qonli qonunlari, nafsiga qul bo'lgan kimsalar va begunoh insonlarni ham o'z girdobiga tortuvchi yovuzlik saltanatidir."
   },
   {
     "id": "q_shaytanat_2",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Asadbekning qismatidagi eng katta fojia nimada?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Uning barcha boyliklarini politsiya musodara qilganida",
+      "U o'z qasosini olish va adolat o'rnatish ilinjida jinoyat yo'liga kirib, o'zi ham sezmagan holda o'zi nafratlangan qonxo'r zolimlarga aylanib qolganida",
+      "Uning Moskvaga borib o'qiy olmaganida",
+      "Uning hech qachon do'stlari bo'lmaganida"
     ],
     "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "explanation": "Asadbek yoshligida adolatsizlik qurboni bo'ldi, lekin yovuzlikka qarshi yovuzlik bilan kurashib, o'zi shaytanatning eng qudratli qurboniga aylandi."
   },
   {
     "id": "q_shaytanat_3",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Elchin obrazining fojiasi qaysi illatning xatarini fosh etadi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Iqtidorli shifokorlarning chet elga ketishini",
+      "Sport bilan shug'ullanmaslik oqibatlarini",
+      "Giyohvandlik, irodasizlik va o'tkinchi kayf-safo orqasida inson o'z sevgisi, oilasi va insoniy qadrini qanday barbod qilishini",
+      "Shaharda arzon uy-joy topish qiyinligini"
     ],
     "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "explanation": "Elchin — iqtidorli, ammo nafs va giyohvandlik tuzog'iga tushib, o'zining butun baxti va sevgilisi Zaynabning taqdirini fojiaga aylantirgan qahramondir."
   },
   {
     "id": "q_shaytanat_4",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Zaynabning o'z joniga qasd qilishi Asadbekka qanday ma'naviy zarba beradi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "U zudlik bilan boshqa shaharga ko'chib ketishga qaror qiladi",
+      "U yangi dushmanlaridan qasos olish uchun lashkar to'playdi",
+      "U qizining o'limiga umuman beparvo qaraydi",
+      "U to'plagan barcha harom boyliklar, jinoyat olamidagi qudrat va qasoslar o'z jigarbandi baxti oldida bir chaqaga qimmat ekanini anglab, ruhiy qulaydi"
     ],
     "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Asadbek hamma ustidan g'alaba qozondi, lekin o'z oilasini qutqara olmadi; qizining fojiasi uning qonli saltanatiga berilgan eng dahshatli jazo bo'ldi."
   },
   {
     "id": "q_shaytanat_5",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Tohir Malik ushbu roman orqali jamiyatga qanday ogohlantirish beradi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Jinoyat yo'li bilan hech qachon baxtga, xotirjamlikka va haqiqatga erishib bo'lmasligi, harom luqma va qonning jazosi muqarrar ekanligi",
+      "Mafiya boshliqlari har qanday davlatda eng qudratli shaxslar bo'lib qolishi",
+      "Yolg'iz yashash inson uchun eng xavfsiz yo'l ekani",
+      "Detektiv kitoblarning faqat ko'ngilochar xarakterga egaligi"
     ],
     "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "explanation": "Muallif butun asar davomida uqtiradi: shaytanat yo'liga kirgan inson o'z vujudini shaytonga sotadi; najot faqat imon, halollik va tavbada."
   },
   {
     "id": "q_shaytanat_6",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Tohir Malik tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
     "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "explanation": "Tohir Malik ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_shaytanat_7",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
     "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_shaytanat_8",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga"
     ],
     "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_shaytanat_9",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
     "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_shaytanat_10",
     "bookId": "shaytanat",
     "book_id": "shaytanat",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
     "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_asrga-tatigulik-kun_1",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Chingiz Aytmatovning 'Asrga tatigulik kun' romanidagi 'Mankurt' afsonasi qanday umuminsoniy fojiani ifodalaydi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Sario'zak dashtlarida yashovchi ko'chmanchi qabilalarning ovchilik an'analarini",
+      "O'z tarixiy xotirasi, ildizlari, ona tili va o'zligidan mahrum qilingan insonning o'z onasiga ham o'q uzish darajasidagi fojiasini",
+      "Qadimgi dushmanlarga qarshi janglarda qahramonlik ko'rsatgan yigitlar matonatini",
+      "Dasht hududlarida temir yo'l qurilishining ekologiyaga yetkazgan ta'sirini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Chingiz Aytmatov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 1,
+    "explanation": "Mankurt — o'z o'tmishini, onasini unutgan fojiali qul timsolidir; Aytmatov bu orqali milliy xotirani yo'qotish har qanday jismoniy o'limdan dahshatli ekanini fosh etadi."
   },
   {
     "id": "q_asrga-tatigulik-kun_2",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Nayman onaning o'g'li Jo'lamonni qidirib topganda aytgan: 'Ismingni esla! Sening o'g'lingmisan, kimsan?' degan nidosi nimaga qaratilgan?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "O'g'lining podasini o'g'irlab ketgan bosqinchilardan qasos olishga",
+      "Sario'zakdagi temir yo'l stansiyasiga tezroq qaytishga",
+      "O'g'lining qul qilingan ongini uyg'otish va undagi insoniy xotirani qayta tiriltirishga",
+      "O'g'liga meros qolgan boyliklarning joyini so'rab bilishga"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 2,
+    "explanation": "Ona uchun eng katta azob — o'g'lining jismonan tirik bo'lib, ruhan o'z onasini tanimaydigan manqurtga aylantirilganini ko'rishdir."
   },
   {
     "id": "q_asrga-tatigulik-kun_3",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Bo'ronli Yedigeyning o'z do'sti Qozong'apni 'Ana-Beyit' qabristoniga dafn etish yo'lidagi to'siqlar qaysi illatni ko'rsatadi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Qishki qor bo'ronlarining yo'llarni butunlay yopib qo'yganini",
+      "Qozong'apning qarindoshlari dafn marosimida qatnashishni istamaganini",
+      "Yedigeyning tuyasi Qaranorning yo'lda yurishdan bosh tortganini",
+      "Texnologik qudrat (kosmodrom) niqobi ostida qadimiy muqaddas qadriyatlar va ajdodlar mozorini mensimaslikni"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 3,
+    "explanation": "Kosmodrom ma'murlari qadimiy qabristonni simtikan bilan o'rab olib, ajdodlar xotirasiga hurmat ko'rsatishdan bosh tortadilar — bu zamonaviy texnokratik manqurtlikdir."
   },
   {
     "id": "q_asrga-tatigulik-kun_4",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Yedigeyning Qaranor nomli tuyasi romanda qanday ramziy ma'noni ifodalaydi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Sario'zak dashtining bo'ysunmas, qudratli, yovvoyi va azaliy tabiat kuchini",
+      "Faqat qishloq xo'jaligida og'ir yuklarni tashish vositasini",
+      "Yedigeyning kambag'alligini yashirish uchun sotib olingan hayvonni",
+      "Temir yo'l harakatiga xalaqit beruvchi xavfli to'siqni"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 0,
+    "explanation": "Qaranor — dashtning yovvoyi erkinligi, chidamliligi va sun'iy tuzumga bo'ysunmaydigan azaliy hayotiy qudratining timsolidir."
   },
   {
     "id": "q_asrga-tatigulik-kun_5",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Abutolib Quttiboyevning qatag'on qilinishi va fojiasi sovet tuzumining qaysi yovuzligini fosh etadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Abutolibning maktabda o'quvchilarga noto'g'ri dars berganini",
+      "Urush asirligida bo'lgan begunoh vatanparvar insonni o'z xotiralarini yozgani uchungina 'davlat dushmani' deb yo'q qilishini",
+      "Uning Sario'zakdan chet elga qochib ketish rejasini tuzganini",
+      "Yedigey bilan o'rtasidagi shaxsiy nizolarni"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 1,
+    "explanation": "Abutolib — o'z farzandlari uchun haqiqatni yozib qoldirmoqchi bo'lgan ma'rifatli inson; mustabid tuzum esa xotirani qog'ozga tushirgan har qanday ziyolini xavf deb bilgan."
   },
   {
     "id": "q_asrga-tatigulik-kun_6",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Nayman onaning ro'moli oq qushga (Donanboy qushiga) aylanib 'Ismingni esla!' deb faryod urishi qanday ma'no kasb etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Dasht qushlarining inson ovoziga taqlid qila olish qobiliyatini",
+      "Sehr-jodu orqali dushmanlarni qo'rqitish afsonasini",
+      "Ona mehrining o'limdan ham kuchli ekani va millat xotirasi hech qachon butunlay yo'qolmasligiga bo'lgan umidni",
+      "Qadimiy ovchilarning qushlar bilan aloqa qilish usulini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "Donanboy qushining faryodi — o'zligini yo'qotgan avlodlar ustida tinimsiz aylanib, ularni uyg'onishga chaqiruvchi millat vijdonining ramzidir."
   },
   {
     "id": "q_asrga-tatigulik-kun_7",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Romandagi kosmik 'O'rmon-Ko'krak' (Lesnaya Grud) sayyorasi sivilizatsiyasi yerliklarga qanday muqobilni taklif qiladi?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Barcha yerliklarni o'z sayyoralariga qul qilib olib ketishni",
+      "Yer yuzidagi barcha neft va gaz zaxiralarini o'zlashtirishni",
+      "Faqat temir yo'llar tarmog'ini kosmosgacha kengaytirishni",
+      "Urushlarsiz, adovat va yadro qurollarisiz, faqat aql va tinchlikka asoslangan yuksak sivilizatsiyani"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 3,
+    "explanation": "Yer davlatlari esa o'zaro adovat va qo'rquv tufayli bu tinchlikparvar sivilizatsiyadan yuz o'girib, Yer atrofini 'Operatsiya Raye' qalqoni bilan o'rab oladilar."
   },
   {
     "id": "q_asrga-tatigulik-kun_8",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Zaripa obrazining Abutolib qamalganidan keyingi iztiroblari qaysi haqiqatni ochadi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "'Xalq dushmani'ning xotini va bolalari jamiyatda qanday ayovsiz xo'rlik va kamsitishlarga duchor bo'lganini",
+      "Ayollarning dasht sharoitida umuman yashay olmasligini",
+      "Zaripaning darhol boshqa odamga turmushga chiqish istagini",
+      "Sario'zakda oziq-ovqat mahsulotlarining mo'l-ko'lligini"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 0,
+    "explanation": "Aytmatov qatag'on fojiasining faqat qamoqdagi odam bilan cheklanmay, uning butun oilasi va begunoh go'daklari taqdirini ham barbod qilganini ko'rsatadi."
   },
   {
     "id": "q_asrga-tatigulik-kun_9",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Yedigeyning Qozong'ap jasadini quchoqlab, yolg'iz dashtda qilgan munojoti qanday qahramonlikni namoyon etadi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Harbiy xizmatdan qochish uchun qilingan hiylani",
+      "Insoniylik, sadoqat va do'stlik burchini har qanday rasmiy taqiq va xavflardan ustun qo'yish jasoratini",
+      "Qadimiy xazinalarni topish uchun aytilgan duolarni",
+      "Sario'zakdan shaharga ko'chib ketish ilinjini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 1,
+    "explanation": "Yedigey — oddiy temiryo'lchi bo'lsa-da, o'z vijdoni, mehnati va do'stiga sadoqati bilan dunyodagi eng yuksak ma'naviy qahramon darajasiga ko'tariladi."
   },
   {
     "id": "q_asrga-tatigulik-kun_10",
     "bookId": "asrga-tatigulik-kun",
     "book_id": "asrga-tatigulik-kun",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "'Asrga tatigulik kun' romanining jahon adabiyotidagi bosh xulosasi nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Barcha odamlar faqat dashtlarda yashashi shart",
+      "Kosmik parvozlar insoniyatning barcha muammolarini to'liq hal qiladi",
+      "Inson qanday texnik qudratga erishmasin, o'z tarixiy xotirasi, vijdoni va tabiat bilan aloqasini uzsa, u manqurtga aylanadi",
+      "Tarixni unutish inson hayotini yengillashtiradi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 2,
+    "explanation": "Asarning buyuk chaqirig'i: 'Odamzod uchun eng qiyini — har kuni inson bo'lib qolishdir.'"
   },
   {
     "id": "q_jamila_1",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Chingiz Aytmatovning 'Jamila' qissasini fransuz adibi Lui Aragon nega 'Dunyodagi eng go'zal muhabbat qissasi' deb atagan?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Asarda qimmatbaho saroylar va boy xonadonlarning to'ylari tasvirlangani uchun",
+      "Qissaning barcha qahramonlari chet elga sayohat qilgani uchun",
+      "Eski aqidalar, urf-odat kishanlari va soxta burchdan ustun kelgan haqiqiy, samimiy va ozod sevgining tug'ilishini yuksak shoirona mahorat bilan tasvirlagani uchun",
+      "Asar faqat jangovar harbiy to'qnashuvlardan iborat bo'lgani uchun"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Chingiz Aytmatov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "Lui Aragon Jamila va Doniyor muhabbatida inson qalbining ozodlikka intilishini, tog' daryosidek toza va to'siqlarni yorib o'tuvchi sof sevgini ko'rgan."
   },
   {
     "id": "q_jamila_2",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Doniyorning aravada g'alla tashiyotganda kuylagan qo'shig'i Jamila va Seit qalbiga qanday ta'sir qiladi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Ularni zeriktirib, uxlatib qo'yadi",
+      "Shaharga borib artist bo'lish orzusini uyg'otadi",
+      "Ularning urushga borishdan qo'rqishiga sabab bo'ladi",
+      "Qo'shiqdagi tog'lar nafasi, vatan dardi va cheksiz qalb nolasi ularning ko'nglida yashiringan go'zallik va muhabbatni uyg'otadi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 3,
+    "explanation": "Doniyorning mungli va qudratli qo'shig'i uning ichki go'zalligini ochib beradi; Jamila uning qashshoq kiyimlari ortida buyuk qalb egasi turganini aynan shu ohang orqali kashf etadi."
   },
   {
     "id": "q_jamila_3",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Seitning (hikoyachi bolaning) rassom bo'lib yetishishida Jamila va Doniyor sevgisi qanday rol o'ynaydi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Ularning fidoiy sevgisi va erkinlik yo'lidagi jasorati Seitning qalbida ilk bor haqiqiy san'at va ilhom olovini yoqadi",
+      "Ular Seitga qimmatbaho bo'yoqlar sotib olib berishadi",
+      "Seit ularning rasmini chizib, shahardagi tanlovda katta pul yutib oladi",
+      "Ular Seitni majburan rassomlik maktabiga topshirishadi"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 0,
+    "explanation": "Seit o'zining ilk asarida aravada ketayotgan Jamila va Doniyorni chizadi; bu rasm uning qalb ko'zi ochilganining va rassomlik qismatining boshlanishi edi."
   },
   {
     "id": "q_jamila_4",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Jamilaning qishloqdagi an'anaviy oilasini tashlab, yarador va nochor Doniyor bilan ketishidagi bosh sabab nima?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Faqat shahar hayotining dabdabasiga qiziqish",
+      "Eri Sodiqning xatlaridagi sovuqqonlik va kibrga qarshi o'laroq, Doniyorning qalbida haqiqiy mehr, qadrlash va tenglikni topgani",
+      "Qaynonasining unga ovqat bermay qo'ygani",
+      "Urush yillarida front ortida ishlashdan charchagani"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "Sodiq o'z xatlarida Jamilani shunchaki ro'zg'or buyumi deb bilsa, Doniyor uni bor vujudi bilan sevardi. Jamila soxta obro'dan ko'ra haqiqiy baxtni tanladi."
   },
   {
     "id": "q_jamila_5",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Qissada urush davri qishlog'idagi ayollar mehnati qanday tasvirlangan?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Faqat uyda o'tirib, shahar yangiliklarini kutgan bekorchilar sifatida",
+      "Qishloq xo'jaligida faqat zamonaviy traktorlar bilan ishlagan mutaxassislar sifatida",
+      "Frontdagi erkaklar o'rniga og'ir bug'doy qoplarini ko'tarib, kecha-kunduz tinimsiz mehnat qilgan matonatli ayollar siymosida",
+      "Barcha ishlarni tashlab, tog'larga dam olishga ketgan sayyohlar sifatida"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 2,
+    "explanation": "Aytmatov qirg'iz ovulidagi ayollar va bolalarning front g'alabasi uchun jon fido qilib qilgan og'ir mehnati fonida qahramonlar xarakterini ochib beradi."
   },
   {
     "id": "q_jamila_6",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Chingiz Aytmatov tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Chingiz Aytmatov ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_jamila_7",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 0,
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_jamila_8",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 1,
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_jamila_9",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 2,
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_jamila_10",
     "bookId": "jamila",
     "book_id": "jamila",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 3,
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_oq-kema_1",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Chingiz Aytmatovning 'Oq kema' qissasida Bosh qahramon (Bola) nega daryoga baliq bo'lib oqib ketishni orzu qiladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Faqat suzish bo'yicha chempion bo'lish istagida",
+      "Orogulning uyidagi qimmatbaho buyumlarni ko'rish uchun",
+      "Maktab darslaridan qochib ketish niyatida",
+      "Issiqko'lda suzib yurgan oppoq kemadagi dengizchi otasining oldiga yetib borish va yovuzlikdan xoli toza dunyoga intilish uchun"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Chingiz Aytmatov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Bola o'zining afsonaviy otasini Oq kemada deb tasavvur qiladi; u shafqatsiz voqelikdan qochib, o'z orzusidagi pokiza kemaga baliq bo'lib suzib borishni istaydi."
   },
   {
     "id": "q_oq-kema_2",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Mo'min boboning Shoxdor ona bug'uni (Maralni) o'z qo'llari bilan otishga majbur bo'lishidagi fojiaga nima sabab bo'ldi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Kuyovi Orogulning zolimligi, uning haqoratlari oldidagi irodasizligi va qizining oilasini saqlab qolish ilinjidagi ojizligi",
+      "O'zining ochko'zligi va bug'u go'shtini sotib boyish niyati",
+      "Ovchilar jamiyatining qat'iy talabi",
+      "Bug'uning odamlarga hujum qilgani"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 0,
+    "explanation": "Mo'min bobo — mehribon, ammo zaif qalb egasi; u zolim Orogulning qahr-g'azabi oldida o'z qadriyatlari va muqaddas afsonasiga xiyonat qilishga majbur bo'ladi."
   },
   {
     "id": "q_oq-kema_3",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Orogul obrazi asarda qaysi ijtimoiy illatning timsoli hisoblanadi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "O'rmonni sevadigan va tabiatni asrovchi xalqparvar rahbar timsoli",
+      "Ichkilikboz, farzandsizligidan alamzada, atrofidagilarga faqat zulm o'tkazuvchi shafqatsiz xudbinlik va ma'naviy qashshoqlik timsoli",
+      "Qishloq yoshlariga kitob o'qishni o'rgatuvchi muallim timsoli",
+      "Faqat shaxsiy kutubxona ochishni orzu qilgan ziyoli timsoli"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 1,
+    "explanation": "Orogul — o'zining ichki nochorligini zaiflarga (xotini, Mo'min bobo va Bolaga) zulm qilish bilan qoplaydigan ma'naviy mayib shaxsdir."
   },
   {
     "id": "q_oq-kema_4",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Shoxdor ona bug'u afsonasining asardagi bosh falsafiy g'oyasi nima?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Qadimgi qurollarning ovchilikda qanchalik qulay bo'lgani",
+      "Bug'ularning faqat baland tog'larda yashashi kerakligi",
+      "Insoniyat o'z o'tmishini, tabiatni va ajdodlar qoldirgan muqaddas ahdlarni oyoqosti qilsa, o'z ildizini quritib, halokatga yuz tutishi",
+      "O'rmon qo'riqxonalarida pullik sayohatlar tashkil qilish qoidalari"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 2,
+    "explanation": "Afsona inson va tabiat, mehr va xotira uyg'unligini ifodalaydi; bug'uning o'ldirilishi bilan qahramonlar o'z muqaddas ruhini o'ldiradilar."
   },
   {
     "id": "q_oq-kema_5",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Qissaning fojiali intihosida Bolaning o'zini daryoga tashlashi nimani anglatadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Uning ehtiyotsizlik qilib toshdan sirg'anib ketganini",
+      "Mo'min boboning uni daryoda cho'milishga majburlaganini",
+      "Baliqlar bilan birga yangi sayyoraga uchib ketganini",
+      "Uning yovuzlik, xiyonat va chirkin dunyoga ko'nikishdan ko'ra, o'z vijdoni va bolalarcha pokligini saqlab qolish uchun o'limni tanlaganini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 3,
+    "explanation": "Bola yovuzlikni ko'rib, unga taslim bo'lishni xohlamadi; muallif aytganidek: 'U bolalarcha vijdon bilan yovuzlikni yarashtira olmadi va oq kema tomon baliq bo'lib suzib ketdi.'"
   },
   {
     "id": "q_oq-kema_6",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Chingiz Aytmatov tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 0,
+    "explanation": "Chingiz Aytmatov ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_oq-kema_7",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 1,
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_oq-kema_8",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 2,
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_oq-kema_9",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini",
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 3,
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_oq-kema_10",
     "bookId": "oq-kema",
     "book_id": "oq-kema",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 0,
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_1",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Tog'ay Murodning 'Otamdan qolgan dalalar' romanidagi Dehqonqul fojiasi qaysi milliy dardni ifodalaydi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "O'zbek dehqonining o'z ona tuprog'ida paxta yakkahokimligi (monokultura) asiriga aylanib, quldek mehnati evaziga qatag'on qilingan fojiasini",
+      "Faqat suv yetishmovchiligi tufayli hosilning nobud bo'lishini",
+      "Qishloq yoshlarining shaharga ko'chib ketishi oqibatlarini",
+      "Dehqonlarning zamonaviy texnikalarni o'rganishdan bosh tortganini"
     ],
     "correctAnswer": 0,
-    "explanation": "Ushbu asarda Tog'ay Murod inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Dehqonqul kecha-kunduz paxta deb yashadi, 'Oq oltin' uchun butun sog'lig'ini berdi, ammo mustabid tuzum uni baribir 'paxta ishi' bo'yicha qamoqqa tiqdi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_2",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Dehqonqulning bobosi Jamoliddin ketmon va otasi Oqsoqol obrazlari asarda qanday vazifani bajaradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Faqat qishloqdagi ketmon yasovchi ustalarning hayotini yoritadi",
+      "Avlodlar ketma-ketligida o'zbek dehqonining oriyati, erk yo'lidagi kurashi va sovet tuzumi ostida asta-sekin bo'ysundirilishi tarixini ko'rsatadi",
+      "Dehqonqulga katta oltin meros qoldirgan boylar sifatida tasvirlanadi",
+      "Buxoro amirligida vazirlik qilgan amaldorlar timsolidir"
     ],
     "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "explanation": "Jamoliddin ketmon erkin dehqon edi, Oqsoqol kurashib qatag'on qilindi, Dehqonqul esa tizimga so'zsiz itoat qiluvchi sovet dehqoniga aylantirildi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_3",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Romanda 'Paxta — o'zbekning qismati, o'zbekning kishani' g'oyasi qanday ochib berilgan?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Paxta eksporti tufayli O'zbekistonning dunyodagi eng boy davlatga aylangani orqali",
+      "Dehqonlarning paxtani boshqa ekinlardan ko'ra ko'proq yoqtirgani orqali",
+      "Paxta tufayli maktab o'quvchilari, homilador ayollar, butun millat dalada zaharlanib, qullik mashinasiga aylantirilgani orqali",
+      "Paxtadan faqat qishki issiq kiyimlar tikilgani orqali"
     ],
     "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "explanation": "Monokultura xalqning nonini, bog'larini, sog'lig'ini tortib oldi; defoliantlar va kimyoviy zaharlar butun bir avlodning genofondiga zarar yetkazdi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_4",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Dehqonqulning tergovchi oldida 'Men partiyaga xiyonat qilmadim, paxtani ortig'i bilan topshirdim!' degan dod-faryodi nimani fosh etadi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Dehqonqulning qonunlarni umuman bilmasligini",
+      "Tergovchilarning faqat haqiqatni qidirgan odil insonlar ekanini",
+      "Paxta rejasining ataylab bajarilmay qolganini",
+      "Tizimga ko'r-ko'rona xizmat qilgan sodda insonning oxir-oqibat o'sha tuzum tomonidan qurbon qilinishi fojiasini"
     ],
     "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Dehqonqul sovet tuzumini 'otam' deb bildi, lekin bu o'gay tuzum uning butun umrini, vijdoni va erkinligini yakson qildi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_5",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Tog'ay Murodning ushbu asaridagi takrorlanuvchi 'Otamdan qolgan dalalar...' refreni qanday ruhiy ohang kasb etadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Ona zaminga, ajdodlar tuprog'iga bo'lgan cheksiz dardi, faryodi, muhabbati va milliy oriyatning uyg'onish nidosini",
+      "Faqat yer maydonlarining o'lchamini eslatuvchi hisob-kitobni",
+      "Dehqonlarning dalada qo'shiq aytib dam olishini",
+      "Qishloq xo'jaligi xaritasining bo'linishini"
     ],
     "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "explanation": "Bu refren — butun o'zbek millatining tarixiy faryodi, ajdodlar mehnati bilan sug'orilgan muqaddas tuproq oldidagi tavba va qasamdir."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_6",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Tog'ay Murod tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
     "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "explanation": "Tog'ay Murod ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_7",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
     "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_8",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga"
     ],
     "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_9",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
     "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_otamdan-qolgan-dalalar_10",
     "bookId": "otamdan-qolgan-dalalar",
     "book_id": "otamdan-qolgan-dalalar",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
     "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_yulduzli-tunlar_1",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Pirimqul Qodirovning 'Yulduzli tunlar' romanida Boburning Samarqand taxtini qo'ldan berishidagi bosh fojiaviy sabab nima?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bobur lashkarining harbiy qurol-yarog' jihatdan dushmandan ancha qoloq ekanligi",
+      "Temuriy shahzodalar o'rtasidagi bitmas-tuganmas nifoq, xudbinlik va Shayboniyxonga qarshi birlashuvning yo'qligi",
+      "Samarqand xalqining Boburga qarshi isyon ko'tarib, Shayboniyxonni shaharga taklif qilishi",
+      "Boburning shohlikdan ko'ra faqat she'riyat va adabiyot bilan shug'ullanishni afzal bilishi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Pirimqul Qodirov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 1,
+    "explanation": "Boburning bosh fojiasi uning iqtidorsizligida emas, balki amakivachchalari va temuriy beklarning shaxsiy adovat tufayli umummilliy mudofaaga yordam bermaganidadir."
   },
   {
     "id": "q_yulduzli-tunlar_2",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Boburning Hindistonda buyuk saltanat tuzgan bo'lsa-da, umrining oxirigacha ko'ngli taskin topmasligiga nima sabab bo'ladi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Hindiston boyliklarining uning xarajatlarini qoplashga yetmay qolishi",
+      "Mahalliy xalqlarning Bobur saltanatiga qarshi tinimsiz qo'zg'olon ko'tarishi",
+      "Ona vatani Farg'ona va Andijon sog'inchi, vatan tuprog'idan uzoqda qolganlik dardi",
+      "O'g'li Humoyunning harbiy sohadagi muvaffaqiyatsizliklaridan xavotir olishi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 2,
+    "explanation": "'Tole' yo'qi jonimga balolig' bo'ldi, Har yonki chekildim — yuz qarolig' bo'ldi...' Boburning butun ijodi va hayoti boylik bilan o'lchanmaydigan Vatan sog'inchining faryodidir."
   },
   {
     "id": "q_yulduzli-tunlar_3",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Boburning o'g'li Humoyun xastalanganda o'z jonini fido qilishga tayyor bo'lishi qahramonning qaysi fazilatini namoyon etadi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Davlat boshqaruvidan charchab, hokimiyatni tezroq o'g'liga topshirish niyatini",
+      "Tabiblarning barcha dorilaridan umidini uzgan ojiz insonning so'nggi chorasini",
+      "Siyosiy dushmanlari oldida o'zining taqvodorligini namoyish etish istagini",
+      "Farzandiga bo'lgan cheksiz otalik mehri, sadoqati va o'z hayotini qurbon qilishga qodir yuksak ruhiy matonatini"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 3,
+    "explanation": "Humoyunning to'shagi atrofida aylanib qilgan iltijosi — Boburning nafaqat buyuk shoh, balki fidoyi va buyuk qalb egasi bo'lgan ota ekanligining yuksak timsolidir."
   },
   {
     "id": "q_yulduzli-tunlar_4",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Romanda Shayboniyxon obrazi qanday tarixiy shaxs sifatida gavdalantiriladi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tkir siyosatchi, qat'iyatli lashkarboshi, ayni paytda temuriylar saroy madaniyatini ham o'zlashtirgan murakkab tarixiy shaxs sifatida",
+      "Faqat shafqatsiz bosqinchi va hech qanday ilmdan xabarsiz johil sarkarda sifatida",
+      "Faqat temuriylarga xizmatkor bo'lishni orzu qilgan zaif hukmdor sifatida",
+      "Bobur bilan yashirin do'stlik aloqalarini saqlab kelgan ittifoqchi sifatida"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 0,
+    "explanation": "Pirimqul Qodirov Shayboniyxonni biryoqlama qora bo'yoqlarda emas, balki davrning buyuk va ziddiyatli sarkardasi sifatida xolis tarixiy mahorat bilan tasvirlaydi."
   },
   {
     "id": "q_yulduzli-tunlar_5",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Boburning singlisi Xonzodabegimning Shayboniyxonga turmushga chiqishga rozi bo'lishidagi bosh sabab nima?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Xon saroyida malika bo'lib dabdabali hayot kechirishga bo'lgan qiziqishi",
+      "Samarqand qamalida qolgan ukasi Bobur va begunoh xalqni qatliomdan asrab qolish uchun o'zini qurbon qilishi",
+      "Boburning siyosiy boshqaruvidan norozi bo'lib, dushman tomonga o'tish istagi",
+      "Otasining vasiyatiga ko'ra ko'chmanchi xonlarga kelin bo'lish burchi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 1,
+    "explanation": "Xonzodabegim o'zining shaxsiy baxtini qurbon qilib, Samarqand mudofaasida ochlikdan qirilayotgan Bobur lashkarini qutqarish uchun fidokorlik ko'rsatadi."
   },
   {
     "id": "q_yulduzli-tunlar_6",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Boburning 'Boburnoma' asarini yozishdagi adabiy-tarixiy jasorati nimada namoyon bo'ladi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat o'zining g'alabalari va jasoratlarini bo'rttirib yozishida",
+      "Kitobni faqat she'riy vaznda va murakkab timsollar bilan bitganida",
+      "Tarixni qanday bo'lsa shunday — o'zining xato va mag'lubiyatlarini ham yashirmay, xolis va haqqoniy bayon etganida",
+      "Boshqa davlat podshohlarining buyrug'iga asosan saroy kotiblariga yozdirganida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "'Boburnoma'ning tengsizligi shundaki, Bobur o'zining ichki kechinmalari, ojizliklari va janglardagi xatolarini ham haqgo'ylik bilan ochiq tan olgan buyuk adibdir."
   },
   {
     "id": "q_yulduzli-tunlar_7",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarda Qosim bek obrazining Bobur hayotidagi o'rni qanday ifodalangan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Boburga doimiy xiyonat qilib, taxtni egallashga uringan xufiyona dushman sifatida",
+      "Faqat saroy xazinasini nazorat qiluvchi hisobchi sifatida",
+      "Boburni Hindistonga yurish qilishdan qaytargan qo'rqoq sarkarda sifatida",
+      "Eng og'ir surgun va xavf-xatarli damlarda ham sadoqatini saqlagan, to'g'riso'z va tajribali oqsoqol maslahatchi sifatida"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 3,
+    "explanation": "Qosim bek — Boburning yoshligidan boshlab to umrining oxirigacha unga to'g'ri yo'l ko'rsatgan, rostgo'y va sadoqatli bek timsolidir."
   },
   {
     "id": "q_yulduzli-tunlar_8",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Boburning Andijondan chiqib ketayotganda bir hovuch tuproqni ko'ziga surtishi qanday ramziy ma'noga ega?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Ona tuproqqa bo'lgan cheksiz muhabbat va vatanidan judo bo'layotgan insonning fojiali faryodini",
+      "Farg'ona vodiysidagi oltin konlarini eslab qolish niyatini",
+      "Toshkent bekligiga tezroq yetib olish uchun qilingan qadimiy irimni",
+      "Andijon tuprog'ining qishloq xo'jaligi uchun qulayligini tekshirishni"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 0,
+    "explanation": "Bu sahna romanning eng ta'sirli cho'qqilaridan biri bo'lib, o'z vatanidan quvg'in bo'lgan Boburning qalb jarohatini butun teranligi bilan ochadi."
   },
   {
     "id": "q_yulduzli-tunlar_9",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Pirimqul Qodirovning ushbu romanni yaratishdagi bosh g'oyaviy maqsadi nima edi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Temuriylar davridagi saroy kiyimlari va harbiy qurollarni kataloglashtirish",
+      "Bobur shaxsini sovet davridagi 'bosqinchi shoh' degan nohaq tamg'adan xalos etib, uni buyuk shoir, adolatli davlat arbobi va vatanparvar inson sifatida oqlash",
+      "Hindiston geografiyasini o'zbek kitobxonlariga tanishtirish",
+      "Faqat Boburning g'azallari uchun qisqacha sharhlar yozish"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 1,
+    "explanation": "Sovet mafkurasi Boburni faqat feodal bosqinchi deb qoralagan davrda Pirimqul Qodirov buyuk jasorat ko'rsatib, uning millat faxri bo'lgan daho siymosini qayta tikladi."
   },
   {
     "id": "q_yulduzli-tunlar_10",
     "bookId": "yulduzli-tunlar",
     "book_id": "yulduzli-tunlar",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "'Yulduzli tunlar' romanining nomi qaysi ramziy ma'noni ifodalaydi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat Mirzo Ulug'bekning yulduzlarni kuzatgan rasadxonasini",
+      "Hindiston osmonida yulduzlarning boshqa mamlakatlarga qaraganda ko'proq ekanini",
+      "Boburning bedor, iztiroblarga to'la tunlari va zulmat ichra porlagan yulduzdek yorqin ijodiy dahosini",
+      "Harbiy janglarning faqat tunda yulduzlar yorug'ida olib borilganini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 2,
+    "explanation": "'Yulduzli tunlar' — Boburning fojiali qismati, vatansizlik iztiroblari va ana shu mashaqqatli tunlarda bitilgan o'lmas g'azallari hamda adabiy merosining yorqin timsolidir."
   },
   {
     "id": "q_ulugbek-xazinasi_1",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Odil Yoqubovning 'Ulug'bek xazinasi' romanidagi 'xazina' so'zi qanday ramziy ma'noni anglatadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Samarqand arki tagida yashirilgan cheksiz oltin-kumush va javohirlarni",
+      "Ulug'bekning chet davlatlardan keltirgan nodir qurol-yarog'lar to'plamini",
+      "Mirzo Ulug'bek yaratgan 'Ziji jadidi Ko'ragoniy' astronomik jadvallari, ilmiy asarlar va jahonni yorituvchi aql-zakovat xazinasini",
+      "Shohrux Mirzo tomonidan meros qilib qoldirilgan davlat xazinasini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Odil Yoqubov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "Romandagi haqiqiy xazina — moddiy boylik emas, balki mutaassiblik zulmatiga qarshi nur taratuvchi Mirzo Ulug'bekning ilmiy merosi va uning kitoblaridir."
   },
   {
     "id": "q_ulugbek-xazinasi_2",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Abdullatifning o'z otasi Mirzo Ulug'bekka qarshi qurol ko'tarishi va uni qatl ettirishidagi bosh sabab nima?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Otasi tomonidan davlat ishlaridan butunlay chetlatilib, zindonga tashlanganligi",
+      "Ulug'bekning Samarqand taxtini boshqa nevarasiga vasiyat qilib qoldirgani",
+      "Movarounnahrda qurg'oqchilik boshlanib, xalqning xonga qarshi qo'zg'olon ko'targani",
+      "Hokimiyatparastlik, taxt vasvasasi va mutaassib shayxlar, xurofotparast guruhlarning ta'siriga tushib qolishi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 3,
+    "explanation": "Abdullatif — shaxsiy hirs va taxt talvasasida otasining qotiliga aylangan 'padarkush' bo'lib, uning ortida ilm-fanga dushman bo'lgan reaksion ulamolar turgan edi."
   },
   {
     "id": "q_ulugbek-xazinasi_3",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Ali Qushchining romandagi eng buyuk ma'naviy xizmati va jasorati nimadan iborat?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Ulug'bek o'ldirilgach, uning yulduzlar jadvali va bebaho qo'lyozmalarini o'lim xavfi ostida asrab qolib, dunyo sivilizatsiyasiga yetkazishi",
+      "Abdullatifga qarshi lashkar to'plab, Samarqand taxtini qaytarib olishi",
+      "Rasadxonani yangi texnik uskunalar bilan boyitib, yangi yulduzlarni kashf qilishi",
+      "Shohona farmonlar yozib, barcha madrasalarga o'qituvchi tayinlashi"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 0,
+    "explanation": "Ali Qushchi ustozining o'limidan so'ng uning xazinasini — ilmiy asarlarini mutaassiblar changalidan qutqarib, o'z hayotini tikib, fanning tirik qolishini ta'minlaydi."
   },
   {
     "id": "q_ulugbek-xazinasi_4",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Mirzo Ulug'bekning fojiali qatl etilish sahnasida qahramonning qaysi buyuk fazilati ochib beriladi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Jallodlarga shohona boyliklar va'da qilib, o'z hayotini saqlab qolishga urinishi",
+      "O'lim oldida ham o'z ilmiy e'tiqodi, haqiqat va insoniylik sha'niga sodiq qolgan yuksak donishmandlik va matonati",
+      "O'g'li Abdullatifga qarg'ishlar yog'dirib, qasos olishga chaqirishi",
+      "Barcha ilmiy kitoblarini zudlik bilan yoqib yuborishni buyurishi"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "Ulug'bek o'lim qarshisida ham yovuzlik va jaholat oldida tiz cho'kmaydi; u jismonan o'ldirilsa-da, ma'naviy jihatdan jaholat ustidan mutlaq g'alaba qozonadi."
   },
   {
     "id": "q_ulugbek-xazinasi_5",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Romanda rasadxonaning mutaassiblar tomonidan vayron qilinishi qaysi umuminsoniy fojeani ifodalaydi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Samarqand shahrining arxitektura go'zalligiga yetkazilgan kichik zararni",
+      "G'isht va yog'och materiallarining qimmatlashib ketganligini",
+      "Jaholat, mutaassiblik va xurofotning aql-zakovat, fan va taraqqiyot ustiga bostirib kelishi fojiasini",
+      "Shaharda yangi bozorlar qurish uchun yer maydonining bo'shatilganini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 2,
+    "explanation": "Rasadxonaning buzilishi — nafaqat temuriylar, balki butun Sharq Uyg'onish davrining fojiali yakuni va ma'rifatsizlik botqog'iga cho'kishning qonli ramzidir."
   },
   {
     "id": "q_ulugbek-xazinasi_6",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Qalandar Qarnoqiy obrazining asardagi o'rni qaysi g'oyani ilgari suradi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Xalq orasidagi soxta darveshlik va tilanchilik kasbining afzalliklarini",
+      "Rasadxonadagi asboblarni sotish orqali foyda ko'rish rejasini",
+      "Samarqanddan chet elga qochib ketgan xoinlar guruhini",
+      "Oddiy xalq vakillarining ham haqiqat, adolat va Ulug'bek shaxsiga bo'lgan cheksiz sadoqatini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Qalandar Qarnoqiy — donishmand xalq vakili bo'lib, u Ulug'bek ilmiga va kitoblariga chin yurakdan ixlos qo'ygan fidoiylar timsolidir."
   },
   {
     "id": "q_ulugbek-xazinasi_7",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Mavlono Muhiddin obrazining asardagi roli nima?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Din niqobi ostida o'z manfaati va kibri yo'lida ilmga xiyonat qilgan munofiq ulamolar vakili sifatida",
+      "Ulug'bekka oxirigacha sadoqat bilan xizmat qilgan olim sifatida",
+      "Ali Qushchiga chet tillarini o'rgatgan tarjimon sifatida",
+      "Samarqand arkida kutubxonachi bo'lib ishlagan xizmatchi sifatida"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 0,
+    "explanation": "Mavlono Muhiddin va uning atrofidagilar o'zlarining shaxsiy hasadi tufayli Ulug'bekni 'kofir' deb e'lon qilgan qora kuchlar yetakchisidir."
   },
   {
     "id": "q_ulugbek-xazinasi_8",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ulug'bekning padarkush o'g'li Abdullatifning oxir-oqibat o'z navkarlari tomonidan o'ldirilishi qanday xulosaga olib keladi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Samarqandda harbiylar o'rtasida intizomning yo'qolganiga",
+      "Adolatsizlik va padarkushlik hech qachon uzoqqa bormasligi, xiyonatning jazosi muqarrar ekanligiga",
+      "Abdullatifning tasodifan daryoga cho'kib ketganiga",
+      "Padarkushlarning davlatni eng yaxshi boshqaruvchi shaxslar ekanligiga"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 1,
+    "explanation": "Tarix va roman mantig'i ko'rsatadiki, o'z otasining qoniga qo'l botirgan zolim hech qachon baxt topolmaydi; Abdullatif atigi olti oy o'tib qonli jazo topadi."
   },
   {
     "id": "q_ulugbek-xazinasi_9",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Odil Yoqubov asarda shohlik va olimlik ziddiyatini qanday talqin qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Shoh bo'lgan insonning ilm bilan shug'ullanishi qat'iyan taqiqlanganligi",
+      "Ulug'bekning faqat shohlik dabdabasini yaxshi ko'rganligi",
+      "Ulug'bekning butun umri shohlik taxti bilan ilm osmonidagi yulduzlar o'rtasidagi fojiali kurashdan iborat bo'lgani, uning qalbida olimlik ustun kelgani",
+      "Olimlik faqat kambag'al odamlar shug'ullanishi kerak bo'lgan soha ekanligi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 2,
+    "explanation": "Ulug'bek shoh bo'lishga majbur edi, lekin uning ruhi samoviy haqiqatlarga, fan va ma'rifatga oshiq edi. Aynan shu ziddiyat uning taqdirini fojiali qildi."
   },
   {
     "id": "q_ulugbek-xazinasi_10",
     "bookId": "ulugbek-xazinasi",
     "book_id": "ulugbek-xazinasi",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "'Ulug'bek xazinasi' romanining o'zbek adabiyotidagi bosh yutug'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat astronomiya atamalarining to'liq lug'atini berganligi",
+      "Asardagi barcha voqealarning faqat bir xonada yuz berishi",
+      "Kitobning faqat bolalar uchun mo'ljallangan sodda ertak ekanligi",
+      "Tarixiy shaxs qismatini yuksak dramatik keskinlik, falsafiy teranlik va fojiaviy ko'lam bilan tasvirlab berganligi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 3,
+    "explanation": "Odil Yoqubov tarixiy fojiani inson ruhiyati, vijdon va xiyonatning abadiy to'qnashuvi darajasiga ko'targan jahon miqyosidagi buyuk asar yaratdi."
   },
   {
     "id": "q_ikki-eshik-orasi_1",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "O'tkir Hoshimovning 'Ikki eshik orasi' romanidagi 'ikki eshik' falsafasi nimani anglatadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Hovlining oldi va orqa darvozasini",
+      "Frontga ketish va qaytish poyezdi eshiklarini",
+      "Shahardan qishloqqa boradigan ikkita asosiy yo'lni",
+      "Tug'ilish va o'lim — insonning bu foniy dunyoga kelib-ketishi, qisqa umr davomida inson bo'lib qolish sinovini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "'Bu dunyoda ikki eshik orasi bor: biri kirish, biri chiqish. Muhimi — shu ikki eshik oralig'idagi qisqa yo'lni qanday bosib o'tishdadir.'"
   },
   {
     "id": "q_ikki-eshik-orasi_2",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Kimsan obrazining frontga ketib bedarak ketishi va Robiya qismati qaysi umumxalq fojeasini ko'rsatadi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Ikkinchi jahon urushining minglab o'zbek oilalari yostig'ini quritgan, sevgililarni ayirgan dahshatli jarohatini",
+      "Kimsanning chet elda yashashni afzal ko'rganini",
+      "Robiyaning o'qishni davom ettirish uchun shaharga ketganini",
+      "Qishloqda paxta hosili kamayib ketganini"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 0,
+    "explanation": "Kimsan va Robiya muhabbati urush alangasi ostida qoldi; Robiyaning sadoqati va umrbod kutishi butun urush davri o'zbek ayollarining sabr ramzidir."
   },
   {
     "id": "q_ikki-eshik-orasi_3",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Umar zakunchi obrazining asardagi o'rni qaysi illatni fosh etadi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Faqat qishloq yoshlariga qonunlarni tushuntirgan adolatli maslahatchi obrazini",
+      "Urush yillarida xalq boshiga kulfat tushganida ham o'z qornini, amalini o'ylagan, qonun niqobi ostida odamlarga zulm qilgan sotqinlik va munofiqlikni",
+      "Frontdagi askarlarga eng ko'p yordam yuborgan fidoiy inson timsolini",
+      "Kimsanni qutqarish uchun joni kuygan do'st qiyofasini"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 1,
+    "explanation": "Umar zakunchi — xalq dardiga befarq, fursatparast, birovlarning baxtsizligi evaziga boylik va mansab orttiruvchi jirkanch kimsadir."
   },
   {
     "id": "q_ikki-eshik-orasi_4",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Qora amma obrazining asardagi ma'naviy kuchi nimada namoyon bo'ladi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Qishloqdagi barcha boyliklarni o'z qo'lida to'plaganida",
+      "Harbiy komissariatda xizmat qilganida",
+      "O'zbek onalarining mehr-oqibati, o'z bolasidan ayrilsa ham boshqalarning yetimlarini bag'riga bosadigan buyuk qalb saxovatida",
+      "Faqat o'z shaxsiy manfaatini himoya qilganida"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 2,
+    "explanation": "Qora amma — butun bir xalqning onasidir; uning sabri, yetimlarga bergan mehr va noni o'zbek xalqining yengilmas insonparvarligini ko'rsatadi."
   },
   {
     "id": "q_ikki-eshik-orasi_5",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Shomurodning fojiali qismati kitobxonga qanday saboq beradi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Har doim faqat amaldorlarning gapiga ishonish kerakligini",
+      "Urush yillarida faqat uyda yashirinib yotish zarurligini",
+      "Qishloqda yashash shahardan ancha qulay ekanini",
+      "G'aflatda qolgan, do'st bilan dushmanni ajrata olmagan insonning o'z yaqinlariga yetkazadigan azoblarini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 3,
+    "explanation": "Shomurod fojiasi — insoniy ojizliklar, qasos va kechirim o'rtasidagi og'ir ruhiy kurashning yorqin ifodasidir."
   },
   {
     "id": "q_ikki-eshik-orasi_6",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda O'tkir Hoshimov tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 0,
+    "explanation": "O'tkir Hoshimov ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_ikki-eshik-orasi_7",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 1,
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_ikki-eshik-orasi_8",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 2,
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_ikki-eshik-orasi_9",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini",
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 3,
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_ikki-eshik-orasi_10",
     "bookId": "ikki-eshik-orasi",
     "book_id": "ikki-eshik-orasi",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 0,
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_dunyoning-ishlari_1",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "O'tkir Hoshimovning 'Dunyoning ishlari' qissasining bosh markaziy qahramoni kim?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Muallifning o'z onasi va uning timsolida butun fidoiy, mehribon, o'zini farzandlari uchun qurbon qilgan O'zbek Onasi",
+      "Toshkent shahridagi maktab direktori",
+      "Qishloqqa yangi kelgan yosh muallim",
+      "Harbiy zavodda ishlagan usta"
     ],
     "correctAnswer": 0,
-    "explanation": "Ushbu asarda O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Asar — muallifning marhum onasi xotirasiga bag'ishlangan muqaddas marsiya va barcha onalarga bo'lgan yuksak ehtirom ifodasidir."
   },
   {
     "id": "q_dunyoning-ishlari_2",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "'Iltijo' hikoyasida yozuvchi onasining qaysi fazilatini cheksiz armon bilan eslaydi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Onasining juda qattiqqo'l va zolim bo'lganini",
+      "Ona o'z dardini hech qachon farzandlariga bildirmagani, o'zi yemay yedirgani va bolalari ulg'aygach unga yetarlicha vaqt ajrata olmaganlik pushaymonini",
+      "Onasining faqat qimmatbaho zargarlik buyumlarini yaxshi ko'rganini",
+      "Shaharda katta hovli sotib olish haqidagi talablarini"
     ],
     "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "explanation": "Muallif ulg'ayib, ish bilan band bo'lib onasiga e'tibor bermagani, endi esa onasining bir lahzalik ovoziga zor ekanini yig'lab qalamga oladi."
   },
   {
     "id": "q_dunyoning-ishlari_3",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "'Oq marmar, qora marmar' lavhasidagi chuqur falsafiy xulosa nima?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Marmartoshlarning qaysi ranglisi quyoshda kamroq qizishini o'rganish",
+      "Qabristonlarni doimo hashamatli qilish kerakligi",
+      "Ona qabriga qo'yilgan eng qimmat marmartosh ham uning tirikligida berilmagan bir dona mehrli so'z va e'tibor o'rnini bosa olmasligi",
+      "Marmar konlarining qayerda joylashgani haqidagi ma'lumot"
     ],
     "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "explanation": "'Onalarni tirikligida qadrlang, vafotidan keyin qo'yilgan qimmatbaho marmar ularga kerak emas, ularga tiriklikdagi mehringiz kerak edi.'"
   },
   {
     "id": "q_dunyoning-ishlari_4",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "'Oltin baldoq' hikoyasida onaning qaysi buyuk fidoiyligi ochib beriladi?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Oltin baldoqlarini qo'shnilardan yashirib sandiqda saqlagani",
+      "Bozordan yangi tilla taqinchoqlar sotib olish orzusi",
+      "Oltin baldoqni daryoga tushirib yuborgani",
+      "Qiyin urush yillarida bolalarini ochlikdan qutqarish uchun o'zining yagona to'y yodgorligi bo'lgan oltin baldog'ini joni og'rib bo'lsa ham sotishga majbur bo'lgani"
     ],
     "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Ona bolalari tirik qolishi uchun o'zining eng muqaddas xotirasini qurbon qiladi; bu sahna ona mehrining eng yuksak cho'qqisidir."
   },
   {
     "id": "q_dunyoning-ishlari_5",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Asarning tili va uslubidagi o'ziga xos samimiyat nimadan kelib chiqadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yozuvchining qalb tubidan chiqqan rostgo'ylik, xalqona soddalik, ko'z yoshi va lutf aralash bitilgan xotiralaridan",
+      "Faqat ilmiy atamalar va rasmiy hujjatlar ishlatilganidan",
+      "Voqealarning chet el adabiyotidan to'liq ko'chirilganidan",
+      "Hech qanday badiiy his-tuyg'usiz yozilganidan"
     ],
     "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "explanation": "O'tkir Hoshimov ushbu asarni yurak qoni bilan yozgan; har bir o'quvchi bu kitobda o'z onasining mehr to'la ko'zlarini ko'radi."
   },
   {
     "id": "q_dunyoning-ishlari_6",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda O'tkir Hoshimov tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
     "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "explanation": "O'tkir Hoshimov ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_dunyoning-ishlari_7",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
     "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_dunyoning-ishlari_8",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga"
     ],
     "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_dunyoning-ishlari_9",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
     "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_dunyoning-ishlari_10",
     "bookId": "dunyoning-ishlari",
     "book_id": "dunyoning-ishlari",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
     "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_bahor-qaytmaydi_1",
@@ -6508,12 +6648,12 @@ export const questions = [
     "book_id": "bahor-qaytmaydi",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -6523,11 +6663,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -6538,10 +6678,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -6550,12 +6690,12 @@ export const questions = [
     "book_id": "bahor-qaytmaydi",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -6564,12 +6704,12 @@ export const questions = [
     "book_id": "bahor-qaytmaydi",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -6579,11 +6719,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -6594,10 +6734,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -6606,12 +6746,12 @@ export const questions = [
     "book_id": "bahor-qaytmaydi",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -6620,12 +6760,12 @@ export const questions = [
     "book_id": "bahor-qaytmaydi",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -6635,11 +6775,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -6648,12 +6788,12 @@ export const questions = [
     "book_id": "tushda-kechgan-umrlar",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda O'tkir Hoshimov inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -6663,11 +6803,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -6676,12 +6816,12 @@ export const questions = [
     "book_id": "tushda-kechgan-umrlar",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -6691,11 +6831,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -6704,12 +6844,12 @@ export const questions = [
     "book_id": "tushda-kechgan-umrlar",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -6719,11 +6859,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -6732,12 +6872,12 @@ export const questions = [
     "book_id": "tushda-kechgan-umrlar",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -6747,11 +6887,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -6760,12 +6900,12 @@ export const questions = [
     "book_id": "tushda-kechgan-umrlar",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -6775,11 +6915,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -6788,12 +6928,12 @@ export const questions = [
     "book_id": "ufq",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Said Ahmad inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -6802,12 +6942,12 @@ export const questions = [
     "book_id": "ufq",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -6817,11 +6957,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -6832,10 +6972,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -6844,12 +6984,12 @@ export const questions = [
     "book_id": "ufq",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -6858,12 +6998,12 @@ export const questions = [
     "book_id": "ufq",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -6873,11 +7013,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -6888,10 +7028,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -6900,12 +7040,12 @@ export const questions = [
     "book_id": "ufq",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -6914,12 +7054,12 @@ export const questions = [
     "book_id": "ufq",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -7068,12 +7208,12 @@ export const questions = [
     "book_id": "sariq-devni-minib",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Xudoyberdi To'xtaboyev inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -7083,11 +7223,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -7098,10 +7238,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -7110,12 +7250,12 @@ export const questions = [
     "book_id": "sariq-devni-minib",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -7124,12 +7264,12 @@ export const questions = [
     "book_id": "sariq-devni-minib",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -7139,11 +7279,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -7154,10 +7294,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -7166,12 +7306,12 @@ export const questions = [
     "book_id": "sariq-devni-minib",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -7180,12 +7320,12 @@ export const questions = [
     "book_id": "sariq-devni-minib",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -7195,11 +7335,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -7208,12 +7348,12 @@ export const questions = [
     "book_id": "lolazor",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Murod Muhammad Do'st inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -7223,11 +7363,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -7236,12 +7376,12 @@ export const questions = [
     "book_id": "lolazor",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -7251,11 +7391,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -7264,12 +7404,12 @@ export const questions = [
     "book_id": "lolazor",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -7279,11 +7419,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -7292,12 +7432,12 @@ export const questions = [
     "book_id": "lolazor",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -7307,11 +7447,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -7320,12 +7460,12 @@ export const questions = [
     "book_id": "lolazor",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -7335,11 +7475,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -7348,12 +7488,12 @@ export const questions = [
     "book_id": "kafansiz-komilganlar",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Shukrullo inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -7362,12 +7502,12 @@ export const questions = [
     "book_id": "kafansiz-komilganlar",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -7377,11 +7517,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -7392,10 +7532,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -7404,12 +7544,12 @@ export const questions = [
     "book_id": "kafansiz-komilganlar",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -7418,12 +7558,12 @@ export const questions = [
     "book_id": "kafansiz-komilganlar",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -7433,11 +7573,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -7448,10 +7588,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -7460,12 +7600,12 @@ export const questions = [
     "book_id": "kafansiz-komilganlar",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -7474,433 +7614,433 @@ export const questions = [
     "book_id": "kafansiz-komilganlar",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
     "id": "q_temur-tuzuklari_1",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Amir Temurning davlat boshqaruvi va saltanat mustahkamligidagi bosh shiori nima bo'lgan?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "'Kuch — adolatdadir' (Rasti — rusti)",
+      "'Hokimiyat faqat qilich bilan saqlanadi'",
+      "'Boylik to'plash davlatning yagona maqsadidir'",
+      "'Barcha buyruqlar faqat harbiy lashkarga tegishlidir'"
     ],
     "correctAnswer": 0,
-    "explanation": "Ushbu asarda Amir Temur inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Amir Temur butun faoliyatida 'Kuch — adolatdadir' tamoyiliga tayangan; adolatsiz davlat qudratli bo'lolmasligini vasiyat qilgan."
   },
   {
     "id": "q_temur-tuzuklari_2",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Tuzuklarda davlat ustunini tashkil etuvchi necha toifa (tabaqa) belgilab berilgan?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Faqat 2 toifa: shoh va uning xizmatkorlari",
+      "12 toifa (Sayyidlar, ulamolar, mashoyixlar, lashkarboshilar, oddiy askarlar, donishmandlar va boshqalar)",
+      "7 ta harbiy qo'shin guruhi",
+      "100 ta savdogarlar uyushmasi"
     ],
     "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "explanation": "Temur davlatni mustahkam 12 tabaqaga bo'lib, har birining jamiyatdagi o'rni, huquqlari va mas'uliyatini qat'iy belgilab qo'ygan."
   },
   {
     "id": "q_temur-tuzuklari_3",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Amir Temurning 'Kengash va tadbir' haqidagi o'giti qanday xulosani beradi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "'Hech kim bilan maslahatlashmasdan, faqat o'z bilganingcha harakat qil'",
+      "'Urushda faqat tasodifiy omadga ishonish kerak'",
+      "'Yuz ming otliq askar qila olmagan ishni bir to'g'ri tadbir va kengash bilan amalga oshirish mumkin'",
+      "'Kengashlar faqat jang tugagandan keyin o'tkaziladi'"
     ],
     "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "explanation": "Temur aql, tadbirkorlik va tajribali kishilar bilan kengashishni yuz minglab lashkardan ustun qo'ygan buyuk strateg edi."
   },
   {
     "id": "q_temur-tuzuklari_4",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Vazirlar va amaldorlarni tayinlashda Amir Temur qaysi to'rt sifatga alohida e'tibor qaratgan?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Faqat xonadonga yaqin qarindoshlik rishtalari",
+      "Eng ko'p oltin to'lay olish qobiliyati",
+      "Chet tillarini mukammal bilish darajasi",
+      "Asillik va toza nasl, aql-idrok, xalq ahvolidan xabardorlik hamda sabr-chidam"
     ],
     "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Tuzuklarda vazir adolatli, pokiza, xalq dardi bilan yashovchi va podshohga to'g'ri so'zlay oladigan mard inson bo'lishi talab qilingan."
   },
   {
     "id": "q_temur-tuzuklari_5",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Amir Temurning oddiy fuqarolar va dehqonlarga munosabati Tuzuklarda qanday ifodalangan?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "'Birovning bir bosh piyozini olgan amaldorga qattiq jazo berilsin; dehqonni xonavayron qilish davlatni xonavayron qilish demakdir'",
+      "Dehqonlarning barcha hosilini davlat xazinasiga tekinga musodara qilish",
+      "Faqat shahar aholisiga erkinlik berish",
+      "Qishloq aholisidan ikki barobar soliq undirish"
     ],
     "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "explanation": "Temur fuqaro osoyishtaligi saltanat barqarorligining asosi ekanini bilgan; zulm qilgan amaldorlarni qattiq jazolagan."
   },
   {
     "id": "q_temur-tuzuklari_6",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Amir Temur tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
     "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "explanation": "Amir Temur ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_temur-tuzuklari_7",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
     "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_temur-tuzuklari_8",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga"
     ],
     "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_temur-tuzuklari_9",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
     "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_temur-tuzuklari_10",
     "bookId": "temur-tuzuklari",
     "book_id": "temur-tuzuklari",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
     "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_boburnoma_1",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Zahiriddin Muhammad Boburning 'Boburnoma' asari qaysi janrning jahon miqyosidagi nodir durdonasi hisoblanadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Faqat to'qima ertaklar to'plami",
+      "Avtobiografik, tarixiy-memuar va qomusiy qomusiy asar",
+      "Harbiy nizomlar va qonunlar to'plami",
+      "Falsafiy dostonlar majmuasi"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Zahiriddin Muhammad Bobur inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 1,
+    "explanation": "'Boburnoma' — Boburning 12 yoshida taxtga o'tirganidan boshlab umrining oxirigacha kechgan voqealar xolis, haqqoniy va keng qamrovda bitilgan jahon durdonasidir."
   },
   {
     "id": "q_boburnoma_2",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Boburning Farg'ona vodiysi, Samarqand, Kobul va Hindiston tabiatini tasvirlashdagi mahorati nimada ko'rinadi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Faqat shohona saroylarning oltin bezaklarini sanab o'tishida",
+      "Barcha shaharlarni bir xil qilib tasvirlashida",
+      "O'simliklar, hayvonot olami, ob-havo va mevalarning xususiyatlarini aniq ilmiy-kuzatuvchanlik va badiiy nafosat bilan chizib berganida",
+      "Hech qanday geografik nomlarni keltirmasligida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 2,
+    "explanation": "Bobur geograf, botanik va etnograf olimdek har bir o'lkaning o'ziga xosligi, hatto qovunning turlari va tog' yo'llarini aniq bayon etadi."
   },
   {
     "id": "q_boburnoma_3",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Boburning o'z kamchiliklari va xatolarini ham ochiq yozishi asarga qanday xususiyat bag'ishlaydi?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Kitobxonning Boburga nisbatan ishonchini yo'qotishini",
+      "Tarixchilarning asarni tanqid qilishiga sabab bo'lganini",
+      "Asarning faqat shaxsiy sirlar ro'yxatiga aylanib qolganini",
+      "Mislsiz haqqoniylik, samimiyat va adib shaxsining yuksak ma'naviy buyukligini"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 3,
+    "explanation": "Sharq hukmdorlari ichida o'z mag'lubiyati va pushaymonliklarini ochiq tan olib yozgan kam sonli daholardan biri Bobur Mirzodir."
   },
   {
     "id": "q_boburnoma_4",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Boburning Alisher Navoiy haqidagi xotiralari qaysi jihati bilan qimmatlidir?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Navoiyning nafaqat buyuk shoir, balki beqiyos saxovatli inson, san'at va ilm ahlining beminnat homiysi bo'lganini aniq dalillar bilan yoritgani uchun",
+      "Navoiy bilan birga Hindistonga harbiy yurish qilgani haqidagi ma'lumotlari uchun",
+      "Navoiyning barcha she'rlarini faqat o'zi tahrir qilganini da'vo qilgani uchun",
+      "Navoiyning qayerda tug'ilganini yashirgani uchun"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 0,
+    "explanation": "Boburning Navoiy haqidagi mulohazalari adabiyotshunoslikdagi eng xolis va qimmatli tarixiy guvohliklardan biridir."
   },
   {
     "id": "q_boburnoma_5",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "'Boburnoma' orqali Bobur shaxsiyatining qaysi ikki buyuk qirrasi bir-biri bilan uyg'unlashadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Faqat zolim hukmdor bilan qasoskor sarkarda timsoli",
+      "Qat'iyatli sarkarda va davlat arbobi bilan nozikta'b lirik shoir va donishmand inson qiyofasi",
+      "Dengizchi sayyoh bilan savdogar tijoratchi qiyofasi",
+      "Kosib hunarmand bilan zargar ustasi timsoli"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 1,
+    "explanation": "Bobur qilich bilan saltanat qurdi, qalam bilan esa o'lmas ma'naviy meros qoldirdi; bu ikki qudrat uning shaxsida uyg'unlashgan."
   },
   {
     "id": "q_boburnoma_6",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Zahiriddin Muhammad Bobur tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "Zahiriddin Muhammad Bobur ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_boburnoma_7",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 3,
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_boburnoma_8",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga",
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 0,
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_boburnoma_9",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 1,
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_boburnoma_10",
     "bookId": "boburnoma",
     "book_id": "boburnoma",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 2,
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_qutadgu-bilig_1",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Yusuf Xos Hojibning 'Qutadg'u bilig' asari qanday ma'noni anglatadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "'Shohlarning harbiy sirlari kitobi'",
+      "'Qadimiy dostonlar to'plami'",
+      "'Saodatga eltuvchi bilim' (Baxt beruvchi aql)",
+      "'Tijorat va boylik qonunlari'"
     ],
-    "correctAnswer": 0,
-    "explanation": "Ushbu asarda Yusuf Xos Hojib inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "correctAnswer": 2,
+    "explanation": "'Qut' — saodat, baxt, davlat; 'bilig' — ilm, aql, ma'rifat. Ya'ni insonni ikki dunyoda saodatli qiluvchi bilim."
   },
   {
     "id": "q_qutadgu-bilig_2",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Dostondagi to'rt asosiy ramziy obraz va ularning timsoli qaysi javobda to'g'ri ko'rsatilgan?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Kuntug'di — Boylik, Oyto'ldi — Urush, O'gdulmish — Kibr, O'zg'urmish — G'azab",
+      "Kuntug'di — Podshoh, Oyto'ldi — Vazir, O'gdulmish — Askarlar, O'zg'urmish — Dehqonlar",
+      "Kuntug'di — Quyosh, Oyto'ldi — Oy, O'gdulmish — Shamol, O'zg'urmish — Tuproq",
+      "Kuntug'di — Adolat, Oyto'ldi — Davlat (Baxt), O'gdulmish — Aql, O'zg'urmish — Qanoat (Oxirat)"
     ],
-    "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "correctAnswer": 3,
+    "explanation": "Asar ushbu to'rt falsafiy timsolning savol-javoblari va bahslari orqali ideal davlat va komil inson modelini yaratadi."
   },
   {
     "id": "q_qutadgu-bilig_3",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Kuntug'di (hukmdor) nima uchun o'ziga taxt poyida adolat tarozisini o'rnatgan?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Har qanday hukmdor o'z fuqarolariga — boy yoki kambag'al bo'lsin, teng va qat'iy adolat bilan hukm yuritishi shartligini ko'rsatish uchun",
+      "Faqat oltin va tangalarning vaznini o'lchash uchun",
+      "Dushman davlatlardan kelgan elchilarni qo'rqitish uchun",
+      "Saroy me'morchiligining chiroyli bo'lishi uchun"
     ],
-    "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "correctAnswer": 0,
+    "explanation": "Kuntug'di adolat timsolidir: 'Agar davlat adolat ustiga qurilmasa, u uzoq yashay olmaydi.'"
   },
   {
     "id": "q_qutadgu-bilig_4",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "O'gdulmish obrazining jamiyatdagi eng katta xizmati nima?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Barcha qo'shinlarni jangga boshlab borish",
+      "Aql, farosat va tadbirkorlik orqali davlat ishlarini tartibga solish va xalqni ma'rifatli qilish",
+      "Bozorlardagi narx-navoni o'z ixtiyoricha ko'tarish",
+      "Faqat chet el sayohatlarida qatnashish"
     ],
-    "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "correctAnswer": 1,
+    "explanation": "O'gdulmish aql timsolidir; u shohga eng oqilona maslahatlarni berib, zulmning oldini oladi."
   },
   {
     "id": "q_qutadgu-bilig_5",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "'Qutadg'u bilig' asarining turkiy xalqlar tarixidagi eng ulkan o'rni nimada?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Faqat tibbiyotga oid retseptlar to'plami ekanligida",
+      "Xitoy tilidan to'g'ridan-to'g'ri qilingan tarjima ekanligida",
+      "Islomiy davr turkiy tilida yozilgan ilk buyuk axloqiy-falsafiy va davlatchilik qomusi ekanligida",
+      "Faqat ovchilik qoidalarini o'rgatuvchi qo'llanma ekanligida"
     ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "correctAnswer": 2,
+    "explanation": "1069-yilda yozilgan ushbu doston turkiy adabiyot, falsafa va siyosiy tafakkurning poydevor asaridir."
   },
   {
     "id": "q_qutadgu-bilig_6",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Yusuf Xos Hojib tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi"
     ],
-    "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "correctAnswer": 3,
+    "explanation": "Yusuf Xos Hojib ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_qutadgu-bilig_7",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
-    "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "correctAnswer": 0,
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_qutadgu-bilig_8",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga"
     ],
-    "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "correctAnswer": 1,
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_qutadgu-bilig_9",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
-    "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "correctAnswer": 2,
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_qutadgu-bilig_10",
     "bookId": "qutadgu-bilig",
     "book_id": "qutadgu-bilig",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida"
     ],
-    "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "correctAnswer": 3,
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_hamsa_1",
@@ -7908,12 +8048,12 @@ export const questions = [
     "book_id": "hamsa",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Alisher Navoiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -7922,12 +8062,12 @@ export const questions = [
     "book_id": "hamsa",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -7937,11 +8077,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -7952,10 +8092,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -7964,12 +8104,12 @@ export const questions = [
     "book_id": "hamsa",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -7978,12 +8118,12 @@ export const questions = [
     "book_id": "hamsa",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -7993,11 +8133,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -8008,10 +8148,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -8020,12 +8160,12 @@ export const questions = [
     "book_id": "hamsa",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -8034,153 +8174,153 @@ export const questions = [
     "book_id": "hamsa",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
     "id": "q_lison-ut-tayr_1",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
+    "question": "Alisher Navoiyning 'Lison ut-tayr' (Qush tili) dostoni qanday falsafiy-tasavvufiy asar hisoblanadi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
-      "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
-      "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Inson qalbining Haqqa (Simurg'ga) yetishish yo'lidagi nafs, dunyo vasvasalari bilan kurashi va o'zlikni anglash safari haqidagi allegorik doston",
+      "Qushlarning biologik turlari va ularning sayr qilish xaritasini o'rganuvchi kitob",
+      "Faqat ovchi qushlarni tarbiyalash qoidalari",
+      "Xuroson o'rmonlaridagi qushlarning qadimiy afsonasi"
     ],
     "correctAnswer": 0,
-    "explanation": "Ushbu asarda Alisher Navoiy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
+    "explanation": "Farididdin Attor asaridan ilhomlangan Navoiy qushlar safari orqali inson ruhining komillik sari bosib o'tadigan tasavvufiy yo'lini (suluk) tasvirlaydi."
   },
   {
     "id": "q_lison-ut-tayr_2",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
+    "question": "Dostonda qushlarga yo'lboshchilik qilgan 'Hudhud' qaysi timsolni ifodalaydi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
-      "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Faqat saroy xabarchisini",
+      "Komil ustoz (piri komil), ma'naviy yo'lboshchi va qalb ko'zi ochiq donishmand timsolini",
+      "Eng tez uchar ovchi qushni",
+      "Boshqa qushlarga dushman bo'lgan ayg'oqchini"
     ],
     "correctAnswer": 1,
-    "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
+    "explanation": "Hudhud — soliklarni (yo'lovchilarni) Haq tomon boshlovchi, ularning shubha va bahonalariga hikmat bilan javob beruvchi komil murshiddir."
   },
   {
     "id": "q_lison-ut-tayr_3",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
+    "question": "Qushlar Simurg'ni izlab bosib o'tgan 7 vodiy qaysi javobda to'g'ri ko'rsatilgan?",
     "options": [
-      "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Tog', Daryo, O'rmon, Cho'l, Shahar, Qasr, Dengiz",
+      "Sabr, Mehnat, Ilm, Boylik, Shon-shuhrat, Quvvat, G'alaba",
+      "Talab, Ishq, Ma'rifat, Istig'no (Behojatlik), Tavhid (Birlik), Hayrat, Faqru Fano (Yo'qlik)",
+      "Qo'rquv, Qashshoqlik, Nodonlik, G'aflat, Hasad, Kibr, O'lim"
     ],
     "correctAnswer": 2,
-    "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
+    "explanation": "Ushbu 7 vodiy tasavvufda solikning nafsoniy illatlardan poklanib, mutlaq Haq nuriga qovushish bosqichlaridir."
   },
   {
     "id": "q_lison-ut-tayr_4",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
+    "question": "Safarning oxirida 30 ta qush (Si murg') Simurg' huzuriga yetib kelgach, ko'zguda nimani ko'radilar?",
     "options": [
-      "Faqatgina maishiy qulayliklarga intilish zarurligi",
-      "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Oltin taxtda o'tirgan afsonaviy bahaybat qushni",
+      "Boshqa sayyoralardan kelgan maxluqlarni",
+      "Sahrodagi behisob oltin tangalarni",
+      "O'zlarining aksini — ya'ni Simurg' aslida ularning o'z poklangan qalbida ekanligini"
     ],
     "correctAnswer": 3,
-    "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
+    "explanation": "Forscha 'si murg'' — 30 ta qush demakdir. Ular o'zliklarini Haqda fano qilgach, Haq nuri ularning o'z pok qalblarida ekanini kashf etadilar ('Haqni o'zingdan izla')."
   },
   {
     "id": "q_lison-ut-tayr_5",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
+    "question": "Bulbul, to'ti, tovus kabi qushlarning safardan bosh tortish bahonalari qaysi insoniy illatlarni fosh etadi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
-      "Shaharni tark etib boshqa yurtga sayohat qilishga",
-      "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Dunyo go'zalliklariga mahliyo bo'lish, o'tkinchi hoyu havas, dabdaba va nafs kishanlaridan ajrala olmaslikni",
+      "Qushlarning qanotlari sinib qolganini",
+      "Havoning juda sovuqligini",
+      "Ular uchun don-dun yetishmasligini"
     ],
     "correctAnswer": 0,
-    "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
+    "explanation": "Har bir qush bir dunyoviy bog'lanishni (Bulbul — gulni/o'tkinchi sevgini, Tovus — jannat hashamatini, To'ti — shirin nutqni) bahona qilib, oliy haqiqat yo'lidan qolishga urinadi."
   },
   {
     "id": "q_lison-ut-tayr_6",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
+    "question": "Asarda Alisher Navoiy tomonidan ilgari surilgan bosh axloqiy va ma'rifiy xulosa qaysi javobda eng aniq ifodalangan?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
-      "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Faqat shaxsiy manfaatlarni ko'zlab yashash eng to'g'ri yo'l ekani",
+      "Inson qanday murakkab sinovlarga duch kelmasin, o'z vijdoni, insoniyligi va ezgu qadriyatlariga sodiq qolishi shartligi",
+      "Jamiyatdagi barcha o'zgarishlarga nisbatan befarq bo'lish lozimligi",
+      "Moddiy boylikka erishish inson hayotining birdan-bir yagona maqsadi ekani"
     ],
     "correctAnswer": 1,
-    "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
+    "explanation": "Alisher Navoiy ushbu asar orqali inson qadr-qimmati, haqiqat yo'lidagi matonat va ma'naviy yuksaklikni ulug'laydi."
   },
   {
     "id": "q_lison-ut-tayr_7",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
+    "question": "Asarning syujet rivojida qahramonlarning ruhiy ziddiyatlari va ichki kechinmalari qaysi usul orqali yorqin ochilgan?",
     "options": [
-      "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Faqat qahramonlarning kiyim-kechaklari va tashqi ko'rinishining batafsil tavsifi orqali",
+      "Tarixiy sanalar va hujjatlarning rasmiy ro'yxati orqali",
+      "Qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va qiyin tanlovlar oldidagi ruhiy iztiroblari orqali",
+      "Hech qanday dialogsiz, faqat tabiat hodisalarini tasvirlash orqali"
     ],
     "correctAnswer": 2,
-    "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
+    "explanation": "Asarning badiiy kuchi — personajlarning ichki dunyosi, ruhiy kurashlari va ma'naviy tanlovining teran psixologik tahlil bilan ifodalanishidadir."
   },
   {
     "id": "q_lison-ut-tayr_8",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
+    "question": "Ushbu asardagi ramziy detallar va badiiy vositalar kitobxonni qanday xulosaga undaydi?",
     "options": [
-      "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
-      "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Barcha kitoblarni faqat yod olish bilan cheklanishga",
+      "Asar qahramonlarining harakatlarini tahlilsiz qabul qilishga",
+      "Badiiy adabiyotning hayotga hech qanday ta'siri yo'qligini tushunishga",
+      "Hayot hodisalariga yuzaki qaramasdan, insoniy munosabatlar va qadriyatlarning tub tagmatnini mushohada qilishga"
     ],
     "correctAnswer": 3,
-    "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
+    "explanation": "Muallif har bir ramziy timsol orqali kitobxonni chuqur tafakkur yuritishga, o'z hayotiy tamoyillarini qayta ko'rib chiqishga undaydi."
   },
   {
     "id": "q_lison-ut-tayr_9",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
+    "question": "Asarda salbiy yoki ziddiyatli personajlarning qilmishlari qaysi ijtimoiy illatni fosh etishga xizmat qiladi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
-      "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
-      "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Xudbinlik, kibr, o'zgalar dardi oldidagi loqaydlik va ma'naviy tanazzulning xatarini",
+      "Faqat qashshoqlik tufayli yuzaga keladigan vaqtinchalik xatolarni",
+      "Yoshlarning zamonaviy texnologiyalarga haddan ortiq qiziqishini",
+      "Barcha insonlarning tug'ilishidan tengsiz bo'lishi muqarrarligini"
     ],
     "correctAnswer": 0,
-    "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
+    "explanation": "Asardagi salbiy xatti-harakatlar orqali muallif insoniyatni ma'naviy qashshoqlik va vijdonsizlik keltirib chiqaradigan fojialardan ogohlantiradi."
   },
   {
     "id": "q_lison-ut-tayr_10",
     "bookId": "lison-ut-tayr",
     "book_id": "lison-ut-tayr",
-    "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
+    "question": "Asarning jahon va milliy madaniyatdagi o'lmas ahamiyati nimada namoyon bo'ladi?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
-      "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "Faqat o'z davridagi qisqa muddatli siyosiy voqealarni yoritganida",
+      "Unda ko'tarilgan ezgulik, adolat, muhabbat va insoniylik g'oyalarining zamonlar osha o'z qadrini yo'qotmasligida",
+      "Faqat ma'lum bir tor soha mutaxassislari uchungina qiziqarliligida",
+      "Uning juda oson va yengil o'qiladigan sarguzashtdan iboratligida"
     ],
     "correctAnswer": 1,
-    "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
+    "explanation": "Ushbu asar qaysi davrda o'qilmasin, inson qalbini tarbiyalovchi va tafakkurni charxlovchi mangu ma'naviy sarchashma bo'lib qolaveradi."
   },
   {
     "id": "q_siyosatnoma_1",
@@ -8188,12 +8328,12 @@ export const questions = [
     "book_id": "siyosatnoma",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Nizomulmulk inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -8203,11 +8343,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -8218,10 +8358,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -8230,12 +8370,12 @@ export const questions = [
     "book_id": "siyosatnoma",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -8244,12 +8384,12 @@ export const questions = [
     "book_id": "siyosatnoma",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -8259,11 +8399,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -8274,10 +8414,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -8286,12 +8426,12 @@ export const questions = [
     "book_id": "siyosatnoma",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -8300,12 +8440,12 @@ export const questions = [
     "book_id": "siyosatnoma",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -8315,11 +8455,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -8328,12 +8468,12 @@ export const questions = [
     "book_id": "qobusnoma",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Kaykovus inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -8343,11 +8483,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -8356,12 +8496,12 @@ export const questions = [
     "book_id": "qobusnoma",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -8371,11 +8511,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -8384,12 +8524,12 @@ export const questions = [
     "book_id": "qobusnoma",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -8399,11 +8539,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -8412,12 +8552,12 @@ export const questions = [
     "book_id": "qobusnoma",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -8427,11 +8567,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -8440,12 +8580,12 @@ export const questions = [
     "book_id": "qobusnoma",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -8455,11 +8595,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -8468,12 +8608,12 @@ export const questions = [
     "book_id": "guliston",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Sa'diy Sheroziy inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -8482,12 +8622,12 @@ export const questions = [
     "book_id": "guliston",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -8497,11 +8637,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -8512,10 +8652,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -8524,12 +8664,12 @@ export const questions = [
     "book_id": "guliston",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -8538,12 +8678,12 @@ export const questions = [
     "book_id": "guliston",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -8553,11 +8693,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -8568,10 +8708,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -8580,12 +8720,12 @@ export const questions = [
     "book_id": "guliston",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -8594,12 +8734,12 @@ export const questions = [
     "book_id": "guliston",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -8748,12 +8888,12 @@ export const questions = [
     "book_id": "chol-va-dengiz",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Ushbu asarda Ernest Xeminguey inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -8763,11 +8903,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -8778,10 +8918,10 @@ export const questions = [
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
-      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
+      "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali",
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -8790,12 +8930,12 @@ export const questions = [
     "book_id": "chol-va-dengiz",
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -8804,12 +8944,12 @@ export const questions = [
     "book_id": "chol-va-dengiz",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Savdo ishlarini to'xtatishga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -8819,11 +8959,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -8834,10 +8974,10 @@ export const questions = [
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
-      "Yangi kasb o'rganish jarayonida"
+      "Yangi kasb o'rganish jarayonida",
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 3,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -8846,12 +8986,12 @@ export const questions = [
     "book_id": "chol-va-dengiz",
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 0,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -8860,12 +9000,12 @@ export const questions = [
     "book_id": "chol-va-dengiz",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 1,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -8875,11 +9015,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -8888,12 +9028,12 @@ export const questions = [
     "book_id": "martin-iden",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Bosh qahramonning faqat moddiy boylikka erishish istagida"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Ushbu asarda Jek London inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -8903,11 +9043,11 @@ export const questions = [
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
       "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
-      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
-      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
+      "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini",
+      "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -8916,12 +9056,12 @@ export const questions = [
     "book_id": "martin-iden",
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
+      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
       "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
-      "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -8931,11 +9071,11 @@ export const questions = [
     "question": "Asarning tagmatnida (subtext) qaysi dolzarb insoniy muammo ilgari suriladi?",
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -8944,12 +9084,12 @@ export const questions = [
     "book_id": "martin-iden",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Yangi uy qurish qiyinchiliklariga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -8959,11 +9099,11 @@ export const questions = [
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
       "Mehnatsevarlikning ortib ketishini",
-      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
       "Kitob o'qishga qiziqishning yo'qligini",
-      "Sayohatlarga kam chiqishni"
+      "Sayohatlarga kam chiqishni",
+      "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -8972,12 +9112,12 @@ export const questions = [
     "book_id": "martin-iden",
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
+      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Faqat moddiy qiyinchiliklar oldida",
       "Sayohat davomidagi noqulay ob-havoda",
-      "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 0,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -8987,11 +9127,11 @@ export const questions = [
     "question": "Muallif ushbu asar orqali inson erki va erkin tafakkur haqida qanday falsafiy xulosaga keladi?",
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 1,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -9000,12 +9140,12 @@ export const questions = [
     "book_id": "martin-iden",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hayotda faqat omadga suyanish lozimligini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 2,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -9015,11 +9155,11 @@ export const questions = [
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
       "O'tmish xatolaridan to'g'ri saboq olmaslik",
-      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
       "Faqat moddiy to'kin-sochinlikka intilish",
-      "O'zgalarning maslahatini inobatga olmaslik"
+      "O'zgalarning maslahatini inobatga olmaslik",
+      "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
   },
   {
@@ -9028,12 +9168,12 @@ export const questions = [
     "book_id": "graf-monte-kristo",
     "question": "Asarning bosh g'oyaviy mantiqi va insonparvarlik falsafasi qaysi jihatda eng teran namoyon bo'ladi?",
     "options": [
-      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda",
       "Faqatgina o'sha davrdagi kundalik ro'zg'or mayda-chuydalarini tasvirlashda",
       "Voqealarning oddiy ketma-ketligini hech qanday ma'naviy xulosasiz bayon etishda",
-      "Bosh qahramonning faqat moddiy boylikka erishish istagida"
+      "Bosh qahramonning faqat moddiy boylikka erishish istagida",
+      "Qahramonlarning ruhiy kechinmalari orqali inson qadr-qimmati, haqiqat va ma'naviy yuksaklikni ulug'lashda"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Ushbu asarda Aleksandr Dyuma inson qalbining eng nozik qirralari, haqiqat va adolat yo'lidagi kurash hamda ma'naviy qadriyatlarni teran ochib beradi."
   },
   {
@@ -9042,12 +9182,12 @@ export const questions = [
     "book_id": "graf-monte-kristo",
     "question": "Asar qahramonlarining xatti-harakati va syujet rivojining sabab-oqibat mantig'i kitobxonga qanday saboq beradi?",
     "options": [
-      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Har bir qabul qilingan qaror va ma'naviy tanlov inson taqdirini belgilashi va javobgarlik yuklashini",
+      "Inson hayotida barcha narsa tasodifiy va ma'nosiz ekanligini",
       "Hech qanday harakat qilmasdan faqat taqdirga suyanish kerakligini",
       "Boshqalarning fikriga ko'r-ko'rona ergashish eng to'g'ri yo'l ekanligini"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Asar har bir shaxsiy tanlov va axloqiy harakat insonning kelajak taqdiriga chuqur ta'sir ko'rsatishini falsafiy tahlil bilan ko'rsatadi."
   },
   {
@@ -9057,11 +9197,11 @@ export const questions = [
     "question": "Muallif ushbu asarda qahramonning ichki ruhiy ziddiyatlarini ochib berishda qaysi psixologik usuldan unumli foydalanadi?",
     "options": [
       "Faqat tashqi qiyofa va kiyim-kechaklarni batafsil sanab o'tish orqali",
-      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Qahramonning o'z vijdoni, orzu-umidlari va tashqi muhit adolatsizliklari o'rtasidagi to'qnashuvni tahlil qilish orqali",
+      "Barcha qahramonlarni bir xil fikrlovchi qilib tasvirlash orqali",
       "Barcha muammolarni darhol g'ayritabiiy kuchlar yordamida hal qilish orqali"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Asarning badiiy kuchi — qahramonlarning o'z vijdoni bilan yuzma-yuz kelishi va ichki ruhiy kurashlarining yuksak mahorat bilan tasvirlanishidadir."
   },
   {
@@ -9072,10 +9212,10 @@ export const questions = [
     "options": [
       "Faqatgina maishiy qulayliklarga intilish zarurligi",
       "Odamlar o'rtasida raqobatni kuchaytirish lozimligi",
-      "O'tmish xatolaridan saboq olmaslik kerakligi",
-      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati"
+      "Insonning o'zligini anglashi, yolg'izlik va jaholatga qarshi ma'naviyat va ezgulik bilan kurashish zarurati",
+      "O'tmish xatolaridan saboq olmaslik kerakligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Asar kitobxonga insonning ma'naviy uyg'oqligi va jamiyatdagi o'rni haqida chuqur tafakkur yuritish imkonini beradi."
   },
   {
@@ -9084,12 +9224,12 @@ export const questions = [
     "book_id": "graf-monte-kristo",
     "question": "Asar syujetining burilish nuqtasida qahramon qanday axloqiy va ma'naviy sinovga duch keladi?",
     "options": [
-      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga",
       "Shaharni tark etib boshqa yurtga sayohat qilishga",
       "Savdo ishlarini to'xtatishga",
-      "Yangi uy qurish qiyinchiliklariga"
+      "Yangi uy qurish qiyinchiliklariga",
+      "O'z shaxsiy manfaati va or-nomus, burch hamda adolat o'rtasida tanlov qilish zaruratiga"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Qahramonning yuksakligi — og'ir sinov damlarida o'z vijdoni va axloqiy prinsiplariga sodiq qola olishidadir."
   },
   {
@@ -9098,12 +9238,12 @@ export const questions = [
     "book_id": "graf-monte-kristo",
     "question": "Asarda salbiy yoki ziddiyatli personajlarning xatti-harakatlari qaysi illatning jamiyatga yetkazgan zararini fosh etadi?",
     "options": [
-      "Mehnatsevarlikning ortib ketishini",
       "Xudbinlik, manfaatparastlik va boshqalarning dardi oldidagi ma'naviy sovuqqonlikni",
+      "Mehnatsevarlikning ortib ketishini",
       "Kitob o'qishga qiziqishning yo'qligini",
       "Sayohatlarga kam chiqishni"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Muallif shaxsiy manfaat yo'lida jamiyat va yaqinlariga xiyonat qiluvchi kimsalarning ma'naviy qashshoqligini ochib beradi."
   },
   {
@@ -9113,11 +9253,11 @@ export const questions = [
     "question": "Asardagi muhabbat, sadoqat va do'stlik tuyg'ulari qanday og'ir to'siqlar oldida sinovdan o'tadi?",
     "options": [
       "Faqat moddiy qiyinchiliklar oldida",
-      "Sayohat davomidagi noqulay ob-havoda",
       "Zulm, tuhmat, ayriliq va kutilmagan taqdir sinovlari qarshisida",
+      "Sayohat davomidagi noqulay ob-havoda",
       "Yangi kasb o'rganish jarayonida"
     ],
-    "correctAnswer": 2,
+    "correctAnswer": 1,
     "explanation": "Haqiqiy sadoqat va pok muhabbat har qanday jismoniy va ijtimoiy to'siqlarni yengib o'tuvchi ulkan qudratdir."
   },
   {
@@ -9128,10 +9268,10 @@ export const questions = [
     "options": [
       "Inson faqat tashqi sharoitga so'zsiz bo'ysunishi kerak",
       "Barcha qoidalar doim mukammal ekanligi",
-      "Hech qachon o'z fikrini bildirmaslik afzalligi",
-      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir"
+      "Haqiqiy erkinlik — insonning o'z vijdoni, mustaqil irodasi va ma'naviy tanloviga egaligidadir",
+      "Hech qachon o'z fikrini bildirmaslik afzalligi"
     ],
-    "correctAnswer": 3,
+    "correctAnswer": 2,
     "explanation": "Insoniy buyuklik — har qanday qiyin vaziyatda ham o'z vijdoni va mustaqil fikrlash qobiliyatini saqlab qolishidadir."
   },
   {
@@ -9140,12 +9280,12 @@ export const questions = [
     "book_id": "graf-monte-kristo",
     "question": "Asar yakunidagi xulosa kitobxon qalbida qanday teran ma'naviy xulosani shakllantiradi?",
     "options": [
-      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini",
       "Hamma narsa moddiy manfaatlarga bog'liq ekanligini",
       "Odamlarga hech qachon ishonmaslik kerakligini",
-      "Hayotda faqat omadga suyanish lozimligini"
+      "Hayotda faqat omadga suyanish lozimligini",
+      "Ezgulik, mehr-oqibat va haqiqat yo'lidagi kurash hech qachon zoe ketmasligi, mangu barhayot qolishini"
     ],
-    "correctAnswer": 0,
+    "correctAnswer": 3,
     "explanation": "Badiiy asarning bosh tarbiyaviy kuchi — insonda ezgulikka, go'zallikka va haqiqatga bo'lgan ishonchni mustahkamlashidadir."
   },
   {
@@ -9154,153 +9294,13 @@ export const questions = [
     "book_id": "graf-monte-kristo",
     "question": "Bugungi kun kitobxoni uchun ushbu asarning eng muhim amaliy va ma'naviy sabog'i nima?",
     "options": [
-      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "O'zlikni anglash, vaqt va qadriyatlarni asrash hamda yuksak insoniy fazilatlarga sodiq qolish",
+      "O'tmish xatolaridan to'g'ri saboq olmaslik",
       "Faqat moddiy to'kin-sochinlikka intilish",
       "O'zgalarning maslahatini inobatga olmaslik"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "explanation": "Klassik va zamonaviy adabiyot — bugungi kitobxonga hayot mazmunini anglashda eng ishonchli ma'naviy mayoqdir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_1",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Abdulla Qodiriyning asarni 'Mehrobdan chayon' deb nomlashidagi asosiy ramziy-falsafiy ma'no nima?",
-    "options": [
-      "Eng muqaddas dargoh niqobi ostida turib jamiyatga zahar sochuvchi munofiqlarni fosh etish",
-      "Xon saroyidagi mirzalar va din peshvolari o'rtasidagi yashirin siyosiy kurashni ko'rsatish",
-      "Qo'qon xonligidagi masjidlar va madrasalarning jamiyat hayotidagi o'rnini to'la tasvirlash",
-      "Oddiy xalq hayotining qat'iy diniy aqidalar bilan boshqarilishini realistik yoritish"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Muallif 'mehrob' (poklik va e'tiqod timsoli) hamda 'chayon' (yovuzlik va xiyonat ramzi) qarama-qarshiligi orqali dinni o'z nafsi uchun niqob qilgan kimsalarning ma'naviy xatarini ochib beradi. Boshqa variantlar davr muhitiga oid bo'lsa-da, asar nomining tub ramziy mohiyatini to'la ifodalamaydi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_2",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Salih mahdumning Ra'noga puxta ta'lim berib, so'ngra uni xonga berishga ko'nishi qaysi ziddiyatni ochadi?",
-    "options": [
-      "Xon saroyidagi amaldorlar bilan munosabatni yaxshilab, yangi davlat lavozimiga erishish rejasini",
-      "Ziyolilik va ma'rifatparvarlik bilan moddiy manfaatparastlik va xudbinlikning fojiali to'qnashuvini",
-      "Qizining xon saroyida dabdabali va to'kin hayot kechirishiga bo'lgan samimiy otalik ishonchini",
-      "Xon farmoniga mutlaqo qarshi chiqa olmaslik va taqdir oldidagi ojizlikka butunlay tan berishni"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Mahdum qiziga yaxshi tarbiya bergan bo'lsa-da, moddiy boylik va saroy dabdabasi oldida o'z axloqiy prinsiplaridan voz kechadi. Bu holat bilimli, ammo vijdoni nafsi oldida zaif kimsalarning ruhiy tanazzulini yaqqol ko'rsatadi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_3",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Anvarning Xudoyorxonga yozgan ochiq maktubida qanday axloqiy va siyosiy jasorat mujassamlashgan?",
-    "options": [
-      "Qo'qon saroyidagi barcha boshqaruv qonunlarini zudlik bilan qayta isloh qilish talabini qo'yish",
-      "Xondan o'zining shaxsiy xavfsizligini so'rab, Toshkent bekligiga tinch ko'chib ketishga ruxsat olish",
-      "Inson qadr-qimmati, shaxsiy erk va muhabbatni zolim hukmdorning mutlaq irodasidan ustun qo'yish",
-      "Saroydagi boshqa mirzalarning noqonuniy xatti-harakatlarini xonga dalillar bilan fosh etib berish"
-    ],
-    "correctAnswer": 2,
-    "explanation": "Anvar saroy mirzosi bo'lishiga qaramay, xonning zolimona haram siyosatiga ochiq qarshi chiqadi. U inson sha'ni va sevgi erkinligi har qanday shohona farmondan yuksak ekanini o'limga tik boqib isbotlaydi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_4",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Sultonali mirzoning Anvar o'rniga o'lim jazosiga rozi bo'lishidagi bosh ma'naviy sabab nima?",
-    "options": [
-      "O'z umrining oxiriga yetganini his qilib, saroy zulmiga nisbatan namoyishkorona isyon ko'rsatish",
-      "Haqiqiy do'stlik, fidoiylik va kelajak umidi bo'lgan Anvarni adolat yo'lida asrab qolish istagi",
-      "Xon tomonidan oxirgi lahzada afv etilishiga va xalq orasida buyuk obro' qozonishiga ishonish",
-      "Salih mahdum xonadoniga nisbatan yillar davomida to'plangan qarindoshlik burchini to'lash"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Sultonali mirzo Anvarni o'z farzandidek va millatning pokiza kelajagi deb biladi. Uning o'zini qurbon qilishi hech qanday shaxsiy manfaatsiz, sof fidoiylik va haqiqiy do'stlikning eng yuksak namunasidir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_5",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Ra'noning saroy dabdabasidan ko'ra o'limni afzal bilishi qahramonning qaysi fazilatini namoyon etadi?",
-    "options": [
-      "Otasining qattiqqo'l xonadon tartiblariga nisbatan o'smirlik isyoni va noroziligini ko'rsatishini",
-      "Insoniy sha'n, sevgiga sadoqat va erkin shaxs bo'lish huquqini saroy boyligidan ustun bilishini",
-      "Saroydagi boshqa kanizaklar bilan bo'ladigan xatarli raqobat va ichki fitnalardan cho'chishini",
-      "Anvar bilan birgalikda qishloqqa qochib ketish rejasining muvaffaqiyatiga to'liq ishonishini"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Ra'no shunchaki ojiza jabrdiyda emas, balki o'z or-nomusi va qalb erkinligini hech qanday boylik yoki shohona qasrga alishmaydigan mustaqil irodali ayol siymosidir."
-  },
-  {
-    "id": "q_mehrobdan-chayon_6",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asarda Xudoyorxon obrazining ochib berilgan ruhiy qiyofasi qaysi jihati bilan ajralib turadi?",
-    "options": [
-      "Mamlakatni taraqqiy ettirishni istagan, ammo atrofidagi ig'volar sababli adashgan shaxs sifatida",
-      "Xushomadgo'ylar qurshovida qolgan, o'z nafsiga qul va shubhalar girdobidagi zolim hukmdor sifatida",
-      "Faqat harbiy janglar va qo'shni davlatlar bilan chegaraviy mojarolar bilan band bo'lgan shoh sifatida",
-      "Diniy ulamolar va xalq oqsoqollarining barcha maslahatlariga qat'iy tayanuvchi odil arbob sifatida"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Qodiriy Xudoyorxonni mutlaq qudrat egasi bo'lsa-da, ichki qo'rquv, shubha va xushomadgo'ylar ta'sirida ojiz qolgan fojiali despot sifatida mahorat bilan chizadi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_7",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Nigora oyimning Ra'no taqdiridagi onalik roli va uning mahdumdan farqi nimada namoyon bo'ladi?",
-    "options": [
-      "Erining barcha qarorlarini ma'qullab, qizini tezroq saroyga jo'natish tarafdori bo'lishida",
-      "Qizining dardini qalbida his qilib, soxta obro'dan ko'ra farzand baxtini himoya qilishga intilishida",
-      "Saroydan keladigan sovg'a-salomlarni ko'paytirish uchun eriga ta'sir o'tkazishga urinishida",
-      "Qizini faqat o'ziga yaqin qarindoshlarga uzatish tarafdori bo'lgan eskirgan qarashida"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Nigora oyim mahdumning moddiy hisob-kitoblariga qarshi turib, onalik fozilligi bilan qizining pok tuyg'ularini tushunadi va uni saroy balosidan asrashga intiladi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_8",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asardagi Qilichboz boshchiligidagi sarbozlar va xalq noroziligi qanday ijtimoiy ma'noni ifodalaydi?",
-    "options": [
-      "Xonlikdagi og'ir soliqlar, adolatsizlik va zulmga qarshi xalq g'azabining muqarrar uyg'onishini",
-      "Faqat Qo'qon shahrining bozor qoidalarini o'zgartirish maqsadida qilingan stixiyali harakatni",
-      "Toshkent bekligi bilan tuzilgan maxfiy harbiy ittifoqning rejasini amalga oshirish niyatini",
-      "Saroy mirzolarining maoshlarini oshirish talabi bilan chiqqan guruhning noroziligini"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Muallif saroy ichidagi shaxsiy intriqalar bilan cheklanmay, butun jamiyatdagi ziddiyatlar va ezilgan ommaning zulmga qarshi nafratini ham real aks ettiradi."
-  },
-  {
-    "id": "q_mehrobdan-chayon_9",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Asar so'ngida Anvar va Ra'noning saroydan uzoq qishloqqa chekinishi qanday falsafiy xulosani beradi?",
-    "options": [
-      "Haqiqiy baxt va xotirjamlik saroy kibridan yiroqda, halol mehnat va pokiza muhabbatda ekanligini",
-      "Siyosiy faoliyatning mutlaqo foydasiz ekani va davlat ishlaridan doim qochish zarurligini",
-      "Shahar hayotining xavfli ekanligi va faqat qishloq xo'jaligi bilan shug'ullanish to'g'riligini",
-      "Vaqt o'tib yangi podshoh davrida saroyga qaytib kelish uchun vaqtinchalik pana joy topishni"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Qahramonlar shon-shuhrat va saroy manfaatlaridan voz kechib, ma'naviy erkinlik va oilaviy osoyishtalikni oliy qadriyat sifatida tanlaydilar."
-  },
-  {
-    "id": "q_mehrobdan-chayon_10",
-    "bookId": "mehrobdan-chayon",
-    "book_id": "mehrobdan-chayon",
-    "question": "Abdulla Qodiriy ushbu asar orqali jamiyatga qoldirgan eng bosh ma'naviy saboq nima?",
-    "options": [
-      "Har qanday shaxsiy manfaat va mansabparastlikdan ko'ra vijdon, sadoqat va adolat ustun bo'lishi kerakligi",
-      "Tarixiy voqealarni faqat saroy yilnomalari orqali o'rganish lozimligi haqidagi fikrni",
-      "Faqat xattotlik va mirzolik kasbini mukammal egallash zarurligi haqidagi tavsiyani",
-      "Saroy qonun-qoidalarini buzmasdan harakat qilish eng xavfsiz yo'l ekanligi sabog'ini"
-    ],
-    "correctAnswer": 0,
-    "explanation": "'Mehrobdan chayon' zamonlar osha insonni munofiqlikdan hazar qilishga, o'z vijdoni va sevgisiga sodiq qolishga va adolat yo'lida matonatli bo'lishga undaydi."
   }
 ];
 

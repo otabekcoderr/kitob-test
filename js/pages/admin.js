@@ -585,16 +585,21 @@ async function _renderQuestions(panel) {
 
   let qs = [];
   try {
-    for (const b of books) {
-      const bQs = await getQuestions(b.id);
-      bQs.forEach(q => {
-        qs.push({
-          ...q,
-          book_id: b.id,
-          books: { title: b.title }
-        });
-      });
-    }
+    const allResults = await Promise.all(
+      books.map(async b => {
+        try {
+          const bQs = await getQuestions(b.id);
+          return bQs.map(q => ({
+            ...q,
+            book_id: b.id,
+            books: { title: b.title }
+          }));
+        } catch {
+          return [];
+        }
+      })
+    );
+    qs = allResults.flat();
   } catch { /* ignore */ }
 
   const bookOptions = books.map(b =>

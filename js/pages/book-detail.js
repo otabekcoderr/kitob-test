@@ -1,8 +1,8 @@
 // ============================================================
 // pages/book-detail.js — Kitob tafsiloti (Editorial uslub)
 // ============================================================
-import { getBookById, getQuestions } from '../db.js';
-import { escapeHtml }                from '../utils.js';
+import { getBookById, getQuestions, getComments, saveComment, deleteComment } from '../db.js';
+import { escapeHtml, showNotification } from '../utils.js';
 let _cleanup = [];
 
 const FAVORITES_KEY = 'kitobchi_favorites';
@@ -169,6 +169,29 @@ function _renderBook(contentEl, book, questions, user) {
         : ''
       }
 
+      <!-- Fikr-mulohazalar va sharhlar -->
+      <div class="book-detail__comments" style="margin-top:40px;padding-top:28px;border-top:1px solid var(--divider);">
+        <h2 style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:20px;display:flex;align-items:center;gap:8px;">
+          <span>💬</span> Kitobxonlar fikrlari <span id="comments-count" style="font-size:0.875rem;font-weight:400;color:var(--ink-muted);"></span>
+        </h2>
+
+        ${user ? `
+          <form id="comment-form" style="margin-bottom:28px;display:flex;flex-direction:column;gap:10px;">
+            <textarea id="comment-input" class="input" rows="3" placeholder="Ushbu asar haqida o'z xulosangiz yoki taassurotingizni yozing..." required style="resize:vertical;font-size:0.9375rem;padding:12px;"></textarea>
+            <div style="display:flex;justify-content:flex-end;">
+              <button type="submit" id="comment-submit-btn" class="btn btn-primary btn-sm">Fikr bildirish</button>
+            </div>
+          </form>
+        ` : `
+          <div style="padding:16px;border:1px dashed var(--divider);border-radius:var(--radius-md);background:var(--surface);margin-bottom:24px;text-align:center;">
+            <p style="color:var(--ink-muted);font-size:0.9rem;margin:0 0 10px 0;">Fikr va taassurot qoldirish uchun tizimga kiring.</p>
+            <a href="#login" class="btn btn-outline btn-sm">Kirish</a>
+          </div>
+        `}
+
+        <div id="comments-list" style="display:flex;flex-direction:column;gap:14px;"></div>
+      </div>
+
     </div>
   `;
 }
@@ -193,6 +216,107 @@ function _bindEvents(container, book, user) {
     };
     favBtn.addEventListener('click', onFav);
     _cleanup.push(() => favBtn.removeEventListener('click', onFav));
+  }
+
+  // Sharhlarni yuklash
+  _loadBookComments(container, book.id, user);
+
+  // Sharh yuborish
+  const commentForm = container.querySelector('#comment-form');
+  if (commentForm) {
+    const onCommentSubmit = async (e) => {
+      e.preventDefault();
+      const input = container.querySelector('#comment-input');
+      const submitBtn = container.querySelector('#comment-submit-btn');
+      const text = input?.value.trim();
+      if (!text) return;
+
+      if (submitBtn) submitBtn.disabled = true;
+      try {
+        const res = await saveComment({ book_id: String(book.id), text });
+        if (res.success) {
+          if (input) input.value = '';
+          showNotification('Fikringiz muvaffaqiyatli saqlandi! 💬', 'success');
+          _loadBookComments(container, book.id, user);
+        } else {
+          showNotification(res.error || 'Xatolik yuz berdi', 'error');
+        }
+      } catch (err) {
+        showNotification(`Xato: ${err.message}`, 'error');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    };
+    commentForm.addEventListener('submit', onCommentSubmit);
+    _cleanup.push(() => commentForm.removeEventListener('submit', onCommentSubmit));
+  }
+}
+
+async function _loadBookComments(container, bookId, user) {
+  const listEl = container.querySelector('#comments-list');
+  const countEl = container.querySelector('#comments-count');
+  if (!listEl) return;
+
+  try {
+    const comments = await getComments(bookId);
+    if (countEl) countEl.textContent = comments.length ? `(${comments.length})` : '';
+
+    if (!comments || comments.length === 0) {
+      listEl.innerHTML = `
+        <div style="padding:20px;text-align:center;color:var(--ink-muted);font-size:0.875rem;background:var(--surface);border-radius:var(--radius-md);border:1px solid var(--divider);">
+          Hali hech kim fikr bildirmagan. Birinchi bo'lib o'z taassurotingizni yozing! ✍️
+        </div>
+      `;
+      return;
+    }
+
+    listEl.innerHTML = comments.map(c => {
+      const isOwner = user && (user.id === c.user_id || user.role === 'admin');
+      const dateStr = c.created_at ? new Date(c.created_at).toLocaleDateString('uz-UZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+      
+      let avatarHtml = `<span style="width:36px;height:36px;border-radius:50%;background:var(--ochre-light);color:var(--ochre);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">${escapeHtml((c.userName || 'U')[0].toUpperCase())}</span>`;
+      if (c.userAvatar) {
+        if (c.userAvatar.startsWith('http') || c.userAvatar.startsWith('data:image/')) {
+          avatarHtml = `<img src="${escapeHtml(c.userAvatar)}" alt="${escapeHtml(c.userName || '')}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">`;
+        } else {
+          avatarHtml = `<span style="width:36px;height:36px;border-radius:50%;background:var(--paper-alt);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">${escapeHtml(c.userAvatar)}</span>`;
+        }
+      }
+
+      return `
+        <div class="card" style="padding:14px 16px;background:var(--surface);border:1px solid var(--divider);border-radius:var(--radius-md);">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              ${avatarHtml}
+              <div>
+                <div style="font-weight:600;font-size:0.9375rem;color:var(--ink);">${escapeHtml(c.userName || 'Kitobxon')}</div>
+                <div style="font-size:0.75rem;color:var(--ink-muted);">${escapeHtml(dateStr)}</div>
+              </div>
+            </div>
+            ${isOwner ? `
+              <button class="btn btn-ghost btn-sm delete-comment-btn" data-id="${escapeHtml(String(c.id))}" style="color:var(--error);padding:2px 8px;font-size:0.75rem;">
+                O'chirish
+              </button>
+            ` : ''}
+          </div>
+          <p style="font-size:0.875rem;line-height:1.6;color:var(--ink);margin:0;white-space:pre-line;">${escapeHtml(c.text || '')}</p>
+        </div>
+      `;
+    }).join('');
+
+    // O'chirish hodisasi
+    listEl.querySelectorAll('.delete-comment-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Izohni o\'chirmoqchimisiz?')) return;
+        const commId = btn.dataset.id;
+        await deleteComment(commId);
+        showNotification('Izoh o\'chirildi', 'info');
+        _loadBookComments(container, bookId, user);
+      });
+    });
+
+  } catch (err) {
+    console.warn('[book-detail] loadComments error:', err);
   }
 }
 

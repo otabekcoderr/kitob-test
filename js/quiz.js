@@ -11,7 +11,7 @@
 // Import: db.js · auth.js · utils.js
 // ============================================================
 
-import { getQuestions, saveQuizResult, updateStreakAndScore } from './db.js';
+import { getQuestions, getBookById, saveQuizResult, updateStreakAndScore } from './db.js';
 import { getCurrentUser }  from './auth.js';
 import {
   shuffle,
@@ -240,15 +240,22 @@ async function _finishQuiz(forceZero = false) {
     ? Math.round((finalScore / totalQuestions) * 100)
     : 0;
 
+  let bookTitle = '';
+  try {
+    const b = await getBookById(state.bookId);
+    if (b) bookTitle = b.title;
+  } catch { /* ignore */ }
+
   const result = {
-    bookId:     state.bookId,
-    score:      finalScore,
-    rawScore:   rawScore,
+    bookId:       state.bookId,
+    bookTitle:    bookTitle,
+    score:        finalScore,
+    rawScore:     rawScore,
     correctCount: rawScore,
-    total:      totalQuestions,
-    percentage: percentage,
-    penalty:    state.penaltyTotal,
-    date:       today(),
+    total:        totalQuestions,
+    percentage:   percentage,
+    penalty:      state.penaltyTotal,
+    date:         today(),
   };
 
   // Natijani saqlaymiz va ballni darhol yangilaymiz
@@ -441,18 +448,41 @@ function _nextQuestion(selectedOption, callbacks) {
 
   state.currentIndex += 1;
 
-  // Qisqa pauza — foydalanuvchi javob natijasini ko'rsin
-  setTimeout(() => {
-    if (state.isFinished) return;
+  // Izohni o'qish uchun pauza (yoki foydalanuvchi "Keyingi savol" tugmasini bosganda darhol o'tadi)
+  _clearAdvanceTimer();
+  _advanceTimer = setTimeout(() => {
+    _proceedToNext(callbacks);
+  }, 4500);
+}
 
-    if (state.currentIndex >= state.questions.length) {
-      _finishQuiz(false).then(result => {
-        if (typeof onFinish === 'function') onFinish(result);
-      });
-    } else {
-      _showQuestion(callbacks);
-    }
-  }, 2600);
+let _advanceTimer = null;
+
+function _clearAdvanceTimer() {
+  if (_advanceTimer) {
+    clearTimeout(_advanceTimer);
+    _advanceTimer = null;
+  }
+}
+
+function _proceedToNext(callbacks) {
+  _clearAdvanceTimer();
+  if (state.isFinished) return;
+
+  const { onFinish } = callbacks;
+  if (state.currentIndex >= state.questions.length) {
+    _finishQuiz(false).then(result => {
+      if (typeof onFinish === 'function') onFinish(result);
+    });
+  } else {
+    _showQuestion(callbacks);
+  }
+}
+
+/**
+ * Foydalanuvchi "Keyingi savol" tugmasini bosganda kutmasdan darhol o'tkazish.
+ */
+export function advanceNextQuestion(callbacks = {}) {
+  _proceedToNext(callbacks);
 }
 
 /**

@@ -58,11 +58,11 @@ export async function render(container, { params, user }) {
         <!-- Kategoriyalar -->
         <div class="tabs" role="tablist" aria-label="Kategoriyalar" style="margin-bottom:16px;">
           <button class="tab tab--active" role="tab" data-category="all" aria-selected="true">Barchasi</button>
-          <button class="tab" role="tab" data-category="Adabiyot"     aria-selected="false">Adabiyot</button>
-          <button class="tab" role="tab" data-category="Tarix"        aria-selected="false">Tarix</button>
-          <button class="tab" role="tab" data-category="Falsafa"      aria-selected="false">Falsafa</button>
-          <button class="tab" role="tab" data-category="Din"          aria-selected="false">Din</button>
-          <button class="tab" role="tab" data-category="Ilm-fan"      aria-selected="false">Ilm-fan</button>
+          <button class="tab" role="tab" data-category="badiiy"      aria-selected="false">Badiiy adabiyot</button>
+          <button class="tab" role="tab" data-category="tarixiy"     aria-selected="false">Tarixiy asarlar</button>
+          <button class="tab" role="tab" data-category="rivojlanish" aria-selected="false">Rivojlanish & Psixologiya</button>
+          <button class="tab" role="tab" data-category="jahon"       aria-selected="false">Jahon durdonalari</button>
+          <button class="tab" role="tab" data-category="mumtoz"      aria-selected="false">Mumtoz meros</button>
         </div>
 
         <!-- Natija soni -->
@@ -172,14 +172,35 @@ function _getFilteredBooks() {
   const difficulty = document.getElementById('books-difficulty')?.value || '';
 
   return _allBooks.filter(book => {
-    const bookCat = (book.category || book.genre || 'Adabiyot').toLowerCase();
-    const matchCat = activeTab === 'all' || 
-                     bookCat.includes(activeTab.toLowerCase()) || 
-                     (activeTab === 'Adabiyot' && (bookCat.includes('roman') || bookCat.includes('qissa') || bookCat.includes('ertak') || bookCat.includes('doston')));
+    const genre   = (book.genre || '').toLowerCase();
+    const title   = (book.title || '').toLowerCase();
+    const author  = (book.author || '').toLowerCase();
+    const cat     = (book.category || '').toLowerCase();
+    const allText = `${title} ${author} ${genre} ${cat}`;
+
+    let matchCat = activeTab === 'all';
+    if (!matchCat) {
+      if (activeTab === 'badiiy') {
+        matchCat = genre.includes('roman') || genre.includes('qissa') || genre.includes('hikoya') || genre.includes('satira') || cat.includes('adabiyot');
+      } else if (activeTab === 'tarixiy') {
+        matchCat = genre.includes('tarix') || allText.includes('temur') || allText.includes('bobur') || allText.includes('yulduzli tunlar') || allText.includes('ulug\'bek') || allText.includes('muqanna');
+      } else if (activeTab === 'rivojlanish') {
+        matchCat = genre.includes('rivojlanish') || genre.includes('psixologiya') || genre.includes('moliya') || genre.includes('salomatlik') || genre.includes('ilm');
+      } else if (activeTab === 'jahon') {
+        matchCat = genre.includes('distopiya') || genre.includes('ekzistensial') || allText.includes('orwell') || allText.includes('koelo') || allText.includes('dostoyevskiy') || allText.includes('ekzyuperi') || allText.includes('xaminguey') || allText.includes('london');
+      } else if (activeTab === 'mumtoz') {
+        matchCat = genre.includes('mumtoz') || genre.includes('doston') || genre.includes('pandnoma') || genre.includes('tasavvuf') || allText.includes('navoiy') || allText.includes('koshg\'ariy') || allText.includes('yugnakiy') || allText.includes('nizomiy');
+      } else {
+        matchCat = allText.includes(activeTab.toLowerCase());
+      }
+    }
+
     const matchDiff = !difficulty || book.difficulty === difficulty;
     const matchQ    = !query ||
-      (book.title  || '').toLowerCase().includes(query) ||
-      (book.author || '').toLowerCase().includes(query);
+      title.includes(query) ||
+      author.includes(query) ||
+      genre.includes(query);
+
     return matchCat && matchDiff && matchQ;
   });
 }

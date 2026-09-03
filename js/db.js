@@ -624,17 +624,27 @@ export async function deleteQuestion(id) {
  * @returns {Promise<{success: boolean, error?: string}>}
  */
 export async function saveQuizResult(result) {
+  const user = getCurrentUser();
+  const uid  = user?.id || 'guest';
+
   // Local storage ga saqlash (Offline / 404 fallback)
   try {
+    // Foydalanuvchining shaxsiy tarixi
+    const userKey = 'user_quiz_results_' + uid;
+    const rawUser = localStorage.getItem(userKey);
+    const existingUser = rawUser ? JSON.parse(rawUser) : [];
+    existingUser.unshift(result);
+    localStorage.setItem(userKey, JSON.stringify(existingUser.slice(0, 30)));
+
+    // Umumiy zaxira tarixi
     const raw = localStorage.getItem('user_quiz_results');
     const existing = raw ? JSON.parse(raw) : [];
     existing.unshift(result);
-    localStorage.setItem('user_quiz_results', JSON.stringify(existing.slice(0, 20)));
+    localStorage.setItem('user_quiz_results', JSON.stringify(existing.slice(0, 30)));
     localStorage.setItem('last_quiz_result', JSON.stringify(result));
   } catch { /* ignore */ }
 
   try {
-    const user = getCurrentUser();
     if (!user) return { success: false, error: 'Tizimga kirmagansiz.' };
 
     const book = _findLocalBook(result.bookId);
@@ -680,9 +690,10 @@ let _quizResultsTableMissing = false;
  * @returns {Promise<object[]>}
  */
 export async function getUserResults(userId) {
+  const uid = userId ?? getCurrentUser()?.id;
   let dbData = [];
+
   try {
-    const uid = userId ?? getCurrentUser()?.id;
     if (uid) {
       const { data, error } = await runQuery(
         supabase
@@ -692,7 +703,7 @@ export async function getUserResults(userId) {
           .order('created_at', { ascending: false })
       );
 
-      if (!error && Array.isArray(data)) {
+      if (!error && Array.isArray(data) && data.length > 0) {
         dbData = data;
       }
     }
@@ -714,8 +725,25 @@ export async function getUserResults(userId) {
     }
   }
 
-  // Local storage fallback (400/404 so'rovisiz va xatosiz)
+  // Local storage fallback (Foydalanuvchining shaxsiy tarixi)
   try {
+    if (uid) {
+      const userRaw = localStorage.getItem('user_quiz_results_' + uid);
+      if (userRaw) {
+        const userList = JSON.parse(userRaw);
+        if (Array.isArray(userList) && userList.length > 0) {
+          const books = await getBooks();
+          return userList.map(r => {
+            const b = books.find(x => String(x.id) === String(r.bookId || r.book_id));
+            return {
+              ...r,
+              books: b ? { title: b.title, author: b.author } : null
+            };
+          });
+        }
+      }
+    }
+
     const raw = localStorage.getItem('user_quiz_results');
     if (raw) {
       const list = JSON.parse(raw);
@@ -730,6 +758,7 @@ export async function getUserResults(userId) {
         });
       }
     }
+
     const last = localStorage.getItem('last_quiz_result');
     if (last) {
       const single = JSON.parse(last);
@@ -1024,6 +1053,129 @@ export async function deleteCharacter(id) {
     await supabase.from('characters').delete().eq('id', strId);
   } catch (err) {
     console.warn('[db] deleteCharacter Supabase fallback:', err);
+  }
+
+  return { success: true };
+}
+
+// ============================================================
+// IZOHLAR / SHARHLAR (COMMENTS & REVIEWS)
+// ============================================================
+
+/**
+ * Kitobga tegishli izohlarni qaytaradi.
+ * @param {string|number} [bookId]
+ * @returns {Promise<object[]>}
+ */
+export async function getComments(bookId = null) {
+  let list = [];
+
+  // 1. Supabase dan olish
+  try {
+    let query = supabase.from('comments').select('*').order('created_at', { ascending: false }).limit(100);
+    if (bookId) {
+      query = query.eq('book_id', String(bookId));
+    }
+    const { data, error } = await query;
+    if (!error && Array.isArray(data)) {
+      list = data;
+    }
+  } catch { /* ignore */ }
+
+  // 2. Local storage
+  let localComments = [];
+  try {
+    const raw = localStorage.getItem('kitobchi_comments');
+    if (raw) localComments = JSON.parse(raw);
+  } catch { /* ignore */ }
+
+  // Birlashtirish
+  const commentMap = new Map();
+  list.forEach(c => commentMap.set(String(c.id), c));
+  localComments.forEach(c => {
+    if (!commentMap.has(String(c.id))) {
+      commentMap.set(String(c.id), c);
+    }
+  });
+
+  let all = Array.from(commentMap.values());
+  if (bookId) {
+    all = all.filter(c => String(c.book_id || c.bookId) === String(bookId));
+  }
+
+  all.sort((a, b) => new Date(b.created_at || b.date || 0) - new Date(a.created_at || a.date || 0));
+  return all;
+}
+
+/**
+ * Yangi izoh qo'shadi.
+ * @param {object} commentData
+ * @returns {Promise<{success: boolean, comment?: object, error?: string}>}
+ */
+export async function saveComment(commentData) {
+  const { getCurrentUser } = await import('./auth.js');
+  const user = getCurrentUser();
+  if (!user) return { success: false, error: 'Izoh qoldirish uchun tizimga kiring.' };
+
+  const newComment = {
+    id: 'comm-' + Date.now(),
+    book_id: String(commentData.book_id || commentData.bookId || ''),
+    user_id: user.id,
+    userName: user.fullName || user.username,
+    userAvatar: user.avatarImage || user.avatar || '',
+    avatarCharId: user.avatarCharId || null,
+    text: commentData.text?.trim() || '',
+    created_at: new Date().toISOString(),
+  };
+
+  if (!newComment.text) {
+    return { success: false, error: 'Izoh matni bo\'sh bo\'lmasligi kerak.' };
+  }
+
+  // Local storage ga saqlash
+  try {
+    const raw = localStorage.getItem('kitobchi_comments');
+    const existing = raw ? JSON.parse(raw) : [];
+    existing.unshift(newComment);
+    localStorage.setItem('kitobchi_comments', JSON.stringify(existing.slice(0, 200)));
+  } catch { /* ignore */ }
+
+  // Supabase ga saqlash
+  try {
+    await supabase.from('comments').insert({
+      id: newComment.id,
+      book_id: newComment.book_id,
+      user_id: newComment.user_id,
+      text: newComment.text,
+      created_at: newComment.created_at,
+    });
+  } catch (err) {
+    console.warn('[db] saveComment Supabase fallback:', err);
+  }
+
+  return { success: true, comment: newComment };
+}
+
+/**
+ * Izohni o'chiradi.
+ * @param {string|number} id
+ * @returns {Promise<{success: boolean}>}
+ */
+export async function deleteComment(id) {
+  const strId = String(id);
+  try {
+    const raw = localStorage.getItem('kitobchi_comments');
+    if (raw) {
+      const existing = JSON.parse(raw);
+      const filtered = existing.filter(c => String(c.id) !== strId);
+      localStorage.setItem('kitobchi_comments', JSON.stringify(filtered));
+    }
+  } catch { /* ignore */ }
+
+  try {
+    await supabase.from('comments').delete().eq('id', strId);
+  } catch (err) {
+    console.warn('[db] deleteComment Supabase fallback:', err);
   }
 
   return { success: true };
