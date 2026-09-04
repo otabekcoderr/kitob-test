@@ -17,8 +17,8 @@ import * as localData    from './data.js';
 // KONSTANTALAR
 // ============================================================
 
-/** So'rov timeout vaqti — 2.5 soniya (tezkor fallback) */
-const TIMEOUT = 2_500;
+/** So'rov timeout vaqti — 3.5 soniya (tezkor fallback) */
+const TIMEOUT = 3_500;
 
 // ============================================================
 // TEZKOR IN-MEMORY KESH (SPEED & PERFORMANCE — 0ms LATENCY)
@@ -66,10 +66,14 @@ export async function getAccessToken() {
  * @returns {Promise<T>}
  */
 function withTimeout(promise, ms = TIMEOUT) {
-  const timer = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('timeout')), ms)
-  );
-  return Promise.race([promise, timer]);
+  let timerId;
+  const timer = new Promise((_, reject) => {
+    timerId = setTimeout(() => reject(new Error('timeout')), ms);
+  });
+  return Promise.race([
+    Promise.resolve(promise).finally(() => clearTimeout(timerId)),
+    timer
+  ]);
 }
 
 /**
