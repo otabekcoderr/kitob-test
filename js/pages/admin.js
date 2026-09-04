@@ -821,7 +821,20 @@ async function _renderUsers(panel) {
       .from('profiles')
       .select('*');
     if (!error && Array.isArray(data) && data.length > 0) {
-      users = data;
+      users = data.map(p => {
+        const stats = p.stats || {};
+        return {
+          id: p.id,
+          full_name: p.full_name || p.username || 'Foydalanuvchi',
+          username: p.username || '',
+          score: stats.bestScore || stats.avgScore || p.score || 0,
+          streak: stats.currentStreak || stats.maxStreak || p.streak || 0,
+          role: p.is_admin ? 'admin' : (p.role || 'user'),
+          is_admin: p.is_admin,
+          avatar: p.avatar || '👤',
+          avatar_image: p.avatar_image || null,
+        };
+      });
     }
   } catch { /* ignore */ }
 
@@ -952,7 +965,7 @@ function _bindUserEvents(users) {
       if (!confirm(`Rolni "${newRole}" ga o'girmoqchimisiz?`)) return;
 
       const { error } = await supabase
-        .from('profiles').update({ role: newRole }).eq('id', btn.dataset.id);
+        .from('profiles').update({ is_admin: newRole === 'admin' }).eq('id', btn.dataset.id);
 
       if (error) { showNotification(`Xato: ${error.message}`, 'error'); return; }
       showNotification('Rol yangilandi.', 'success');
@@ -978,7 +991,7 @@ async function _renderComments(panel) {
     const { data, error } = await supabase
       .from('comments')
       .select('*')
-      .order('created_at', { ascending: false })
+      .order('createdAt', { ascending: false })
       .limit(100);
     if (!error && Array.isArray(data)) {
       comments = data;
@@ -1010,20 +1023,22 @@ async function _renderComments(panel) {
                  <tr><th>ID</th><th>Foydalanuvchi</th><th>Kitob</th><th>Izoh</th><th>Sana</th><th>Amal</th></tr>
                </thead>
                <tbody>
-                 ${comments.map(c => `
+                 ${comments.map(c => {
+                   const dateStr = c.createdAt ? new Date(typeof c.createdAt === 'number' ? c.createdAt : c.createdAt).toLocaleDateString() : (c.created_at?.slice(0,10) ?? new Date().toISOString().slice(0,10));
+                   return `
                    <tr id="comment-row-${c.id}">
                      <td>${c.id}</td>
                      <td>@${escapeHtml(c.profiles?.username || c.userName || 'foydalanuvchi')}</td>
-                     <td><span class="badge">${escapeHtml(c.books?.title || c.bookTitle || `#${c.book_id || ''}`)}</span></td>
+                     <td><span class="badge">${escapeHtml(c.books?.title || c.bookTitle || `#${c.bookId || c.book_id || ''}`)}</span></td>
                      <td class="admin-q-text">${escapeHtml(truncate(c.text || c.body || '', 80))}</td>
                      <td class="text-muted" style="font-size:.8rem;white-space:nowrap">
-                       ${c.created_at?.slice(0,10) ?? new Date().toISOString().slice(0,10)}
+                       ${dateStr}
                      </td>
                      <td>
                         <button class="btn btn-danger btn-sm del-comment-btn" data-id="${c.id}">O'chirish</button>
                      </td>
                    </tr>
-                 `).join('')}
+                 `;}).join('')}
                </tbody>
              </table>
            </div>`

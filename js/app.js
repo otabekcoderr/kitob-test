@@ -665,19 +665,24 @@ async function _syncSession() {
   try {
     const { supabase } = await import('./supabase-client.js');
 
-    // 3 soniya timeout — tarmoq muammosida qotib qolmaslik uchun
+    let isTimedOut = false;
     const result = await Promise.race([
       supabase.auth.getSession(),
       new Promise(resolve =>
-        setTimeout(() => resolve({ data: { session: null } }), 3000)
+        setTimeout(() => {
+          isTimedOut = true;
+          resolve({ data: { session: null } });
+        }, 5000)
       ),
     ]);
 
     const session = result?.data?.session;
 
     if (!session?.user) {
-      // Sessiya yo'q — localStorage ni tozalaymiz
-      localStorage.removeItem(SESSION_KEY);
+      // Agar tarmoq kechikishi yoki timeout bo'lsa, foydalanuvchini majburiy logout qilmaymiz!
+      if (!isTimedOut && result?.error === null) {
+        localStorage.removeItem(SESSION_KEY);
+      }
       return;
     }
 
@@ -717,20 +722,21 @@ async function _syncSession() {
     const cleanUsername = String(profile?.username || session.user.user_metadata?.username || existingUser?.username || '').trim().toLowerCase();
     const cleanEmail = String(session.user.email || '').trim().toLowerCase();
     const isAdmin = profile?.role === 'admin' || profile?.is_admin === true || cleanUsername === 'admin' || cleanEmail.startsWith('admin@');
+    const stats = profile?.stats || {};
 
     const userObj = {
       id:           session.user.id,
       email:        session.user.email        || '',
       fullName:     profile?.full_name        || session.user.user_metadata?.full_name  || existingUser?.fullName || 'Foydalanuvchi',
       username:     profile?.username         || session.user.user_metadata?.username   || existingUser?.username || '',
-      avatar:       charData?.avatar          || existingUser?.avatar || storedUser?.avatar || (profile?.avatar_url && (profile.avatar_url.startsWith('http') || profile.avatar_url.startsWith('data:image/')) ? profile.avatar_url : null) || session.user.user_metadata?.avatar || '🎭',
-      avatarImage:  charData?.avatarImage !== undefined ? charData.avatarImage : (existingUser?.avatarImage !== undefined ? existingUser?.avatarImage : (storedUser?.avatarImage || session.user.user_metadata?.avatarImage || null)),
-      avatarCharId: charData?.avatarCharId !== undefined ? charData.avatarCharId : (existingUser?.avatarCharId !== undefined ? existingUser?.avatarCharId : (storedUser?.avatarCharId || session.user.user_metadata?.avatarCharId || null)),
+      avatar:       charData?.avatar          || existingUser?.avatar || storedUser?.avatar || (profile?.avatar_image && (profile.avatar_image.startsWith('http') || profile.avatar_image.startsWith('data:image/')) ? profile.avatar_image : null) || (profile?.avatar_url && (profile.avatar_url.startsWith('http') || profile.avatar_url.startsWith('data:image/')) ? profile.avatar_url : null) || session.user.user_metadata?.avatar || '🎭',
+      avatarImage:  charData?.avatarImage !== undefined ? charData.avatarImage : (existingUser?.avatarImage !== undefined ? existingUser?.avatarImage : (storedUser?.avatarImage || session.user.user_metadata?.avatarImage || profile?.avatar_image || null)),
+      avatarCharId: charData?.avatarCharId !== undefined ? charData.avatarCharId : (existingUser?.avatarCharId !== undefined ? existingUser?.avatarCharId : (storedUser?.avatarCharId || session.user.user_metadata?.avatarCharId || profile?.avatar_char_id || null)),
       role:         isAdmin ? 'admin' : (profile?.role || existingUser?.role || 'user'),
       isAdmin:      isAdmin,
-      score:        Math.max(existingUser?.score || 0, storedUser?.score || 0, profile?.score || 0),
-      streak:       Math.max(existingUser?.streak || 0, storedUser?.streak || 0, profile?.streak || 0),
-      lastQuizDate: existingUser?.lastQuizDate || storedUser?.lastQuizDate || profile?.last_quiz_date || null,
+      score:        Math.max(existingUser?.score || 0, storedUser?.score || 0, stats.bestScore || stats.avgScore || profile?.score || 0),
+      streak:       Math.max(existingUser?.streak || 0, storedUser?.streak || 0, stats.currentStreak || stats.maxStreak || profile?.streak || 0),
+      lastQuizDate: existingUser?.lastQuizDate || storedUser?.lastQuizDate || stats.lastQuizDate || profile?.last_quiz_date || null,
     };
 
     localStorage.setItem(SESSION_KEY, JSON.stringify(userObj));

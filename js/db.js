@@ -17,8 +17,8 @@ import * as localData    from './data.js';
 // KONSTANTALAR
 // ============================================================
 
-/** So'rov timeout vaqti — 3.5 soniya (tezkor fallback) */
-const TIMEOUT = 3_500;
+/** So'rov timeout vaqti — 8 soniya (tarmoq uzilishlarini oldini olish uchun) */
+const TIMEOUT = 8_000;
 
 // ============================================================
 // TEZKOR IN-MEMORY KESH (SPEED & PERFORMANCE — 0ms LATENCY)
@@ -57,18 +57,23 @@ export async function getAccessToken() {
 }
 
 /**
- * Promise ga timeout qo'shadi.
- * TIMEOUT ms ichida javob kelmasa — xato otadi.
+ * Promise ga timeout qo'shadi va bekor bo'lganda AbortController orqali HTTP/2 oqimini toza to'xtatadi.
  *
  * @template T
  * @param {Promise<T>} promise
  * @param {number} [ms=TIMEOUT]
+ * @param {AbortController} [controller=null]
  * @returns {Promise<T>}
  */
-function withTimeout(promise, ms = TIMEOUT) {
+function withTimeout(promise, ms = TIMEOUT, controller = null) {
   let timerId;
   const timer = new Promise((_, reject) => {
-    timerId = setTimeout(() => reject(new Error('timeout')), ms);
+    timerId = setTimeout(() => {
+      if (controller) {
+        try { controller.abort(); } catch {}
+      }
+      reject(new Error('timeout'));
+    }, ms);
   });
   return Promise.race([
     Promise.resolve(promise).finally(() => clearTimeout(timerId)),
@@ -77,15 +82,21 @@ function withTimeout(promise, ms = TIMEOUT) {
 }
 
 /**
- * Supabase so'rovini timeout bilan bajaradi.
- * Natija: { data, error } — Supabase formatida.
+ * Supabase so'rovini timeout va AbortSignal bilan bajaradi.
+ * Timeout bo'lganda so'rov orqa fonda osilib qolmaydi va ERR_HTTP2_PROTOCOL_ERROR / ERR_CONNECTION_RESET chaqirmaydi.
  *
  * @param {object} query — Supabase query builder
+ * @param {number} [ms=TIMEOUT]
  * @returns {Promise<{data: any, error: any}>}
  */
-async function runQuery(query) {
+async function runQuery(query, ms = TIMEOUT) {
+  const controller = new AbortController();
   try {
-    return await withTimeout(query);
+    let target = query;
+    if (target && typeof target.abortSignal === 'function') {
+      target = target.abortSignal(controller.signal);
+    }
+    return await withTimeout(target, ms, controller);
   } catch (err) {
     return { data: null, error: err };
   }
@@ -484,14 +495,16 @@ export async function getQuestions(bookId, forceRefresh = false) {
 
   let dbQuestions = [];
   try {
-    const isNumeric = /^\d+$/.test(targetId);
-    if (isNumeric) {
-      const { data, error } = await runQuery(
-        supabase.from('questions').select('*').eq('book_id', parseInt(targetId, 10))
-      );
-      if (!error && Array.isArray(data) && data.length > 0) {
-        dbQuestions = data.map(_formatQuestion).filter(Boolean);
-      }
+    const searchId = targetSlug || targetId;
+    let query = supabase.from('questions').select('*');
+    if (targetSlug && targetSlug !== targetId) {
+      query = query.or(`bookId.eq.${targetId},bookId.eq.${targetSlug}`);
+    } else {
+      query = query.eq('bookId', targetId);
+    }
+    const { data, error } = await runQuery(query);
+    if (!error && Array.isArray(data) && data.length > 0) {
+      dbQuestions = data.map(_formatQuestion).filter(Boolean);
     }
   } catch { /* ignore */ }
 
@@ -586,10 +599,10 @@ export async function saveQuestion(data, id = null) {
   // Supabase ga urinish
   try {
     const sbPayload = {
-      book_id:        parseInt(data.book_id, 10) || data.book_id,
+      bookId:         String(data.bookId || data.book_id || fullQ.bookId || fullQ.book_id || ''),
       question:       data.question,
       options:        data.options,
-      correct_answer: data.correct_answer,
+      correctAnswer:  data.correctAnswer !== undefined ? data.correctAnswer : (data.correct_answer ?? 0),
       explanation:    data.explanation || '',
     };
 
@@ -693,6 +706,11 @@ export async function saveQuizResult(result) {
   try {
     if (!user) return { success: false, error: 'Tizimga kirmagansiz.' };
 
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(user.id);
+    if (!isUUID) {
+      return { success: true };
+    }
+
     const book = _findLocalBook(result.bookId);
     const numericBookId = (book && /^\d+$/.test(String(book.id)))
       ? parseInt(book.id, 10)
@@ -737,7 +755,7 @@ let _quizResultsTableMissing = false;
  */
 export async function getUserResults(userId, forceRefresh = false) {
   const uid = userId ?? getCurrentUser()?.id;
-  if (!uid) return [];
+  if (!uid || uid === 'guest') return [];
 
   const now = Date.now();
   if (!forceRefresh && _userResultsCache.has(uid) && (now - (_userResultsTime.get(uid) || 0) < USER_RESULTS_CACHE_TTL)) {
@@ -746,8 +764,10 @@ export async function getUserResults(userId, forceRefresh = false) {
 
   let dbData = [];
 
+  // PostgreSQL user_id UUID ustuni — noto'g'ri qiymat yuborilsa 400 (22P02) bermasligi uchun tekshiramiz
+  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uid);
   try {
-    if (uid) {
+    if (uid && isUUID) {
       const { data, error } = await runQuery(
         supabase
           .from('quiz_results')
@@ -872,12 +892,25 @@ export async function getLeaderboard(limit = 50, forceRefresh = false) {
     const { data, error } = await runQuery(
       supabase
         .from('profiles')
-        .select('*')
+        .select('id, username, full_name, avatar, avatar_image, avatar_char_id, is_admin, stats, created_at')
         .limit(limit)
     );
 
     if (!error && Array.isArray(data) && data.length > 0) {
-      list = data;
+      list = data.map(p => {
+        const stats = p.stats || {};
+        return {
+          id: p.id,
+          full_name: p.full_name || p.username || 'Kitobxon',
+          username: p.username || '',
+          score: stats.bestScore || stats.avgScore || p.score || 0,
+          streak: stats.currentStreak || stats.maxStreak || p.streak || 0,
+          avatar_url: p.avatar_image || p.avatar || '',
+          avatar: p.avatar || '👤',
+          avatarImage: p.avatar_image || null,
+          role: p.is_admin ? 'admin' : 'user',
+        };
+      });
     }
   } catch { /* ignore */ }
 
@@ -1263,9 +1296,11 @@ export async function saveCharacter(data, id = null) {
     const sbPayload = {
       id: targetId,
       name: fullChar.name,
-      book_id: fullChar.book_id,
+      bookTitle: fullChar.bookTitle || fullChar.book_title || '',
       description: fullChar.description || '',
       avatar: fullChar.avatar || '🎭',
+      color: fullChar.color || 'var(--color-primary)',
+      avatarImage: fullChar.avatarImage || null,
     };
     if (id) {
       await supabase.from('characters').update(sbPayload).eq('id', targetId);
@@ -1315,13 +1350,13 @@ export async function deleteCharacter(id) {
 export async function getComments(bookId = null) {
   let list = [];
 
-  // 1. Supabase dan olish
+  // 1. Supabase dan olish — ustunlar camelCase: bookId, createdAt, userId
   try {
-    let query = supabase.from('comments').select('*').order('created_at', { ascending: false }).limit(100);
+    let query = supabase.from('comments').select('*').order('createdAt', { ascending: false }).limit(100);
     if (bookId) {
-      query = query.eq('book_id', String(bookId));
+      query = query.eq('bookId', String(bookId));
     }
-    const { data, error } = await query;
+    const { data, error } = await runQuery(query);
     if (!error && Array.isArray(data)) {
       list = data;
     }
@@ -1345,10 +1380,14 @@ export async function getComments(bookId = null) {
 
   let all = Array.from(commentMap.values());
   if (bookId) {
-    all = all.filter(c => String(c.book_id || c.bookId) === String(bookId));
+    all = all.filter(c => String(c.bookId || c.book_id) === String(bookId));
   }
 
-  all.sort((a, b) => new Date(b.created_at || b.date || 0) - new Date(a.created_at || a.date || 0));
+  all.sort((a, b) => {
+    const timeA = typeof a.createdAt === 'number' ? a.createdAt : new Date(a.createdAt || a.created_at || a.date || 0).getTime();
+    const timeB = typeof b.createdAt === 'number' ? b.createdAt : new Date(b.createdAt || b.created_at || b.date || 0).getTime();
+    return timeB - timeA;
+  });
   return all;
 }
 
@@ -1364,12 +1403,17 @@ export async function saveComment(commentData) {
 
   const newComment = {
     id: 'comm-' + Date.now(),
-    book_id: String(commentData.book_id || commentData.bookId || ''),
+    bookId: String(commentData.bookId || commentData.book_id || ''),
+    book_id: String(commentData.bookId || commentData.book_id || ''),
+    userId: user.id,
     user_id: user.id,
-    userName: user.fullName || user.username,
-    userAvatar: user.avatarImage || user.avatar || '',
+    userName: user.fullName || user.username || 'Foydalanuvchi',
+    userAvatar: user.avatarImage || user.avatar || '👤',
     avatarCharId: user.avatarCharId || null,
     text: commentData.text?.trim() || '',
+    likesCount: 0,
+    likedBy: [],
+    createdAt: Date.now(),
     created_at: new Date().toISOString(),
   };
 
@@ -1385,14 +1429,18 @@ export async function saveComment(commentData) {
     localStorage.setItem('kitobchi_comments', JSON.stringify(existing.slice(0, 200)));
   } catch { /* ignore */ }
 
-  // Supabase ga saqlash
+  // Supabase ga saqlash (aniq schema ustunlari bilan)
   try {
     await supabase.from('comments').insert({
       id: newComment.id,
-      book_id: newComment.book_id,
-      user_id: newComment.user_id,
+      bookId: newComment.bookId,
+      userId: newComment.userId,
+      userName: newComment.userName,
+      userAvatar: newComment.userAvatar,
       text: newComment.text,
-      created_at: newComment.created_at,
+      likesCount: 0,
+      likedBy: [],
+      createdAt: newComment.createdAt,
     });
   } catch (err) {
     console.warn('[db] saveComment Supabase fallback:', err);

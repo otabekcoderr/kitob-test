@@ -122,25 +122,28 @@ function _buildUserObject(authUser, profileData = {}) {
   const avatar = charData?.avatar 
     || existingUser?.avatar 
     || storedUser?.avatar 
+    || (profileData.avatar_image && (profileData.avatar_image.startsWith('http') || profileData.avatar_image.startsWith('data:image/')) ? profileData.avatar_image : null)
     || (profileData.avatar_url && (profileData.avatar_url.startsWith('http') || profileData.avatar_url.startsWith('data:image/')) ? profileData.avatar_url : null)
     || authUser.user_metadata?.avatar 
     || authUser.user_metadata?.avatar_url 
     || '🎭';
 
+  const stats = profileData.stats || {};
   const score = Math.max(
     existingUser?.score || 0,
     storedUser?.score || 0,
-    profileData.score || 0
+    stats.bestScore || stats.avgScore || profileData.score || 0
   );
 
   const streak = Math.max(
     existingUser?.streak || 0,
     storedUser?.streak || 0,
-    profileData.streak || 0
+    stats.currentStreak || stats.maxStreak || profileData.streak || 0
   );
 
   const lastQuizDate = existingUser?.lastQuizDate 
                     || storedUser?.lastQuizDate 
+                    || stats.lastQuizDate 
                     || profileData.last_quiz_date 
                     || null;
 
@@ -242,18 +245,26 @@ export async function register(fullName, username, password) {
       return { success: false, error: 'Ro\'yxatdan o\'tishda xatolik. Qayta urinib ko\'ring.' };
     }
 
-    // profiles jadvaliga yozish
+    // profiles jadvaliga yozish (schema ustunlari: id, full_name, username, is_admin, avatar, stats, created_at)
     const { error: profileError } = await supabase
       .from('profiles')
       .upsert({
-        id:         authData.user.id,
-        full_name:  cleanName,
-        username:   cleanUsername,
-        role:       'user',
-        score:      0,
-        streak:     0,
-        last_quiz_date: null,
-        created_at: new Date().toISOString(),
+        id:             authData.user.id,
+        full_name:      cleanName,
+        username:       cleanUsername,
+        is_admin:       false,
+        avatar:         '👤',
+        avatar_image:   null,
+        avatar_char_id: null,
+        stats: {
+          avgScore: 0,
+          bestScore: 0,
+          maxStreak: 0,
+          lastQuizDate: '',
+          currentStreak: 0,
+          testsCompleted: 0
+        },
+        created_at:     new Date().toISOString(),
       }, { onConflict: 'id' });
 
     if (profileError) {
@@ -446,13 +457,34 @@ export async function updateProfile(updates) {
       return { success: false, error: 'Tizimga kirmagansiz.' };
     }
 
-    // Faqat Supabase profiles jadvalida MAVJUD maydonlarni yuboramiz (full_name va avatar_url)
+    // Faqat Supabase profiles jadvalida MAVJUD maydonlarni yuboramiz: full_name, avatar, avatar_image, avatar_char_id, stats
     const dbUpdates = {};
     if (updates.fullName !== undefined) dbUpdates.full_name = updates.fullName;
+
     if (updates.avatar !== undefined && typeof updates.avatar === 'string') {
-      if (updates.avatar.startsWith('http://') || updates.avatar.startsWith('https://')) {
-        dbUpdates.avatar_url = updates.avatar;
+      if (updates.avatar.startsWith('http://') || updates.avatar.startsWith('https://') || updates.avatar.startsWith('data:image/')) {
+        dbUpdates.avatar_image = updates.avatar;
+      } else {
+        dbUpdates.avatar = updates.avatar;
       }
+    }
+    if (updates.avatarImage !== undefined) {
+      dbUpdates.avatar_image = updates.avatarImage;
+    }
+    if (updates.avatarCharId !== undefined) {
+      dbUpdates.avatar_char_id = updates.avatarCharId;
+    }
+
+    // Statistika (score, streak, lastQuizDate) ni profiles.stats jsonb ustuniga saqlash
+    if (updates.score !== undefined || updates.streak !== undefined || updates.lastQuizDate !== undefined) {
+      dbUpdates.stats = {
+        avgScore: updates.score ?? currentUser.score ?? 0,
+        bestScore: Math.max(updates.score ?? 0, currentUser.score ?? 0),
+        currentStreak: updates.streak ?? currentUser.streak ?? 0,
+        maxStreak: Math.max(updates.streak ?? 0, currentUser.streak ?? 0),
+        lastQuizDate: updates.lastQuizDate || currentUser.lastQuizDate || '',
+        testsCompleted: (currentUser.testsCompleted || 0) + (updates.score !== undefined ? 1 : 0),
+      };
     }
 
     if (Object.keys(dbUpdates).length > 0) {
@@ -475,6 +507,8 @@ export async function updateProfile(updates) {
           avatarImage: updates.avatarImage !== undefined ? updates.avatarImage : currentUser.avatarImage,
           avatarCharId: updates.avatarCharId !== undefined ? updates.avatarCharId : currentUser.avatarCharId,
           full_name: updates.fullName !== undefined ? updates.fullName : currentUser.fullName,
+          score: updates.score !== undefined ? updates.score : currentUser.score,
+          streak: updates.streak !== undefined ? updates.streak : currentUser.streak,
         }
       });
     } catch (metaErr) {
