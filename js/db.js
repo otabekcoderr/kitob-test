@@ -865,10 +865,12 @@ export async function getLeaderboard(limit = 50, forceRefresh = false) {
 
   // 1. Supabase dan olish
   try {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .limit(limit);
+    const { data, error } = await runQuery(
+      supabase
+        .from('profiles')
+        .select('*')
+        .limit(limit)
+    );
 
     if (!error && Array.isArray(data) && data.length > 0) {
       list = data;
@@ -1170,7 +1172,7 @@ export async function getCharacters(forceRefresh = false) {
 
   // 1. Supabase dan olish (sodda select)
   try {
-    const { data, error } = await supabase.from('characters').select('*');
+    const { data, error } = await runQuery(supabase.from('characters').select('*'));
     if (!error && Array.isArray(data) && data.length > 0) {
       list = data.map(c => ({
         id: c.id,
@@ -1425,11 +1427,12 @@ export async function deleteComment(id) {
  * Foydalanuvchi sahifalarga o'tganda (Home, Books, Leaderboard, Profile) kutmasdan 0ms da ochiladi.
  */
 export function prefetchCommonData() {
-  setTimeout(() => {
-    getBooks().catch(() => {});
-    getLeaderboard(20).catch(() => {});
-    getCharacters().catch(() => {});
-    const u = getCurrentUser();
-    if (u?.id) getUserResults(u.id).catch(() => {});
-  }, 100);
+  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 2500));
+  idle(async () => {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) return;
+      if (!_booksCache) await getBooks().catch(() => {});
+      if (!_charactersCache) await getCharacters().catch(() => {});
+    } catch { /* ignore */ }
+  });
 }
