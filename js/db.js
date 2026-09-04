@@ -1059,6 +1059,7 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     // Agar streak bekor qilingan xabari bo'lsa, uni tozalaymiz
     try {
       localStorage.removeItem(`kitobchi_streak_broken_ack_${user.id}`);
+      localStorage.removeItem(`kitobchi_broken_streak_${user.id}`);
     } catch {}
 
     // Mahalliy profil va sessiyani yangilaymiz
@@ -1140,11 +1141,28 @@ export async function getStreakStatus(user, userResults = []) {
       brokenStreakAmount = rawStreak;
       currentStreak = 0;
 
+      try {
+        localStorage.setItem(`kitobchi_broken_streak_${user.id}`, JSON.stringify({
+          date: todayStr,
+          amount: brokenStreakAmount,
+        }));
+      } catch {}
+
       // Profil va sessiyada streakni 0 ga tushiramiz
       const { updateProfile } = await import('./auth.js');
       await updateProfile({ streak: 0 }).catch(() => {});
     } else {
       currentStreak = 0;
+      try {
+        const brokenRaw = localStorage.getItem(`kitobchi_broken_streak_${user.id}`);
+        if (brokenRaw) {
+          const brokenInfo = JSON.parse(brokenRaw);
+          if (brokenInfo.date === todayStr && brokenInfo.amount > 0) {
+            isBroken = true;
+            brokenStreakAmount = brokenInfo.amount;
+          }
+        }
+      } catch {}
     }
   }
 

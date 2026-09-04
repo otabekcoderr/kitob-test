@@ -757,6 +757,13 @@ async function _init() {
   window.addEventListener('hashchange', _loadPage);
   window.addEventListener('kitobchi_profile_updated', () => {
     _updateNavbar();
+    const avatarEls = document.querySelectorAll('.nav__avatar');
+    avatarEls.forEach(el => {
+      el.classList.remove('avatar-swapping');
+      void el.offsetWidth;
+      el.classList.add('avatar-swapping');
+      setTimeout(() => el.classList.remove('avatar-swapping'), 600);
+    });
   });
 
   // Online / Offline holat belgisi

@@ -98,6 +98,36 @@ export async function render(container, { params, user }) {
   abortBtn?.addEventListener('click', onAbort);
   _cleanup.push(() => abortBtn?.removeEventListener('click', onAbort));
 
+  // Keyboard navigation shortcuts: 1-4, A-D, va Enter orqali keyingi savolga o'tish
+  const onKeyDown = (e) => {
+    if (!_quizActive) return;
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+
+    const key = e.key.toUpperCase();
+    const nextWrap = document.getElementById('quiz-next-wrap');
+    const nextBtn = document.getElementById('next-btn');
+
+    if (nextWrap && !nextWrap.hidden && nextBtn && !nextBtn.disabled) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        nextBtn.click();
+        return;
+      }
+    }
+
+    const keyMap = { '1': 0, '2': 1, '3': 2, '4': 3, 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
+    if (key in keyMap) {
+      const targetIdx = keyMap[key];
+      const optBtns = document.querySelectorAll('.quiz-option:not(:disabled)');
+      if (optBtns.length > 0 && targetIdx < optBtns.length) {
+        e.preventDefault();
+        optBtns[targetIdx].click();
+      }
+    }
+  };
+  document.addEventListener('keydown', onKeyDown);
+  _cleanup.push(() => document.removeEventListener('keydown', onKeyDown));
+
   // Testni boshlash
   _callbacks = {
     onReady:    _onReady,
@@ -123,7 +153,7 @@ function _onReady(questions) {
 
 function _onQuestion({ question, index, total, timeLeft }) {
   // Progress
-  const pct  = Math.round((index / total) * 100);
+  const pct  = Math.round(((index + 1) / total) * 100);
   const fill = document.getElementById('progress-fill');
   const text = document.getElementById('progress-text');
   if (fill) { fill.style.width = `${pct}%`; fill.setAttribute('aria-valuenow', pct); }
@@ -184,6 +214,12 @@ function _onQuestion({ question, index, total, timeLeft }) {
     void wrap.offsetWidth;
     wrap.classList.add('animate-slide-up');
   }
+
+  // Keyboard accessibility: yangi savolda birinchi variantga e'tibor qaratish
+  const firstOpt = optionsEl.querySelector('.quiz-option');
+  if (firstOpt) {
+    try { firstOpt.focus({ preventScroll: true }); } catch {}
+  }
 }
 
 function _onTick(timeLeft) {
@@ -238,12 +274,16 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
     nextWrap.hidden = false;
     const nextBtn = document.getElementById('next-btn');
     if (nextBtn) {
+      nextBtn.disabled = false;
       nextBtn.innerHTML = `Keyingi savolga o'tish →`;
       nextBtn.onclick = () => {
+        nextBtn.disabled = true;
         nextWrap.hidden = true;
         if (explanationEl) explanationEl.hidden = true;
         advanceNextQuestion(_callbacks);
       };
+      // Keyboard accessibility: darhol keyingi tugmaga fokus berish
+      try { nextBtn.focus(); } catch {}
     }
   }
 }

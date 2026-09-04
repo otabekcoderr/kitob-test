@@ -2,7 +2,7 @@
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
 import { getBooks, getLeaderboard, getUserResults, getStreakStatus } from '../db.js';
-import { escapeHtml, truncate }                                    from '../utils.js';
+import { escapeHtml, truncate, today }                               from '../utils.js';
 let _cleanup = [];
 
 // ---- Deterministik kunlik sinov (sanaga asoslangan) ----
@@ -51,7 +51,7 @@ export async function render(container, { params, user }) {
         </section>
 
         <!-- Streak uzilganligi haqida bildirishnoma (agar kecha kirmagan bo'lsa) -->
-        <div id="streak-broken-notice-wrap"></div>
+        <div id="streak-broken-notice-wrap" role="region" aria-label="Streak xabarnomasi"></div>
 
         <!-- Kunlik Streak va Haftalik Faollik Tracker -->
         <section class="section" id="streak-section" aria-label="Kunlik streak va faollik">
@@ -164,39 +164,52 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
 
   const dailyId = dailyBook ? String(dailyBook.id) : '';
 
-  // 1. Agar streak buzilgan bo'lsa va hali ko'rsatilmagan bo'lsa — animatsiyali bildirishnoma chiqaramiz
+  // 1. Agar streak buzilgan bo'lsa va hali ko'rsatilmagan bo'lsa — sokin, nafis xabarnoma chiqaramiz
   if (brokenWrap && streakStatus.isBroken && user) {
-    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayStr = today();
     const ackKey = `kitobchi_streak_broken_ack_${user.id}`;
     const alreadyAcked = localStorage.getItem(ackKey) === todayStr;
 
     if (!alreadyAcked) {
       brokenWrap.innerHTML = `
-        <div class="streak-broken-banner animate-shake" id="streak-broken-banner">
-          <div class="streak-broken-banner__icon">💔</div>
+        <div class="streak-broken-banner" id="streak-broken-banner">
+          <div class="streak-broken-banner__icon" aria-hidden="true">🕯️</div>
           <div style="flex:1;min-width:0;">
-            <div class="streak-broken-banner__title">Ketma-ketlik (Streak) uzildi!</div>
+            <div class="streak-broken-banner__title">Yangi sahifa, yangi marra!</div>
             <div class="streak-broken-banner__desc">
-              Afsus, kecha kunlik test yechilmagani sababli <strong>${streakStatus.brokenStreakAmount} kunlik</strong> streakingiz nolga tushdi. 
-              Tushkunlikka tushmang — haqiqiy kitobxonlar to'xtamaydi! Bugun yangi rekord o'rnatishni boshlang!
+              Kecha test yechish imkoni bo'lmadi va <strong>${streakStatus.brokenStreakAmount} kunlik</strong> streakingiz yangilandi. 
+              Tushkunlikka o'rin yo'q — har bir sahifa yangi bilim va yangi g'alabalarga boshlaydi. Bugun yangi zanjirni boshlang!
             </div>
           </div>
           <div class="streak-broken-banner__actions">
-            ${dailyId ? `<a href="#book?id=${escapeHtml(dailyId)}" class="btn btn-primary btn-sm">Yangi streakni boshlash 🔥</a>` : ''}
+            ${dailyId ? `<a href="#book?id=${escapeHtml(dailyId)}" id="btn-start-broken-streak" class="btn btn-primary btn-sm">Yangi streakni boshlash ✨</a>` : `<a href="#books" id="btn-start-broken-streak" class="btn btn-primary btn-sm">Kitob tanlash va boshlash ✨</a>`}
             <button class="btn btn-ghost btn-sm" id="btn-dismiss-broken-streak">Tushundim</button>
           </div>
         </div>
       `;
 
+      const startBtn = document.getElementById('btn-start-broken-streak');
+      if (startBtn) {
+        startBtn.onclick = () => {
+          localStorage.setItem(ackKey, todayStr);
+          try {
+            localStorage.removeItem(`kitobchi_broken_streak_${user.id}`);
+          } catch {}
+        };
+      }
+
       const dismissBtn = document.getElementById('btn-dismiss-broken-streak');
       if (dismissBtn) {
         dismissBtn.onclick = () => {
           localStorage.setItem(ackKey, todayStr);
+          try {
+            localStorage.removeItem(`kitobchi_broken_streak_${user.id}`);
+          } catch {}
           const banner = document.getElementById('streak-broken-banner');
           if (banner) {
             banner.style.transition = 'all 0.35s ease';
             banner.style.opacity = '0';
-            banner.style.transform = 'translateY(-12px)';
+            banner.style.transform = 'translateY(-10px)';
             setTimeout(() => { brokenWrap.innerHTML = ''; }, 350);
           }
         };
@@ -214,7 +227,9 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
       <div class="streak-card card">
         <div class="streak-card__header">
           <div class="streak-card__flame-wrap">
-            <div class="streak-card__flame streak-card__flame--idle">🔥</div>
+            <div class="streak-card__flame streak-card__flame--idle">
+              <span class="streak-card__flame-emoji">🔥</span>
+            </div>
             <div>
               <div class="streak-card__title">
                 <span class="streak-card__count">0</span>
@@ -238,25 +253,45 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
   const streak = streakStatus.currentStreak;
   const isDone = streakStatus.isCompletedToday;
 
+  // Streak o'sganda sakrab yangilanish (counterBounce)
+  const todayStr = today();
+  const bounceKey = `kitobchi_streak_bounced_date_${user.id}`;
+  const alreadyBouncedToday = localStorage.getItem(bounceKey) === todayStr;
+  const lastViewedKey = `kitobchi_viewed_streak_${user.id}`;
+  const lastViewedStreak = localStorage.getItem(lastViewedKey);
+  const didStreakGrow = lastViewedStreak !== null && streak > parseInt(lastViewedStreak, 10);
+  const shouldBounce = (didStreakGrow || (isDone && streak > 0)) && !alreadyBouncedToday;
+  if (shouldBounce) {
+    try { localStorage.setItem(bounceKey, todayStr); } catch {}
+  }
+  localStorage.setItem(lastViewedKey, String(streak));
+
   let subtitleText = '';
   if (isDone) {
-    subtitleText = '🎉 Ajoyib! Bugungi kunlik sinov muvaffaqiyatli bajarildi. Ertaga streakni davom ettiring!';
+    subtitleText = '✨ Ajoyib! Bugungi kunlik sinov muvaffaqiyatli bajarildi. Ertaga streakni davom ettiring!';
   } else if (streak > 0) {
     subtitleText = `⚡ Bugun hali sinov yechilmadi! 1 ta test yechib, ${streak + 1}-kunlik streakka erishing va olovni saqlab qoling.`;
   } else {
-    subtitleText = '🚀 Bugun birinchi testni yeching va yangi g\'alabali streakingizni boshlang!';
+    subtitleText = '📖 Bugun birinchi testni yeching va yangi g\'alabali streakingizni boshlang!';
   }
 
   widgetWrap.innerHTML = `
-    <div class="streak-card card">
+    <div class="streak-card ${isDone ? 'streak-card--completed' : ''} card">
       <div class="streak-card__header">
         <div class="streak-card__flame-wrap">
           <div class="streak-card__flame ${streak > 0 ? 'streak-card__flame--active' : 'streak-card__flame--idle'}">
-            🔥
+            <span class="streak-card__flame-emoji">🔥</span>
+            ${streak > 0 ? `
+              <div class="streak-flame-sparks" aria-hidden="true">
+                <span>✦</span>
+                <span>✨</span>
+                <span>✦</span>
+              </div>
+            ` : ''}
           </div>
           <div>
             <div class="streak-card__title">
-              <span class="streak-card__count">${streak}</span>
+              <span class="streak-card__count ${shouldBounce ? 'counter-bounce' : ''}">${streak}</span>
               <span class="streak-card__unit">kunlik streak</span>
             </div>
             <div class="streak-card__subtitle">${subtitleText}</div>
@@ -264,7 +299,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
         </div>
         <div class="streak-card__action">
           ${!isDone ? `
-            <a href="#book?id=${escapeHtml(dailyId)}" class="btn btn-primary btn-sm pulse-button">
+            <a href="${dailyId ? `#book?id=${escapeHtml(dailyId)}` : '#books'}" class="btn btn-primary btn-sm pulse-button">
               Bugungi sinovni yechish 🔥
             </a>
           ` : `

@@ -198,13 +198,13 @@ export async function render(container, { params, user }) {
   `;
 
   _addStyles();
-  _bindEvents(user);
+  _bindEvents(user, params);
   _loadCharacters(user);
   _loadHistory(user);
 }
 
 // ---- EVENTS ----
-function _bindEvents(user) {
+function _bindEvents(user, params = {}) {
   // Tablar
   const tabsEl = document.getElementById('profile-tabs');
   const onTabClick = (e) => {
@@ -223,6 +223,22 @@ function _bindEvents(user) {
   };
   tabsEl?.addEventListener('click', onTabClick);
   _cleanup.push(() => tabsEl?.removeEventListener('click', onTabClick));
+
+  // Agar params.tab ko'rsatilgan bo'lsa (masalan: #profile?tab=characters)
+  const initialTab = params?.tab;
+  if (initialTab && ['edit', 'characters', 'history'].includes(initialTab)) {
+    tabsEl?.querySelectorAll('.tab').forEach(t => {
+      const isMatch = t.dataset.tab === initialTab;
+      t.classList.toggle('tab--active', isMatch);
+      t.setAttribute('aria-selected', String(isMatch));
+    });
+    const editEl = document.getElementById('tab-edit');
+    const charsEl = document.getElementById('tab-characters');
+    const histEl = document.getElementById('tab-history');
+    if (editEl) editEl.hidden = (initialTab !== 'edit');
+    if (charsEl) charsEl.hidden = (initialTab !== 'characters');
+    if (histEl) histEl.hidden = (initialTab !== 'history');
+  }
 
   // Avatar oldindan ko'rish
   const avatarInput  = document.getElementById('pf-avatar');
@@ -364,7 +380,12 @@ function _renderCharacterGrid(user) {
         const isSelected = String(char.id) === String(curCharId) ||
           (user.avatar && user.avatar === char.avatar && !curCharId && !user.avatarImage);
         return `
-          <div class="character-card ${isSelected ? 'selected' : ''}" data-char-id="${escapeHtml(char.id)}">
+          <div class="character-card ${isSelected ? 'selected' : ''}"
+               data-char-id="${escapeHtml(char.id)}"
+               tabindex="0"
+               role="button"
+               aria-pressed="${isSelected ? 'true' : 'false'}"
+               aria-label="${escapeHtml(char.name)}: ${escapeHtml(char.bookTitle || '')}${isSelected ? ' (Tanlangan)' : ''}">
             <div class="character-avatar">
               ${char.avatarImage
                 ? `<img src="${escapeHtml(char.avatarImage)}" alt="${escapeHtml(char.name)}" class="character-avatar-img">`
@@ -373,18 +394,50 @@ function _renderCharacterGrid(user) {
             </div>
             <div class="character-name">${escapeHtml(char.name)}</div>
             <div class="character-book">${escapeHtml(char.bookTitle || '')}</div>
-            ${isSelected ? `<div class="character-selected-badge">✓ Tanlangan</div>` : ''}
+            ${isSelected ? `<div class="character-selected-badge">✨ Tanlangan</div>` : ''}
           </div>
         `;
       }).join('')}
     </div>
   `;
 
-  // Click handler
+  // Taktil 3D chuqurlik va click handler
+  const canHover = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   container.querySelectorAll('.character-card').forEach(card => {
-    card.addEventListener('click', async () => {
+    if (canHover && !prefersReducedMotion) {
+      const onPointerMove = (e) => {
+        if (e.pointerType === 'touch') return;
+        card.style.transition = 'transform 0.08s ease-out, box-shadow 0.25s ease';
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const tiltX = ((y / (rect.height / 2)) * -6).toFixed(1);
+        const tiltY = ((x / (rect.width / 2)) * 6).toFixed(1);
+        card.style.transform = `perspective(800px) translateY(-6px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.03)`;
+      };
+      const resetTilt = () => {
+        card.style.transition = '';
+        card.style.transform = '';
+      };
+      card.addEventListener('pointermove', onPointerMove);
+      card.addEventListener('pointerleave', resetTilt);
+      card.addEventListener('pointercancel', resetTilt);
+      card.addEventListener('mouseleave', resetTilt);
+    }
+
+    const selectCard = async () => {
       const charId = card.dataset.charId;
       await _selectCharacter(charId);
+    };
+
+    card.addEventListener('click', selectCard);
+    card.addEventListener('keydown', async (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        await selectCard();
+      }
     });
   });
 }
@@ -403,7 +456,13 @@ async function _selectCharacter(charId) {
     if (res.success) {
       showNotification(`${char.name} personaji tanlandi! 🎭`, 'success');
       const avatarDisp = document.getElementById('avatar-display');
-      if (avatarDisp) avatarDisp.innerHTML = _avatarHTML(res.user);
+      if (avatarDisp) {
+        avatarDisp.innerHTML = _avatarHTML(res.user);
+        avatarDisp.classList.remove('avatar-swapping');
+        void avatarDisp.offsetWidth;
+        avatarDisp.classList.add('avatar-swapping');
+        setTimeout(() => avatarDisp.classList.remove('avatar-swapping'), 600);
+      }
       _renderCharacterGrid(res.user);
       window.dispatchEvent(new CustomEvent('kitobchi_profile_updated', { detail: res.user }));
     } else {
@@ -554,75 +613,7 @@ function _addStyles() {
     .profile-tabs { margin-bottom: 24px; }
     .profile-tabs .tab { display: inline-flex; align-items: center; gap: 6px; }
 
-    /* Character grid */
-    .character-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-      margin: 16px 0;
-    }
-    .character-card {
-      cursor: pointer;
-      border: 2px solid var(--border-color, var(--divider, #e2e8f0));
-      border-radius: var(--radius-md, 12px);
-      padding: 14px 12px;
-      text-align: center;
-      background: var(--surface, var(--bg-primary, #fff));
-      transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .character-card:hover {
-      border-color: var(--color-primary, var(--ochre, #6366f1));
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .character-card.selected {
-      border-color: var(--color-primary, var(--ochre, #6366f1));
-      background: rgba(99, 102, 241, 0.08);
-      box-shadow: 0 0 0 1px var(--color-primary, var(--ochre, #6366f1));
-    }
-    .character-avatar {
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .character-avatar-img {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 0 auto;
-      border: 1.5px solid var(--divider, #e2e8f0);
-    }
-    .character-avatar-emoji {
-      font-size: 2.5rem;
-      line-height: 1;
-      display: block;
-    }
-    .character-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--ink, var(--text-primary, #1e293b));
-      margin-bottom: 2px;
-    }
-    .character-book {
-      font-size: 0.75rem;
-      color: var(--ink-muted, var(--text-muted, #64748b));
-    }
-    .character-selected-badge {
-      color: var(--color-success, #10b981);
-      font-size: 0.75rem;
-      font-weight: 700;
-      margin-top: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
+    /* Character grid styles are centralized in style.css */
 
     /* Avatar preview */
     .pf-avatar-preview {
