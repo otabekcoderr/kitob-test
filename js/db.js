@@ -21,10 +21,20 @@ import * as localData    from './data.js';
 const TIMEOUT = 2_500;
 
 // ============================================================
-// TEZKOR IN-MEMORY KESH (SPEED & PERFORMANCE)
+// TEZKOR IN-MEMORY KESH (SPEED & PERFORMANCE — 0ms LATENCY)
 // ============================================================
 let _booksCache = null;
 const _questionsCache = new Map();
+
+let _leaderboardCache = null;
+let _leaderboardCacheTime = 0;
+const LEADERBOARD_CACHE_TTL = 45 * 1000; // 45 soniya
+
+let _charactersCache = null;
+
+const _userResultsCache = new Map();
+const _userResultsTime = new Map();
+const USER_RESULTS_CACHE_TTL = 30 * 1000; // 30 soniya
 
 // ============================================================
 // ICHKI YORDAMCHI FUNKSIYALAR
@@ -162,6 +172,11 @@ function _getDeletedQuestionIds() {
 export function clearDbCache() {
   _booksCache = null;
   _questionsCache.clear();
+  _leaderboardCache = null;
+  _leaderboardCacheTime = 0;
+  _charactersCache = null;
+  _userResultsCache.clear();
+  _userResultsTime.clear();
 }
 
 /**
@@ -444,12 +459,24 @@ export async function deleteBook(id) {
  * @param {string|number} bookId
  * @returns {Promise<object[]>} — savollar massivi
  */
-export async function getQuestions(bookId) {
+export async function getQuestions(bookId, forceRefresh = false) {
   if (!bookId) return [];
+
+  const cacheKey = String(bookId);
+  if (!forceRefresh && _questionsCache.has(cacheKey)) {
+    return _questionsCache.get(cacheKey);
+  }
 
   const targetBook = await getBookById(bookId);
   const targetId   = targetBook ? String(targetBook.id) : String(bookId);
   const targetSlug = _slugify(targetBook ? targetBook.title : bookId);
+
+  if (!forceRefresh && _questionsCache.has(targetId)) {
+    return _questionsCache.get(targetId);
+  }
+  if (!forceRefresh && targetSlug && _questionsCache.has(targetSlug)) {
+    return _questionsCache.get(targetSlug);
+  }
 
   let dbQuestions = [];
   try {
@@ -520,7 +547,12 @@ export async function getQuestions(bookId) {
     }
   });
 
-  return Array.from(qMap.values());
+  const finalQuestions = Array.from(qMap.values());
+  _questionsCache.set(cacheKey, finalQuestions);
+  _questionsCache.set(targetId, finalQuestions);
+  if (targetSlug) _questionsCache.set(targetSlug, finalQuestions);
+
+  return finalQuestions;
 }
 
 /**
@@ -575,6 +607,7 @@ export async function saveQuestion(data, id = null) {
     console.warn('[db] Supabase save question fallback:', err);
   }
 
+  _questionsCache.clear();
   return { success: true, question: fullQ };
 }
 
@@ -604,6 +637,7 @@ export async function deleteQuestion(id) {
     console.warn('[db] Supabase delete question fallback:', err);
   }
 
+  _questionsCache.clear();
   return { success: true };
 }
 
@@ -643,6 +677,14 @@ export async function saveQuizResult(result) {
     localStorage.setItem('user_quiz_results', JSON.stringify(existing.slice(0, 30)));
     localStorage.setItem('last_quiz_result', JSON.stringify(result));
   } catch { /* ignore */ }
+
+  // Natijalar va reyting keshini tozalaymiz (yangi natija darhol aks etishi uchun)
+  if (uid) {
+    _userResultsCache.delete(uid);
+    _userResultsTime.delete(uid);
+  }
+  _leaderboardCache = null;
+  _leaderboardCacheTime = 0;
 
   try {
     if (!user) return { success: false, error: 'Tizimga kirmagansiz.' };
@@ -689,8 +731,15 @@ let _quizResultsTableMissing = false;
  * @param {string} [userId] — ko'rsatilmasa joriy foydalanuvchi
  * @returns {Promise<object[]>}
  */
-export async function getUserResults(userId) {
+export async function getUserResults(userId, forceRefresh = false) {
   const uid = userId ?? getCurrentUser()?.id;
+  if (!uid) return [];
+
+  const now = Date.now();
+  if (!forceRefresh && _userResultsCache.has(uid) && (now - (_userResultsTime.get(uid) || 0) < USER_RESULTS_CACHE_TTL)) {
+    return _userResultsCache.get(uid);
+  }
+
   let dbData = [];
 
   try {
@@ -713,14 +762,19 @@ export async function getUserResults(userId) {
   if (dbData.length > 0) {
     try {
       const books = await getBooks();
-      return dbData.map(r => {
+      const res = dbData.map(r => {
         const b = books.find(x => String(x.id) === String(r.book_id));
         return {
           ...r,
           books: b ? { title: b.title, author: b.author } : null
         };
       });
+      _userResultsCache.set(uid, res);
+      _userResultsTime.set(uid, now);
+      return res;
     } catch {
+      _userResultsCache.set(uid, dbData);
+      _userResultsTime.set(uid, now);
       return dbData;
     }
   }
@@ -733,13 +787,16 @@ export async function getUserResults(userId) {
         const userList = JSON.parse(userRaw);
         if (Array.isArray(userList) && userList.length > 0) {
           const books = await getBooks();
-          return userList.map(r => {
+          const res = userList.map(r => {
             const b = books.find(x => String(x.id) === String(r.bookId || r.book_id));
             return {
               ...r,
               books: b ? { title: b.title, author: b.author } : null
             };
           });
+          _userResultsCache.set(uid, res);
+          _userResultsTime.set(uid, now);
+          return res;
         }
       }
     }
@@ -749,13 +806,16 @@ export async function getUserResults(userId) {
       const list = JSON.parse(raw);
       if (Array.isArray(list) && list.length > 0) {
         const books = await getBooks();
-        return list.map(r => {
+        const res = list.map(r => {
           const b = books.find(x => String(x.id) === String(r.bookId || r.book_id));
           return {
             ...r,
             books: b ? { title: b.title, author: b.author } : null
           };
         });
+        _userResultsCache.set(uid, res);
+        _userResultsTime.set(uid, now);
+        return res;
       }
     }
 
@@ -765,10 +825,13 @@ export async function getUserResults(userId) {
       if (single && single.percentage !== undefined) {
         const books = await getBooks();
         const b = books.find(x => String(x.id) === String(single.bookId || single.book_id));
-        return [{
+        const res = [{
           ...single,
           books: b ? { title: b.title, author: b.author } : null
         }];
+        _userResultsCache.set(uid, res);
+        _userResultsTime.set(uid, now);
+        return res;
       }
     }
   } catch { /* ignore */ }
@@ -792,7 +855,12 @@ const SAMPLE_LEADERBOARD = [
  * @param {number} [limit=50] — nechta foydalanuvchi
  * @returns {Promise<object[]>}
  */
-export async function getLeaderboard(limit = 50) {
+export async function getLeaderboard(limit = 50, forceRefresh = false) {
+  const now = Date.now();
+  if (!forceRefresh && _leaderboardCache && (now - _leaderboardCacheTime < LEADERBOARD_CACHE_TTL)) {
+    return _leaderboardCache.slice(0, limit);
+  }
+
   let list = [];
 
   // 1. Supabase dan olish
@@ -867,6 +935,9 @@ export async function getLeaderboard(limit = 50) {
 
   // Ball bo'yicha kamayish tartibida saralaymiz
   list.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+  _leaderboardCache = list;
+  _leaderboardCacheTime = now;
 
   return list.slice(0, limit);
 }
@@ -954,6 +1025,11 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     // Mahalliy profil va sessiyani yangilaymiz
     const { updateProfile } = await import('./auth.js');
     await updateProfile({ score: newScore, streak: newStreak, lastQuizDate: todayDate });
+
+    _leaderboardCache = null;
+    _leaderboardCacheTime = 0;
+    _userResultsCache.delete(user.id);
+    _userResultsTime.delete(user.id);
 
     return { success: true, newStreak, newScore };
 
@@ -1085,7 +1161,11 @@ export async function getStreakStatus(user, userResults = []) {
  * Barcha personajlarni qaytaradi (Supabase + localData + localStorage).
  * @returns {Promise<object[]>}
  */
-export async function getCharacters() {
+export async function getCharacters(forceRefresh = false) {
+  if (!forceRefresh && _charactersCache && _charactersCache.length > 0) {
+    return _charactersCache;
+  }
+
   let list = [];
 
   // 1. Supabase dan olish (sodda select)
@@ -1140,6 +1220,7 @@ export async function getCharacters() {
     return c;
   });
 
+  _charactersCache = result;
   return result;
 }
 
@@ -1189,6 +1270,7 @@ export async function saveCharacter(data, id = null) {
     console.warn('[db] saveCharacter Supabase fallback:', err);
   }
 
+  _charactersCache = null;
   return { success: true, character: fullChar };
 }
 
@@ -1211,6 +1293,7 @@ export async function deleteCharacter(id) {
     console.warn('[db] deleteCharacter Supabase fallback:', err);
   }
 
+  _charactersCache = null;
   return { success: true };
 }
 
@@ -1335,4 +1418,18 @@ export async function deleteComment(id) {
   }
 
   return { success: true };
+}
+
+/**
+ * Asosiy ma'lumotlarni orqa fonda oldindan keshlab qo'yadi.
+ * Foydalanuvchi sahifalarga o'tganda (Home, Books, Leaderboard, Profile) kutmasdan 0ms da ochiladi.
+ */
+export function prefetchCommonData() {
+  setTimeout(() => {
+    getBooks().catch(() => {});
+    getLeaderboard(20).catch(() => {});
+    getCharacters().catch(() => {});
+    const u = getCurrentUser();
+    if (u?.id) getUserResults(u.id).catch(() => {});
+  }, 100);
 }

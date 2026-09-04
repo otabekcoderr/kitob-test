@@ -103,8 +103,87 @@ const HOME_ROUTE    = 'home';
 // 2. ROUTER
 // ============================================================
 
-/** Joriy yuklangan sahifa moduli (cleanup uchun) */
+// Joriy yuklangan sahifa moduli (cleanup uchun)
 let _currentPage = null;
+
+// Marshrut modullari in-memory keshi (0ms yuklash)
+const _moduleCache = new Map();
+
+/**
+ * Marshrut modulini keshdan yoki lazy import orqali yuklaydi.
+ */
+async function _loadRouteModule(route) {
+  if (_moduleCache.has(route)) {
+    return _moduleCache.get(route);
+  }
+  const module = await route.load();
+  _moduleCache.set(route, module);
+  return module;
+}
+
+let _progressTimer = null;
+function _startProgressBar() {
+  clearTimeout(_progressTimer);
+  let bar = document.getElementById('route-progress-bar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'route-progress-bar';
+    bar.style.cssText = 'position:fixed;top:0;left:0;height:2.5px;width:0%;background:linear-gradient(90deg,var(--ochre),var(--terracotta));z-index:99999;transition:width 0.25s ease,opacity 0.2s ease;pointer-events:none;';
+    document.body.appendChild(bar);
+  }
+  bar.style.opacity = '1';
+  bar.style.width = '25%';
+  _progressTimer = setTimeout(() => {
+    if (bar && bar.style.opacity === '1') {
+      bar.style.width = '75%';
+    }
+  }, 70);
+}
+
+function _finishProgressBar() {
+  clearTimeout(_progressTimer);
+  const bar = document.getElementById('route-progress-bar');
+  if (!bar) return;
+  bar.style.width = '100%';
+  setTimeout(() => {
+    bar.style.opacity = '0';
+    setTimeout(() => {
+      if (bar) bar.style.width = '0%';
+    }, 200);
+  }, 100);
+}
+
+/**
+ * Bo'sh vaqtda barcha asosiy marshrutlarni oldindan xotiraga yuklab qo'yadi.
+ */
+function _preloadRoutes() {
+  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200));
+  idle(() => {
+    ROUTES.forEach(r => {
+      if (r.path !== '404' && !_moduleCache.has(r)) {
+        r.load().then(m => _moduleCache.set(r, m)).catch(() => {});
+      }
+    });
+  });
+}
+
+/**
+ * Havolalar ustiga sichqoncha kelganda yoki tegilganda oldindan yuklash.
+ */
+function _bindPrefetchEvents() {
+  const onIntent = (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    const href = link.getAttribute('href') || '';
+    const rawPath = href.replace(/^#/, '').split('?')[0];
+    const r = ROUTES.find(x => x.path === rawPath);
+    if (r && !_moduleCache.has(r)) {
+      r.load().then(m => _moduleCache.set(r, m)).catch(() => {});
+    }
+  };
+  document.addEventListener('mouseover', onIntent, { passive: true });
+  document.addEventListener('touchstart', onIntent, { passive: true });
+}
 
 /**
  * Joriy hash dan path va query parametrlarini ajratib oladi.
@@ -164,30 +243,36 @@ async function _loadPage() {
   // Navbar holat yangilash
   _updateNavbar();
 
-  // Joriy sahifani tozalash
-  if (_currentPage && typeof _currentPage.cleanup === 'function') {
-    try { _currentPage.cleanup(); } catch { /* ignore */ }
-  }
-  _currentPage = null;
-
   // Loading holati
   const appEl = document.getElementById('app');
   if (!appEl) return;
 
-  appEl.innerHTML = `
-    <div class="page-loader" aria-label="Yuklanmoqda...">
-      <div class="page-loader__spinner"></div>
-    </div>
-  `;
+  const isInitialLoad = !appEl.hasChildNodes() || Boolean(appEl.querySelector('.page-loader'));
+  if (isInitialLoad) {
+    appEl.innerHTML = `
+      <div class="page-loader" aria-label="Yuklanmoqda...">
+        <div class="page-loader__spinner"></div>
+      </div>
+    `;
+  } else {
+    // Sahifalararo o'tishda ekranni bo'shatib oq qilib yubormaymiz — nozik progress bar
+    _startProgressBar();
+  }
 
   try {
-    // Dynamic import — lazy yuklash
-    const module = await route.load();
+    // Dynamic import — keshdan yoki lazy yuklash (0ms)
+    const module = await _loadRouteModule(route);
 
     // Modul render() funksiyasiga ega bo'lishi kerak
     if (typeof module.render !== 'function') {
       throw new Error(`${path} sahifasida render() funksiyasi topilmadi.`);
     }
+
+    // Yangi modul tayyor bo'lgach, avvalgi sahifani tozalash
+    if (_currentPage && typeof _currentPage.cleanup === 'function') {
+      try { _currentPage.cleanup(); } catch { /* ignore */ }
+    }
+    _currentPage = null;
 
     // Sahifani render qilish
     await module.render(appEl, { params, user });
@@ -198,7 +283,11 @@ async function _loadPage() {
     // Aktiv nav havolasini belgilash
     _setActiveNavLink(path);
 
+    _finishProgressBar();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
   } catch (err) {
+    _finishProgressBar();
     console.error(`[router] Sahifa yuklanmadi (${path}):`, err);
 
     appEl.innerHTML = `
@@ -683,14 +772,15 @@ async function _init() {
   // Supabase sessiyasini kutib, keyin sahifani yuklaymiz
   await _syncSession();
   await _loadPage();
-}
 
-// Sahifalarni fon rejimida oldindan yuklash (Instant 0ms routing)
-setTimeout(() => {
-  ROUTES.forEach(r => {
-    try { r.load(); } catch { /* ignore */ }
-  });
-}, 800);
+  // Orqa fonda barcha marshrutlar va ma'lumotlarni oldindan keshlab qo'yish (Instant 0ms routing)
+  _preloadRoutes();
+  _bindPrefetchEvents();
+  try {
+    const { prefetchCommonData } = await import('./db.js');
+    prefetchCommonData();
+  } catch {}
+}
 
 // DOM tayyor bo'lganda ishga tushurish
 if (document.readyState === 'loading') {
