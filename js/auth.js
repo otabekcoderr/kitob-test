@@ -165,26 +165,56 @@ function _buildUserObject(authUser, profileData = {}) {
   };
 }
 
+// Profil so'rovlarini deduplikatsiya qilish uchun kesh (parallel so'rovlarni birlashtiradi)
+const _profileInFlight = new Map();
+
 /**
  * profiles jadvalidan foydalanuvchi qatorini olib keladi.
- * Topilmasa null qaytaradi (406 xatolik bermasligi uchun maybeSingle ishlatiladi).
+ * Timeout va AbortSignal bilan himoyalangan.
+ * Parallel so'rovlar deduplikatsiya qilinadi.
+ * Topilmasa null qaytaradi.
  *
  * @param {string} userId
  * @returns {Promise<object|null>}
  */
-async function _fetchProfile(userId) {
-  try {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle();
+export async function _fetchProfile(userId) {
+  if (!userId) return null;
 
-    if (error) return null;
-    return data;
-  } catch {
-    return null;
+  // Agar ayni paytda shu userId uchun so'rov ketayotgan bo'lsa — mavjud Promiseni qaytaramiz
+  if (_profileInFlight.has(userId)) {
+    return _profileInFlight.get(userId);
   }
+
+  const promise = (async () => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      try { controller.abort(); } catch {}
+    }, 3500);
+
+    try {
+      let query = supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId);
+
+      if (typeof query.abortSignal === 'function') {
+        query = query.abortSignal(controller.signal);
+      }
+
+      const { data, error } = await query.maybeSingle();
+      clearTimeout(timer);
+      if (error) return null;
+      return data;
+    } catch {
+      clearTimeout(timer);
+      return null;
+    } finally {
+      _profileInFlight.delete(userId);
+    }
+  })();
+
+  _profileInFlight.set(userId, promise);
+  return promise;
 }
 
 // ============================================================
@@ -578,12 +608,33 @@ export function initAuth({ onLogin, onLogout } = {}) {
     async (event, session) => {
 
       if (event === 'SIGNED_IN' && session?.user) {
-        // Profil ma'lumotlarini olib, sessiyani yangilaymiz
-        const profile = await _fetchProfile(session.user.id);
-        const userObj = _buildUserObject(session.user, profile || {});
-        _saveSession(userObj);
+        // 1. Agar foydalanuvchi ma'lumotlari keshda bo'lsa — zudlik bilan UI ni ochamiz (0ms instant render)
+        const cachedUser = getCurrentUser();
+        if (cachedUser && cachedUser.id === session.user.id) {
+          if (typeof onLogin === 'function') onLogin(cachedUser);
+          // Orqa fonda profilni xavfsiz yangilab qo'yamiz (ekranni qotirmaydi)
+          _fetchProfile(session.user.id).then(profile => {
+            if (profile) {
+              const userObj = _buildUserObject(session.user, profile);
+              _saveSession(userObj);
+              if (typeof onLogin === 'function') onLogin(userObj);
+            }
+          }).catch(() => {});
+          return;
+        }
 
-        if (typeof onLogin === 'function') onLogin(userObj);
+        // 2. Keshda bo'lmasa — profilni olib kelib sessiyani saqlaymiz
+        try {
+          const profile = await _fetchProfile(session.user.id);
+          const userObj = _buildUserObject(session.user, profile || {});
+          _saveSession(userObj);
+          if (typeof onLogin === 'function') onLogin(userObj);
+        } catch {
+          // Tarmoq uzilsa ham sessiyadagi asosiy user ma'lumoti bilan davom etamiz
+          const fallbackObj = _buildUserObject(session.user, {});
+          _saveSession(fallbackObj);
+          if (typeof onLogin === 'function') onLogin(fallbackObj);
+        }
 
       } else if (event === 'SIGNED_OUT') {
         _saveSession(null);

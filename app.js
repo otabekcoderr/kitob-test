@@ -664,32 +664,33 @@ const SESSION_KEY = 'kitobchi_user';
 async function _syncSession() {
   try {
     const { supabase } = await import('./supabase-client.js');
+    const { _fetchProfile } = await import('./auth.js');
 
-    // 3 soniya timeout — tarmoq muammosida qotib qolmaslik uchun
+    // 3.5 soniya timeout — tarmoq muammosida qotib qolmaslik uchun
+    let isTimedOut = false;
     const result = await Promise.race([
       supabase.auth.getSession(),
       new Promise(resolve =>
-        setTimeout(() => resolve({ data: { session: null } }), 3000)
+        setTimeout(() => {
+          isTimedOut = true;
+          resolve({ data: { session: null } });
+        }, 3500)
       ),
     ]);
 
     const session = result?.data?.session;
 
     if (!session?.user) {
-      // Sessiya yo'q — localStorage ni tozalaymiz
-      localStorage.removeItem(SESSION_KEY);
+      if (!isTimedOut && result?.error === null) {
+        localStorage.removeItem(SESSION_KEY);
+      }
       return;
     }
 
-    // Sessiya bor — profiles jadvalidan profil olamiz
+    // Sessiya bor — profilni deduplikatsiyalangan va timeoutli _fetchProfile orqali olamiz
     let profile = null;
     try {
-      const { data } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .maybeSingle();
-      profile = data;
+      profile = await _fetchProfile(session.user.id);
     } catch { /* ignore */ }
 
     // Mavjud foydalanuvchi ma'lumotlarini o'qiymiz
@@ -777,9 +778,11 @@ async function _init() {
   window.addEventListener('offline', _updateOnlineStatus);
   _updateOnlineStatus();
 
-  // Supabase sessiyasini kutib, keyin sahifani yuklaymiz
-  await _syncSession();
+  // 1. Keshdagi sessiya bilan sahifani zudlik bilan ochamiz (0ms initial loader)
   await _loadPage();
+
+  // 2. Orqa fonda sessiyani asinxron va xavfsiz sinxronlashtiramiz (sahifani bloklamaydi)
+  _syncSession().catch(() => {});
 
   // Orqa fonda barcha marshrutlar va ma'lumotlarni oldindan keshlab qo'yish (Instant 0ms routing)
   _preloadRoutes();
