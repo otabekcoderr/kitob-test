@@ -1476,85 +1476,236 @@ h1, h2, h3, h4, h5, h6 {
    21. RESPONSIVE
    ============================================================ */
 
+/* iOS Safari auto-zoom oldini olish (input font-size kamida 16px bo'lishi shart) */
 @media (max-width: 768px) {
-  /* Sidebar yashirish — mobilda pastdagi tab-bar */
-  .navbar {
-    position:      fixed;
-    top:           auto;
-    bottom:        0;
-    left:          0;
-    right:         0;
-    width:         100% !important;
-    height:        56px;
-    flex-direction: row;
-    border-right:  none;
-    border-top:    1px solid var(--divider);
-    overflow:      visible;
-    transition:    none;
+  input, select, textarea, .input {
+    font-size: 16px !important;
   }
-  .navbar:hover { width: 100% !important; }
+
+  /* Mobil Topbar: yuqori yopishqoq panel */
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(52px + env(safe-area-inset-top, 0px));
+    padding: env(safe-area-inset-top, 0px) 16px 0 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--divider);
+    z-index: 999;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .mobile-topbar__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .mobile-topbar__mark {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: var(--ochre);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(183, 110, 22, 0.3);
+  }
+
+  .mobile-topbar__name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .mobile-topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mobile-topbar__btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--divider);
+    background: var(--paper-alt);
+    color: var(--ink-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-topbar__btn:active {
+    transform: scale(0.92);
+    background: var(--ochre-light);
+    color: var(--ochre);
+  }
+
+  /* Pastki tab-bar navigatsiya (Safe area bilan) */
+  .navbar {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    height: calc(58px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    flex-direction: row;
+    border-right: none;
+    border-top: 1px solid var(--divider);
+    background: var(--surface);
+    box-shadow: 0 -4px 18px rgba(23, 54, 45, 0.05);
+    overflow: visible;
+    transition: transform 0.25s ease;
+    z-index: 1000;
+  }
+
+  /* Quiz paytida tab-barni yashirish va to'liq diqqatni testga qaratish */
+  body.in-quiz .navbar {
+    transform: translateY(100%);
+    pointer-events: none;
+  }
+  body.in-quiz .page {
+    padding-bottom: 24px !important;
+  }
 
   .navbar__inner {
     flex-direction: row;
-    padding:        0;
-    height:         100%;
-    overflow:       visible;
+    padding: 0;
+    height: 58px;
+    overflow: visible;
+    width: 100%;
   }
 
-  /* Logo yashirish */
+  /* Logo yashirish desktop bar ichida */
   .navbar__logo { display: none; }
 
   /* Nav links — gorizontal tab bar */
   .nav__links {
     flex-direction: row;
-    flex:           1;
+    flex: 1;
     justify-content: space-around;
-    padding:        0 4px;
-    gap:            0;
-    overflow:       visible;
+    padding: 0 4px;
+    gap: 0;
+    margin: 0;
+    overflow: visible;
   }
-  .nav__links li { flex: 1; }
+
+  .nav__links li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
   .nav__item--mobile-only { display: block; }
+
   .nav__link {
     flex-direction: column;
-    align-items:    center;
+    align-items: center;
     justify-content: center;
-    padding:        6px 2px;
-    font-size:      0.625rem;
-    gap:            2px;
-    min-height:     auto;
+    padding: 6px 2px;
+    font-size: 0.6875rem !important; /* 11px */
+    font-weight: 600;
+    gap: 3px;
+    min-height: 48px;
+    width: 100%;
+    border-radius: var(--radius-md);
+    color: var(--ink-muted);
+    transition: color 0.15s ease, background-color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
   }
-  .nav__link-icon svg { width: 20px; height: 20px; }
-  .nav__link-label { opacity: 1 !important; font-size: 0.625rem; }
+
+  .nav__link-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav__link-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+  }
+
+  .nav__link-label {
+    opacity: 1 !important;
+    font-size: 0.6875rem !important;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .nav__link--active {
+    color: var(--ochre) !important;
+    background: var(--ochre-light);
+    font-weight: 700;
+  }
+
+  .nav__link--active .nav__link-icon svg {
+    stroke: var(--ochre);
+  }
 
   /* Actions yashirish */
   .navbar__actions { display: none; }
 
   /* Page padding */
   .page {
-    padding-left:   0 !important;
-    padding-top:    16px;
-    padding-bottom: 72px;
+    padding-left: 0 !important;
+    padding-top: 16px !important;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
   }
-  .footer { padding-left: 0 !important; margin-bottom: 56px; }
+
+  .footer {
+    padding-left: 0 !important;
+    margin-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+  }
 
   .grid-2, .grid-3, .grid-4 {
     grid-template-columns: 1fr;
   }
 
+  /* Kitoblar griti mobilda har doim nafis 2 ustunli vitrina! */
   .grid-auto {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
   }
 
-  .container { padding: 0 16px; }
+  .container {
+    padding: 0 16px !important;
+  }
+
+  .card {
+    padding: 16px !important;
+  }
 }
 
 @media (min-width: 769px) {
+  .mobile-topbar { display: none !important; }
   .mobile-menu { display: none !important; }
 }
 
 @media (max-width: 480px) {
-  .btn-lg { padding: 12px 24px; }
+  .btn-lg { padding: 12px 20px; }
   .modal  { padding: 20px; }
 }
 
@@ -2760,13 +2911,69 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ============================================================
+   27. COMPREHENSIVE MOBILE UI/UX OPTIMIZATIONS (360px - 768px)
+   ============================================================ */
+
+/* Universal touch targets & accessibility */
+@media (max-width: 768px) {
+  button, .btn, a.nav__link, .tab {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn {
+    min-height: 44px;
+  }
+  .btn-sm {
+    min-height: 36px;
+  }
+  .tabs {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    padding-bottom: 2px;
+  }
+  .tab {
+    scroll-snap-align: start;
+    min-height: 40px;
+  }
+}
+
+/* Tablet & Mobile Hero (< 640px) */
+@media (max-width: 640px) {
+  .hero {
+    padding: clamp(1.25rem, 4vw, 2rem) 0 1.25rem 0;
+    margin-bottom: 1.5rem;
+  }
+  .hero__title {
+    font-size: clamp(1.85rem, 6.5vw, 2.6rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 10px;
+  }
+  .hero__desc {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+  .hero div[style*="display:flex"] {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero div[style*="display:flex"] .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Streak card & Faollik tracker */
 @media (max-width: 640px) {
   .streak-card {
     padding: 16px;
+    margin-bottom: 18px;
   }
   .streak-card__header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
   }
   .streak-card__action {
     width: 100%;
@@ -2775,9 +2982,12 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     justify-content: center;
   }
+  .streak-week__grid {
+    gap: 5px;
+  }
   .streak-day__circle {
-    width: 36px;
-    height: 36px;
+    width: 35px;
+    height: 35px;
     font-size: 0.75rem;
   }
   .streak-day__flame {
@@ -2786,6 +2996,8 @@ h1, h2, h3, h4, h5, h6 {
   .streak-broken-banner {
     flex-direction: column;
     align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
   }
   .streak-broken-banner__actions {
     width: 100%;
@@ -2794,6 +3006,340 @@ h1, h2, h3, h4, h5, h6 {
   .streak-broken-banner__actions .btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .streak-card {
+    padding: 14px 10px;
+  }
+  .streak-week__grid {
+    gap: 4px;
+  }
+  .streak-day__circle {
+    width: 33px;
+    height: 33px;
+    font-size: 0.72rem;
+  }
+  .streak-day__label {
+    font-size: 0.65rem;
+  }
+  .streak-day__today-indicator {
+    font-size: 0.6rem;
+    padding: 1px 4px;
+  }
+  .streak-card__flame {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+  .streak-card__title {
+    font-size: 1.15rem;
+  }
+  .streak-card__count {
+    font-size: 1.55rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .streak-card {
+    padding: 12px 6px;
+  }
+  .streak-week__grid {
+    gap: 2px;
+  }
+  .streak-day__circle {
+    width: 30px;
+    height: 30px;
+    font-size: 0.68rem;
+  }
+  .streak-day__label {
+    font-size: 0.6rem;
+  }
+}
+
+/* Bugungi sinov kartasi */
+@media (max-width: 600px) {
+  .daily-challenge {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+  }
+  .daily-challenge .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Kitoblar kartasi va vitrina */
+@media (max-width: 600px) {
+  .grid-auto {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .book-card {
+    border-radius: var(--radius-md);
+  }
+  .book-card__body {
+    padding: 10px 10px;
+    gap: 2px;
+  }
+  .book-card__title {
+    font-size: 0.875rem;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .book-card__author {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .book-card__desc {
+    display: none !important;
+  }
+  .book-card__footer {
+    padding: 8px 10px;
+  }
+  .book-card__footer .badge {
+    font-size: 0.625rem;
+    padding: 1px 6px;
+  }
+  .books-filter-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  .books-filter-bar > div {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+  #books-search, #books-difficulty {
+    width: 100%;
+  }
+}
+
+/* Kitob tafsiloti (Book Detail) */
+@media (max-width: 600px) {
+  .book-detail__top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .book-detail__cover-wrap {
+    width: 130px;
+    margin: 0 auto;
+  }
+  .book-detail__meta {
+    justify-content: center;
+    gap: 6px 12px;
+  }
+  .book-detail__title {
+    font-size: 1.45rem;
+  }
+  #start-quiz-btn {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .book-detail__desc {
+    padding: 16px;
+    font-size: 0.9375rem;
+  }
+}
+
+/* Test jarayoni (Quiz) */
+@media (max-width: 600px) {
+  #quiz-header {
+    gap: 8px !important;
+    margin-bottom: 18px !important;
+  }
+  .quiz-question {
+    font-size: 1.1rem;
+    line-height: 1.45;
+    margin-bottom: 16px;
+  }
+  .quiz-options {
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .quiz-option {
+    padding: 12px 14px;
+    min-height: 52px;
+    gap: 12px;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .quiz-option__letter {
+    align-self: flex-start;
+    margin-top: 1px;
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+  }
+  .quiz-option__text {
+    flex: 1;
+    line-height: 1.4;
+    font-size: 0.9rem;
+    word-break: break-word;
+  }
+  #quiz-next-wrap {
+    margin-top: 18px;
+    width: 100%;
+  }
+  #next-btn {
+    width: 100% !important;
+    min-height: 48px;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(183, 110, 22, 0.25);
+  }
+  .explanation-panel {
+    padding: 14px 16px;
+    font-size: 0.875rem;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Touchscreens: hover holatining variantlarda qotib qolmasligi */
+@media (hover: none) and (pointer: coarse) {
+  .quiz-option:hover:not(:disabled):not(.correct):not(.wrong) {
+    border-color: var(--divider);
+    background: var(--surface);
+    transform: none;
+  }
+  .quiz-option:active:not(:disabled) {
+    background: var(--ochre-light);
+    border-color: var(--ochre);
+    transform: scale(0.98);
+  }
+}
+
+/* Reyting jadvali (Leaderboard Podium) */
+@media (max-width: 480px) {
+  .podium {
+    gap: 6px;
+    padding: 12px 0 20px 0;
+    margin-bottom: 24px;
+  }
+  .podium__item {
+    max-width: 96px;
+  }
+  .podium__avatar {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+  .podium__item--1 .podium__avatar {
+    width: 58px;
+    height: 58px;
+  }
+  .podium__name {
+    font-size: 0.75rem;
+    max-width: 86px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .podium__rank {
+    font-size: 1.15rem;
+  }
+  .podium__item--1 .podium__rank {
+    font-size: 1.5rem;
+  }
+  .podium__score {
+    font-size: 0.875rem;
+  }
+  .leaderboard-table td {
+    padding: 10px 4px;
+    font-size: 0.85rem;
+  }
+  .leaderboard__rank {
+    width: 28px;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Natija sahifasi (Result Page) */
+@media (max-width: 480px) {
+  .result-score-ring {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 16px;
+  }
+  .result-score-pct {
+    font-size: 1.75rem;
+  }
+  .result-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .result-stats-grid > div {
+    border-left: none !important;
+    border-top: 1px solid var(--divider);
+  }
+  .result-stats-grid > div:nth-child(odd) {
+    border-right: 1px solid var(--divider);
+  }
+  .result-stats-grid > div:nth-child(1),
+  .result-stats-grid > div:nth-child(2) {
+    border-top: none;
+  }
+  .result-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .result-actions .btn {
+    width: 100% !important;
+    justify-content: center;
+  }
+}
+
+/* Profil va Personajlar (Profile & Character Cards) */
+@media (max-width: 600px) {
+  .profile-hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+    padding: 18px 16px;
+  }
+  .profile-hero__avatar {
+    margin: 0 auto;
+  }
+  .profile-hero__header-row {
+    justify-content: center;
+  }
+  .profile-hero__stats {
+    justify-content: center;
+    gap: 16px;
+  }
+  .profile-logout {
+    margin: 8px auto 0;
+    width: 100%;
+  }
+  .character-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .character-card {
+    padding: 12px 10px;
+  }
+  .character-avatar-img {
+    width: 58px;
+    height: 58px;
+  }
+  .character-avatar-emoji {
+    font-size: 2.2rem;
+  }
+  .character-name {
+    font-size: 0.875rem;
+  }
+  .character-book {
+    font-size: 0.72rem;
   }
 }
 

@@ -50,7 +50,7 @@ export async function render(container, { params, user }) {
           ${bookTitle ? `<p class="label" style="margin-bottom:24px;">${escapeHtml(bookTitle)}</p>` : ''}
 
           <!-- Statistika jadval -->
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:1px;border:1px solid var(--divider);border-radius:var(--radius-md);overflow:hidden;margin-bottom:24px;">
+          <div class="result-stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:1px;border:1px solid var(--divider);border-radius:var(--radius-md);overflow:hidden;margin-bottom:24px;">
             <div style="padding:16px 8px;background:var(--surface);">
               <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--success);line-height:1;">${correctCount}</div>
               <div style="font-size:0.75rem;color:var(--ink-muted);margin-top:4px;">To'g'ri</div>
@@ -83,7 +83,7 @@ export async function render(container, { params, user }) {
           </div>
 
           <!-- Tugmalar -->
-          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <div class="result-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
             ${bookId
               ? `<a href="#book?id=${escapeHtml(String(bookId))}" class="btn btn-outline">Qaytadan urinish</a>
                  <a href="#books" class="btn btn-primary">Keyingi kitob</a>`

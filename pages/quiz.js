@@ -285,6 +285,12 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
       // Keyboard accessibility: darhol keyingi tugmaga fokus berish
       try { nextBtn.focus(); } catch {}
     }
+    // Mobil qurilmalarda "Keyingi savol" tugmasini silliq ravishda ko'rinadigan qismga siljitish
+    setTimeout(() => {
+      try {
+        nextWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch {}
+    }, 60);
   }
 }
 

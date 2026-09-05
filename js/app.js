@@ -240,6 +240,9 @@ async function _loadPage() {
   // Sahifa title
   document.title = route.title ?? 'Kitobchi';
 
+  // Mobilda test paytida pastki tab-barni yashirish va to'liq diqqatni savollarga qaratish
+  document.body.classList.toggle('in-quiz', path === 'quiz');
+
   // Navbar holat yangilash
   _updateNavbar();
 
@@ -344,6 +347,12 @@ function _applyTheme(theme) {
 
   const btn = document.getElementById('theme-toggle');
   if (btn) btn.setAttribute('aria-label', theme === 'dark' ? 'Kunduzgi rejim' : 'Tungi rejim');
+
+  const mobileIcon = document.getElementById('mobile-theme-icon');
+  if (mobileIcon) mobileIcon.innerHTML = theme === 'dark' ? SUN_SVG : MOON_SVG;
+
+  const mobileBtn = document.getElementById('mobile-theme-toggle');
+  if (mobileBtn) mobileBtn.setAttribute('aria-label', theme === 'dark' ? 'Kunduzgi rejim' : 'Tungi rejim');
 }
 
 /**
@@ -463,6 +472,28 @@ function _buildNavbarHTML() {
       </div>`;
 
   return `
+    <!-- Mobil Topbar: faqat mobilda (<= 768px) ko'rinadi -->
+    <div class="mobile-topbar" role="banner">
+      <a href="#home" class="mobile-topbar__logo" aria-label="Kitobchi — Bosh sahifa">
+        <span class="mobile-topbar__mark" aria-hidden="true">K</span>
+        <span class="mobile-topbar__name">Kitobchi</span>
+      </a>
+      <div class="mobile-topbar__actions">
+        <div class="mobile-topbar__status" id="mobile-nav-status" title="Internet holati">
+          <span class="nav__status-dot" id="mobile-status-dot"></span>
+        </div>
+        <button
+          id="mobile-theme-toggle"
+          class="mobile-topbar__btn"
+          type="button"
+          aria-label="Temani almashtirish"
+          title="Temani almashtirish"
+        >
+          <span id="mobile-theme-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+        </button>
+      </div>
+    </div>
+
     <nav class="navbar" role="navigation" aria-label="Asosiy menyu">
       <div class="navbar__inner">
 
@@ -538,8 +569,10 @@ function _mountNavbar() {
   navEl.innerHTML = _buildNavbarHTML();
   _applyTheme(_getSavedTheme());
 
-  // Tema toggle
+  // Tema toggle (desktop va mobil)
   document.getElementById('theme-toggle')
+    ?.addEventListener('click', _toggleTheme);
+  document.getElementById('mobile-theme-toggle')
     ?.addEventListener('click', _toggleTheme);
 
   // Logout
@@ -764,11 +797,12 @@ async function _init() {
 
   // Online / Offline holat belgisi
   function _updateOnlineStatus() {
-    const dot  = document.getElementById('nav-status-dot');
-    const text = document.getElementById('nav-status-text');
-    if (!dot) return;
-    const online = navigator.onLine;
-    dot.classList.toggle('nav__status-dot--offline', !online);
+    const dot     = document.getElementById('nav-status-dot');
+    const mobDot  = document.getElementById('mobile-status-dot');
+    const text    = document.getElementById('nav-status-text');
+    const online  = navigator.onLine;
+    if (dot) dot.classList.toggle('nav__status-dot--offline', !online);
+    if (mobDot) mobDot.classList.toggle('nav__status-dot--offline', !online);
     if (text) {
       text.textContent = online ? '' : 'Offline';
       text.style.display = online ? 'none' : 'inline';
