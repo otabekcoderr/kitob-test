@@ -14,11 +14,42 @@ import { getCurrentUser } from './auth.js';
 import * as localData    from './data.js';
 
 // ============================================================
+// SUPABASE TARMOQ STATUSI VA CIRCUIT BREAKER
+// ============================================================
+let _supabaseFailCount = 0;
+let _supabasePauseUntil = 0;
+
+/**
+ * Supabase tarmog'i holatini tekshiradi.
+ * Agar ketma-ket tarmoq uzilishi / reset yuz bergan bo'lsa,
+ * brauzerni qotirmaslik va konsolga qizil xatolar chiqarmaslik uchun
+ * so'rovlarni vaqtincha to'xtatadi.
+ */
+export function isSupabaseOnline() {
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) return false;
+  if (Date.now() < _supabasePauseUntil) return false;
+  return true;
+}
+
+function _recordSupabaseSuccess() {
+  _supabaseFailCount = 0;
+  _supabasePauseUntil = 0;
+}
+
+function _recordSupabaseFailure(err) {
+  _supabaseFailCount++;
+  // 30 soniyadan 90 soniyagacha avtonom kesh rejimiga o'tish
+  const pauseMs = Math.min(30_000 * Math.pow(1.5, _supabaseFailCount - 1), 90_000);
+  _supabasePauseUntil = Date.now() + pauseMs;
+  console.warn(`[db] Supabase tarmog'i vaqtincha uzilgan (${err?.message || 'aloqa yo\'q'}). Avtonom kesh rejimiga o'tildi (${Math.round(pauseMs / 1000)}s).`);
+}
+
+// ============================================================
 // KONSTANTALAR
 // ============================================================
 
-/** So'rov timeout vaqti — 8 soniya (tarmoq uzilishlarini oldini olish uchun) */
-const TIMEOUT = 8_000;
+/** So'rov timeout vaqti — 2.5 soniya (foydalanuvchi hech qachon qotib qolmasligi uchun) */
+const TIMEOUT = 2_500;
 
 // ============================================================
 // TEZKOR IN-MEMORY KESH (SPEED & PERFORMANCE — 0ms LATENCY)
@@ -82,22 +113,29 @@ function withTimeout(promise, ms = TIMEOUT, controller = null) {
 }
 
 /**
- * Supabase so'rovini timeout va AbortSignal bilan bajaradi.
- * Timeout bo'lganda so'rov orqa fonda osilib qolmaydi va ERR_HTTP2_PROTOCOL_ERROR / ERR_CONNECTION_RESET chaqirmaydi.
+ * Supabase so'rovini Circuit Breaker, timeout va AbortSignal bilan bajaradi.
+ * Tarmoq uzilganda brauzer konsolini qizil xatolar bilan to'ldirmaydi va UI ni qotirmaydi.
  *
  * @param {object} query — Supabase query builder
  * @param {number} [ms=TIMEOUT]
  * @returns {Promise<{data: any, error: any}>}
  */
 async function runQuery(query, ms = TIMEOUT) {
+  if (!isSupabaseOnline()) {
+    return { data: null, error: new Error('supabase_circuit_open') };
+  }
+
   const controller = new AbortController();
   try {
     let target = query;
     if (target && typeof target.abortSignal === 'function') {
       target = target.abortSignal(controller.signal);
     }
-    return await withTimeout(target, ms, controller);
+    const res = await withTimeout(target, ms, controller);
+    _recordSupabaseSuccess();
+    return res;
   } catch (err) {
+    _recordSupabaseFailure(err);
     return { data: null, error: err };
   }
 }
@@ -194,22 +232,11 @@ export function clearDbCache() {
   _userResultsTime.clear();
 }
 
-/**
- * Barcha kitoblarni qaytaradi (data.js kitoblari + Supabase + localStorage birlashmasi).
- * Hech qanday kitob yoki tahrir yo'qolmaydi!
- *
- * @param {boolean} [forceRefresh=false]
- * @returns {Promise<object[]>} — kitoblar massivi
- */
-export async function getBooks(forceRefresh = false) {
-  if (!forceRefresh && _booksCache && _booksCache.length > 0) {
-    return _booksCache;
-  }
-
+function _initLocalBooks() {
   const bookMap = new Map();
   const deletedIds = _getDeletedBookIds().map(String);
 
-  // 1. Asosiy zaxira: data.js dagi barcha kitoblarni yuklaymiz
+  // 1. data.js dagi barcha tayyor kitoblar
   (localData.books ?? []).forEach(b => {
     if (!b || (!b.id && !b.title)) return;
     const idStr = String(b.id || _slugify(b.title));
@@ -227,58 +254,13 @@ export async function getBooks(forceRefresh = false) {
     }
   });
 
-  // 2. Supabase dan yangi yoki yangilangan kitoblarni birlashtiramiz
-  try {
-    const { data, error } = await runQuery(
-      supabase
-        .from('books')
-        .select('*')
-        .order('title', { ascending: true })
-    );
-
-    if (!error && Array.isArray(data) && data.length > 0) {
-      data.forEach(sb => {
-        if (!sb || (!sb.id && !sb.title)) return;
-        const idStr = String(sb.id || _slugify(sb.title));
-        if (!deletedIds.includes(idStr)) {
-          // Find matching key by ID or title slug
-          let targetKey = idStr;
-          if (!bookMap.has(targetKey)) {
-            for (const [key, existing] of bookMap.entries()) {
-              if (existing && _slugify(existing.title) === _slugify(sb.title)) {
-                targetKey = key;
-                break;
-              }
-            }
-          }
-
-          const existing = bookMap.get(targetKey) || {};
-          const cover = sb.cover_url || sb.coverImage || sb.cover || existing.cover || existing.cover_url || '';
-          bookMap.set(targetKey, {
-            ...existing,
-            ...sb,
-            id: targetKey,
-            category: sb.category || sb.genre || existing.category || existing.genre || 'Adabiyot',
-            genre: sb.genre || sb.category || existing.genre || existing.category || 'Badiiy',
-            cover_url: cover,
-            coverImage: cover,
-            cover: cover,
-          });
-        }
-      });
-    }
-  } catch (err) {
-    console.warn('[db] getBooks Supabase fallback:', err);
-  }
-
-  // 3. Foydalanuvchi/Admin tomonidan kiritilgan yoki tahrirlangan kitoblarni ustiga yozamiz
+  // 2. Foydalanuvchi/Admin tomonidan lokal saqlangan kitoblar
   const customBooks = _getLocalCustomBooks();
   customBooks.forEach(cb => {
     if (!cb || (!cb.id && !cb.title)) return;
     const idStr = String(cb.id || _slugify(cb.title));
     if (deletedIds.includes(idStr)) return;
 
-    // Find matching key by ID or slugified title
     let targetKey = idStr;
     if (!bookMap.has(targetKey)) {
       for (const [key, existing] of bookMap.entries()) {
@@ -305,7 +287,106 @@ export async function getBooks(forceRefresh = false) {
     });
   });
 
-  _booksCache = Array.from(bookMap.values());
+  return Array.from(bookMap.values());
+}
+
+// Dastlabki yuklanishdayoq keshni darhol 0ms da tayyorlaymiz!
+_booksCache = _initLocalBooks();
+
+let _syncBooksPromise = null;
+
+/**
+ * Supabase dan kitoblarni orqa fonda asinxron tekshiradi.
+ * UI kutmaydi, sahifa qotmaydi.
+ */
+async function _syncBooksInBackground() {
+  if (_syncBooksPromise) return _syncBooksPromise;
+  if (!isSupabaseOnline()) return _booksCache;
+
+  _syncBooksPromise = (async () => {
+    try {
+      const { data, error } = await runQuery(
+        supabase
+          .from('books')
+          .select('id, title, author, year, genre, difficulty, description, coverBg, coverTitleColor, coverImage, questionCount')
+          .order('title', { ascending: true }),
+        2500
+      );
+
+      if (!error && Array.isArray(data) && data.length > 0) {
+        const deletedIds = _getDeletedBookIds().map(String);
+        const bookMap = new Map();
+        (_booksCache || _initLocalBooks()).forEach(b => bookMap.set(String(b.id), b));
+
+        let hasChanges = false;
+        data.forEach(sb => {
+          if (!sb || (!sb.id && !sb.title)) return;
+          const idStr = String(sb.id || _slugify(sb.title));
+          if (!deletedIds.includes(idStr)) {
+            let targetKey = idStr;
+            if (!bookMap.has(targetKey)) {
+              for (const [key, existing] of bookMap.entries()) {
+                if (existing && _slugify(existing.title) === _slugify(sb.title)) {
+                  targetKey = key;
+                  break;
+                }
+              }
+            }
+
+            const existing = bookMap.get(targetKey);
+            if (!existing) {
+              hasChanges = true;
+              const cover = sb.coverImage || sb.cover || `https://picsum.photos/seed/${targetKey}/300/400`;
+              bookMap.set(targetKey, {
+                id: targetKey,
+                category: sb.category || sb.genre || 'Adabiyot',
+                genre: sb.genre || sb.category || 'Badiiy',
+                cover_url: cover,
+                coverImage: cover,
+                cover: cover,
+                ...sb
+              });
+            }
+          }
+        });
+
+        if (hasChanges) {
+          _booksCache = Array.from(bookMap.values());
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('kitobchi_books_updated'));
+          }
+        }
+      }
+    } catch { /* ignore */ }
+    finally {
+      _syncBooksPromise = null;
+    }
+    return _booksCache;
+  })();
+
+  return _syncBooksPromise;
+}
+
+/**
+ * Barcha kitoblarni qaytaradi (Local-First: 0ms instant render).
+ * Hech qachon tarmoq kutib sahifani qotirmaydi.
+ *
+ * @param {boolean} [forceRefresh=false]
+ * @returns {Promise<object[]>} — kitoblar massivi
+ */
+export async function getBooks(forceRefresh = false) {
+  if (!_booksCache || _booksCache.length === 0) {
+    _booksCache = _initLocalBooks();
+  }
+
+  // 1. Oddiy holatda — darhol 0ms keshdagi kitoblarni qaytaramiz!
+  if (!forceRefresh) {
+    _syncBooksInBackground(); // Orqa fonda foniy tekshirish
+    return _booksCache;
+  }
+
+  // 2. Majburiy yangilash talab qilinganda — foniy sinxronlashni kutamiz
+  await _syncBooksInBackground();
   return _booksCache;
 }
 
@@ -474,39 +555,10 @@ export async function deleteBook(id) {
  * @param {string|number} bookId
  * @returns {Promise<object[]>} — savollar massivi
  */
-export async function getQuestions(bookId, forceRefresh = false) {
+function _getLocalQuestionsForBook(bookId) {
   if (!bookId) return [];
-
-  const cacheKey = String(bookId);
-  if (!forceRefresh && _questionsCache.has(cacheKey)) {
-    return _questionsCache.get(cacheKey);
-  }
-
-  const targetBook = await getBookById(bookId);
-  const targetId   = targetBook ? String(targetBook.id) : String(bookId);
-  const targetSlug = _slugify(targetBook ? targetBook.title : bookId);
-
-  if (!forceRefresh && _questionsCache.has(targetId)) {
-    return _questionsCache.get(targetId);
-  }
-  if (!forceRefresh && targetSlug && _questionsCache.has(targetSlug)) {
-    return _questionsCache.get(targetSlug);
-  }
-
-  let dbQuestions = [];
-  try {
-    const searchId = targetSlug || targetId;
-    let query = supabase.from('questions').select('*');
-    if (targetSlug && targetSlug !== targetId) {
-      query = query.or(`bookId.eq.${targetId},bookId.eq.${targetSlug}`);
-    } else {
-      query = query.eq('bookId', targetId);
-    }
-    const { data, error } = await runQuery(query);
-    if (!error && Array.isArray(data) && data.length > 0) {
-      dbQuestions = data.map(_formatQuestion).filter(Boolean);
-    }
-  } catch { /* ignore */ }
+  const targetId = String(bookId);
+  const targetSlug = _slugify(bookId);
 
   let localList = [];
   if (Array.isArray(localData.questions)) {
@@ -525,8 +577,7 @@ export async function getQuestions(bookId, forceRefresh = false) {
     if (!q) return false;
     const qBookId = String(q.bookId || q.book_id || '');
     if (qBookId === String(bookId) || qBookId === targetId) return true;
-    if (targetBook && _slugify(qBookId) === _slugify(targetBook.id)) return true;
-    if (targetBook && _slugify(qBookId) === targetSlug) return true;
+    if (_slugify(qBookId) === targetId || _slugify(qBookId) === targetSlug) return true;
     return false;
   }).map(_formatQuestion).filter(Boolean);
 
@@ -534,8 +585,6 @@ export async function getQuestions(bookId, forceRefresh = false) {
   const deletedQIds = _getDeletedQuestionIds().map(String);
 
   const qMap = new Map();
-
-  // 1. Zaxira savollar
   staticMatched.forEach(q => {
     const qId = String(q.id);
     if (!deletedQIds.includes(qId)) {
@@ -543,19 +592,9 @@ export async function getQuestions(bookId, forceRefresh = false) {
     }
   });
 
-  // 2. Supabase savollari
-  dbQuestions.forEach(q => {
-    const qId = String(q.id);
-    if (!deletedQIds.includes(qId)) {
-      const existing = qMap.get(qId) || {};
-      qMap.set(qId, { ...existing, ...q });
-    }
-  });
-
-  // 3. Custom / yangi savollar
   customQs.forEach(cq => {
     const qBookId = String(cq.book_id || cq.bookId || '');
-    if (qBookId === String(bookId) || qBookId === targetId || (targetBook && _slugify(qBookId) === targetSlug)) {
+    if (qBookId === String(bookId) || qBookId === targetId || _slugify(qBookId) === targetSlug) {
       const qId = String(cq.id);
       if (!deletedQIds.includes(qId)) {
         const existing = qMap.get(qId) || {};
@@ -564,8 +603,99 @@ export async function getQuestions(bookId, forceRefresh = false) {
     }
   });
 
+  return Array.from(qMap.values());
+}
+
+async function _syncQuestionsInBackground(bookId, localQs = []) {
+  if (!isSupabaseOnline()) return;
+  try {
+    const targetId = String(bookId);
+    const targetSlug = _slugify(bookId);
+    let query = supabase.from('questions').select('*');
+    if (targetSlug && targetSlug !== targetId) {
+      query = query.or(`bookId.eq.${targetId},bookId.eq.${targetSlug}`);
+    } else {
+      query = query.eq('bookId', targetId);
+    }
+    const { data, error } = await runQuery(query, 2500);
+    if (!error && Array.isArray(data) && data.length > 0) {
+      const qMap = new Map();
+      localQs.forEach(q => qMap.set(String(q.id), q));
+      let hasChanges = false;
+      data.forEach(item => {
+        const formatted = _formatQuestion(item);
+        if (formatted) {
+          const strId = String(formatted.id);
+          if (!qMap.has(strId)) hasChanges = true;
+          qMap.set(strId, { ...(qMap.get(strId) || {}), ...formatted });
+        }
+      });
+      if (hasChanges) {
+        const merged = Array.from(qMap.values());
+        _questionsCache.set(targetId, merged);
+        if (targetSlug) _questionsCache.set(targetSlug, merged);
+      }
+    }
+  } catch { /* ignore */ }
+}
+
+/**
+ * Berilgan kitob uchun savollarni qaytaradi (Local-First: 0ms instant render).
+ * data.js dagi 600 ta savol darhol ochiladi, tarmoq tufayli sahifa qotmaydi.
+ *
+ * @param {string|number} bookId
+ * @param {boolean} [forceRefresh=false]
+ * @returns {Promise<object[]>} — savollar massivi
+ */
+export async function getQuestions(bookId, forceRefresh = false) {
+  if (!bookId) return [];
+
+  const targetId = String(bookId);
+  const targetSlug = _slugify(bookId);
+
+  // 1. Keshda bo'lsa — zudlik bilan 0ms da qaytaramiz
+  if (!forceRefresh && _questionsCache.has(targetId)) {
+    return _questionsCache.get(targetId);
+  }
+  if (!forceRefresh && targetSlug && _questionsCache.has(targetSlug)) {
+    return _questionsCache.get(targetSlug);
+  }
+
+  // 2. Lokal savollarni (data.js va localStorage) zudlik bilan olamiz (0ms)
+  const localQs = _getLocalQuestionsForBook(bookId);
+
+  if (localQs.length > 0) {
+    _questionsCache.set(targetId, localQs);
+    if (targetSlug) _questionsCache.set(targetSlug, localQs);
+
+    // Agar forceRefresh bo'lmasa — darhol 0ms da qaytaramiz, foniy tekshiruvni orqa fonda qilamiz!
+    if (!forceRefresh) {
+      _syncQuestionsInBackground(bookId, localQs).catch(() => {});
+      return localQs;
+    }
+  }
+
+  // 3. Agar lokal topilmasa yoki forceRefresh bo'lsa — Supabase dan so'raymiz
+  let dbQuestions = [];
+  try {
+    const searchId = targetSlug || targetId;
+    let query = supabase.from('questions').select('*');
+    if (targetSlug && targetSlug !== targetId) {
+      query = query.or(`bookId.eq.${targetId},bookId.eq.${targetSlug}`);
+    } else {
+      query = query.eq('bookId', targetId);
+    }
+    const { data, error } = await runQuery(query, 2500);
+    if (!error && Array.isArray(data) && data.length > 0) {
+      dbQuestions = data.map(_formatQuestion).filter(Boolean);
+    }
+  } catch { /* ignore */ }
+
+  const qMap = new Map();
+  localQs.forEach(q => qMap.set(String(q.id), q));
+  dbQuestions.forEach(q => qMap.set(String(q.id), { ...(qMap.get(String(q.id)) || {}), ...q }));
+
   const finalQuestions = Array.from(qMap.values());
-  _questionsCache.set(cacheKey, finalQuestions);
   _questionsCache.set(targetId, finalQuestions);
   if (targetSlug) _questionsCache.set(targetSlug, finalQuestions);
 
@@ -753,6 +883,43 @@ let _quizResultsTableMissing = false;
  * @param {string} [userId] — ko'rsatilmasa joriy foydalanuvchi
  * @returns {Promise<object[]>}
  */
+async function _syncUserResultsInBackground(uid) {
+  if (!isSupabaseOnline()) return;
+  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uid);
+  if (!isUUID) return;
+
+  try {
+    const { data, error } = await runQuery(
+      supabase
+        .from('quiz_results')
+        .select('*')
+        .eq('user_id', uid)
+        .order('created_at', { ascending: false }),
+      2500
+    );
+
+    if (!error && Array.isArray(data) && data.length > 0) {
+      const books = await getBooks();
+      const res = data.map(r => {
+        const b = books.find(x => String(x.id) === String(r.book_id));
+        return {
+          ...r,
+          books: b ? { title: b.title, author: b.author } : null
+        };
+      });
+      _userResultsCache.set(uid, res);
+      _userResultsTime.set(uid, Date.now());
+    }
+  } catch { /* ignore */ }
+}
+
+/**
+ * Foydalanuvchining barcha test natijalarini qaytaradi (Local-First: 0ms instant render).
+ *
+ * @param {string} [userId] — ko'rsatilmasa joriy foydalanuvchi
+ * @param {boolean} [forceRefresh=false]
+ * @returns {Promise<object[]>}
+ */
 export async function getUserResults(userId, forceRefresh = false) {
   const uid = userId ?? getCurrentUser()?.id;
   if (!uid || uid === 'guest') return [];
@@ -762,18 +929,45 @@ export async function getUserResults(userId, forceRefresh = false) {
     return _userResultsCache.get(uid);
   }
 
-  let dbData = [];
+  // 1. Avval foydalanuvchining shaxsiy localStorage dagi natijalarini ZUDLIK BILAN (0ms) olamiz
+  let localResults = [];
+  try {
+    const userRaw = localStorage.getItem('user_quiz_results_' + uid) || localStorage.getItem('user_quiz_results');
+    if (userRaw) {
+      const userList = JSON.parse(userRaw);
+      if (Array.isArray(userList) && userList.length > 0) {
+        const books = await getBooks();
+        localResults = userList.map(r => {
+          const b = books.find(x => String(x.id) === String(r.bookId || r.book_id));
+          return {
+            ...r,
+            books: b ? { title: b.title, author: b.author } : null
+          };
+        });
+      }
+    }
+  } catch { /* ignore */ }
 
-  // PostgreSQL user_id UUID ustuni — noto'g'ri qiymat yuborilsa 400 (22P02) bermasligi uchun tekshiramiz
+  // Agar lokal natijalar mavjud bo'lsa va forceRefresh bo'lmasa — darhol 0ms da qaytaramiz!
+  if (localResults.length > 0 && !forceRefresh) {
+    _userResultsCache.set(uid, localResults);
+    _userResultsTime.set(uid, now);
+    _syncUserResultsInBackground(uid).catch(() => {});
+    return localResults;
+  }
+
+  // 2. Supabase dan sinxronlash
+  let dbData = [];
   const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uid);
   try {
-    if (uid && isUUID) {
+    if (uid && isUUID && isSupabaseOnline()) {
       const { data, error } = await runQuery(
         supabase
           .from('quiz_results')
           .select('*')
           .eq('user_id', uid)
-          .order('created_at', { ascending: false })
+          .order('created_at', { ascending: false }),
+        2500
       );
 
       if (!error && Array.isArray(data) && data.length > 0) {
@@ -782,7 +976,6 @@ export async function getUserResults(userId, forceRefresh = false) {
     }
   } catch { /* ignore */ }
 
-  // DB natijalarini kitoblar bilan biriktirish
   if (dbData.length > 0) {
     try {
       const books = await getBooks();
@@ -803,46 +996,13 @@ export async function getUserResults(userId, forceRefresh = false) {
     }
   }
 
-  // Local storage fallback (Foydalanuvchining shaxsiy tarixi)
+  if (localResults.length > 0) {
+    _userResultsCache.set(uid, localResults);
+    _userResultsTime.set(uid, now);
+    return localResults;
+  }
+
   try {
-    if (uid) {
-      const userRaw = localStorage.getItem('user_quiz_results_' + uid);
-      if (userRaw) {
-        const userList = JSON.parse(userRaw);
-        if (Array.isArray(userList) && userList.length > 0) {
-          const books = await getBooks();
-          const res = userList.map(r => {
-            const b = books.find(x => String(x.id) === String(r.bookId || r.book_id));
-            return {
-              ...r,
-              books: b ? { title: b.title, author: b.author } : null
-            };
-          });
-          _userResultsCache.set(uid, res);
-          _userResultsTime.set(uid, now);
-          return res;
-        }
-      }
-    }
-
-    const raw = localStorage.getItem('user_quiz_results');
-    if (raw) {
-      const list = JSON.parse(raw);
-      if (Array.isArray(list) && list.length > 0) {
-        const books = await getBooks();
-        const res = list.map(r => {
-          const b = books.find(x => String(x.id) === String(r.bookId || r.book_id));
-          return {
-            ...r,
-            books: b ? { title: b.title, author: b.author } : null
-          };
-        });
-        _userResultsCache.set(uid, res);
-        _userResultsTime.set(uid, now);
-        return res;
-      }
-    }
-
     const last = localStorage.getItem('last_quiz_result');
     if (last) {
       const single = JSON.parse(last);
@@ -873,48 +1033,8 @@ const SAMPLE_LEADERBOARD = [
   { id: 'sample-7', full_name: 'Sardor Hakimov',    username: 'sardor_h',  score: 610,  streak: 2,  avatar_url: '' },
 ];
 
-/**
- * Eng yuqori ballli foydalanuvchilarni qaytaradi.
- *
- * @param {number} [limit=50] — nechta foydalanuvchi
- * @returns {Promise<object[]>}
- */
-export async function getLeaderboard(limit = 50, forceRefresh = false) {
-  const now = Date.now();
-  if (!forceRefresh && _leaderboardCache && (now - _leaderboardCacheTime < LEADERBOARD_CACHE_TTL)) {
-    return _leaderboardCache.slice(0, limit);
-  }
-
+function _buildLocalLeaderboard() {
   let list = [];
-
-  // 1. Supabase dan olish
-  try {
-    const { data, error } = await runQuery(
-      supabase
-        .from('profiles')
-        .select('id, username, full_name, avatar, avatar_image, avatar_char_id, is_admin, stats, created_at')
-        .limit(limit)
-    );
-
-    if (!error && Array.isArray(data) && data.length > 0) {
-      list = data.map(p => {
-        const stats = p.stats || {};
-        return {
-          id: p.id,
-          full_name: p.full_name || p.username || 'Kitobxon',
-          username: p.username || '',
-          score: stats.bestScore || stats.avgScore || p.score || 0,
-          streak: stats.currentStreak || stats.maxStreak || p.streak || 0,
-          avatar_url: p.avatar_image || p.avatar || '',
-          avatar: p.avatar || '👤',
-          avatarImage: p.avatar_image || null,
-          role: p.is_admin ? 'admin' : 'user',
-        };
-      });
-    }
-  } catch { /* ignore */ }
-
-  // 2. Mahalliy xotiradagi barcha foydalanuvchilar natijalarini birlashtirish
   let localUsers = {};
   try {
     const raw = localStorage.getItem('kitobchi_all_users');
@@ -923,28 +1043,19 @@ export async function getLeaderboard(limit = 50, forceRefresh = false) {
 
   Object.values(localUsers).forEach(u => {
     if (!u || !u.id) return;
-    const idx = list.findIndex(item => item.id === u.id || (item.username && item.username === u.username));
-    if (idx >= 0) {
-      list[idx] = {
-        ...list[idx],
-        score: Math.max(list[idx].score || 0, u.score || 0),
-        streak: Math.max(list[idx].streak || 0, u.streak || 0),
-        avatar_url: u.avatar || list[idx].avatar_url || '',
-        full_name: u.fullName || list[idx].full_name || u.username,
-      };
-    } else {
-      list.push({
-        id: u.id,
-        full_name: u.fullName || u.username,
-        username: u.username,
-        score: u.score || 0,
-        streak: u.streak || 0,
-        avatar_url: u.avatar || '',
-      });
-    }
+    list.push({
+      id: u.id,
+      full_name: u.fullName || u.username,
+      username: u.username,
+      score: u.score || 0,
+      streak: u.streak || 0,
+      avatar_url: u.avatar || '',
+      avatar: u.avatar || '👤',
+      avatarImage: null,
+      role: 'user',
+    });
   });
 
-  // 3. Joriy foydalanuvchi natijasini ham yangilash
   const cur = getCurrentUser();
   if (cur && cur.id) {
     const idx = list.findIndex(u => u.id === cur.id || (u.username && u.username === cur.username));
@@ -961,24 +1072,141 @@ export async function getLeaderboard(limit = 50, forceRefresh = false) {
         score: cur.score || 0,
         streak: cur.streak || 0,
         avatar_url: cur.avatar || '',
+        avatar: cur.avatar || '👤',
+        avatarImage: null,
+        role: cur.isAdmin ? 'admin' : 'user',
       });
     }
   }
 
-  // 4. Namunaviy foydalanuvchilarni qo'shish
   SAMPLE_LEADERBOARD.forEach(s => {
     if (!list.some(u => u.username === s.username || u.id === s.id)) {
-      list.push(s);
+      list.push({ ...s });
     }
   });
 
-  // Ball bo'yicha kamayish tartibida saralaymiz
   list.sort((a, b) => (b.score || 0) - (a.score || 0));
+  return list;
+}
 
-  _leaderboardCache = list;
-  _leaderboardCacheTime = now;
+// Boshlang'ich keshni darhol lokal ma'lumotlar bilan to'ldiramiz (0ms instant render)
+_leaderboardCache = _buildLocalLeaderboard();
+_leaderboardCacheTime = Date.now();
 
-  return list.slice(0, limit);
+async function _syncLeaderboardInBackground(limit = 50) {
+  if (!isSupabaseOnline()) return;
+  try {
+    const { data, error } = await runQuery(
+      supabase
+        .from('profiles')
+        .select('id, username, full_name, avatar, avatar_image, avatar_char_id, is_admin, stats, created_at')
+        .limit(limit),
+      2500
+    );
+
+    if (!error && Array.isArray(data) && data.length > 0) {
+      let list = data.map(p => {
+        const stats = p.stats || {};
+        return {
+          id: p.id,
+          full_name: p.full_name || p.username || 'Kitobxon',
+          username: p.username || '',
+          score: stats.bestScore || stats.avgScore || p.score || 0,
+          streak: stats.currentStreak || stats.maxStreak || p.streak || 0,
+          avatar_url: p.avatar_image || p.avatar || '',
+          avatar: p.avatar || '👤',
+          avatarImage: p.avatar_image || null,
+          role: p.is_admin ? 'admin' : 'user',
+        };
+      });
+
+      let localUsers = {};
+      try {
+        const raw = localStorage.getItem('kitobchi_all_users');
+        if (raw) localUsers = JSON.parse(raw);
+      } catch { /* ignore */ }
+
+      Object.values(localUsers).forEach(u => {
+        if (!u || !u.id) return;
+        const idx = list.findIndex(item => item.id === u.id || (item.username && item.username === u.username));
+        if (idx >= 0) {
+          list[idx] = {
+            ...list[idx],
+            score: Math.max(list[idx].score || 0, u.score || 0),
+            streak: Math.max(list[idx].streak || 0, u.streak || 0),
+            avatar_url: u.avatar || list[idx].avatar_url || '',
+            full_name: u.fullName || list[idx].full_name || u.username,
+          };
+        } else {
+          list.push({
+            id: u.id,
+            full_name: u.fullName || u.username,
+            username: u.username,
+            score: u.score || 0,
+            streak: u.streak || 0,
+            avatar_url: u.avatar || '',
+          });
+        }
+      });
+
+      const cur = getCurrentUser();
+      if (cur && cur.id) {
+        const idx = list.findIndex(u => u.id === cur.id || (u.username && u.username === cur.username));
+        if (idx >= 0) {
+          list[idx].score = Math.max(list[idx].score || 0, cur.score || 0);
+          list[idx].streak = Math.max(list[idx].streak || 0, cur.streak || 0);
+          list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
+          list[idx].avatar_url = cur.avatar || list[idx].avatar_url || '';
+        } else {
+          list.push({
+            id: cur.id,
+            full_name: cur.fullName || cur.username,
+            username: cur.username,
+            score: cur.score || 0,
+            streak: cur.streak || 0,
+            avatar_url: cur.avatar || '',
+          });
+        }
+      }
+
+      SAMPLE_LEADERBOARD.forEach(s => {
+        if (!list.some(u => u.username === s.username || u.id === s.id)) {
+          list.push({ ...s });
+        }
+      });
+
+      list.sort((a, b) => (b.score || 0) - (a.score || 0));
+      _leaderboardCache = list;
+      _leaderboardCacheTime = Date.now();
+    }
+  } catch { /* ignore */ }
+}
+
+/**
+ * Eng yuqori ballli foydalanuvchilarni qaytaradi (Local-First: 0ms instant render).
+ *
+ * @param {number} [limit=50] — nechta foydalanuvchi
+ * @param {boolean} [forceRefresh=false]
+ * @returns {Promise<object[]>}
+ */
+export async function getLeaderboard(limit = 50, forceRefresh = false) {
+  const now = Date.now();
+  if (!forceRefresh && _leaderboardCache && (now - _leaderboardCacheTime < LEADERBOARD_CACHE_TTL)) {
+    return _leaderboardCache.slice(0, limit);
+  }
+
+  if (!_leaderboardCache) {
+    _leaderboardCache = _buildLocalLeaderboard();
+    _leaderboardCacheTime = now;
+  }
+
+  if (!forceRefresh) {
+    _syncLeaderboardInBackground(limit).catch(() => {});
+    return _leaderboardCache.slice(0, limit);
+  }
+
+  await _syncLeaderboardInBackground(limit).catch(() => {});
+  return (_leaderboardCache || _buildLocalLeaderboard()).slice(0, limit);
 }
 
 // ============================================================
@@ -1218,31 +1446,7 @@ export async function getStreakStatus(user, userResults = []) {
  * Barcha personajlarni qaytaradi (Supabase + localData + localStorage).
  * @returns {Promise<object[]>}
  */
-export async function getCharacters(forceRefresh = false) {
-  if (!forceRefresh && _charactersCache && _charactersCache.length > 0) {
-    return _charactersCache;
-  }
-
-  let list = [];
-
-  // 1. Supabase dan olish (sodda select)
-  try {
-    const { data, error } = await runQuery(supabase.from('characters').select('*'));
-    if (!error && Array.isArray(data) && data.length > 0) {
-      list = data.map(c => ({
-        id: c.id,
-        name: c.name,
-        book_id: c.book_id ?? c.bookId,
-        bookTitle: c.bookTitle || c.book_title || '',
-        avatar: c.avatar || '🎭',
-        avatarImage: c.avatarImage || c.avatar_image || c.image || null,
-        color: c.color || 'var(--color-primary)',
-        description: c.description || '',
-      }));
-    }
-  } catch { /* ignore */ }
-
-  // 2. localData zaxirasi
+function _initLocalCharacters() {
   const staticChars = (localData.characters || []).map(c => ({
     id: c.id,
     name: c.name,
@@ -1254,31 +1458,88 @@ export async function getCharacters(forceRefresh = false) {
     description: c.description || '',
   }));
 
-  // 3. LocalStorage dan olish
   let customChars = [];
   try {
     const raw = localStorage.getItem('kitobchi_custom_characters');
     if (raw) customChars = JSON.parse(raw);
   } catch { /* ignore */ }
 
-  // Birlashtirish
   const charMap = new Map();
   staticChars.forEach(c => charMap.set(String(c.id), c));
-  list.forEach(c => charMap.set(String(c.id), { ...(charMap.get(String(c.id)) || {}), ...c }));
   customChars.forEach(c => charMap.set(String(c.id), { ...(charMap.get(String(c.id)) || {}), ...c }));
 
-  // Kitob nomlarini to'ldirish
   const allBooks = localData.books || [];
-  const result = Array.from(charMap.values()).map(c => {
+  return Array.from(charMap.values()).map(c => {
     if (!c.bookTitle && c.book_id) {
       const b = allBooks.find(x => String(x.id) === String(c.book_id));
       if (b) c.bookTitle = b.title;
     }
     return c;
   });
+}
 
-  _charactersCache = result;
-  return result;
+// Modul yuklanishi bilan personajlar keshini zudlik bilan 0ms da to'ldiramiz!
+_charactersCache = _initLocalCharacters();
+
+async function _syncCharactersInBackground() {
+  if (!isSupabaseOnline()) return _charactersCache;
+  try {
+    const { data, error } = await runQuery(
+      supabase
+        .from('characters')
+        .select('id, name, bookTitle, avatar, color, description'),
+      2500
+    );
+
+    if (!error && Array.isArray(data) && data.length > 0) {
+      const charMap = new Map();
+      (_charactersCache || _initLocalCharacters()).forEach(c => charMap.set(String(c.id), c));
+
+      let changed = false;
+      data.forEach(c => {
+        const strId = String(c.id);
+        const existing = charMap.get(strId);
+        if (!existing) {
+          changed = true;
+          charMap.set(strId, {
+            id: c.id,
+            name: c.name,
+            book_id: c.book_id ?? c.bookId,
+            bookTitle: c.bookTitle || c.book_title || '',
+            avatar: c.avatar || '🎭',
+            avatarImage: null,
+            color: c.color || 'var(--color-primary)',
+            description: c.description || '',
+          });
+        }
+      });
+
+      if (changed) {
+        _charactersCache = Array.from(charMap.values());
+      }
+    }
+  } catch { /* ignore */ }
+  return _charactersCache;
+}
+
+/**
+ * Barcha personajlarni qaytaradi (Local-First: 0ms instant render).
+ * @returns {Promise<object[]>}
+ */
+export async function getCharacters(forceRefresh = false) {
+  if (!_charactersCache || _charactersCache.length === 0) {
+    _charactersCache = _initLocalCharacters();
+  }
+
+  // 1. Oddiy holatda — darhol 0ms keshdagi personajlarni qaytaramiz!
+  if (!forceRefresh) {
+    _syncCharactersInBackground().catch(() => {});
+    return _charactersCache;
+  }
+
+  // 2. Majburiy yangilash talab qilinganda — foniy sinxronlashni kutamiz
+  await _syncCharactersInBackground();
+  return _charactersCache;
 }
 
 /**
@@ -1361,42 +1622,42 @@ export async function deleteCharacter(id) {
 // ============================================================
 
 /**
- * Kitobga tegishli izohlarni qaytaradi.
- * @param {string|number} [bookId]
- * @returns {Promise<object[]>}
- */
-export async function getComments(bookId = null) {
-  let list = [];
-
-  // 1. Supabase dan olish — ustunlar camelCase: bookId, createdAt, userId
+async function _syncCommentsInBackground(bookId = null) {
+  if (!isSupabaseOnline()) return;
   try {
     let query = supabase.from('comments').select('*').order('createdAt', { ascending: false }).limit(100);
     if (bookId) {
       query = query.eq('bookId', String(bookId));
     }
-    const { data, error } = await runQuery(query);
-    if (!error && Array.isArray(data)) {
-      list = data;
+    const { data, error } = await runQuery(query, 2000);
+    if (!error && Array.isArray(data) && data.length > 0) {
+      const raw = localStorage.getItem('kitobchi_comments');
+      const local = raw ? JSON.parse(raw) : [];
+      const map = new Map();
+      local.forEach(c => map.set(String(c.id), c));
+      data.forEach(c => map.set(String(c.id), c));
+      localStorage.setItem('kitobchi_comments', JSON.stringify(Array.from(map.values()).slice(0, 200)));
     }
   } catch { /* ignore */ }
+}
 
-  // 2. Local storage
+/**
+ * Kitobga tegishli izohlarni qaytaradi (Local-First: 0ms instant render).
+ * @param {string|number} [bookId]
+ * @returns {Promise<object[]>}
+ */
+export async function getComments(bookId = null) {
   let localComments = [];
   try {
     const raw = localStorage.getItem('kitobchi_comments');
     if (raw) localComments = JSON.parse(raw);
   } catch { /* ignore */ }
 
-  // Birlashtirish
-  const commentMap = new Map();
-  list.forEach(c => commentMap.set(String(c.id), c));
-  localComments.forEach(c => {
-    if (!commentMap.has(String(c.id))) {
-      commentMap.set(String(c.id), c);
-    }
-  });
+  if (isSupabaseOnline()) {
+    _syncCommentsInBackground(bookId).catch(() => {});
+  }
 
-  let all = Array.from(commentMap.values());
+  let all = localComments;
   if (bookId) {
     all = all.filter(c => String(c.bookId || c.book_id) === String(bookId));
   }
@@ -1406,6 +1667,7 @@ export async function getComments(bookId = null) {
     const timeB = typeof b.createdAt === 'number' ? b.createdAt : new Date(b.createdAt || b.created_at || b.date || 0).getTime();
     return timeB - timeA;
   });
+
   return all;
 }
 
