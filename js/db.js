@@ -1619,9 +1619,6 @@ export async function deleteCharacter(id) {
 
 // ============================================================
 // IZOHLAR / SHARHLAR (COMMENTS & REVIEWS)
-// ============================================================
-
-/**
 async function _syncCommentsInBackground(bookId = null) {
   if (!isSupabaseOnline()) return;
   try {

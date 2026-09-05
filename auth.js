@@ -122,25 +122,28 @@ function _buildUserObject(authUser, profileData = {}) {
   const avatar = charData?.avatar 
     || existingUser?.avatar 
     || storedUser?.avatar 
+    || (profileData.avatar_image && (profileData.avatar_image.startsWith('http') || profileData.avatar_image.startsWith('data:image/')) ? profileData.avatar_image : null)
     || (profileData.avatar_url && (profileData.avatar_url.startsWith('http') || profileData.avatar_url.startsWith('data:image/')) ? profileData.avatar_url : null)
     || authUser.user_metadata?.avatar 
     || authUser.user_metadata?.avatar_url 
     || '🎭';
 
+  const stats = profileData.stats || {};
   const score = Math.max(
     existingUser?.score || 0,
     storedUser?.score || 0,
-    profileData.score || 0
+    stats.bestScore || stats.avgScore || profileData.score || 0
   );
 
   const streak = Math.max(
     existingUser?.streak || 0,
     storedUser?.streak || 0,
-    profileData.streak || 0
+    stats.currentStreak || stats.maxStreak || profileData.streak || 0
   );
 
   const lastQuizDate = existingUser?.lastQuizDate 
                     || storedUser?.lastQuizDate 
+                    || stats.lastQuizDate 
                     || profileData.last_quiz_date 
                     || null;
 
@@ -272,18 +275,26 @@ export async function register(fullName, username, password) {
       return { success: false, error: 'Ro\'yxatdan o\'tishda xatolik. Qayta urinib ko\'ring.' };
     }
 
-    // profiles jadvaliga yozish
+    // profiles jadvaliga yozish (schema ustunlari: id, full_name, username, is_admin, avatar, stats, created_at)
     const { error: profileError } = await supabase
       .from('profiles')
       .upsert({
-        id:         authData.user.id,
-        full_name:  cleanName,
-        username:   cleanUsername,
-        role:       'user',
-        score:      0,
-        streak:     0,
-        last_quiz_date: null,
-        created_at: new Date().toISOString(),
+        id:             authData.user.id,
+        full_name:      cleanName,
+        username:       cleanUsername,
+        is_admin:       false,
+        avatar:         '👤',
+        avatar_image:   null,
+        avatar_char_id: null,
+        stats: {
+          avgScore: 0,
+          bestScore: 0,
+          maxStreak: 0,
+          lastQuizDate: '',
+          currentStreak: 0,
+          testsCompleted: 0
+        },
+        created_at:     new Date().toISOString(),
       }, { onConflict: 'id' });
 
     if (profileError) {
