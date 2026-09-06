@@ -250,11 +250,13 @@ async function _loadPage() {
   const appEl = document.getElementById('app');
   if (!appEl) return;
 
-  const isInitialLoad = !appEl.hasChildNodes() || Boolean(appEl.querySelector('.page-loader'));
+  const isInitialLoad = !appEl.hasChildNodes() || Boolean(appEl.querySelector('.page-loader')) || Boolean(appEl.querySelector('#initial-loader'));
   if (isInitialLoad) {
     appEl.innerHTML = `
       <div class="page-loader" aria-label="Yuklanmoqda...">
-        <div class="page-loader__spinner"></div>
+        <div class="page-loader__logo-anim" role="status" aria-label="Kitobchi yuklanmoqda">
+          ${LOGO_SVG}
+        </div>
       </div>
     `;
   } else {

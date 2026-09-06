@@ -820,18 +820,97 @@ h1, h2, h3, h4, h5, h6 {
 
 .page-loader {
   display:         flex;
+  flex-direction:  column;
   align-items:     center;
   justify-content: center;
-  min-height:      60vh;
+  min-height:      70vh;
+  width:           100%;
+  padding:         32px 16px;
+  position:        relative;
+  z-index:         10;
+}
+
+#initial-loader {
+  min-height:      100vh;
+  background:      var(--paper);
+}
+
+.page-loader__logo-anim {
+  width:           72px;
+  height:          72px;
+  min-width:       72px;
+  border-radius:   20px;
+  background:      rgba(217, 119, 6, 0.08);
+  border:          1.5px solid rgba(217, 119, 6, 0.28);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  padding:         8px;
+  box-shadow:      0 8px 32px rgba(183, 110, 22, 0.18), 0 2px 8px rgba(0, 0, 0, 0.04);
+  animation:       kitobchiLogoPulse 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  position:        relative;
+  will-change:     transform, box-shadow;
+}
+
+.page-loader__logo-anim::before {
+  content:         '';
+  position:        absolute;
+  inset:           -6px;
+  border-radius:   25px;
+  border:          1.5px solid rgba(245, 158, 11, 0.25);
+  animation:       kitobchiAura 1.8s ease-in-out infinite;
+  pointer-events:  none;
+}
+
+.page-loader__logo-anim svg {
+  width:           100%;
+  height:          100%;
+  display:         block;
+  filter:          drop-shadow(0 2px 6px rgba(183, 110, 22, 0.3));
+}
+
+[data-theme="dark"] .page-loader__logo-anim {
+  background:      rgba(245, 158, 11, 0.12);
+  border-color:    rgba(245, 158, 11, 0.35);
+  box-shadow:      0 8px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(245, 158, 11, 0.25);
+}
+
+[data-theme="dark"] .page-loader__logo-anim::before {
+  border-color:    rgba(245, 158, 11, 0.28);
+}
+
+@keyframes kitobchiLogoPulse {
+  0% {
+    transform:  scale(0.95);
+    box-shadow: 0 4px 16px rgba(183, 110, 22, 0.14), 0 0 0 rgba(245, 158, 11, 0);
+  }
+  50% {
+    transform:  scale(1.05);
+    box-shadow: 0 12px 36px rgba(183, 110, 22, 0.32), 0 0 28px rgba(245, 158, 11, 0.45);
+  }
+  100% {
+    transform:  scale(0.95);
+    box-shadow: 0 4px 16px rgba(183, 110, 22, 0.14), 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
+@keyframes kitobchiAura {
+  0% {
+    transform: scale(0.94);
+    opacity:   0.25;
+  }
+  50% {
+    transform: scale(1.09);
+    opacity:   0.85;
+  }
+  100% {
+    transform: scale(0.94);
+    opacity:   0.25;
+  }
 }
 
 .page-loader__spinner {
-  width:         40px;
-  height:        40px;
-  border:        3px solid var(--divider);
-  border-top:    3px solid var(--ochre);
-  border-radius: 50%;
-  animation:     spin 0.7s linear infinite;
+  display: none !important;
 }
 
 .empty-state {
