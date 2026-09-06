@@ -12,7 +12,7 @@
 // ============================================================
 
 import { getCurrentUser, isLoggedIn, initAuth, logout } from './auth.js';
-import { escapeHtml, showNotification }                  from './utils.js';
+import { escapeHtml, showNotification, LOGO_SVG }         from './utils.js';
 
 // ============================================================
 // 1. MARSHRUT (ROUTE) KONFIGURATSIYASI
@@ -475,7 +475,7 @@ function _buildNavbarHTML() {
     <!-- Mobil Topbar: faqat mobilda (<= 768px) ko'rinadi -->
     <div class="mobile-topbar" role="banner">
       <a href="#home" class="mobile-topbar__logo" aria-label="Kitobchi — Bosh sahifa">
-        <span class="mobile-topbar__mark" aria-hidden="true">K</span>
+        <span class="mobile-topbar__mark" aria-hidden="true">${LOGO_SVG}</span>
         <span class="mobile-topbar__name">Kitobchi</span>
       </a>
       <div class="mobile-topbar__actions">
@@ -499,7 +499,7 @@ function _buildNavbarHTML() {
 
         <!-- Logo -->
         <a href="#home" class="navbar__logo" aria-label="Kitobchi — Bosh sahifa">
-          <span class="navbar__logo-mark" aria-hidden="true">K</span>
+          <span class="navbar__logo-mark" aria-hidden="true">${LOGO_SVG}</span>
           <span class="navbar__logo-text">Kitobchi</span>
         </a>
 

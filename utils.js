@@ -310,3 +310,30 @@ export function truncate(text, maxLen = 100) {
 export function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+/**
+ * Kitobchi logotipi: Concept 1 "Ochiq kitob sahifalari + K monogrammasi"
+ * Vektorli SVG dizayn (0ms yuklanish, yuqori sifat, dark/light moslashuvchan)
+ */
+export const LOGO_SVG = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="kitobchi-logo-svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="kLogoGold" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="40%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+    <linearGradient id="kLogoWing" x1="16" y1="8" x2="52" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="60%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+  <rect x="12" y="10" width="10" height="44" rx="3.5" fill="url(#kLogoGold)"/>
+  <line x1="17" y1="14" x2="17" y2="50" stroke="#FEF3C7" stroke-width="1.2" stroke-linecap="round" stroke-opacity="0.6"/>
+  <path d="M22 28 C26 21 34 14 46 11 C47.7 10.5 49.5 11.8 49.5 13.6 L49.5 20.2 C49.5 21.2 48.7 22.1 47.7 22.4 C39 25 32 30 26.5 35.5 Z" fill="url(#kLogoWing)"/>
+  <path d="M28 25 C34 20 40 16 46 14.5" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" stroke-opacity="0.5"/>
+  <path d="M23 33 C31 38.5 39 44.5 47.5 47.8 C48.8 48.3 49.5 49.5 49.5 50.8 L49.5 54.2 C49.5 55.9 47.7 57.1 46.1 56.4 C34 51 26 42 22 36 Z" fill="url(#kLogoGold)"/>
+  <circle cx="23.5" cy="32" r="2.5" fill="#FEF3C7" />
+  <circle cx="23.5" cy="32" r="4" stroke="#FEF3C7" stroke-width="0.75" stroke-opacity="0.6" />
+</svg>`;
+
