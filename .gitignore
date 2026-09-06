@@ -3,5 +3,7 @@ scratch/
 .agents/
 *.log
 .DS_Store
+/data.js
+pages/
 
 .vercel
