@@ -16,9 +16,14 @@ let _cleanup = [];
 let _allCharacters = [];
 let _userResults = [];
 let _allBooks = [];
+let _currentAvatarData = null;
+let _avatarRemoved = false;
 
 export async function render(container, { params, user }) {
   if (!user) { window.navigate('login'); return; }
+
+  _currentAvatarData = user.avatarImage || ((user.avatar && (user.avatar.startsWith('http') || user.avatar.startsWith('data:image/'))) ? user.avatar : null);
+  _avatarRemoved = false;
 
   // Agar foydalanuvchining personaji mustaqil xotirada saqlangan bo'lsa, birlashtiramiz
   if (user && user.id) {
@@ -159,25 +164,76 @@ export async function render(container, { params, user }) {
                 <span class="input-error" id="pf-name-error" role="alert" aria-live="polite"></span>
               </div>
 
-              <div class="input-group">
-                <label for="pf-avatar">Avatar URL <span class="text-muted text-sm">(ixtiyoriy)</span></label>
-                <div style="position: relative; display: flex; align-items: center;">
-                  <span style="position: absolute; left: 12px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-muted);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                  </span>
-                  <input
-                    id="pf-avatar" name="avatar" type="url"
-                    class="input" maxlength="500" style="padding-left: 38px;"
-                    placeholder="https://..."
-                    value="${escapeHtml(user.avatar || '')}"
-                  />
-                </div>
-                <span class="input-hint">To'g'ri URL kiritilsa, avatar ko'rsatiladi</span>
-              </div>
+              <!-- Avatar boshqarish (qurilmadan tanlash, jonli ko'rish va URL) -->
+              <div class="avatar-management-block" style="margin-bottom: 24px;">
+                <label class="form-label" style="font-weight:600;font-size:0.9375rem;margin-bottom:10px;display:block;color:var(--ink);">
+                  Profil rasmi (Avatar)
+                </label>
+                
+                <div class="avatar-upload-zone" id="avatar-drop-zone">
+                  <div class="avatar-current-preview-wrap" style="position:relative;width:88px;height:88px;flex-shrink:0;">
+                    <div id="pf-avatar-circle" class="avatar-circle-large" style="width:100%;height:100%;border-radius:50%;overflow:hidden;border:2.5px solid var(--ochre);background:var(--paper-alt);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);transition:all 0.2s ease;">
+                      <img id="pf-avatar-preview-img" 
+                           src="${escapeHtml(_currentAvatarData || '')}" 
+                           alt="Avatar" 
+                           style="width:100%;height:100%;object-fit:cover;${!_currentAvatarData ? 'display:none;' : ''}" />
+                      <span id="pf-avatar-initial" class="avatar-initial-large" style="font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--ochre);${_currentAvatarData ? 'display:none;' : ''}">
+                        ${user.avatar && !user.avatar.startsWith('http') && !user.avatar.startsWith('data:') ? escapeHtml(user.avatar) : escapeHtml((user.fullName || user.username || 'U')[0].toUpperCase())}
+                      </span>
+                    </div>
+                    <label for="pf-avatar-file" class="avatar-upload-badge" title="Qurilmadan rasm tanlash" style="position:absolute;bottom:0;right:0;width:30px;height:30px;background:var(--ochre);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.25);border:2px solid var(--surface);transition:all 0.2s ease;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    </label>
+                  </div>
 
-              <!-- Avatar oldindan ko'rish -->
-              <div class="pf-avatar-preview" id="avatar-preview" hidden style="margin-top:12px;">
-                <img id="avatar-preview-img" src="" alt="Avatar oldindan ko'rish" />
+                  <div class="avatar-upload-actions" style="flex:1;min-width:200px;">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
+                      <label for="pf-avatar-file" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        Qurilmadan tanlash 📷
+                      </label>
+                      <input id="pf-avatar-file" type="file" accept="image/png, image/jpeg, image/webp, image/gif" style="display:none;" />
+                      
+                      <button type="button" id="pf-remove-avatar-btn" class="btn btn-ghost btn-sm" style="font-size:0.8125rem;color:var(--error);display:${_currentAvatarData ? 'inline-flex' : 'none'};align-items:center;gap:4px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        Rasmni o'chirish
+                      </button>
+                    </div>
+
+                    <div style="font-size:0.75rem;color:var(--ink-muted);line-height:1.45;">
+                      JPG, PNG, WebP yoki GIF (telefon yoki kompyuteringizdan to'g'ridan-to'g'ri tanlang yoki sudrab tashlang).
+                    </div>
+                  </div>
+                </div>
+
+                <!-- URL orqali kiritish varianti (accordion/toggle) -->
+                <div style="margin-top:12px;">
+                  <button type="button" id="toggle-url-avatar-btn" class="btn btn-ghost btn-xs" style="font-size:0.75rem;padding:4px 8px;color:var(--ochre);display:inline-flex;align-items:center;gap:4px;">
+                    <span>🔗 Internet havolasi (URL) orqali kiritish</span>
+                    <svg id="url-toggle-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </button>
+
+                  <div id="url-avatar-container" style="display:${(user.avatar && user.avatar.startsWith('http') && !user.avatar.startsWith('data:')) ? 'block' : 'none'};margin-top:8px;">
+                    <div style="position: relative; display: flex; align-items: center;">
+                      <span style="position: absolute; left: 12px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-muted);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                      </span>
+                      <input
+                        id="pf-avatar" name="avatar" type="url"
+                        class="input" maxlength="500" style="padding-left: 38px;font-size:0.875rem;"
+                        placeholder="https://example.com/rasm.jpg"
+                        value="${escapeHtml((user.avatar && user.avatar.startsWith('http') && !user.avatar.startsWith('data:')) ? user.avatar : '')}"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="character-tab-hint" style="margin-top:12px;padding:10px 14px;background:var(--paper-alt);border-radius:var(--radius-sm);border:1px dashed var(--divider);display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:0.8125rem;">
+                  <span style="color:var(--ink);">🎭 Milliy adabiy qahramonlar timsolini xohlaysizmi?</span>
+                  <button type="button" class="btn btn-ghost btn-xs" id="go-to-chars-tab-btn" style="color:var(--ochre);font-weight:700;white-space:nowrap;">
+                    Personaj tanlash →
+                  </button>
+                </div>
               </div>
 
               <div id="pf-global-error" class="auth-error" role="alert" aria-live="polite" hidden></div>
@@ -303,28 +359,176 @@ function _bindEvents(user, params = {}) {
     switchTab(initialTab);
   }
 
-  // Avatar oldindan ko'rish
-  const avatarInput  = document.getElementById('pf-avatar');
-  const previewWrap  = document.getElementById('avatar-preview');
-  const previewImg   = document.getElementById('avatar-preview-img');
-  let previewTimer;
+  // 1. Helper: Rasm oldindan ko'rishni yangilash
+  const updateAvatarUI = (src) => {
+    const previewImg = document.getElementById('pf-avatar-preview-img');
+    const initialSpan = document.getElementById('pf-avatar-initial');
+    const removeBtn = document.getElementById('pf-remove-avatar-btn');
+    const heroAvatarDisp = document.getElementById('avatar-display');
 
-  const onAvatarInput = () => {
-    clearTimeout(previewTimer);
-    const url = avatarInput.value.trim();
-    if (!url) { previewWrap.hidden = true; return; }
-
-    previewTimer = setTimeout(() => {
-      previewImg.src = url;
-      previewWrap.hidden = false;
-      previewImg.onerror = () => { previewWrap.hidden = true; };
-    }, 600);
+    if (src) {
+      if (previewImg) {
+        previewImg.src = src;
+        previewImg.style.display = 'block';
+      }
+      if (initialSpan) initialSpan.style.display = 'none';
+      if (removeBtn) removeBtn.style.display = 'inline-flex';
+      if (heroAvatarDisp) {
+        heroAvatarDisp.innerHTML = `<img src="${escapeHtml(src)}" alt="" class="profile-hero__avatar-img">`;
+      }
+    } else {
+      if (previewImg) {
+        previewImg.src = '';
+        previewImg.style.display = 'none';
+      }
+      if (initialSpan) initialSpan.style.display = 'block';
+      if (removeBtn) removeBtn.style.display = 'none';
+      if (heroAvatarDisp) {
+        const cur = getCurrentUser() || user;
+        const initial = (cur?.fullName || cur?.username || 'U')[0].toUpperCase();
+        heroAvatarDisp.innerHTML = `<span class="profile-hero__avatar-letter">${escapeHtml(initial)}</span>`;
+      }
+    }
   };
-  avatarInput?.addEventListener('input', onAvatarInput);
+
+  // 2. Helper: Rasmni Canvas yordamida kvadrat qirqish va siqish (max 400x400, JPEG 0.85)
+  const compressAndCropImage = (dataUrl, callback) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const TARGET_SIZE = 400;
+      canvas.width = TARGET_SIZE;
+      canvas.height = TARGET_SIZE;
+      const ctx = canvas.getContext('2d');
+
+      const minDim = Math.min(img.width, img.height);
+      const startX = (img.width - minDim) / 2;
+      const startY = (img.height - minDim) / 2;
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, startX, startY, minDim, minDim, 0, 0, TARGET_SIZE, TARGET_SIZE);
+
+      const optimized = canvas.toDataURL('image/jpeg', 0.85);
+      callback(optimized);
+    };
+    img.onerror = () => {
+      showNotification('Rasmni yuklashda xatolik yuz berdi.', 'error');
+    };
+    img.src = dataUrl;
+  };
+
+  // 3. Helper: Tanlangan faylni qayta ishlash
+  const processSelectedFile = (file) => {
+    if (!file) return;
+    if (!file.type || !file.type.startsWith('image/')) {
+      showNotification('Faqat rasm formatidagi fayllarni yuklashingiz mumkin (PNG, JPG, WebP, GIF).', 'warning');
+      return;
+    }
+    if (file.size > 15 * 1024 * 1024) {
+      showNotification('Fayl hajmi 15MB dan oshmasligi kerak.', 'warning');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const rawDataUrl = e.target.result;
+      compressAndCropImage(rawDataUrl, (optimizedDataUrl) => {
+        _currentAvatarData = optimizedDataUrl;
+        _avatarRemoved = false;
+        updateAvatarUI(optimizedDataUrl);
+        showNotification('Rasm tanlandi! Saqlash uchun "Saqlash" tugmasini bosing.', 'info');
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // 4. File input hodisasi
+  const fileInput = document.getElementById('pf-avatar-file');
+  const onFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) processSelectedFile(file);
+  };
+  fileInput?.addEventListener('change', onFileChange);
+  _cleanup.push(() => fileInput?.removeEventListener('change', onFileChange));
+
+  // 5. Drag and Drop zonasi
+  const dropZone = document.getElementById('avatar-drop-zone');
+  if (dropZone) {
+    const onDragOver = (e) => {
+      e.preventDefault();
+      dropZone.classList.add('avatar-drop-zone--active');
+    };
+    const onDragLeave = () => {
+      dropZone.classList.remove('avatar-drop-zone--active');
+    };
+    const onDrop = (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('avatar-drop-zone--active');
+      const file = e.dataTransfer?.files?.[0];
+      if (file) processSelectedFile(file);
+    };
+    dropZone.addEventListener('dragover', onDragOver);
+    dropZone.addEventListener('dragleave', onDragLeave);
+    dropZone.addEventListener('drop', onDrop);
+    _cleanup.push(() => {
+      dropZone.removeEventListener('dragover', onDragOver);
+      dropZone.removeEventListener('dragleave', onDragLeave);
+      dropZone.removeEventListener('drop', onDrop);
+    });
+  }
+
+  // 6. Rasmni o'chirish tugmasi
+  const removeBtn = document.getElementById('pf-remove-avatar-btn');
+  const onRemoveClick = () => {
+    _currentAvatarData = null;
+    _avatarRemoved = true;
+    const urlInput = document.getElementById('pf-avatar');
+    if (urlInput) urlInput.value = '';
+    if (fileInput) fileInput.value = '';
+    updateAvatarUI(null);
+    showNotification('Rasm o\'chirildi. Standart avatar o\'rnatildi.', 'info');
+  };
+  removeBtn?.addEventListener('click', onRemoveClick);
+  _cleanup.push(() => removeBtn?.removeEventListener('click', onRemoveClick));
+
+  // 7. URL toggle tugmasi
+  const toggleUrlBtn = document.getElementById('toggle-url-avatar-btn');
+  const urlContainer = document.getElementById('url-avatar-container');
+  const chevron = document.getElementById('url-toggle-chevron');
+  const onToggleUrl = () => {
+    if (!urlContainer) return;
+    const isHidden = urlContainer.style.display === 'none';
+    urlContainer.style.display = isHidden ? 'block' : 'none';
+    if (chevron) chevron.style.transform = isHidden ? 'rotate(180deg)' : 'none';
+  };
+  toggleUrlBtn?.addEventListener('click', onToggleUrl);
+  _cleanup.push(() => toggleUrlBtn?.removeEventListener('click', onToggleUrl));
+
+  // 8. URL input hodisasi
+  const avatarUrlInput = document.getElementById('pf-avatar');
+  let urlTimer;
+  const onUrlInput = () => {
+    clearTimeout(urlTimer);
+    const url = avatarUrlInput.value.trim();
+    if (!url) return;
+    urlTimer = setTimeout(() => {
+      _currentAvatarData = url;
+      _avatarRemoved = false;
+      updateAvatarUI(url);
+    }, 500);
+  };
+  avatarUrlInput?.addEventListener('input', onUrlInput);
   _cleanup.push(() => {
-    avatarInput?.removeEventListener('input', onAvatarInput);
-    clearTimeout(previewTimer);
+    avatarUrlInput?.removeEventListener('input', onUrlInput);
+    clearTimeout(urlTimer);
   });
+
+  // 9. Personaj tabiga o'tish tugmasi
+  const goToCharsBtn = document.getElementById('go-to-chars-tab-btn');
+  const onGoToChars = () => switchTab('characters');
+  goToCharsBtn?.addEventListener('click', onGoToChars);
+  _cleanup.push(() => goToCharsBtn?.removeEventListener('click', onGoToChars));
 
   // Profil saqlash
   const form      = document.getElementById('profile-form');
@@ -349,11 +553,21 @@ function _bindEvents(user, params = {}) {
     try {
       const avatarInputVal = document.getElementById('pf-avatar')?.value.trim() || '';
       const updateData = { fullName };
-      if (avatarInputVal) {
+
+      if (_avatarRemoved) {
+        updateData.avatar = '';
+        updateData.avatarImage = null;
+        updateData.avatarCharId = null;
+      } else if (_currentAvatarData) {
+        updateData.avatar = _currentAvatarData;
+        updateData.avatarImage = _currentAvatarData;
+        updateData.avatarCharId = null;
+      } else if (avatarInputVal) {
         updateData.avatar = avatarInputVal;
         updateData.avatarImage = avatarInputVal;
         updateData.avatarCharId = null;
       }
+
       const result = await updateProfile(updateData);
 
       if (result.success) {
@@ -362,6 +576,9 @@ function _bindEvents(user, params = {}) {
         if (avatarDisp) avatarDisp.innerHTML = _avatarHTML(result.user);
         const nameEl = document.querySelector('.profile-hero__name');
         if (nameEl) nameEl.textContent = result.user.fullName || result.user.username;
+        _currentAvatarData = result.user.avatarImage || ((result.user.avatar && (result.user.avatar.startsWith('http') || result.user.avatar.startsWith('data:image/'))) ? result.user.avatar : null);
+        _avatarRemoved = false;
+        updateAvatarUI(_currentAvatarData);
         window.dispatchEvent(new CustomEvent('kitobchi_profile_updated', { detail: result.user }));
       } else {
         errEl.textContent = result.error;
@@ -375,11 +592,14 @@ function _bindEvents(user, params = {}) {
   const onReset = () => {
     const cur = getCurrentUser();
     if (!cur) return;
+    _currentAvatarData = cur.avatarImage || ((cur.avatar && (cur.avatar.startsWith('http') || cur.avatar.startsWith('data:image/'))) ? cur.avatar : null);
+    _avatarRemoved = false;
     document.getElementById('pf-fullname').value = cur.fullName || '';
-    document.getElementById('pf-avatar').value   = cur.avatar || '';
+    if (document.getElementById('pf-avatar')) document.getElementById('pf-avatar').value = (cur.avatar && cur.avatar.startsWith('http') && !cur.avatar.startsWith('data:')) ? cur.avatar : '';
+    if (document.getElementById('pf-avatar-file')) document.getElementById('pf-avatar-file').value = '';
     document.getElementById('pf-name-error').textContent = '';
     document.getElementById('pf-fullname').classList.remove('input--error');
-    document.getElementById('avatar-preview').hidden = true;
+    updateAvatarUI(_currentAvatarData);
     errEl.hidden = true;
   };
 
@@ -759,6 +979,38 @@ function _addStyles() {
     /* Tabs */
     .profile-tabs { margin-bottom: 24px; overflow-x: auto; flex-wrap: nowrap; }
     .profile-tabs .tab { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+
+    /* Avatar upload zone & dropzone */
+    .avatar-upload-zone {
+      display: flex; align-items: center; gap: 18px;
+      padding: 16px; background: var(--surface);
+      border: 1.5px dashed var(--divider);
+      border-radius: var(--radius-md);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .avatar-upload-zone.avatar-drop-zone--active {
+      border-color: var(--ochre);
+      background: var(--ochre-light, rgba(183, 110, 22, 0.08));
+    }
+    .avatar-upload-badge:hover {
+      transform: scale(1.12);
+    }
+    @media (max-width: 520px) {
+      .avatar-upload-zone {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 14px;
+      }
+      .avatar-upload-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .avatar-upload-actions div {
+        justify-content: center;
+      }
+    }
 
     /* Avatar preview */
     .pf-avatar-preview {

@@ -372,39 +372,66 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
   }
 
   widgetWrap.innerHTML = `
-    <div class="streak-card card animate-slide-up">
+    <div class="streak-card card ${isCompletedToday ? 'streak-card--completed' : ''} animate-slide-up">
       <div class="streak-card__header">
-        <div class="streak-badge-flame ${currentStreak > 0 ? 'streak-badge-flame--active' : ''}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="streak-fire-svg"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+        <div class="streak-card__flame-wrap">
+          <div class="streak-card__flame ${currentStreak > 0 ? 'streak-card__flame--active' : 'streak-card__flame--idle'}">
+            <span class="streak-card__flame-emoji">${currentStreak > 0 ? '🔥' : '🕯️'}</span>
+            ${currentStreak > 0 ? `
+              <div class="streak-flame-sparks" aria-hidden="true">
+                <span>✦</span><span>✦</span><span>✦</span>
+              </div>` : ''}
+          </div>
+          <div>
+            <h3 class="streak-card__title">
+              <span class="streak-card__count ${currentStreak > 0 ? 'counter-bounce' : ''}">${currentStreak}</span>
+              <span class="streak-card__unit">kunlik faol streak</span>
+            </h3>
+            <p class="streak-card__subtitle">${escapeHtml(streakDesc)}</p>
+          </div>
         </div>
-        <div style="flex:1;min-width:0;">
-          <h3 class="streak-card__title">${escapeHtml(streakTitle)}</h3>
-          <p class="streak-card__desc">${escapeHtml(streakDesc)}</p>
-        </div>
-        ${!isCompletedToday ? `
-          <div class="streak-card__action">
+        <div class="streak-card__action">
+          ${isCompletedToday ? `
+            <span class="streak-card__badge-done">BUGUN YAKUNLANDI ✓</span>
+          ` : `
             <a href="${dailyId ? `#book?id=${escapeHtml(dailyId)}` : '#books'}" class="btn btn-primary btn-sm pulse-button">
               Testni boshlash
             </a>
-          </div>` : `
-          <div class="streak-card__action">
-            <span class="badge badge-success">Bugun yakunlandi ✓</span>
-          </div>`
-        }
+          `}
+        </div>
       </div>
 
-      <!-- 7 kunlik doiralar -->
-      <div class="streak-week-row" role="list" aria-label="Haftalik faollik taqvimi">
-        ${streakDays.map(day => `
-          <div class="streak-day-col ${day.isToday ? 'streak-day-col--today' : ''}" role="listitem">
-            <div class="streak-day-label">${escapeHtml(day.label)}</div>
-            <div class="streak-dot ${day.isCompleted ? 'streak-dot--completed' : (day.isPending ? 'streak-dot--pending' : 'streak-dot--empty')}"
-                 title="${escapeHtml(day.date)}: ${day.isCompleted ? 'Test yechilgan' : (day.isPending ? 'Kutilmoqda' : 'Yechilmagan')}">
-              ${day.isCompleted ? '<span class="streak-dot__check">✓</span>' : (day.isPending ? '<span class="streak-dot__pulse"></span>' : '')}
-            </div>
-            <div class="streak-day-date">${escapeHtml(day.dayNum)}</div>
-          </div>
-        `).join('')}
+      <div class="streak-card__divider"></div>
+
+      <div class="streak-week">
+        <div class="streak-week__label">Haftalik faollik taqvimi</div>
+        <div class="streak-week__grid" role="list" aria-label="Haftalik faollik taqvimi">
+          ${streakDays.map((day, idx) => {
+            const isActive = Boolean(day.isActive || day.isCompleted);
+            const isToday = Boolean(day.isToday);
+            const isMissed = Boolean(day.isMissed || (day.isPast && !isActive));
+            const dayLabel = day.name || day.label || '';
+            const dayNumber = day.dayNum !== undefined ? day.dayNum : '';
+            const dateStr = day.date || '';
+
+            let titleAttr = `${dateStr}: Reja`;
+            if (isActive) titleAttr = `${dateStr}: Test muvaffaqiyatli topshirilgan ✓`;
+            else if (isToday) titleAttr = `${dateStr}: Bugungi test kutilmoqda`;
+            else if (isMissed) titleAttr = `${dateStr}: Test yechilmagan`;
+
+            return `
+              <div class="streak-day ${isActive ? 'streak-day--active' : ''} ${isToday ? 'streak-day--today' : ''} ${isMissed ? 'streak-day--missed' : ''}"
+                   style="animation-delay: ${idx * 0.05}s;"
+                   role="listitem">
+                <span class="streak-day__name">${escapeHtml(dayLabel)}</span>
+                <div class="streak-day__circle" title="${escapeHtml(titleAttr)}">
+                  ${isActive ? '<span class="streak-day__flame">🔥</span>' : escapeHtml(String(dayNumber))}
+                </div>
+                ${isToday ? '<span class="streak-day__today-indicator">Bugun</span>' : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
       </div>
     </div>
   `;
@@ -412,12 +439,13 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
 
 function _buildDefaultWeekDays(streakStatus) {
   const days = [];
-  const dayNames = ['Dush', 'Sesh', 'Chor', 'Pay', 'Jum', 'Shan', 'Yak'];
+  const dayNames = ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya'];
+  const fullDayNames = ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba', 'Yakshanba'];
   const now = new Date();
-  const todayDayOfWeek = (now.getDay() + 6) % 7; // Dushanba = 0
-
+  const dayOfWeek = now.getDay();
+  const distanceToMon = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
   const monday = new Date(now);
-  monday.setDate(now.getDate() - todayDayOfWeek);
+  monday.setDate(now.getDate() + distanceToMon);
 
   const todayStr = today();
   const activeDates = Array.isArray(streakStatus?.activeDates) ? streakStatus.activeDates : [];
@@ -428,16 +456,21 @@ function _buildDefaultWeekDays(streakStatus) {
     const dStr = formatDate(d);
 
     const isToday = dStr === todayStr;
-    const isCompleted = activeDates.includes(dStr);
-    const isPending = isToday && !isCompleted;
+    const isCompleted = activeDates.includes(dStr) || (isToday && streakStatus?.isCompletedToday);
+    const isPast = dStr < todayStr;
+    const isMissed = isPast && !isCompleted;
 
     days.push({
       date: dStr,
+      name: dayNames[i],
+      fullName: fullDayNames[i],
       label: dayNames[i],
-      dayNum: String(d.getDate()),
-      isToday: isToday,
-      isCompleted: isCompleted,
-      isPending: isPending
+      dayNum: d.getDate(),
+      isToday,
+      isActive: isCompleted,
+      isCompleted,
+      isMissed,
+      isPast
     });
   }
   return days;
