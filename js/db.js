@@ -309,7 +309,7 @@ async function _syncBooksInBackground() {
       const { data, error } = await runQuery(
         supabase
           .from('books')
-          .select('id, title, author, year, genre, difficulty, description, coverBg, coverTitleColor, coverImage, questionCount')
+          .select('id, title, author, year, genre, difficulty, description, cover, coverBg, coverTitleColor, coverImage, questionCount')
           .order('title', { ascending: true }),
         2500
       );
@@ -327,7 +327,7 @@ async function _syncBooksInBackground() {
             let targetKey = idStr;
             if (!bookMap.has(targetKey)) {
               for (const [key, existing] of bookMap.entries()) {
-                if (existing && _slugify(existing.title) === _slugify(sb.title)) {
+                if (existing && (_slugify(existing.title) === _slugify(sb.title) || (sb.slug && _slugify(existing.slug) === _slugify(sb.slug)))) {
                   targetKey = key;
                   break;
                 }
@@ -335,9 +335,40 @@ async function _syncBooksInBackground() {
             }
 
             const existing = bookMap.get(targetKey);
-            if (!existing) {
+            const cover = sb.coverImage || sb.cover || (existing ? (existing.coverImage || existing.cover) : '') || `https://picsum.photos/seed/${targetKey}/300/400`;
+
+            if (existing) {
+              const shouldUpdate =
+                (cover && (existing.coverImage !== cover || existing.cover !== cover)) ||
+                (sb.title && existing.title !== sb.title) ||
+                (sb.author && existing.author !== sb.author) ||
+                (sb.genre && existing.genre !== sb.genre) ||
+                (sb.description && existing.description !== sb.description) ||
+                (sb.coverBg && existing.coverBg !== sb.coverBg) ||
+                (sb.coverTitleColor && existing.coverTitleColor !== sb.coverTitleColor);
+
+              if (shouldUpdate) {
+                hasChanges = true;
+                bookMap.set(targetKey, {
+                  ...existing,
+                  ...sb,
+                  id: targetKey,
+                  title: sb.title || existing.title,
+                  author: sb.author || existing.author,
+                  year: sb.year ?? existing.year,
+                  genre: sb.genre || sb.category || existing.genre || existing.category,
+                  category: sb.category || sb.genre || existing.category || existing.genre,
+                  cover: cover,
+                  cover_url: cover,
+                  coverImage: cover,
+                  coverBg: sb.coverBg || existing.coverBg,
+                  coverTitleColor: sb.coverTitleColor || existing.coverTitleColor,
+                  description: sb.description !== undefined ? sb.description : existing.description,
+                  questionCount: sb.questionCount ?? existing.questionCount ?? 10,
+                });
+              }
+            } else {
               hasChanges = true;
-              const cover = sb.coverImage || sb.cover || `https://picsum.photos/seed/${targetKey}/300/400`;
               bookMap.set(targetKey, {
                 id: targetKey,
                 category: sb.category || sb.genre || 'Adabiyot',
@@ -353,6 +384,10 @@ async function _syncBooksInBackground() {
 
         if (hasChanges) {
           _booksCache = Array.from(bookMap.values());
+          try {
+            localStorage.setItem('kitobchi_books_store', JSON.stringify(_booksCache));
+            localStorage.setItem('custom_books', JSON.stringify(_booksCache));
+          } catch { /* ignore storage quota */ }
           if (typeof window !== 'undefined') {
             window.dispatchEvent(new CustomEvent('kitobchi_books_updated'));
           }
@@ -1035,6 +1070,16 @@ const SAMPLE_LEADERBOARD = [
 ];
 
 function _buildLocalLeaderboard() {
+  try {
+    const rawCached = localStorage.getItem('kitobchi_cached_leaderboard');
+    if (rawCached) {
+      const parsed = JSON.parse(rawCached);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch { /* ignore */ }
+
   let list = [];
   let localUsers = {};
   try {
@@ -1053,9 +1098,9 @@ function _buildLocalLeaderboard() {
       streak: stats.currentStreak !== undefined && stats.currentStreak !== null
         ? Number(stats.currentStreak)
         : (u.streak !== undefined && u.streak !== null ? Number(u.streak) : 0),
-      avatar_url: u.avatar || '',
+      avatar_url: u.avatarImage || u.avatar_image || u.avatar || '',
       avatar: u.avatar || '👤',
-      avatarImage: null,
+      avatarImage: u.avatarImage || u.avatar_image || null,
       role: 'user',
     });
   });
@@ -1073,7 +1118,8 @@ function _buildLocalLeaderboard() {
       list[idx].score = Math.max(list[idx].score || 0, curScore);
       list[idx].streak = curStreak;
       list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
-      list[idx].avatar_url = cur.avatar || list[idx].avatar_url || '';
+      list[idx].avatar_url = cur.avatarImage || cur.avatar_image || cur.avatar || list[idx].avatar_url || '';
+      list[idx].avatarImage = cur.avatarImage || cur.avatar_image || list[idx].avatarImage || null;
     } else {
       list.push({
         id: cur.id,
@@ -1081,22 +1127,16 @@ function _buildLocalLeaderboard() {
         username: cur.username,
         score: curScore,
         streak: curStreak,
-        avatar_url: cur.avatar || '',
+        avatar_url: cur.avatarImage || cur.avatar_image || cur.avatar || '',
         avatar: cur.avatar || '👤',
-        avatarImage: null,
+        avatarImage: cur.avatarImage || cur.avatar_image || null,
         role: cur.isAdmin ? 'admin' : 'user',
       });
     }
   }
 
-  // Faqat real foydalanuvchilar kam bo'lganda (5 tadan kam) namunaviy o'yinchilarni qo'shamiz
-  const realCount = list.filter(u => !String(u.id).startsWith('sample-')).length;
-  if (realCount < 5) {
-    SAMPLE_LEADERBOARD.forEach(s => {
-      if (!list.some(u => u.username === s.username || u.id === s.id)) {
-        list.push({ ...s });
-      }
-    });
+  if (list.length === 0) {
+    SAMPLE_LEADERBOARD.forEach(s => list.push({ ...s }));
   }
 
   // Deterministic tie-breaking: 1) score desc, 2) streak desc, 3) full_name/username asc
@@ -1115,14 +1155,14 @@ function _buildLocalLeaderboard() {
 _leaderboardCache = _buildLocalLeaderboard();
 _leaderboardCacheTime = Date.now();
 
-async function _syncLeaderboardInBackground(limit = 50) {
+async function _syncLeaderboardInBackground() {
   if (!isSupabaseOnline()) return;
   try {
     const { data, error } = await runQuery(
       supabase
         .from('profiles')
         .select('id, username, full_name, avatar, avatar_image, avatar_char_id, is_admin, stats, created_at')
-        .limit(limit),
+        .limit(100),
       2500
     );
 
@@ -1167,7 +1207,8 @@ async function _syncLeaderboardInBackground(limit = 50) {
             ...list[idx],
             score: Math.max(list[idx].score || 0, uScore),
             streak: uStreak,
-            avatar_url: u.avatar || list[idx].avatar_url || '',
+            avatar_url: u.avatarImage || u.avatar || list[idx].avatar_url || '',
+            avatarImage: u.avatarImage || list[idx].avatarImage || null,
             full_name: u.fullName || list[idx].full_name || u.username,
           };
         } else {
@@ -1177,7 +1218,8 @@ async function _syncLeaderboardInBackground(limit = 50) {
             username: u.username,
             score: uScore,
             streak: uStreak,
-            avatar_url: u.avatar || '',
+            avatar_url: u.avatarImage || u.avatar || '',
+            avatarImage: u.avatarImage || null,
           });
         }
       });
@@ -1195,7 +1237,8 @@ async function _syncLeaderboardInBackground(limit = 50) {
           list[idx].score = Math.max(list[idx].score || 0, curScore);
           list[idx].streak = curStreak;
           list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
-          list[idx].avatar_url = cur.avatar || list[idx].avatar_url || '';
+          list[idx].avatar_url = cur.avatarImage || cur.avatar_image || cur.avatar || list[idx].avatar_url || '';
+          list[idx].avatarImage = cur.avatarImage || cur.avatar_image || list[idx].avatarImage || null;
         } else {
           list.push({
             id: cur.id,
@@ -1203,18 +1246,16 @@ async function _syncLeaderboardInBackground(limit = 50) {
             username: cur.username,
             score: curScore,
             streak: curStreak,
-            avatar_url: cur.avatar || '',
+            avatar_url: cur.avatarImage || cur.avatar_image || cur.avatar || '',
+            avatarImage: cur.avatarImage || cur.avatar_image || null,
           });
         }
       }
 
-      // Faqat real foydalanuvchilar kam bo'lganda (5 tadan kam) namunaviy o'yinchilarni qo'shamiz
-      const realCount = list.filter(u => !String(u.id).startsWith('sample-')).length;
-      if (realCount < 5) {
+      // Agar foydalanuvchilar bo'lmasa, namunaviy o'yinchilarni qo'shamiz
+      if (list.length === 0) {
         SAMPLE_LEADERBOARD.forEach(s => {
-          if (!list.some(u => u.username === s.username || u.id === s.id)) {
-            list.push({ ...s });
-          }
+          list.push({ ...s });
         });
       }
 
@@ -1229,6 +1270,12 @@ async function _syncLeaderboardInBackground(limit = 50) {
 
       _leaderboardCache = list;
       _leaderboardCacheTime = Date.now();
+      try {
+        localStorage.setItem('kitobchi_cached_leaderboard', JSON.stringify(list));
+      } catch { /* ignore */ }
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('kitobchi_leaderboard_updated', { detail: list }));
+      }
     }
   } catch { /* ignore */ }
 }
@@ -1252,11 +1299,11 @@ export async function getLeaderboard(limit = 50, forceRefresh = false) {
   }
 
   if (!forceRefresh) {
-    _syncLeaderboardInBackground(limit).catch(() => {});
+    _syncLeaderboardInBackground().catch(() => {});
     return _leaderboardCache.slice(0, limit);
   }
 
-  await _syncLeaderboardInBackground(limit).catch(() => {});
+  await _syncLeaderboardInBackground().catch(() => {});
   return (_leaderboardCache || _buildLocalLeaderboard()).slice(0, limit);
 }
 
@@ -1703,7 +1750,7 @@ async function _syncCharactersInBackground() {
     const { data, error } = await runQuery(
       supabase
         .from('characters')
-        .select('id, name, bookTitle, avatar, color, description'),
+        .select('id, name, bookTitle, avatar, avatarImage, image, color, description'),
       2500
     );
 
@@ -1714,24 +1761,38 @@ async function _syncCharactersInBackground() {
       let changed = false;
       data.forEach(c => {
         const strId = String(c.id);
-        const existing = charMap.get(strId);
-        if (!existing) {
+        const existing = charMap.get(strId) || {};
+        const newImg = c.avatarImage || c.image || existing.avatarImage || null;
+        const newAvatar = c.avatar || existing.avatar || '🎭';
+        const newName = c.name || existing.name;
+        const newDesc = c.description !== undefined ? c.description : (existing.description || '');
+        const newColor = c.color || existing.color || 'var(--color-primary)';
+        const newBook = c.bookTitle || c.book_title || existing.bookTitle || '';
+
+        if (!existing.id || existing.avatarImage !== newImg || existing.avatar !== newAvatar || existing.name !== newName || existing.description !== newDesc) {
           changed = true;
           charMap.set(strId, {
-            id: c.id,
-            name: c.name,
-            book_id: c.book_id ?? c.bookId,
-            bookTitle: c.bookTitle || c.book_title || '',
-            avatar: c.avatar || '🎭',
-            avatarImage: null,
-            color: c.color || 'var(--color-primary)',
-            description: c.description || '',
+            ...existing,
+            id: strId,
+            name: newName,
+            book_id: c.book_id ?? c.bookId ?? existing.book_id,
+            bookTitle: newBook,
+            avatar: newAvatar,
+            avatarImage: newImg,
+            color: newColor,
+            description: newDesc,
           });
         }
       });
 
       if (changed) {
         _charactersCache = Array.from(charMap.values());
+        try {
+          localStorage.setItem('kitobchi_custom_characters', JSON.stringify(_charactersCache));
+        } catch { /* ignore */ }
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('kitobchi_characters_updated'));
+        }
       }
     }
   } catch { /* ignore */ }

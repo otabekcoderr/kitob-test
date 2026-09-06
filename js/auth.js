@@ -11,6 +11,7 @@
 
 import { supabase }      from './supabase-client.js';
 import { uzbekifyError } from './utils.js';
+import { characters }    from './data.js';
 
 // ============================================================
 // ICHKI KONSTANTALAR
@@ -111,13 +112,15 @@ function _buildUserObject(authUser, profileData = {}) {
                   cleanEmail.startsWith('admin@');
 
   // Avatar va Personaj ustuvorligi:
-  const avatarImage = charData?.avatarImage !== undefined 
-    ? charData.avatarImage 
-    : (existingUser?.avatarImage !== undefined ? existingUser.avatarImage : (storedUser?.avatarImage || authUser.user_metadata?.avatarImage || authUser.user_metadata?.avatar_image || profileData.avatar_image || null));
-
   const avatarCharId = charData?.avatarCharId !== undefined 
     ? charData.avatarCharId 
     : (existingUser?.avatarCharId !== undefined ? existingUser.avatarCharId : (storedUser?.avatarCharId || authUser.user_metadata?.avatarCharId || authUser.user_metadata?.avatar_char_id || profileData.avatar_char_id || null));
+
+  const charFallback = avatarCharId ? (characters || []).find(c => String(c.id) === String(avatarCharId)) : null;
+
+  const avatarImage = charData?.avatarImage !== undefined 
+    ? charData.avatarImage 
+    : (existingUser?.avatarImage !== undefined ? existingUser.avatarImage : (storedUser?.avatarImage || authUser.user_metadata?.avatarImage || authUser.user_metadata?.avatar_image || profileData.avatar_image || charFallback?.avatarImage || null));
 
   const avatar = charData?.avatar 
     || existingUser?.avatar 
@@ -126,6 +129,7 @@ function _buildUserObject(authUser, profileData = {}) {
     || (profileData.avatar_url && (profileData.avatar_url.startsWith('http') || profileData.avatar_url.startsWith('data:image/')) ? profileData.avatar_url : null)
     || authUser.user_metadata?.avatar 
     || authUser.user_metadata?.avatar_url 
+    || charFallback?.avatar
     || '🎭';
 
   const stats = profileData.stats || {};

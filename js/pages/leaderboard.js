@@ -61,6 +61,19 @@ export async function render(container, { params, user }) {
     const badge = document.getElementById('total-badge');
     if (badge) badge.textContent = `${leaders.length} ta ishtirokchi`;
 
+    // Jonli yangilanishni tinglash
+    const onLeaderboardUpdated = (e) => {
+      const fresh = Array.isArray(e.detail) ? e.detail : [];
+      if (fresh.length > 0) {
+        _renderPodium(fresh.slice(0, 3), user);
+        _renderTable(fresh, user);
+        const b = document.getElementById('total-badge');
+        if (b) b.textContent = `${fresh.length} ta ishtirokchi`;
+      }
+    };
+    window.addEventListener('kitobchi_leaderboard_updated', onLeaderboardUpdated);
+    _cleanup.push(() => window.removeEventListener('kitobchi_leaderboard_updated', onLeaderboardUpdated));
+
   } catch (err) {
     console.error('[leaderboard] Xato:', err);
     const wrap = document.getElementById('lb-table-wrap');
@@ -102,17 +115,18 @@ function _renderPodium(top3, currentUser) {
   el.innerHTML = `
     <div class="podium" aria-label="Top 3 o'yinchilar" role="list">
       ${order.map((u) => {
-        const rank    = u.rank;
-        const isMe    = currentUser && u.id === currentUser.id;
-        const initial = (u.full_name || u.username || '?')[0].toUpperCase();
+        const rank      = u.rank;
+        const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
+        const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
+        const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
         return `
           <div class="podium__item podium__item--${rank}" role="listitem"
                aria-label="${rank}. o'rin: ${escapeHtml(u.full_name || u.username)}">
-            <div class="podium__rank">${rank}</div>
-            <div class="podium__avatar"${isMe ? ' style="border-color:var(--ochre);"' : ''}>
-              ${u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/'))
-                ? `<img src="${escapeHtml(u.avatar_url)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                : (u.avatar_url || escapeHtml(initial))
+            <div class="podium__rank">${rank === 1 ? '🥇' : (rank === 2 ? '🥈' : '🥉')}</div>
+            <div class="podium__avatar"${isMe ? ' style="border-color:var(--ochre);box-shadow:0 0 10px rgba(183,110,22,0.3);"' : ''}>
+              ${avatarImg
+                ? `<img src="${escapeHtml(avatarImg)}" alt="${escapeHtml(u.full_name || '')}" style="width:100%;height:100%;object-fit:cover;">`
+                : (u.avatar || u.avatar_url || escapeHtml(initial))
               }
             </div>
             <div class="podium__name">
@@ -130,7 +144,7 @@ function _renderPodium(top3, currentUser) {
   `;
 }
 
-// ---- TO'LIQ JADVAL (4-o'rindan boshlab) ----
+// ---- TO'LIQ JADVAL (Barcha o'rinlar 1..N) ----
 function _renderTable(leaders, currentUser) {
   const wrap = document.getElementById('lb-table-wrap');
   if (!wrap) return;
@@ -145,47 +159,48 @@ function _renderTable(leaders, currentUser) {
     return;
   }
 
-  // Top-3 podiumda ko'rsatiladi, jadvalda 4+ o'rinlar
-  const tableData = leaders.slice(3);
-
-  if (!tableData.length) {
-    wrap.innerHTML = `
-      <div class="empty-state">
-        <p class="empty-state__title">Top 3 o'rin yuqoridagi podiumda ko'rsatilgan</p>
-        <p class="empty-state__desc">4-o'rin va undan keyingi ishtirokchilar bu yerda paydo bo'ladi.</p>
-      </div>
-    `;
-    return;
-  }
-
   wrap.innerHTML = `
     <div class="admin-table-wrap" style="border:none;border-radius:0;">
       <table class="leaderboard-table" style="padding:0 2px;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--divider);font-size:0.75rem;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.04em;">
+            <th style="padding:10px 4px;text-align:left;width:48px;">O'rin</th>
+            <th style="padding:10px 8px;text-align:left;">Ishtirokchi</th>
+            <th style="padding:10px 8px;text-align:right;">Natija</th>
+          </tr>
+        </thead>
         <tbody>
-          ${tableData.map((u, i) => {
-            const rank    = i + 4; // 4-o'rindan boshlaymiz
-            const isMe    = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
-            const initial = (u.full_name || u.username || '?')[0].toUpperCase();
+          ${leaders.map((u, i) => {
+            const rank      = i + 1;
+            const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
+            const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
+            const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
+            
+            let rankBadge = `<span style="font-weight:600;color:var(--ink-muted);">${rank}</span>`;
+            if (rank === 1) rankBadge = `<span style="font-size:1.1rem;" title="1-o'rin">🥇</span>`;
+            else if (rank === 2) rankBadge = `<span style="font-size:1.1rem;" title="2-o'rin">🥈</span>`;
+            else if (rank === 3) rankBadge = `<span style="font-size:1.1rem;" title="3-o'rin">🥉</span>`;
+
             return `
-              <tr${isMe ? ' style="background:var(--ochre-light);"' : ''}>
-                <td class="leaderboard__rank" style="width:40px;padding:12px 0 12px 4px;">${rank}</td>
+              <tr${isMe ? ' style="background:var(--ochre-light);font-weight:600;"' : ''}>
+                <td class="leaderboard__rank" style="width:48px;padding:12px 4px;text-align:center;">${rankBadge}</td>
                 <td style="padding:12px 8px;">
                   <div style="display:flex;align-items:center;gap:10px;">
-                    <div style="width:32px;height:32px;border-radius:50%;background:var(--paper-alt);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8125rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
-                      ${u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/'))
-                        ? `<img src="${escapeHtml(u.avatar_url)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                        : (u.avatar_url || escapeHtml(initial))
+                    <div style="width:34px;height:34px;border-radius:50%;background:var(--paper-alt);border:1.5px solid ${isMe ? 'var(--ochre)' : 'var(--divider)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8125rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
+                      ${avatarImg
+                        ? `<img src="${escapeHtml(avatarImg)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
+                        : (u.avatar || u.avatar_url || escapeHtml(initial))
                       }
                     </div>
                     <span style="font-weight:${isMe ? 600 : 400};">
                       ${escapeHtml(u.full_name || u.username)}
-                      ${isMe ? ' <span class="badge badge-primary" style="font-size:.65rem;">Siz</span>' : ''}
+                      ${isMe ? ' <span class="badge badge-primary" style="font-size:.65rem;margin-left:4px;">Siz</span>' : ''}
                     </span>
                   </div>
                 </td>
-                <td style="text-align:right;padding:12px 4px 12px 0;">
-                  <span class="leaderboard__score">${u.score ?? 0}</span>
-                  ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;" title="${u.streak} kunlik streak">🔥 ${u.streak} kun</div>` : ''}
+                <td style="text-align:right;padding:12px 8px 12px 0;">
+                  <span class="leaderboard__score" style="font-weight:700;color:var(--ochre);">${u.score ?? 0} ball</span>
+                  ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;margin-top:2px;" title="${u.streak} kunlik streak">🔥 ${u.streak} kun</div>` : ''}
                 </td>
               </tr>
             `;

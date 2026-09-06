@@ -151,6 +151,16 @@ export async function render(container, { params, user }) {
     window.addEventListener('kitobchi_books_updated', onBooksUpdated);
     _cleanup.push(() => window.removeEventListener('kitobchi_books_updated', onBooksUpdated));
 
+    // Jonli reyting yangilanishini tinglash
+    const onLeaderboardUpdated = (e) => {
+      const fresh = Array.isArray(e.detail) ? e.detail : [];
+      if (fresh.length > 0) {
+        _renderLeaderboardMini(fresh, user);
+      }
+    };
+    window.addEventListener('kitobchi_leaderboard_updated', onLeaderboardUpdated);
+    _cleanup.push(() => window.removeEventListener('kitobchi_leaderboard_updated', onLeaderboardUpdated));
+
   } catch (err) {
     console.error('[home] Yuklash xatosi:', err);
   }
@@ -467,18 +477,26 @@ function _renderLeaderboardMini(leaders, currentUser) {
     <table class="leaderboard-table" aria-label="Top 5 o'yinchilar">
       <tbody>
         ${sorted.map((u, i) => {
-          const isMe    = currentUser && u.id === currentUser.id;
-          const initial = (u.full_name || u.username || '?')[0].toUpperCase();
+          const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
+          const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
+          const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
+          const rank = i + 1;
+          const rankBadge = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : rank));
           return `
-            <tr${isMe ? ' style="background:var(--ochre-light);"' : ''}>
-              <td class="leaderboard__rank">${i + 1}</td>
+            <tr${isMe ? ' style="background:var(--ochre-light);font-weight:600;"' : ''}>
+              <td class="leaderboard__rank" style="width:36px;text-align:center;">${rankBadge}</td>
               <td>
                 <div style="display:flex;align-items:center;gap:10px;">
-                  <div style="width:28px;height:28px;border-radius:50%;background:var(--paper-alt);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:var(--ochre);flex-shrink:0;">${escapeHtml(initial)}</div>
-                  <span class="leaderboard__name">${escapeHtml(u.full_name || u.username)}${isMe ? ' <span class="badge badge-primary">Siz</span>' : ''}</span>
+                  <div style="width:28px;height:28px;border-radius:50%;background:var(--paper-alt);border:1px solid ${isMe ? 'var(--ochre)' : 'var(--divider)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
+                    ${avatarImg
+                      ? `<img src="${escapeHtml(avatarImg)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
+                      : (u.avatar || u.avatar_url || escapeHtml(initial))
+                    }
+                  </div>
+                  <span class="leaderboard__name">${escapeHtml(u.full_name || u.username)}${isMe ? ' <span class="badge badge-primary" style="font-size:.65rem;margin-left:4px;">Siz</span>' : ''}</span>
                 </div>
               </td>
-              <td class="leaderboard__score" style="text-align:right;">${u.score ?? 0}</td>
+              <td class="leaderboard__score" style="text-align:right;font-weight:700;color:var(--ochre);">${u.score ?? 0} ball</td>
             </tr>
           `;
         }).join('')}

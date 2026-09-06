@@ -3223,45 +3223,48 @@ h1, h2, h3, h4, h5, h6 {
 /* Reyting jadvali (Leaderboard Podium) */
 @media (max-width: 480px) {
   .podium {
-    gap: 6px;
-    padding: 12px 0 20px 0;
+    gap: 8px;
+    padding: 16px 0 24px 0;
     margin-bottom: 24px;
   }
   .podium__item {
-    max-width: 96px;
+    max-width: 104px;
   }
   .podium__avatar {
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     font-size: 1.1rem;
   }
   .podium__item--1 .podium__avatar {
-    width: 58px;
-    height: 58px;
+    width: 60px;
+    height: 60px;
   }
   .podium__name {
-    font-size: 0.75rem;
-    max-width: 86px;
+    font-size: 0.78rem;
+    max-width: 96px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: center;
   }
   .podium__rank {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
   }
   .podium__item--1 .podium__rank {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
   .podium__score {
     font-size: 0.875rem;
+    text-align: center;
   }
+  .leaderboard-table th,
   .leaderboard-table td {
-    padding: 10px 4px;
+    padding: 10px 6px;
     font-size: 0.85rem;
   }
   .leaderboard__rank {
-    width: 28px;
-    font-size: 0.8125rem;
+    width: 40px;
+    font-size: 0.875rem;
   }
 }
 
