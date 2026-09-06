@@ -763,9 +763,19 @@ async function _syncSession() {
       avatarCharId: charData?.avatarCharId !== undefined ? charData.avatarCharId : (existingUser?.avatarCharId !== undefined ? existingUser?.avatarCharId : (storedUser?.avatarCharId || session.user.user_metadata?.avatarCharId || profile?.avatar_char_id || null)),
       role:         isAdmin ? 'admin' : (profile?.role || existingUser?.role || 'user'),
       isAdmin:      isAdmin,
-      score:        Math.max(existingUser?.score || 0, storedUser?.score || 0, stats.bestScore || stats.avgScore || profile?.score || 0),
-      streak:       Math.max(existingUser?.streak || 0, storedUser?.streak || 0, stats.currentStreak || stats.maxStreak || profile?.streak || 0),
-      lastQuizDate: existingUser?.lastQuizDate || storedUser?.lastQuizDate || stats.lastQuizDate || profile?.last_quiz_date || null,
+      score:        stats.totalScore !== undefined && stats.totalScore !== null
+                      ? Number(stats.totalScore)
+                      : (stats.score !== undefined && stats.score !== null
+                        ? Number(stats.score)
+                        : Math.max(existingUser?.score || 0, storedUser?.score || 0, profile?.score || stats.avgScore || stats.bestScore || 0)),
+      streak:       stats.currentStreak !== undefined && stats.currentStreak !== null
+                      ? Number(stats.currentStreak)
+                      : (profile?.streak !== undefined && profile?.streak !== null
+                        ? Number(profile.streak)
+                        : (existingUser?.streak !== undefined
+                          ? Number(existingUser.streak)
+                          : (storedUser?.streak !== undefined ? Number(storedUser.streak) : 0))),
+      lastQuizDate: stats.lastQuizDate || profile?.last_quiz_date || existingUser?.lastQuizDate || storedUser?.lastQuizDate || null,
     };
 
     localStorage.setItem(SESSION_KEY, JSON.stringify(userObj));

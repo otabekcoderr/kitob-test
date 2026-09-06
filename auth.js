@@ -17,7 +17,7 @@ import { uzbekifyError } from './utils.js';
 // ============================================================
 
 /** localStorage kalit nomi — sessiyani saqlash uchun */
-const SESSION_KEY = 'kitobchi_user';
+export const SESSION_KEY = 'kitobchi_user';
 
 // ============================================================
 // ICHKI YORDAMCHI FUNKSIYALAR (export qilinmaydi)
@@ -129,22 +129,31 @@ function _buildUserObject(authUser, profileData = {}) {
     || '🎭';
 
   const stats = profileData.stats || {};
-  const score = Math.max(
-    existingUser?.score || 0,
-    storedUser?.score || 0,
-    stats.bestScore || stats.avgScore || profileData.score || 0
-  );
 
-  const streak = Math.max(
-    existingUser?.streak || 0,
-    storedUser?.streak || 0,
-    stats.currentStreak || stats.maxStreak || profileData.streak || 0
-  );
+  // Ball: Birinchi navbatda umumiy ball (totalScore / score) olinadi
+  const score = stats.totalScore !== undefined && stats.totalScore !== null
+    ? Number(stats.totalScore)
+    : (stats.score !== undefined && stats.score !== null
+      ? Number(stats.score)
+      : Math.max(
+          existingUser?.score || 0,
+          storedUser?.score || 0,
+          profileData.score || stats.avgScore || stats.bestScore || 0
+        ));
 
-  const lastQuizDate = existingUser?.lastQuizDate 
-                    || storedUser?.lastQuizDate 
-                    || stats.lastQuizDate 
+  // Streak: currentStreak 0 bo'lsa ham 0 saqlanadi (hech qachon maxStreak bilan adashtirilmaydi)
+  const streak = stats.currentStreak !== undefined && stats.currentStreak !== null
+    ? Number(stats.currentStreak)
+    : (profileData.streak !== undefined && profileData.streak !== null
+      ? Number(profileData.streak)
+      : (existingUser?.streak !== undefined
+        ? Number(existingUser.streak)
+        : (storedUser?.streak !== undefined ? Number(storedUser.streak) : 0)));
+
+  const lastQuizDate = stats.lastQuizDate 
                     || profileData.last_quiz_date 
+                    || existingUser?.lastQuizDate 
+                    || storedUser?.lastQuizDate 
                     || null;
 
   return {
@@ -507,13 +516,23 @@ export async function updateProfile(updates) {
 
     // Statistika (score, streak, lastQuizDate) ni profiles.stats jsonb ustuniga saqlash
     if (updates.score !== undefined || updates.streak !== undefined || updates.lastQuizDate !== undefined) {
+      const currentStats = currentUser.stats || {};
+      const newScore = updates.score !== undefined ? Number(updates.score) : (currentUser.score || 0);
+      const newStreak = updates.streak !== undefined ? Number(updates.streak) : (currentUser.streak || 0);
+      const oldMaxStreak = currentStats.maxStreak ?? currentUser.streak ?? 0;
+      const newMaxStreak = Math.max(newStreak, oldMaxStreak);
+
       dbUpdates.stats = {
-        avgScore: updates.score ?? currentUser.score ?? 0,
-        bestScore: Math.max(updates.score ?? 0, currentUser.score ?? 0),
-        currentStreak: updates.streak ?? currentUser.streak ?? 0,
-        maxStreak: Math.max(updates.streak ?? 0, currentUser.streak ?? 0),
+        ...currentStats,
+        totalScore: newScore,
+        score: newScore,
+        avgScore: newScore,
+        bestScore: Math.max(newScore, currentStats.bestScore || 0, updates.earnedScore || 0),
+        currentStreak: newStreak,
+        maxStreak: newMaxStreak,
         lastQuizDate: updates.lastQuizDate || currentUser.lastQuizDate || '',
-        testsCompleted: (currentUser.testsCompleted || 0) + (updates.score !== undefined ? 1 : 0),
+        activeDates: updates.activeDates || currentStats.activeDates || [],
+        testsCompleted: (currentStats.testsCompleted || currentUser.testsCompleted || 0) + (updates.earnedScore !== undefined ? 1 : 0),
       };
     }
 

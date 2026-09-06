@@ -12,6 +12,7 @@
 import { supabase }      from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
 import * as localData    from './data.js';
+import { today, yesterday, formatDate, toLocalDateString, daysBetween } from './utils.js';
 
 // ============================================================
 // SUPABASE TARMOQ STATUSI VA CIRCUIT BREAKER
@@ -1043,12 +1044,15 @@ function _buildLocalLeaderboard() {
 
   Object.values(localUsers).forEach(u => {
     if (!u || !u.id) return;
+    const stats = u.stats || {};
     list.push({
       id: u.id,
-      full_name: u.fullName || u.username,
-      username: u.username,
-      score: u.score || 0,
-      streak: u.streak || 0,
+      full_name: u.fullName || u.username || 'Kitobxon',
+      username: u.username || '',
+      score: Number(stats.totalScore ?? stats.score ?? u.score ?? stats.avgScore ?? stats.bestScore ?? 0),
+      streak: stats.currentStreak !== undefined && stats.currentStreak !== null
+        ? Number(stats.currentStreak)
+        : (u.streak !== undefined && u.streak !== null ? Number(u.streak) : 0),
       avatar_url: u.avatar || '',
       avatar: u.avatar || '👤',
       avatarImage: null,
@@ -1058,10 +1062,16 @@ function _buildLocalLeaderboard() {
 
   const cur = getCurrentUser();
   if (cur && cur.id) {
+    const curStats = cur.stats || {};
+    const curScore = Number(curStats.totalScore ?? curStats.score ?? cur.score ?? 0);
+    const curStreak = curStats.currentStreak !== undefined && curStats.currentStreak !== null
+      ? Number(curStats.currentStreak)
+      : (cur.streak !== undefined && cur.streak !== null ? Number(cur.streak) : 0);
+
     const idx = list.findIndex(u => u.id === cur.id || (u.username && u.username === cur.username));
     if (idx >= 0) {
-      list[idx].score = Math.max(list[idx].score || 0, cur.score || 0);
-      list[idx].streak = Math.max(list[idx].streak || 0, cur.streak || 0);
+      list[idx].score = Math.max(list[idx].score || 0, curScore);
+      list[idx].streak = curStreak;
       list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
       list[idx].avatar_url = cur.avatar || list[idx].avatar_url || '';
     } else {
@@ -1069,8 +1079,8 @@ function _buildLocalLeaderboard() {
         id: cur.id,
         full_name: cur.fullName || cur.username,
         username: cur.username,
-        score: cur.score || 0,
-        streak: cur.streak || 0,
+        score: curScore,
+        streak: curStreak,
         avatar_url: cur.avatar || '',
         avatar: cur.avatar || '👤',
         avatarImage: null,
@@ -1079,13 +1089,25 @@ function _buildLocalLeaderboard() {
     }
   }
 
-  SAMPLE_LEADERBOARD.forEach(s => {
-    if (!list.some(u => u.username === s.username || u.id === s.id)) {
-      list.push({ ...s });
-    }
+  // Faqat real foydalanuvchilar kam bo'lganda (5 tadan kam) namunaviy o'yinchilarni qo'shamiz
+  const realCount = list.filter(u => !String(u.id).startsWith('sample-')).length;
+  if (realCount < 5) {
+    SAMPLE_LEADERBOARD.forEach(s => {
+      if (!list.some(u => u.username === s.username || u.id === s.id)) {
+        list.push({ ...s });
+      }
+    });
+  }
+
+  // Deterministic tie-breaking: 1) score desc, 2) streak desc, 3) full_name/username asc
+  list.sort((a, b) => {
+    const scoreDiff = (b.score || 0) - (a.score || 0);
+    if (scoreDiff !== 0) return scoreDiff;
+    const streakDiff = (b.streak || 0) - (a.streak || 0);
+    if (streakDiff !== 0) return streakDiff;
+    return (a.full_name || a.username || '').localeCompare(b.full_name || b.username || '');
   });
 
-  list.sort((a, b) => (b.score || 0) - (a.score || 0));
   return list;
 }
 
@@ -1107,12 +1129,17 @@ async function _syncLeaderboardInBackground(limit = 50) {
     if (!error && Array.isArray(data) && data.length > 0) {
       let list = data.map(p => {
         const stats = p.stats || {};
+        const userScore = Number(stats.totalScore ?? stats.score ?? p.score ?? stats.avgScore ?? stats.bestScore ?? 0);
+        const userStreak = stats.currentStreak !== undefined && stats.currentStreak !== null
+          ? Number(stats.currentStreak)
+          : (p.streak !== undefined && p.streak !== null ? Number(p.streak) : 0);
+
         return {
           id: p.id,
           full_name: p.full_name || p.username || 'Kitobxon',
           username: p.username || '',
-          score: stats.bestScore || stats.avgScore || p.score || 0,
-          streak: stats.currentStreak || stats.maxStreak || p.streak || 0,
+          score: userScore,
+          streak: userStreak,
           avatar_url: p.avatar_image || p.avatar || '',
           avatar: p.avatar || '👤',
           avatarImage: p.avatar_image || null,
@@ -1128,12 +1155,18 @@ async function _syncLeaderboardInBackground(limit = 50) {
 
       Object.values(localUsers).forEach(u => {
         if (!u || !u.id) return;
+        const uStats = u.stats || {};
+        const uScore = Number(uStats.totalScore ?? uStats.score ?? u.score ?? 0);
+        const uStreak = uStats.currentStreak !== undefined && uStats.currentStreak !== null
+          ? Number(uStats.currentStreak)
+          : (u.streak !== undefined && u.streak !== null ? Number(u.streak) : 0);
+
         const idx = list.findIndex(item => item.id === u.id || (item.username && item.username === u.username));
         if (idx >= 0) {
           list[idx] = {
             ...list[idx],
-            score: Math.max(list[idx].score || 0, u.score || 0),
-            streak: Math.max(list[idx].streak || 0, u.streak || 0),
+            score: Math.max(list[idx].score || 0, uScore),
+            streak: uStreak,
             avatar_url: u.avatar || list[idx].avatar_url || '',
             full_name: u.fullName || list[idx].full_name || u.username,
           };
@@ -1142,8 +1175,8 @@ async function _syncLeaderboardInBackground(limit = 50) {
             id: u.id,
             full_name: u.fullName || u.username,
             username: u.username,
-            score: u.score || 0,
-            streak: u.streak || 0,
+            score: uScore,
+            streak: uStreak,
             avatar_url: u.avatar || '',
           });
         }
@@ -1151,10 +1184,16 @@ async function _syncLeaderboardInBackground(limit = 50) {
 
       const cur = getCurrentUser();
       if (cur && cur.id) {
+        const curStats = cur.stats || {};
+        const curScore = Number(curStats.totalScore ?? curStats.score ?? cur.score ?? 0);
+        const curStreak = curStats.currentStreak !== undefined && curStats.currentStreak !== null
+          ? Number(curStats.currentStreak)
+          : (cur.streak !== undefined && cur.streak !== null ? Number(cur.streak) : 0);
+
         const idx = list.findIndex(u => u.id === cur.id || (u.username && u.username === cur.username));
         if (idx >= 0) {
-          list[idx].score = Math.max(list[idx].score || 0, cur.score || 0);
-          list[idx].streak = Math.max(list[idx].streak || 0, cur.streak || 0);
+          list[idx].score = Math.max(list[idx].score || 0, curScore);
+          list[idx].streak = curStreak;
           list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
           list[idx].avatar_url = cur.avatar || list[idx].avatar_url || '';
         } else {
@@ -1162,20 +1201,32 @@ async function _syncLeaderboardInBackground(limit = 50) {
             id: cur.id,
             full_name: cur.fullName || cur.username,
             username: cur.username,
-            score: cur.score || 0,
-            streak: cur.streak || 0,
+            score: curScore,
+            streak: curStreak,
             avatar_url: cur.avatar || '',
           });
         }
       }
 
-      SAMPLE_LEADERBOARD.forEach(s => {
-        if (!list.some(u => u.username === s.username || u.id === s.id)) {
-          list.push({ ...s });
-        }
+      // Faqat real foydalanuvchilar kam bo'lganda (5 tadan kam) namunaviy o'yinchilarni qo'shamiz
+      const realCount = list.filter(u => !String(u.id).startsWith('sample-')).length;
+      if (realCount < 5) {
+        SAMPLE_LEADERBOARD.forEach(s => {
+          if (!list.some(u => u.username === s.username || u.id === s.id)) {
+            list.push({ ...s });
+          }
+        });
+      }
+
+      // Deterministic tie-breaking: 1) score desc, 2) streak desc, 3) full_name/username asc
+      list.sort((a, b) => {
+        const scoreDiff = (b.score || 0) - (a.score || 0);
+        if (scoreDiff !== 0) return scoreDiff;
+        const streakDiff = (b.streak || 0) - (a.streak || 0);
+        if (streakDiff !== 0) return streakDiff;
+        return (a.full_name || a.username || '').localeCompare(b.full_name || b.username || '');
       });
 
-      list.sort((a, b) => (b.score || 0) - (a.score || 0));
       _leaderboardCache = list;
       _leaderboardCacheTime = Date.now();
     }
@@ -1238,13 +1289,117 @@ export function saveActiveDate(userId, dateStr) {
   if (!userId || !dateStr) return;
   try {
     const list = getActiveDates(userId);
-    if (!list.includes(dateStr)) {
-      list.push(dateStr);
+    const normalized = toLocalDateString(dateStr);
+    if (normalized && !list.includes(normalized)) {
+      list.push(normalized);
       localStorage.setItem(`kitobchi_active_dates_${userId}`, JSON.stringify(list));
     }
   } catch (e) {
     console.warn('[db] saveActiveDate xatosi:', e);
   }
+}
+
+/**
+ * Faol kunlar ro'yxatidan streakni aniq va xatosiz hisoblaydi.
+ * Har qanday kesh yoki sanalar o'chib ketishidan himoyalangan sof kalendar zanjir algoritmi.
+ *
+ * @param {string[]} datesList - ['2026-09-04', '2026-09-05', ...]
+ * @param {string} [todayStr] - bugungi sana YYYY-MM-DD
+ * @param {string} [yesterdayStr] - kechagi sana YYYY-MM-DD
+ * @returns {{
+ *   streak: number,
+ *   isCompletedToday: boolean,
+ *   isPendingToday: boolean,
+ *   isBroken: boolean,
+ *   lastActiveDate: string|null,
+ *   normalizedDates: string[]
+ * }}
+ */
+export function calculateStreakFromDates(datesList, todayStr = today(), yesterdayStr = yesterday()) {
+  if (!Array.isArray(datesList) || datesList.length === 0) {
+    return {
+      streak: 0,
+      isCompletedToday: false,
+      isPendingToday: true,
+      isBroken: false,
+      lastActiveDate: null,
+      normalizedDates: []
+    };
+  }
+
+  const validDates = new Set();
+  for (const d of datesList) {
+    const s = toLocalDateString(d);
+    if (s && /^\d{4}-\d{2}-\d{2}$/.test(s)) {
+      validDates.add(s);
+    }
+  }
+
+  const sortedDates = Array.from(validDates).sort((a, b) => b.localeCompare(a));
+  if (sortedDates.length === 0) {
+    return {
+      streak: 0,
+      isCompletedToday: false,
+      isPendingToday: true,
+      isBroken: false,
+      lastActiveDate: null,
+      normalizedDates: []
+    };
+  }
+
+  const latestDate = sortedDates[0];
+  const isCompletedToday = validDates.has(todayStr);
+  const isCompletedYesterday = validDates.has(yesterdayStr);
+
+  let streak = 0;
+  let isPendingToday = false;
+  let isBroken = false;
+
+  if (isCompletedToday) {
+    isPendingToday = false;
+    isBroken = false;
+
+    // Bugungi kundan boshlab orqaga ketma-ket kunlarni sanaymiz
+    let checkDate = new Date(todayStr + 'T00:00:00');
+    while (true) {
+      const dStr = formatDate(checkDate);
+      if (validDates.has(dStr)) {
+        streak++;
+        checkDate.setDate(checkDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+  } else if (isCompletedYesterday) {
+    isPendingToday = true;
+    isBroken = false;
+
+    // Kechagi kundan boshlab orqaga ketma-ket kunlarni sanaymiz
+    let checkDate = new Date(yesterdayStr + 'T00:00:00');
+    while (true) {
+      const dStr = formatDate(checkDate);
+      if (validDates.has(dStr)) {
+        streak++;
+        checkDate.setDate(checkDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+  } else {
+    // Eng so'nggi yechilgan test 2 yoki undan ko'p kun oldin bo'lgan
+    isPendingToday = true;
+    isBroken = true;
+    streak = 0;
+  }
+
+  return {
+    streak,
+    isCompletedToday,
+    isPendingToday,
+    isBroken,
+    lastActiveDate: latestDate,
+    normalizedDates: sortedDates
+  };
 }
 
 /**
@@ -1259,41 +1414,61 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
     const user = getCurrentUser();
     if (!user) return { success: false, newStreak: 0, newScore: 0, error: 'Tizimga kirmagansiz.' };
 
-    const { yesterday } = await import('./utils.js');
+    const validToday = toLocalDateString(todayDate) || today();
     const yesterdayStr = yesterday();
+    const validEarned = Math.max(0, Math.round(Number(earnedScore) || 0));
 
-    const lastDate   = user.lastQuizDate ?? null;
-    const oldStreak  = user.streak       ?? 0;
-    const oldScore   = user.score        ?? 0;
+    const lastDate = toLocalDateString(user.lastQuizDate) || null;
+    const oldStreak = Number(user.streak || 0);
 
-    // Streak mantiq (mukammal hisoblash)
+    // 1. Mavjud faol kunlar ro'yxatini yig'ish
+    const existingDates = getActiveDates(user.id);
+    if (user.activeDates && Array.isArray(user.activeDates)) {
+      existingDates.push(...user.activeDates);
+    }
+    if (lastDate) {
+      existingDates.push(lastDate);
+    }
+    existingDates.push(validToday);
+
+    // 2. Yangi streakni aniqlash
+    const streakResult = calculateStreakFromDates(existingDates, validToday, yesterdayStr);
     let newStreak;
-    if (lastDate === todayDate) {
-      // Bugun allaqachon test yechilgan — streak o'zgarmaydi
-      newStreak = Math.max(1, oldStreak);
+    if (lastDate === validToday) {
+      // Bugun allaqachon bir necha bor test yechilmoqda: streak kamaymaydi
+      newStreak = Math.max(1, oldStreak, streakResult.streak);
     } else if (lastDate === yesterdayStr) {
-      // Kecha yechilgan — bugungi kun bilan streak 1 taga oshadi
-      newStreak = oldStreak + 1;
+      // Kecha yechilgan: streak bugungi kun hisobiga 1 taga oshadi
+      newStreak = Math.max(oldStreak + 1, streakResult.streak);
     } else {
-      // Avval yechilmagan yoki 2+ kun o'tkazib yuborilgan — yangi streak boshlanadi
-      newStreak = 1;
+      // Yangi streak yoki zanjir boshlanishi
+      newStreak = Math.max(1, streakResult.streak);
     }
 
-    const newScore = oldScore + earnedScore;
+    // 3. To'plangan umumiy ballni oshirish (jami ball yig'indisi)
+    const oldScore = Number(user.score || 0);
+    const newScore = oldScore + validEarned;
 
-    // Faol kunlar bazasiga kiritish
-    saveActiveDate(user.id, todayDate);
+    // 4. Bugungi kunni faol kunlar ro'yxatiga qo'shish
+    saveActiveDate(user.id, validToday);
 
-    // Agar streak bekor qilingan xabari bo'lsa, uni tozalaymiz
+    // 5. Streak uzilgani haqidagi eski ogohlantirishlarni tozalash
     try {
       localStorage.removeItem(`kitobchi_streak_broken_ack_${user.id}`);
       localStorage.removeItem(`kitobchi_broken_streak_${user.id}`);
     } catch {}
 
-    // Mahalliy profil va sessiyani yangilaymiz
+    // 6. Profil va sessiyani yangilash
     const { updateProfile } = await import('./auth.js');
-    await updateProfile({ score: newScore, streak: newStreak, lastQuizDate: todayDate });
+    await updateProfile({
+      score: newScore,
+      streak: newStreak,
+      lastQuizDate: validToday,
+      activeDates: streakResult.normalizedDates,
+      earnedScore: validEarned
+    });
 
+    // 7. Keshlarni tozalash (darhol reyting va profil yangilanishi uchun)
     _leaderboardCache = null;
     _leaderboardCacheTime = 0;
     _userResultsCache.delete(user.id);
@@ -1329,72 +1504,113 @@ export async function getStreakStatus(user, userResults = []) {
     };
   }
 
-  const { today, yesterday, formatDate } = await import('./utils.js');
   const todayStr = today();
   const yesterdayStr = yesterday();
-  const lastDate = user.lastQuizDate || null;
-  const rawStreak = user.streak || 0;
+  const lastDate = toLocalDateString(user.lastQuizDate) || null;
+  const rawStreak = Number(user.streak || 0);
 
-  // Faol kunlarni yig'ish (localStorage + test natijalari)
+  // 1. Faol kunlarni yig'ish va normalizatsiya qilish
+  const collectedDates = new Set();
+
   const localActive = getActiveDates(user.id);
-  const resultDates = (userResults || [])
-    .map(r => r.date || (r.created_at ? r.created_at.slice(0, 10) : null))
-    .filter(Boolean);
-  if (lastDate) localActive.push(lastDate);
-  const allActiveDates = Array.from(new Set([...localActive, ...resultDates]));
+  localActive.forEach(d => {
+    const s = toLocalDateString(d);
+    if (s) collectedDates.add(s);
+  });
 
-  let currentStreak = rawStreak;
-  let isCompletedToday = false;
-  let isPendingToday = false;
-  let isBroken = false;
+  if (user.activeDates && Array.isArray(user.activeDates)) {
+    user.activeDates.forEach(d => {
+      const s = toLocalDateString(d);
+      if (s) collectedDates.add(s);
+    });
+  }
+
+  (userResults || []).forEach(r => {
+    const s = toLocalDateString(r.date || r.created_at);
+    if (s) collectedDates.add(s);
+  });
+
+  if (lastDate) {
+    collectedDates.add(lastDate);
+  }
+
+  const allActiveDates = Array.from(collectedDates).sort((a, b) => b.localeCompare(a));
+
+  // 2. Sana zanjiri bo'yicha hisoblash
+  const streakCalc = calculateStreakFromDates(allActiveDates, todayStr, yesterdayStr);
+
+  let currentStreak = streakCalc.streak;
+  let isCompletedToday = streakCalc.isCompletedToday;
+  let isPendingToday = streakCalc.isPendingToday;
+  let isBroken = streakCalc.isBroken;
   let brokenStreakAmount = 0;
 
-  if (lastDate === todayStr || allActiveDates.includes(todayStr)) {
-    // Bugun allaqachon muvaffaqiyatli bajarilgan
-    isCompletedToday = true;
-    isPendingToday = false;
-    currentStreak = Math.max(1, rawStreak);
-  } else if (lastDate === yesterdayStr || allActiveDates.includes(yesterdayStr)) {
-    // Kecha bajarilgan, lekin bugun hali bajarilmagan — streak hali buzilmagan
-    isCompletedToday = false;
-    isPendingToday = true;
-    currentStreak = rawStreak;
-  } else {
-    // Kecha ham, bugun ham test yechilmagan (2 yoki undan ortiq kun o'tgan)
-    isCompletedToday = false;
-    isPendingToday = true;
-    if (rawStreak > 0) {
-      // STREAK BUZILDI!
+  // 3. Kesh bo'sh bo'lganda foydalanuvchi profilidagi streak va lastQuizDate ni xavfsiz tekshirish
+  if (allActiveDates.length <= 1 && rawStreak > 0) {
+    if (lastDate === todayStr) {
+      currentStreak = Math.max(rawStreak, 1);
+      isCompletedToday = true;
+      isPendingToday = false;
+      isBroken = false;
+    } else if (lastDate === yesterdayStr) {
+      currentStreak = rawStreak;
+      isCompletedToday = false;
+      isPendingToday = true;
+      isBroken = false;
+    } else if (lastDate && daysBetween(lastDate, todayStr) >= 2) {
       isBroken = true;
       brokenStreakAmount = rawStreak;
       currentStreak = 0;
-
-      try {
-        localStorage.setItem(`kitobchi_broken_streak_${user.id}`, JSON.stringify({
-          date: todayStr,
-          amount: brokenStreakAmount,
-        }));
-      } catch {}
-
-      // Profil va sessiyada streakni 0 ga tushiramiz
-      const { updateProfile } = await import('./auth.js');
-      await updateProfile({ streak: 0 }).catch(() => {});
-    } else {
+    } else if (!lastDate) {
+      currentStreak = rawStreak;
+      isCompletedToday = false;
+      isPendingToday = true;
+      isBroken = false;
+    }
+  } else if (rawStreak > 0) {
+    if (lastDate === todayStr || allActiveDates.includes(todayStr)) {
+      currentStreak = Math.max(rawStreak, streakCalc.streak, 1);
+      isCompletedToday = true;
+      isPendingToday = false;
+      isBroken = false;
+    } else if (lastDate === yesterdayStr || allActiveDates.includes(yesterdayStr)) {
+      currentStreak = Math.max(rawStreak, streakCalc.streak);
+      isCompletedToday = false;
+      isPendingToday = true;
+      isBroken = false;
+    } else if (daysBetween(lastDate || streakCalc.lastActiveDate, todayStr) >= 2) {
+      isBroken = true;
+      brokenStreakAmount = rawStreak;
       currentStreak = 0;
-      try {
-        const brokenRaw = localStorage.getItem(`kitobchi_broken_streak_${user.id}`);
-        if (brokenRaw) {
-          const brokenInfo = JSON.parse(brokenRaw);
-          if (brokenInfo.date === todayStr && brokenInfo.amount > 0) {
-            isBroken = true;
-            brokenStreakAmount = brokenInfo.amount;
-          }
-        }
-      } catch {}
     }
   }
 
-  // 7 kunlik joriy haftalik taqvim (Dushanba - Yakshanba)
+  // 4. Agar streak uzilgan deb topilsa, profil va keshlarni tozalaymiz
+  if (isBroken && brokenStreakAmount > 0) {
+    try {
+      localStorage.setItem(`kitobchi_broken_streak_${user.id}`, JSON.stringify({
+        date: todayStr,
+        amount: brokenStreakAmount,
+      }));
+    } catch {}
+
+    const { updateProfile } = await import('./auth.js');
+    await updateProfile({ streak: 0 }).catch(() => {});
+    currentStreak = 0;
+  } else if (currentStreak === 0) {
+    try {
+      const brokenRaw = localStorage.getItem(`kitobchi_broken_streak_${user.id}`);
+      if (brokenRaw) {
+        const brokenInfo = JSON.parse(brokenRaw);
+        if (brokenInfo.date === todayStr && brokenInfo.amount > 0) {
+          isBroken = true;
+          brokenStreakAmount = brokenInfo.amount;
+        }
+      }
+    } catch {}
+  }
+
+  // 5. 7 kunlik joriy haftalik taqvim (Dushanba - Yakshanba)
   const now = new Date();
   const dayOfWeek = now.getDay(); // 0: Yak, 1: Du, ...
   const distanceToMon = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
