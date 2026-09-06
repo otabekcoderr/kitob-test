@@ -37,11 +37,12 @@ export async function render(container, { params, user }) {
 
         <!-- Hero -->
         <section class="hero animate-fade-in">
-          <p class="hero__eyebrow">O'zbek raqamli kutubxonasi</p>
           ${user
-            ? `<h1 class="hero__title">${escapeHtml(user.fullName || user.username)}</h1>
+            ? `<p class="hero__eyebrow">Xush kelibsiz, kitobxon</p>
+               <h1 class="hero__title">${escapeHtml(user.fullName || user.username)}</h1>
                <p class="hero__desc">Bilimingizni mustahkamlang. Har kuni bir kitob.</p>`
-            : `<h1 class="hero__title">Kitobchi</h1>
+            : `<p class="hero__eyebrow">Adabiyot va test platformasi</p>
+               <h1 class="hero__title">Kitobchi</h1>
                <p class="hero__desc">O'zbek adabiyotini o'rganish, test yechish va bilimingizni o'lchash uchun platforma.</p>
                <div style="display:flex;gap:12px;flex-wrap:wrap;">
                  <a href="#register" class="btn btn-primary btn-lg">Boshlash</a>
