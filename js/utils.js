@@ -329,3 +329,8 @@ export const LOGO_SVG = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.
   <circle cx="23.5" cy="32" r="4.5" stroke="#FEF3C7" stroke-width="0.75" stroke-opacity="0.6"/>
 </svg>`;
 
+// ============================================================
+// 7. RIVOJLANISH VA GEYMIFIKATSIYA (PROGRESSION)
+// ============================================================
+export * from './progression.js';
+

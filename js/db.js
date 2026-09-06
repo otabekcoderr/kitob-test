@@ -1456,7 +1456,7 @@ export function calculateStreakFromDates(datesList, todayStr = today(), yesterda
  * @param {string} todayDate    — "YYYY-MM-DD" formatida (formatDate() dan)
  * @returns {Promise<{success: boolean, newStreak: number, newScore: number, error?: string}>}
  */
-export async function updateStreakAndScore(earnedScore, todayDate) {
+export async function updateStreakAndScore(earnedScore, todayDate, metadata = {}) {
   try {
     const user = getCurrentUser();
     if (!user) return { success: false, newStreak: 0, newScore: 0, error: 'Tizimga kirmagansiz.' };
@@ -1492,7 +1492,7 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
       newStreak = Math.max(1, streakResult.streak);
     }
 
-    // 3. To'plangan umumiy ballni oshirish (jami ball yig'indisi)
+    // 3. To'plangan umumiy ball / XP ni oshirish
     const oldScore = Number(user.score || 0);
     const newScore = oldScore + validEarned;
 
@@ -1505,14 +1505,34 @@ export async function updateStreakAndScore(earnedScore, todayDate) {
       localStorage.removeItem(`kitobchi_broken_streak_${user.id}`);
     } catch {}
 
-    // 6. Profil va sessiyani yangilash
+    // 6. Kitob mastery (o'zlashtirish) xotirasini yangilash
+    let updatedMastery = null;
+    if (metadata && metadata.bookId) {
+      try {
+        const mKey = `kitobchi_mastery_${user.id}`;
+        const rawM = localStorage.getItem(mKey);
+        const masteryData = rawM ? JSON.parse(rawM) : {};
+        const bId = String(metadata.bookId);
+        const prev = masteryData[bId] || { bestPercentage: 0, attempts: 0 };
+        masteryData[bId] = {
+          bestPercentage: Math.max(prev.bestPercentage || 0, Number(metadata.percentage || 0)),
+          attempts: (prev.attempts || 0) + 1,
+          lastDate: validToday,
+        };
+        localStorage.setItem(mKey, JSON.stringify(masteryData));
+        updatedMastery = masteryData;
+      } catch {}
+    }
+
+    // 7. Profil va sessiyani yangilash
     const { updateProfile } = await import('./auth.js');
     await updateProfile({
       score: newScore,
       streak: newStreak,
       lastQuizDate: validToday,
       activeDates: streakResult.normalizedDates,
-      earnedScore: validEarned
+      earnedScore: validEarned,
+      mastery: updatedMastery,
     });
 
     // 7. Keshlarni tozalash (darhol reyting va profil yangilanishi uchun)

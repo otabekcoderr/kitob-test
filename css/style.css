@@ -3443,3 +3443,319 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ============================================================
+   PROGRESSION, LEVEL, BOOK LOCKS & GAMIFICATION
+   ============================================================ */
+
+/* 1. Kitob qulflari (Book Locks) */
+.book-card--locked {
+  position: relative;
+}
+
+.book-card--locked .book-card__cover {
+  filter: grayscale(0.75) contrast(0.92);
+  opacity: 0.85;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.book-card--locked:hover .book-card__cover {
+  filter: grayscale(0.5) contrast(0.95);
+  opacity: 0.95;
+}
+
+.book-card__lock-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  background: rgba(23, 54, 45, 0.88);
+  color: #FFFDF8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid rgba(183, 110, 22, 0.4);
+  backdrop-filter: blur(6px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.book-card__lock-badge--mystery {
+  background: linear-gradient(135deg, rgba(183, 110, 22, 0.95), rgba(45, 106, 79, 0.95));
+  border-color: #FEF3C7;
+  color: #FEF3C7;
+  animation: goldPulseAura 2.5s infinite ease-in-out;
+}
+
+.book-card__lock-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(23, 54, 45, 0.85);
+  padding: 6px 10px;
+  z-index: 4;
+  backdrop-filter: blur(4px);
+  border-top: 1px solid rgba(183, 110, 22, 0.3);
+}
+
+.book-card__lock-progress-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+.book-card__lock-progress-fill {
+  height: 100%;
+  background: var(--ochre);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* 2. Asar Mastery nishonlari (Book Mastery Badges) */
+.badge-mastery {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full, 9999px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid transparent;
+}
+
+.mastery-novice {
+  background: var(--paper-alt);
+  color: var(--ink-muted);
+  border-color: var(--divider);
+}
+
+.mastery-familiar {
+  background: rgba(45, 106, 79, 0.08);
+  color: var(--ink);
+  border-color: rgba(45, 106, 79, 0.25);
+}
+
+.mastery-know {
+  background: rgba(30, 90, 160, 0.08);
+  color: #1a528c;
+  border-color: rgba(30, 90, 160, 0.25);
+}
+
+[data-theme="dark"] .mastery-know {
+  background: rgba(82, 183, 136, 0.12);
+  color: #74c69d;
+  border-color: rgba(82, 183, 136, 0.3);
+}
+
+.mastery-adept {
+  background: rgba(23, 54, 45, 0.1);
+  color: #17362D;
+  border-color: #17362D;
+}
+
+[data-theme="dark"] .mastery-adept {
+  background: rgba(82, 183, 136, 0.15);
+  color: #52B788;
+  border-color: #52B788;
+}
+
+.mastery-expert {
+  background: rgba(183, 110, 22, 0.12);
+  color: #B76E16;
+  border-color: #B76E16;
+}
+
+[data-theme="dark"] .mastery-expert {
+  background: rgba(225, 166, 77, 0.18);
+  color: #E1A64D;
+  border-color: #E1A64D;
+}
+
+.mastery-perfect {
+  background: linear-gradient(135deg, rgba(183, 110, 22, 0.2), rgba(245, 158, 11, 0.25));
+  color: #B76E16;
+  border-color: #F59E0B;
+  box-shadow: 0 0 10px rgba(183, 110, 22, 0.2);
+}
+
+[data-theme="dark"] .mastery-perfect {
+  background: linear-gradient(135deg, rgba(225, 166, 77, 0.25), rgba(245, 158, 11, 0.3));
+  color: #FFEAA7;
+  border-color: #E1A64D;
+  box-shadow: 0 0 12px rgba(225, 166, 77, 0.3);
+}
+
+/* 3. Daraja Nishonlari (Level Badges) */
+.badge-level-1 { background: var(--paper-alt); color: var(--ink); border: 1px solid var(--divider); }
+.badge-level-2 { background: rgba(183, 110, 22, 0.08); color: var(--ochre); border: 1px solid rgba(183, 110, 22, 0.3); }
+.badge-level-3 { background: rgba(45, 106, 79, 0.1); color: var(--success); border: 1px solid rgba(45, 106, 79, 0.3); }
+.badge-level-4 { background: rgba(30, 90, 160, 0.1); color: #1e5aa0; border: 1px solid rgba(30, 90, 160, 0.3); }
+[data-theme="dark"] .badge-level-4 { color: #8ab4f8; }
+.badge-level-5 { background: rgba(183, 110, 22, 0.15); color: var(--ochre); border: 1.5px solid var(--ochre); font-weight: 700; }
+.badge-level-6 { background: rgba(23, 54, 45, 0.15); color: var(--ink); border: 1.5px solid var(--ink); font-weight: 700; }
+.badge-level-7 { background: linear-gradient(135deg, var(--paper-alt), rgba(183, 110, 22, 0.15)); color: var(--ochre); border: 1.5px solid var(--ochre); font-weight: 700; }
+.badge-level-8 {
+  background: linear-gradient(135deg, #17362D, #2D6A4F);
+  color: #FEF3C7;
+  border: 1.5px solid #F59E0B;
+  box-shadow: 0 2px 10px rgba(183, 110, 22, 0.35);
+  font-weight: 800;
+}
+
+/* 4. Kunlik Missiyalar (Daily Missions) */
+.daily-missions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.mission-card {
+  background: var(--surface);
+  border: 1.5px solid var(--divider);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.mission-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(23, 54, 45, 0.06);
+  border-color: rgba(183, 110, 22, 0.4);
+}
+
+.mission-card--completed {
+  background: var(--paper-alt);
+  border-color: var(--success);
+}
+
+.mission-card__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.mission-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.mission-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mission-card__title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.mission-card__reward {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ochre);
+  background: rgba(183, 110, 22, 0.1);
+  padding: 2px 7px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.mission-card__desc {
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+  line-height: 1.4;
+  margin: 0 0 8px 0;
+}
+
+.mission-card__progress-bar {
+  height: 5px;
+  background: var(--divider);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.mission-card__progress-fill {
+  height: 100%;
+  background: var(--ochre);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.mission-card--completed .mission-card__progress-fill {
+  background: var(--success);
+}
+
+/* 5. Natija sahifasi chiplari */
+.result-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  color: var(--ink-muted);
+}
+
+.result-chip--accent {
+  border-color: rgba(45, 106, 79, 0.35);
+  color: var(--success);
+  background: rgba(45, 106, 79, 0.06);
+}
+
+.result-chip--gold {
+  border-color: rgba(183, 110, 22, 0.4);
+  color: var(--ochre);
+  background: rgba(183, 110, 22, 0.08);
+  font-weight: 700;
+}
+
+/* 6. Animatsiyalar */
+@keyframes goldPulseAura {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(183, 110, 22, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(183, 110, 22, 0.6);
+  }
+}
+
+.animate-scale-up {
+  animation: popScaleUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes popScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scale-up,
+  .book-card__lock-badge--mystery,
+  .streak-card--completed {
+    animation: none !important;
+  }
+}
+

@@ -715,8 +715,9 @@ async function _syncSession() {
     const session = result?.data?.session;
 
     if (!session?.user) {
-      // Agar tarmoq kechikishi yoki timeout bo'lsa, foydalanuvchini majburiy logout qilmaymiz!
-      if (!isTimedOut && result?.error === null) {
+      // Agar tarmoq kechikishi yoki offline/test foydalanuvchisi bo'lsa, majburiy logout qilmaymiz!
+      const existing = getCurrentUser();
+      if (!isTimedOut && result?.error === null && !existing?.offlineSession && !String(existing?.id || '').startsWith('test_')) {
         localStorage.removeItem(SESSION_KEY);
       }
       return;

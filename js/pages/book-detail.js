@@ -3,6 +3,7 @@
 // ============================================================
 import { getBookById, getQuestions, getComments, saveComment, deleteComment } from '../db.js';
 import { escapeHtml, showNotification } from '../utils.js';
+import { isBookUnlocked } from '../progression.js';
 let _cleanup = [];
 
 const FAVORITES_KEY = 'kitobchi_favorites';
@@ -143,17 +144,45 @@ function _renderBook(contentEl, book, questions, user) {
           <!-- Test CTA -->
           <div style="margin-top:8px;">
             ${qCount > 0
-              ? user
-                ? `<button id="start-quiz-btn" class="btn btn-primary btn-lg" data-book-id="${escapeHtml(String(book.id))}" style="width:100%;max-width:280px;">
-                     Bilimingizni tekshiring
-                   </button>`
-                : `<div style="padding:16px;border:1px solid var(--divider);border-radius:var(--radius-md);background:var(--paper-alt);">
-                     <p style="color:var(--ink-muted);margin-bottom:12px;font-size:0.9375rem;">Testni boshlash uchun tizimga kiring.</p>
-                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                       <a href="#login"    class="btn btn-primary">Kirish</a>
-                       <a href="#register" class="btn btn-outline">Ro'yxatdan o'tish</a>
-                     </div>
-                   </div>`
+              ? (isBookUnlocked(book, user).isUnlocked
+                  ? (user
+                      ? `<button id="start-quiz-btn" class="btn btn-primary btn-lg" data-book-id="${escapeHtml(String(book.id))}" style="width:100%;max-width:280px;">
+                           Bilimingizni tekshiring
+                         </button>`
+                      : `<div style="padding:16px;border:1px solid var(--divider);border-radius:var(--radius-md);background:var(--paper-alt);">
+                           <p style="color:var(--ink-muted);margin-bottom:12px;font-size:0.9375rem;">Testni boshlash uchun tizimga kiring.</p>
+                           <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                             <a href="#login"    class="btn btn-primary">Kirish</a>
+                             <a href="#register" class="btn btn-outline">Ro'yxatdan o'tish</a>
+                           </div>
+                         </div>`
+                    )
+                  : (() => {
+                      const u = isBookUnlocked(book, user);
+                      return `
+                        <div class="book-detail__locked-box book-locked-box" style="padding:18px 20px;border:1px solid var(--ochre);border-radius:var(--radius-md);background:var(--paper-alt);max-width:440px;">
+                          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                            <span style="font-size:1.25rem;">🔒</span>
+                            <h3 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--ink);margin:0;">Ushbu asar testi qulflangan</h3>
+                          </div>
+                          <p style="font-size:0.875rem;color:var(--ink-muted);line-height:1.6;margin:0 0 12px 0;">
+                            Ushbu asar testini yechish uchun <strong>${u.requiredLevel}-daraja (${u.requiredXP} XP)</strong> talab qilinadi.
+                            ${u.requiredStreak ? `<br>Yoki <strong>${u.requiredStreak} kunlik uzluksiz streak</strong> orqali ochishingiz mumkin.` : ''}
+                          </p>
+                          <div class="progress-bar" style="height:7px;margin-bottom:8px;" role="progressbar" aria-valuenow="${u.progressPct}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar__fill" style="width:${u.progressPct}%;background:linear-gradient(90deg,var(--ochre),var(--terracotta));"></div>
+                          </div>
+                          <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem;color:var(--ink-muted);margin-bottom:14px;">
+                            <span>Sizda: <strong>${user ? (user.score || 0) : 0} XP</strong></span>
+                            <span>Yana <strong>${u.remainingXP} XP</strong> kerak</span>
+                          </div>
+                          <button class="btn btn-outline btn-sm" disabled style="opacity:0.75;cursor:not-allowed;width:100%;pointer-events:none;">
+                            🔒 Hali ochilmagan (${u.requiredLevel}-daraja)
+                          </button>
+                        </div>
+                      `;
+                    })()
+                )
               : `<p style="color:var(--ink-muted);font-size:0.9375rem;padding:14px 0;">Bu kitob uchun hali savollar yo'q.</p>`
             }
           </div>
@@ -199,7 +228,14 @@ function _renderBook(contentEl, book, questions, user) {
 function _bindEvents(container, book, user) {
   const startBtn = container.querySelector('#start-quiz-btn') || document.getElementById('start-quiz-btn');
   if (startBtn) {
-    const onClick = () => window.navigate('quiz', { bookId: String(book.id) });
+    const onClick = () => {
+      const unlock = isBookUnlocked(book, user);
+      if (!unlock.isUnlocked) {
+        showNotification(unlock.reason || 'Ushbu kitob testi hali qulflangan!', 'warning');
+        return;
+      }
+      window.navigate('quiz', { bookId: String(book.id) });
+    };
     startBtn.addEventListener('click', onClick);
     _cleanup.push(() => startBtn.removeEventListener('click', onClick));
   }

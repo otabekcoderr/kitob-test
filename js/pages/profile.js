@@ -1,13 +1,21 @@
 // ============================================================
-// pages/profile.js — Profil va sozlamalar sahifasi (Editorial uslub)
+// pages/profile.js — Profil, Sozlamalar, Yutuqlar & Mastery (Editorial uslub)
 // ============================================================
 import { getCurrentUser, updateProfile, logout } from '../auth.js';
-import { getUserResults, getCharacters, getStreakStatus } from '../db.js';
-import { escapeHtml, showNotification,
-         setButtonLoading }                       from '../utils.js';
+import { getUserResults, getCharacters, getStreakStatus, getBooks } from '../db.js';
+import {
+  escapeHtml,
+  showNotification,
+  setButtonLoading,
+  getUserLevel,
+  checkUserAchievements,
+  calculateAllBooksMastery,
+} from '../utils.js';
 
 let _cleanup = [];
 let _allCharacters = [];
+let _userResults = [];
+let _allBooks = [];
 
 export async function render(container, { params, user }) {
   if (!user) { window.navigate('login'); return; }
@@ -31,11 +39,13 @@ export async function render(container, { params, user }) {
                   String(user?.username || '').toLowerCase() === 'admin' ||
                   String(user?.email || '').toLowerCase().startsWith('admin@');
 
+  const userLevel = getUserLevel(user.score || 0);
+
   container.innerHTML = `
     <div class="page" id="profile-page">
       <div class="container container--md">
 
-        <!-- Profil sarlavhasi (Logo, Nom 1 qatorda, 1ta border bilan) -->
+        <!-- Profil sarlavhasi (Avatar, Ism, Daraja va Statistika) -->
         <div class="profile-hero animate-slide-up">
           <div class="profile-hero__avatar" id="avatar-display">
             ${_avatarHTML(user)}
@@ -47,10 +57,26 @@ export async function render(container, { params, user }) {
                 ${isAdmin ? 'Administrator' : `@${escapeHtml(user.username)}`}
               </span>
             </div>
+
+            <!-- Daraja va XP Progress bari -->
+            <div class="profile-hero__level-wrap" style="margin:10px 0 14px;max-width:420px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;">
+                <span class="badge ${userLevel.badgeClass || 'badge-primary'}" style="font-size:0.8125rem;padding:3px 10px;font-weight:700;">
+                  ${userLevel.emoji} ${escapeHtml(userLevel.title)} · Daraja ${userLevel.level}
+                </span>
+                <span style="font-size:0.75rem;color:var(--ink-muted);font-weight:600;">
+                  ${userLevel.isMaxLevel ? 'Oliy daraja 👑' : `${userLevel.currentLevelXP} / ${userLevel.nextLevelXP} XP (${userLevel.progressPct}%)`}
+                </span>
+              </div>
+              <div style="height:7px;background:var(--divider);border-radius:4px;overflow:hidden;">
+                <div style="width:${userLevel.progressPct}%;height:100%;background:linear-gradient(90deg, var(--ochre), #e08e28);border-radius:4px;"></div>
+              </div>
+            </div>
+
             <div class="profile-hero__stats">
               <div class="profile-hero__stat">
                 <span class="profile-hero__stat-val">${user.score ?? 0}</span>
-                <span class="profile-hero__stat-label">Ball</span>
+                <span class="profile-hero__stat-label">XP Ball</span>
               </div>
               <div class="profile-hero__stat" id="streak-stat">
                 <span class="profile-hero__stat-val" style="display:inline-flex; align-items:center; gap:4px;">
@@ -71,7 +97,7 @@ export async function render(container, { params, user }) {
         </div>
 
         ${isAdmin ? `
-        <!-- Admin tezkor boshqaruv paneli havolasi -->
+        <!-- Admin boshqaruv paneli havolasi -->
         <div class="card animate-slide-up" style="margin-bottom:24px; border:1px solid var(--ochre); background:var(--paper-alt);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
             <div>
@@ -88,7 +114,7 @@ export async function render(container, { params, user }) {
         </div>
         ` : ''}
 
-        <!-- Tablar (Ekran elementlaridagi ikonkalari SVG) -->
+        <!-- Tablar -->
         <div class="tabs profile-tabs animate-slide-up" id="profile-tabs" role="tablist">
           <button class="tab tab--active" data-tab="edit" role="tab" aria-selected="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -98,19 +124,26 @@ export async function render(container, { params, user }) {
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
             Personaj tanlash 🎭
           </button>
+          <button class="tab" data-tab="achievements" role="tab" aria-selected="false">
+            <span style="font-size:1rem;margin-right:2px;">🏆</span>
+            Yutuqlar
+          </button>
+          <button class="tab" data-tab="mastery" role="tab" aria-selected="false">
+            <span style="font-size:1rem;margin-right:2px;">⭐</span>
+            Mastery
+          </button>
           <button class="tab" data-tab="history" role="tab" aria-selected="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            Tarix
+            Test tarixi
           </button>
         </div>
 
-        <!-- Tahrirlash paneli -->
+        <!-- 1. Tahrirlash paneli -->
         <div id="tab-edit" class="profile-panel animate-slide-up">
           <div class="card">
             <h2 class="card__title" style="margin-bottom:24px">Profil ma'lumotlari</h2>
 
             <form id="profile-form" class="auth-form" novalidate>
-
               <div class="input-group">
                 <label for="pf-fullname">To'liq ism</label>
                 <div style="position: relative; display: flex; align-items: center;">
@@ -158,12 +191,11 @@ export async function render(container, { params, user }) {
                   Bekor qilish
                 </button>
               </div>
-
             </form>
           </div>
         </div>
 
-        <!-- Personaj tanlash paneli -->
+        <!-- 2. Personaj tanlash paneli -->
         <div id="tab-characters" class="profile-panel animate-slide-up" hidden>
           <div class="card">
             <div style="margin-bottom: 20px;">
@@ -180,8 +212,40 @@ export async function render(container, { params, user }) {
           </div>
         </div>
 
-        <!-- Tarix paneli -->
-        <div id="tab-history" class="profile-panel" hidden>
+        <!-- 3. Yutuqlar paneli -->
+        <div id="tab-achievements" class="profile-panel animate-slide-up" hidden>
+          <div class="card">
+            <div style="margin-bottom: 20px;">
+              <h2 class="card__title" style="margin-bottom: 4px;">Adabiy yutuqlar 🏆</h2>
+              <p class="text-sm text-muted" style="margin:0;">Muntazam mutolaa qilib, yangi marralar va faxriy nishonlarni qo'lga kiriting.</p>
+            </div>
+            <div id="achievements-container">
+              <div class="loading-state">
+                <div class="spinner spinner--sm"></div>
+                <span>Yutuqlar tekshirilmoqda...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Mastery paneli -->
+        <div id="tab-mastery" class="profile-panel animate-slide-up" hidden>
+          <div class="card">
+            <div style="margin-bottom: 20px;">
+              <h2 class="card__title" style="margin-bottom: 4px;">Asarlarni o'zlashtirish (Mastery ⭐)</h2>
+              <p class="text-sm text-muted" style="margin:0;">Har bir asar bo'yicha eng yuqori natijangiz va bilim darajangiz.</p>
+            </div>
+            <div id="mastery-container">
+              <div class="loading-state">
+                <div class="spinner spinner--sm"></div>
+                <span>Mastery darajalari hisoblanmoqda...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Test tarixi paneli -->
+        <div id="tab-history" class="profile-panel animate-slide-up" hidden>
           <div class="card">
             <h2 class="card__title" style="margin-bottom:20px">Test tarixi</h2>
             <div id="history-content">
@@ -199,45 +263,44 @@ export async function render(container, { params, user }) {
 
   _addStyles();
   _bindEvents(user, params);
-  _loadCharacters(user);
-  _loadHistory(user);
+  _loadAllData(user);
 }
 
-// ---- EVENTS ----
+// ---- BIND EVENTS ----
 function _bindEvents(user, params = {}) {
-  // Tablar
   const tabsEl = document.getElementById('profile-tabs');
+  const panels = {
+    edit: document.getElementById('tab-edit'),
+    characters: document.getElementById('tab-characters'),
+    achievements: document.getElementById('tab-achievements'),
+    mastery: document.getElementById('tab-mastery'),
+    history: document.getElementById('tab-history'),
+  };
+
+  const switchTab = (targetTab) => {
+    tabsEl?.querySelectorAll('.tab').forEach(t => {
+      const isMatch = t.dataset.tab === targetTab;
+      t.classList.toggle('tab--active', isMatch);
+      t.setAttribute('aria-selected', String(isMatch));
+    });
+
+    Object.keys(panels).forEach(key => {
+      if (panels[key]) panels[key].hidden = (key !== targetTab);
+    });
+  };
+
   const onTabClick = (e) => {
     const btn = e.target.closest('.tab');
     if (!btn) return;
-    const tab = btn.dataset.tab;
-
-    tabsEl.querySelectorAll('.tab').forEach(t => {
-      t.classList.toggle('tab--active', t === btn);
-      t.setAttribute('aria-selected', String(t === btn));
-    });
-
-    document.getElementById('tab-edit').hidden       = (tab !== 'edit');
-    document.getElementById('tab-characters').hidden = (tab !== 'characters');
-    document.getElementById('tab-history').hidden    = (tab !== 'history');
+    switchTab(btn.dataset.tab);
   };
   tabsEl?.addEventListener('click', onTabClick);
   _cleanup.push(() => tabsEl?.removeEventListener('click', onTabClick));
 
-  // Agar params.tab ko'rsatilgan bo'lsa (masalan: #profile?tab=characters)
+  // Agar query param orqali tab berilgan bo'lsa
   const initialTab = params?.tab;
-  if (initialTab && ['edit', 'characters', 'history'].includes(initialTab)) {
-    tabsEl?.querySelectorAll('.tab').forEach(t => {
-      const isMatch = t.dataset.tab === initialTab;
-      t.classList.toggle('tab--active', isMatch);
-      t.setAttribute('aria-selected', String(isMatch));
-    });
-    const editEl = document.getElementById('tab-edit');
-    const charsEl = document.getElementById('tab-characters');
-    const histEl = document.getElementById('tab-history');
-    if (editEl) editEl.hidden = (initialTab !== 'edit');
-    if (charsEl) charsEl.hidden = (initialTab !== 'characters');
-    if (histEl) histEl.hidden = (initialTab !== 'history');
+  if (initialTab && panels[initialTab]) {
+    switchTab(initialTab);
   }
 
   // Avatar oldindan ko'rish
@@ -263,7 +326,7 @@ function _bindEvents(user, params = {}) {
     clearTimeout(previewTimer);
   });
 
-  // Profil formasi
+  // Profil saqlash
   const form      = document.getElementById('profile-form');
   const saveBtn   = document.getElementById('pf-save-btn');
   const resetBtn  = document.getElementById('pf-reset-btn');
@@ -294,7 +357,7 @@ function _bindEvents(user, params = {}) {
       const result = await updateProfile(updateData);
 
       if (result.success) {
-        showNotification('Profil yangilandi.', 'success');
+        showNotification('Profil muvaffaqiyatli saqlandi.', 'success');
         const avatarDisp = document.getElementById('avatar-display');
         if (avatarDisp) avatarDisp.innerHTML = _avatarHTML(result.user);
         const nameEl = document.querySelector('.profile-hero__name');
@@ -339,20 +402,46 @@ function _bindEvents(user, params = {}) {
   _cleanup.push(() => logoutBtn?.removeEventListener('click', onLogout));
 }
 
-// ---- CHARACTERS ----
-async function _loadCharacters(user) {
-  const container = document.getElementById('character-grid-container');
-  if (!container) return;
-
+// ---- DATA LOADING ----
+async function _loadAllData(user) {
   try {
-    _allCharacters = await getCharacters();
+    const [chars, results, books] = await Promise.all([
+      getCharacters().catch(() => []),
+      getUserResults(user.id).catch(() => []),
+      getBooks().catch(() => []),
+    ]);
+
+    _allCharacters = chars;
+    _userResults = results;
+    _allBooks = books;
+
+    // Stat elementlarini yangilash
+    const statEl = document.getElementById('test-count-stat');
+    if (statEl) {
+      statEl.querySelector('.profile-hero__stat-val').textContent = results.length;
+    }
+
+    try {
+      const streakStatus = await getStreakStatus(user, results);
+      const streakEl = document.getElementById('streak-stat');
+      if (streakEl) {
+        streakEl.querySelector('.profile-hero__stat-val').innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+          ${streakStatus.currentStreak}
+        `;
+      }
+    } catch {}
+
     _renderCharacterGrid(user);
+    _renderAchievements(user, results);
+    _renderMastery(user, results, books);
+    _renderHistory(results);
   } catch (err) {
-    console.error('[profile] loadCharacters xatosi:', err);
-    container.innerHTML = `<p class="text-muted text-sm">Personajlarni yuklab bo'lmadi.</p>`;
+    console.error('[profile] _loadAllData xatosi:', err);
   }
 }
 
+// ---- 1. CHARACTERS ----
 function _renderCharacterGrid(user) {
   const container = document.getElementById('character-grid-container');
   if (!container) return;
@@ -401,32 +490,8 @@ function _renderCharacterGrid(user) {
     </div>
   `;
 
-  // Taktil 3D chuqurlik va click handler
-  const canHover = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+  // Click & hover
   container.querySelectorAll('.character-card').forEach(card => {
-    if (canHover && !prefersReducedMotion) {
-      const onPointerMove = (e) => {
-        if (e.pointerType === 'touch') return;
-        card.style.transition = 'transform 0.08s ease-out, box-shadow 0.25s ease';
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        const tiltX = ((y / (rect.height / 2)) * -6).toFixed(1);
-        const tiltY = ((x / (rect.width / 2)) * 6).toFixed(1);
-        card.style.transform = `perspective(800px) translateY(-6px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.03)`;
-      };
-      const resetTilt = () => {
-        card.style.transition = '';
-        card.style.transform = '';
-      };
-      card.addEventListener('pointermove', onPointerMove);
-      card.addEventListener('pointerleave', resetTilt);
-      card.addEventListener('pointercancel', resetTilt);
-      card.addEventListener('mouseleave', resetTilt);
-    }
-
     const selectCard = async () => {
       const charId = card.dataset.charId;
       await _selectCharacter(charId);
@@ -473,30 +538,113 @@ async function _selectCharacter(charId) {
   }
 }
 
-// ---- HISTORY ----
-async function _loadHistory(user) {
-  try {
-    const results = await getUserResults(user.id);
-    const statEl = document.getElementById('test-count-stat');
-    if (statEl) {
-      statEl.querySelector('.profile-hero__stat-val').textContent = results.length;
-    }
+// ---- 2. ACHIEVEMENTS ----
+function _renderAchievements(user, results) {
+  const container = document.getElementById('achievements-container');
+  if (!container) return;
 
-    const streakStatus = await getStreakStatus(user, results);
-    const streakEl = document.getElementById('streak-stat');
-    if (streakEl) {
-      streakEl.querySelector('.profile-hero__stat-val').innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
-        ${streakStatus.currentStreak}
-      `;
-    }
+  const achievements = checkUserAchievements(user, results);
+  const unlockedCount = achievements.filter(a => a.unlocked).length;
 
-    _renderHistory(results);
-  } catch {
-    _renderHistory([]);
-  }
+  container.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:8px;">
+      <span style="font-size:0.875rem;color:var(--ink-muted);">
+        Ochilgan yutuqlar: <strong style="color:var(--ochre);">${unlockedCount} / ${achievements.length}</strong>
+      </span>
+      <div style="height:6px;width:120px;background:var(--divider);border-radius:3px;overflow:hidden;">
+        <div style="width:${Math.round((unlockedCount / achievements.length) * 100)}%;height:100%;background:var(--ochre);border-radius:3px;"></div>
+      </div>
+    </div>
+
+    <div class="achievements-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+      ${achievements.map(a => `
+        <div class="achievement-card ${a.unlocked ? 'achievement-card--unlocked' : 'achievement-card--locked'}"
+             style="padding:16px;border-radius:var(--radius-md);border:1.5px solid ${a.unlocked ? 'var(--ochre)' : 'var(--divider)'};background:${a.unlocked ? 'var(--paper-alt)' : 'var(--surface)'};display:flex;gap:12px;align-items:flex-start;position:relative;opacity:${a.unlocked ? '1' : '0.65'};">
+          <div style="font-size:2rem;line-height:1;filter:${a.unlocked ? 'none' : 'grayscale(1)'};">
+            ${a.emoji}
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              <h4 style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;margin:0;color:var(--ink);">
+                ${escapeHtml(a.title)}
+              </h4>
+              ${a.unlocked
+                ? `<span style="font-size:0.7rem;font-weight:700;color:var(--success);">✓</span>`
+                : `<span style="font-size:0.7rem;color:var(--ink-muted);">🔒</span>`
+              }
+            </div>
+            <p style="font-size:0.8125rem;color:var(--ink-muted);line-height:1.45;margin:0;">
+              ${escapeHtml(a.desc)}
+            </p>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
+// ---- 3. MASTERY ----
+function _renderMastery(user, results, books) {
+  const container = document.getElementById('mastery-container');
+  if (!container) return;
+
+  const masteryMap = calculateAllBooksMastery(user.id, results);
+  const masteredBookIds = Object.keys(masteryMap);
+
+  if (masteredBookIds.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p class="empty-state__title">Hali test yechilmagan</p>
+        <p class="empty-state__desc">Kitoblar bo'yicha test topshiring va asarlarni mukammal o'zlashtirish (Mastery) darajasiga erishing!</p>
+        <a href="#books" class="btn btn-primary" style="margin-top:12px;">Kitoblar</a>
+      </div>
+    `;
+    return;
+  }
+
+  // Kitoblar ma'lumotlarini birlashtiramiz
+  const bookById = {};
+  books.forEach(b => {
+    bookById[String(b.id)] = b;
+  });
+
+  container.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+      ${masteredBookIds.map(bId => {
+        const item = masteryMap[bId];
+        const book = bookById[bId] || { title: `Kitob #${bId}`, author: '' };
+        const tier = item.tier;
+
+        return `
+          <div class="mastery-card" style="padding:16px;border-radius:var(--radius-md);background:var(--paper-alt);border:1.5px solid var(--divider);display:flex;gap:14px;align-items:center;">
+            <div style="width:48px;height:68px;border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              ${book.coverImage
+                ? `<img src="${escapeHtml(book.coverImage)}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;">`
+                : `<span style="font-size:1.5rem;">📖</span>`
+              }
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                <span class="badge ${tier.colorClass}" style="font-size:0.75rem;padding:2px 8px;font-weight:700;">
+                  ${tier.emoji} ${escapeHtml(tier.tier)}
+                </span>
+                <span style="font-size:0.75rem;font-weight:700;color:var(--ochre);margin-left:auto;">${item.bestPercentage}%</span>
+              </div>
+              <h4 style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--ink);margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                ${escapeHtml(book.title)}
+              </h4>
+              <div style="font-size:0.75rem;color:var(--ink-muted);">
+                ${item.attempts} marta urinish
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ---- 4. HISTORY ----
 function _renderHistory(results) {
   const el = document.getElementById('history-content');
   if (!el) return;
@@ -571,7 +719,6 @@ function _avatarHTML(user) {
     if (user.avatar.startsWith('http://') || user.avatar.startsWith('https://') || user.avatar.startsWith('data:image/')) {
       return `<img src="${escapeHtml(user.avatar)}" alt="${escapeHtml(user.fullName || '')}" class="profile-hero__avatar-img">`;
     }
-    // emoji avatar
     return `<span class="profile-hero__avatar-letter" style="font-size: 2.2rem; display:flex; align-items:center; justify-content:center;">${escapeHtml(user.avatar)}</span>`;
   }
   const initial = (user.fullName || user.username || 'U')[0].toUpperCase();
@@ -610,10 +757,8 @@ function _addStyles() {
     .profile-logout { margin-left: auto; }
 
     /* Tabs */
-    .profile-tabs { margin-bottom: 24px; }
-    .profile-tabs .tab { display: inline-flex; align-items: center; gap: 6px; }
-
-    /* Character grid styles are centralized in style.css */
+    .profile-tabs { margin-bottom: 24px; overflow-x: auto; flex-wrap: nowrap; }
+    .profile-tabs .tab { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 
     /* Avatar preview */
     .pf-avatar-preview {
@@ -653,15 +798,10 @@ function _addStyles() {
       .profile-hero { flex-direction: column; text-align: center; gap: 16px; }
       .profile-hero__header-row { justify-content: center; }
       .profile-hero__stats { justify-content: center; }
+      .profile-hero__level-wrap { margin-left: auto; margin-right: auto; }
       .profile-logout { margin: 8px auto 0; width: 100%; }
       .profile-form-actions { flex-direction: column; }
       .profile-form-actions .btn { width: 100%; }
-    }
-
-    @media (max-width: 480px) {
-      .character-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
   `;
   document.head.appendChild(style);

@@ -9,7 +9,8 @@ import {
   getQuizState,
 } from '../quiz.js';
 import { getBookById } from '../db.js';
-import { escapeHtml }  from '../utils.js';
+import { escapeHtml, showNotification }  from '../utils.js';
+import { isBookUnlocked } from '../progression.js';
 
 let _callbacks  = {};
 let _cleanup    = [];
@@ -22,6 +23,21 @@ export async function render(container, { params, user }) {
     window.navigate('books');
     return;
   }
+
+  // Kitob qulflanganligini tekshirish
+  try {
+    const book = await getBookById(bookId);
+    if (!book) {
+      window.navigate('books');
+      return;
+    }
+    const unlock = isBookUnlocked(book, user);
+    if (!unlock.isUnlocked) {
+      showNotification(unlock.reason || 'Ushbu kitob testi hali qulflangan!', 'warning');
+      window.navigate('book', { id: String(bookId) });
+      return;
+    }
+  } catch {}
 
   container.innerHTML = `
     <div class="page" id="quiz-page" style="padding-top:calc(var(--navbar-h) + 16px);">

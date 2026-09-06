@@ -2,8 +2,11 @@
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
 import { getBooks, getLeaderboard, getUserResults, getStreakStatus } from '../db.js';
-import { escapeHtml, truncate, today }                               from '../utils.js';
+import { escapeHtml, truncate, today } from '../utils.js';
+import { getUserLevel, getNextUnlockTarget, getDailyMissions, isBookUnlocked } from '../progression.js';
+
 let _cleanup = [];
+let _currentUser = null;
 
 // ---- Deterministik kunlik sinov (sanaga asoslangan) ----
 function _getDailyChallenge(books) {
@@ -31,27 +34,62 @@ function _coverPlaceholder(book) {
 }
 
 export async function render(container, { params, user }) {
+  _currentUser = user;
+  const userLevel = getUserLevel(user?.score || 0);
+
   container.innerHTML = `
     <div class="page" id="home-page">
       <div class="container">
 
-        <!-- Hero -->
-        <section class="hero animate-fade-in">
+        <!-- Hero & Level Bar -->
+        <section class="hero animate-fade-in" style="margin-bottom:28px;">
           ${user
-            ? `<p class="hero__eyebrow">Xush kelibsiz, kitobxon</p>
-               <h1 class="hero__title">${escapeHtml(user.fullName || user.username)}</h1>
-               <p class="hero__desc">Bilimingizni mustahkamlang. Har kuni bir kitob.</p>`
+            ? `<div class="hero__user-row" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+                 <div>
+                   <p class="hero__eyebrow">Xush kelibsiz, kitobxon</p>
+                   <h1 class="hero__title" style="margin-bottom:4px;">${escapeHtml(user.fullName || user.username)}</h1>
+                   <p class="hero__desc" style="margin:0;">Adabiy sayohatingiz davom etmoqda. Bilimingizni mustahkamlang.</p>
+                 </div>
+                 <div class="user-level-badge-card" style="padding:10px 16px;border:1px solid var(--ochre);border-radius:var(--radius-md);background:var(--surface);display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-sm);">
+                   <span style="font-size:1.75rem;">${userLevel.emoji}</span>
+                   <div>
+                     <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--ochre);font-weight:700;">${userLevel.level}-Daraja</div>
+                     <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--ink);">${escapeHtml(userLevel.title)}</div>
+                   </div>
+                 </div>
+               </div>
+
+               <!-- Level XP Progress Bar -->
+               <div class="user-xp-bar-wrap" style="margin-top:20px;padding:16px;border:1px solid var(--divider);border-radius:var(--radius-md);background:var(--paper-alt);">
+                 <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.875rem;margin-bottom:6px;">
+                   <span style="color:var(--ink);font-weight:600;">Daraja progressi</span>
+                   <span style="color:var(--ochre);font-weight:700;">${user.score || 0} / ${userLevel.isMaxLevel ? userLevel.currentLevelXP : userLevel.nextLevelXP} XP</span>
+                 </div>
+                 <div class="progress-bar" style="height:8px;margin-bottom:6px;" role="progressbar" aria-valuenow="${userLevel.progressPct}" aria-valuemin="0" aria-valuemax="100">
+                   <div class="progress-bar__fill" style="width:${userLevel.progressPct}%;background:linear-gradient(90deg,var(--ochre),var(--terracotta));"></div>
+                 </div>
+                 <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--ink-muted);">
+                   <span>${userLevel.desc}</span>
+                   <span>${userLevel.isMaxLevel ? 'Eng oliy daraja!' : `Keyingi darajagacha yana ${userLevel.remainingXP} XP`}</span>
+                 </div>
+               </div>`
             : `<p class="hero__eyebrow">Adabiyot va test platformasi</p>
                <h1 class="hero__title">Kitobchi</h1>
-               <p class="hero__desc">O'zbek adabiyotini o'rganish, test yechish va bilimingizni o'lchash uchun platforma.</p>
-               <div style="display:flex;gap:12px;flex-wrap:wrap;">
+               <p class="hero__desc">O'zbek adabiyotini o'rganish, test yechish va darajangizni oshirish uchun zamonaviy platforma.</p>
+               <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
                  <a href="#register" class="btn btn-primary btn-lg">Boshlash</a>
                  <a href="#books"    class="btn btn-outline btn-lg">Kitoblar</a>
                </div>`
           }
         </section>
 
-        <!-- Streak uzilganligi haqida bildirishnoma (agar kecha kirmagan bo'lsa) -->
+        <!-- Keyingi ochiladigan kitob (Next Unlock Navigator) -->
+        <div id="next-unlock-wrap"></div>
+
+        <!-- Kunlik Missiyalar -->
+        <div id="daily-missions-wrap"></div>
+
+        <!-- Streak uzilganligi haqida bildirishnoma -->
         <div id="streak-broken-notice-wrap" role="region" aria-label="Streak xabarnomasi"></div>
 
         <!-- Kunlik Streak va Haftalik Faollik Tracker -->
@@ -81,7 +119,7 @@ export async function render(container, { params, user }) {
         <section class="section" aria-label="Sizning natijalaringiz">
           <h2 class="section-heading">Natijalaringiz</h2>
           <div id="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;">
-            <div class="stat-card"><div class="stat-card__value">—</div><div class="stat-card__label">Ball</div></div>
+            <div class="stat-card"><div class="stat-card__value">—</div><div class="stat-card__label">Ball / XP</div></div>
             <div class="stat-card"><div class="stat-card__value">—</div><div class="stat-card__label">Streak</div></div>
             <div class="stat-card"><div class="stat-card__value">—</div><div class="stat-card__label">Testlar</div></div>
             <div class="stat-card"><div class="stat-card__value">—</div><div class="stat-card__label">O'rtacha</div></div>
@@ -92,7 +130,7 @@ export async function render(container, { params, user }) {
         <section class="section">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
             <h2 class="section-heading" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">Kitoblar</h2>
-            <a href="#books" class="btn btn-ghost btn-sm">Barchasini ko'rish</a>
+            <a href="#books" class="btn btn-ghost btn-sm">Barchasini ko'rish →</a>
           </div>
           <div class="grid grid-auto" id="books-grid">
             ${_skeletonBookCards(6)}
@@ -103,7 +141,7 @@ export async function render(container, { params, user }) {
         <section class="section">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
             <h2 class="section-heading" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">Reyting</h2>
-            <a href="#leaderboard" class="btn btn-ghost btn-sm">To'liq jadval</a>
+            <a href="#leaderboard" class="btn btn-ghost btn-sm">To'liq jadval →</a>
           </div>
           <div class="card" id="leaderboard-mini">
             <div class="loading-state"><div class="spinner spinner--sm"></div><span>Yuklanmoqda...</span></div>
@@ -114,39 +152,58 @@ export async function render(container, { params, user }) {
     </div>
   `;
 
-  // Ma'lumotlarni parallel yuklash
+  // Ma'lumotlarni mustaqil va tezkor yuklash
   try {
-    const [books, leaders, results] = await Promise.allSettled([
-      getBooks(),
-      getLeaderboard(5),
-      user ? getUserResults(user.id) : Promise.resolve([]),
-    ]);
+    // 1. Kunlik missiyalarni 0ms kechikishsiz darhol chiqarish
+    try {
+      const missions = getDailyMissions(user);
+      _renderDailyMissions(missions, user);
+    } catch (err) {
+      console.warn('[home] missions render xatosi:', err);
+    }
 
-    const booksList  = books.status   === 'fulfilled' ? books.value   : [];
-    const leaderList = leaders.status === 'fulfilled' ? leaders.value : [];
-    const resultList = results.status === 'fulfilled' ? results.value : [];
+    // 2. Kitoblar, Keyingi ochiladigan asar va Bugungi sinovni zudlik bilan render qilish
+    getBooks().then(booksList => {
+      if (!booksList || !booksList.length) return;
+      const nextTarget = getNextUnlockTarget(booksList, user);
+      _renderNextUnlock(nextTarget, user);
 
-    // Bugungi sinov
-    const daily = _getDailyChallenge(booksList);
-    _renderDailyChallenge(daily);
+      const daily = _getDailyChallenge(booksList);
+      _renderDailyChallenge(daily);
 
-    // Kunlik streak holatini hisoblash va ko'rsatish
-    const streakStatus = await getStreakStatus(user, resultList);
-    _renderStreakWidget(streakStatus, user, daily);
+      _renderBooks(booksList.slice(0, 6), user);
+    }).catch(err => {
+      console.warn('[home] books render xatosi:', err);
+    });
 
-    // Statistika
-    if (user) _renderStats(user, resultList, streakStatus.currentStreak);
+    // 3. Streak va Foydalanuvchi statistikasini yuklash
+    (user ? getUserResults(user.id).catch(() => []) : Promise.resolve([])).then(async (resultList) => {
+      try {
+        const booksList = await getBooks().catch(() => []);
+        const daily = _getDailyChallenge(booksList);
+        const streakStatus = await getStreakStatus(user, resultList);
+        _renderStreakWidget(streakStatus, user, daily);
+        if (user) _renderStats(user, resultList, streakStatus.currentStreak);
+      } catch (err) {
+        console.warn('[home] streak render xatosi:', err);
+      }
+    });
 
-    // Kitoblar va Mini reyting
-    _renderBooks(booksList.slice(0, 6));
-    _renderLeaderboardMini(leaderList, user);
+    // 4. Mini reyting jadvalini mustaqil yuklash
+    getLeaderboard(5).then(leaderList => {
+      _renderLeaderboardMini(leaderList, user);
+    }).catch(err => {
+      console.warn('[home] leaderboard render xatosi:', err);
+      _renderLeaderboardMini([], user);
+    });
 
     // Jonli kitoblar yangilanishini tinglash
     const onBooksUpdated = async () => {
       try {
         const fresh = await getBooks(true);
-        _renderBooks(fresh.slice(0, 6));
+        _renderBooks(fresh.slice(0, 6), user);
         _renderDailyChallenge(_getDailyChallenge(fresh));
+        _renderNextUnlock(getNextUnlockTarget(fresh, user), user);
       } catch { /* ignore */ }
     };
     window.addEventListener('kitobchi_books_updated', onBooksUpdated);
@@ -167,6 +224,94 @@ export async function render(container, { params, user }) {
   }
 }
 
+// ---- KEYINGI OCHILADIGAN KITOB (NEXT UNLOCK) ----
+function _renderNextUnlock(target, user) {
+  const wrap = document.getElementById('next-unlock-wrap');
+  if (!wrap) return;
+
+  if (!target || !target.book) {
+    wrap.innerHTML = '';
+    return;
+  }
+
+  const { book, status } = target;
+  const cover = _getBookCover(book);
+  const initial = (book.title || '?')[0].toUpperCase();
+
+  wrap.innerHTML = `
+    <section class="section animate-slide-up" id="next-unlock-section" aria-label="Keyingi ochiladigan asar" style="margin-bottom:28px;">
+      <div class="next-unlock-card card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:22px 24px;border:1.5px solid var(--ochre);background:var(--paper-alt);">
+        <div class="next-unlock__cover" style="width:72px;height:104px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0;box-shadow:var(--shadow-sm);background:var(--surface);display:flex;align-items:center;justify-content:center;">
+          ${cover
+            ? `<img src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;">`
+            : `<div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--ochre);">${escapeHtml(initial)}</div>`
+          }
+        </div>
+        <div style="flex:1;min-width:240px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+            <span class="badge badge-primary">🔓 Keyingi maqsad</span>
+            <span style="font-size:0.8125rem;color:var(--ochre);font-weight:700;">${status.requiredLevel}-daraja talabi</span>
+          </div>
+          <h3 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin:0 0 4px 0;color:var(--ink);">${escapeHtml(book.title)}</h3>
+          <p style="font-size:0.875rem;color:var(--ink-muted);margin:0 0 12px 0;">${escapeHtml(book.author || '')}</p>
+          <div class="progress-bar" style="height:8px;margin-bottom:6px;" role="progressbar" aria-valuenow="${status.progressPct}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar__fill" style="width:${status.progressPct}%;background:linear-gradient(90deg,var(--ochre),var(--terracotta));"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem;color:var(--ink-muted);">
+            <span>Sizda: <strong>${user ? (user.score || 0) : 0} XP</strong> / ${status.requiredXP} XP</span>
+            <span style="color:var(--ochre);font-weight:700;">Yana <strong>${status.remainingXP} XP</strong> kerak</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="#book?id=${escapeHtml(String(book.id))}" class="btn btn-primary btn-sm">Asar haqida bilish</a>
+          <a href="#books" class="btn btn-ghost btn-sm">Boshqa ochiq kitoblar</a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+// ---- KUNLIK MISSIYALAR (DAILY MISSIONS) ----
+function _renderDailyMissions(missions, user) {
+  const wrap = document.getElementById('daily-missions-wrap');
+  if (!wrap) return;
+
+  if (!missions || !missions.length) {
+    wrap.innerHTML = '';
+    return;
+  }
+
+  const completedCount = missions.filter(m => m.completed).length;
+
+  wrap.innerHTML = `
+    <section class="section animate-slide-up" id="daily-missions-section" aria-label="Kunlik missiyalar" style="margin-bottom:28px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <h2 class="section-heading" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">Kunlik missiyalar</h2>
+          <span class="badge ${completedCount === 3 ? 'badge-success' : ''}" style="font-size:0.75rem;">${completedCount}/3 bajarildi</span>
+        </div>
+        <span style="font-size:0.8125rem;color:var(--ink-muted);">Har kuni yangilanadi</span>
+      </div>
+      <div class="missions-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+        ${missions.map(m => `
+          <div class="mission-card card ${m.completed ? 'mission-card--completed' : ''}" style="padding:16px 18px;display:flex;align-items:center;gap:14px;border:1px solid ${m.completed ? 'var(--success)' : 'var(--divider)'};background:var(--surface);">
+            <div class="mission-icon" style="font-size:1.4rem;width:42px;height:42px;border-radius:50%;background:${m.completed ? 'var(--success-light)' : 'var(--paper-alt)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              ${m.completed ? '✓' : m.icon}
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+                <h4 style="font-size:0.9375rem;font-weight:700;margin:0;color:var(--ink);">${escapeHtml(m.title)}</h4>
+                <span class="badge ${m.completed ? 'badge-success' : 'badge-primary'}" style="font-size:0.7rem;">+${m.xpReward} XP</span>
+              </div>
+              <p style="font-size:0.8125rem;color:var(--ink-muted);margin:0;line-height:1.4;">${escapeHtml(m.desc)}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
 // ---- KUNLIK STREAK WIDGET & ANIMATSIYA ----
 function _renderStreakWidget(streakStatus, user, dailyBook) {
   const widgetWrap = document.getElementById('streak-widget-wrap');
@@ -175,7 +320,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
 
   const dailyId = dailyBook ? String(dailyBook.id) : '';
 
-  // 1. Agar streak buzilgan bo'lsa va hali ko'rsatilmagan bo'lsa — sokin, nafis xabarnoma chiqaramiz
+  // 1. Agar streak buzilgan bo'lsa va hali ko'rsatilmagan bo'lsa
   if (brokenWrap && streakStatus.isBroken && user) {
     const todayStr = today();
     const ackKey = `kitobchi_streak_broken_ack_${user.id}`;
@@ -199,151 +344,103 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
         </div>
       `;
 
-      const startBtn = document.getElementById('btn-start-broken-streak');
-      if (startBtn) {
-        startBtn.onclick = () => {
-          localStorage.setItem(ackKey, todayStr);
-          try {
-            localStorage.removeItem(`kitobchi_broken_streak_${user.id}`);
-          } catch {}
-        };
-      }
-
       const dismissBtn = document.getElementById('btn-dismiss-broken-streak');
-      if (dismissBtn) {
-        dismissBtn.onclick = () => {
+      const bannerEl = document.getElementById('streak-broken-banner');
+      if (dismissBtn && bannerEl) {
+        dismissBtn.addEventListener('click', () => {
           localStorage.setItem(ackKey, todayStr);
-          try {
-            localStorage.removeItem(`kitobchi_broken_streak_${user.id}`);
-          } catch {}
-          const banner = document.getElementById('streak-broken-banner');
-          if (banner) {
-            banner.style.transition = 'all 0.35s ease';
-            banner.style.opacity = '0';
-            banner.style.transform = 'translateY(-10px)';
-            setTimeout(() => { brokenWrap.innerHTML = ''; }, 350);
-          }
-        };
+          bannerEl.style.opacity = '0';
+          bannerEl.style.transform = 'translateY(-8px)';
+          setTimeout(() => bannerEl.remove(), 250);
+        });
       }
-    } else {
-      brokenWrap.innerHTML = '';
     }
-  } else if (brokenWrap) {
-    brokenWrap.innerHTML = '';
   }
 
-  // 2. Mehmon (Guest) foydalanuvchi ko'rinishi
-  if (!user || streakStatus.isGuest) {
-    widgetWrap.innerHTML = `
-      <div class="streak-card card">
-        <div class="streak-card__header">
-          <div class="streak-card__flame-wrap">
-            <div class="streak-card__flame streak-card__flame--idle">
-              <span class="streak-card__flame-emoji">🔥</span>
-            </div>
-            <div>
-              <div class="streak-card__title">
-                <span class="streak-card__count">0</span>
-                <span class="streak-card__unit">kunlik streak</span>
-              </div>
-              <div class="streak-card__subtitle">
-                Har kuni kamida bitta kitobdan test yechib, o'z bilim zanjiringizni uzmasdan davom ettiring!
-              </div>
-            </div>
-          </div>
-          <div class="streak-card__action">
-            <a href="#login" class="btn btn-primary btn-sm pulse-button">Kirish va boshlash 🔥</a>
-          </div>
-        </div>
-      </div>
-    `;
-    return;
-  }
+  const streakDays = streakStatus.weekDays && streakStatus.weekDays.length ? streakStatus.weekDays : _buildDefaultWeekDays(streakStatus);
+  const currentStreak = streakStatus.currentStreak;
+  const isCompletedToday = streakStatus.isCompletedToday;
 
-  // 3. Tizimga kirgan foydalanuvchi uchun to'liq interaktiv streak kartasi
-  const streak = streakStatus.currentStreak;
-  const isDone = streakStatus.isCompletedToday;
+  let streakTitle = '0 kunlik zanjir';
+  let streakDesc = 'Bugungi testni yeching va zanjirni boshlang!';
 
-  // Streak o'sganda sakrab yangilanish (counterBounce)
-  const todayStr = today();
-  const bounceKey = `kitobchi_streak_bounced_date_${user.id}`;
-  const alreadyBouncedToday = localStorage.getItem(bounceKey) === todayStr;
-  const lastViewedKey = `kitobchi_viewed_streak_${user.id}`;
-  const lastViewedStreak = localStorage.getItem(lastViewedKey);
-  const didStreakGrow = lastViewedStreak !== null && streak > parseInt(lastViewedStreak, 10);
-  const shouldBounce = (didStreakGrow || (isDone && streak > 0)) && !alreadyBouncedToday;
-  if (shouldBounce) {
-    try { localStorage.setItem(bounceKey, todayStr); } catch {}
-  }
-  localStorage.setItem(lastViewedKey, String(streak));
-
-  let subtitleText = '';
-  if (isDone) {
-    subtitleText = '✨ Ajoyib! Bugungi kunlik sinov muvaffaqiyatli bajarildi. Ertaga streakni davom ettiring!';
-  } else if (streak > 0) {
-    subtitleText = `⚡ Bugun hali sinov yechilmadi! 1 ta test yechib, ${streak + 1}-kunlik streakka erishing va olovni saqlab qoling.`;
-  } else {
-    subtitleText = '📖 Bugun birinchi testni yeching va yangi g\'alabali streakingizni boshlang!';
+  if (currentStreak > 0) {
+    streakTitle = `${currentStreak} kunlik faol streak 🔥`;
+    streakDesc = isCompletedToday
+      ? 'Bugungi zanjir uzilmadi! Ajoyib matonat ko\'rsatdingiz.'
+      : 'Bugun hali test yechilmadi. Zanjirni saqlab qolish uchun 1 ta test yeching!';
   }
 
   widgetWrap.innerHTML = `
-    <div class="streak-card ${isDone ? 'streak-card--completed' : ''} card">
+    <div class="streak-card card animate-slide-up">
       <div class="streak-card__header">
-        <div class="streak-card__flame-wrap">
-          <div class="streak-card__flame ${streak > 0 ? 'streak-card__flame--active' : 'streak-card__flame--idle'}">
-            <span class="streak-card__flame-emoji">🔥</span>
-            ${streak > 0 ? `
-              <div class="streak-flame-sparks" aria-hidden="true">
-                <span>✦</span>
-                <span>✨</span>
-                <span>✦</span>
-              </div>
-            ` : ''}
-          </div>
-          <div>
-            <div class="streak-card__title">
-              <span class="streak-card__count ${shouldBounce ? 'counter-bounce' : ''}">${streak}</span>
-              <span class="streak-card__unit">kunlik streak</span>
-            </div>
-            <div class="streak-card__subtitle">${subtitleText}</div>
-          </div>
+        <div class="streak-badge-flame ${currentStreak > 0 ? 'streak-badge-flame--active' : ''}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="streak-fire-svg"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
         </div>
-        <div class="streak-card__action">
-          ${!isDone ? `
+        <div style="flex:1;min-width:0;">
+          <h3 class="streak-card__title">${escapeHtml(streakTitle)}</h3>
+          <p class="streak-card__desc">${escapeHtml(streakDesc)}</p>
+        </div>
+        ${!isCompletedToday ? `
+          <div class="streak-card__action">
             <a href="${dailyId ? `#book?id=${escapeHtml(dailyId)}` : '#books'}" class="btn btn-primary btn-sm pulse-button">
-              Bugungi sinovni yechish 🔥
+              Testni boshlash
             </a>
-          ` : `
-            <span class="streak-card__badge-done">
-              <span style="font-weight:900;">✓</span> Bugun bajarildi
-            </span>
-          `}
-        </div>
+          </div>` : `
+          <div class="streak-card__action">
+            <span class="badge badge-success">Bugun yakunlandi ✓</span>
+          </div>`
+        }
       </div>
 
-      <div class="streak-card__divider"></div>
-
-      <!-- 7 kunlik haftalik faollik (animatsiyali taqvim) -->
-      <div class="streak-week">
-        <div class="streak-week__label">Haftalik faollik (Dushanba — Yakshanba):</div>
-        <div class="streak-week__grid">
-          ${streakStatus.weekDays.map((d, idx) => `
-            <div class="streak-day ${d.isActive ? 'streak-day--active' : ''} ${d.isToday ? 'streak-day--today' : ''} ${d.isPast && !d.isActive ? 'streak-day--missed' : ''}" style="animation-delay: ${idx * 65}ms;">
-              <span class="streak-day__name">${d.name}</span>
-              <div class="streak-day__circle" title="${d.fullName}, ${d.date}">
-                ${d.isActive 
-                  ? '<span class="streak-day__flame">🔥</span>' 
-                  : d.isToday 
-                    ? '<span class="streak-day__target">🎯</span>' 
-                    : `<span class="streak-day__num">${d.dayNum}</span>`}
-              </div>
-              ${d.isToday ? '<span class="streak-day__today-indicator">Bugun</span>' : ''}
+      <!-- 7 kunlik doiralar -->
+      <div class="streak-week-row" role="list" aria-label="Haftalik faollik taqvimi">
+        ${streakDays.map(day => `
+          <div class="streak-day-col ${day.isToday ? 'streak-day-col--today' : ''}" role="listitem">
+            <div class="streak-day-label">${escapeHtml(day.label)}</div>
+            <div class="streak-dot ${day.isCompleted ? 'streak-dot--completed' : (day.isPending ? 'streak-dot--pending' : 'streak-dot--empty')}"
+                 title="${escapeHtml(day.date)}: ${day.isCompleted ? 'Test yechilgan' : (day.isPending ? 'Kutilmoqda' : 'Yechilmagan')}">
+              ${day.isCompleted ? '<span class="streak-dot__check">✓</span>' : (day.isPending ? '<span class="streak-dot__pulse"></span>' : '')}
             </div>
-          `).join('')}
-        </div>
+            <div class="streak-day-date">${escapeHtml(day.dayNum)}</div>
+          </div>
+        `).join('')}
       </div>
     </div>
   `;
+}
+
+function _buildDefaultWeekDays(streakStatus) {
+  const days = [];
+  const dayNames = ['Dush', 'Sesh', 'Chor', 'Pay', 'Jum', 'Shan', 'Yak'];
+  const now = new Date();
+  const todayDayOfWeek = (now.getDay() + 6) % 7; // Dushanba = 0
+
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - todayDayOfWeek);
+
+  const todayStr = today();
+  const activeDates = Array.isArray(streakStatus?.activeDates) ? streakStatus.activeDates : [];
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dStr = formatDate(d);
+
+    const isToday = dStr === todayStr;
+    const isCompleted = activeDates.includes(dStr);
+    const isPending = isToday && !isCompleted;
+
+    days.push({
+      date: dStr,
+      label: dayNames[i],
+      dayNum: String(d.getDate()),
+      isToday: isToday,
+      isCompleted: isCompleted,
+      isPending: isPending
+    });
+  }
+  return days;
 }
 
 // ---- BUGUNGI SINOV ----
@@ -358,25 +455,25 @@ function _renderDailyChallenge(book) {
 
   wrap.innerHTML = `
     <div class="daily-challenge">
-      <div style="flex:1;min-width:0;">
+      <div class="daily-challenge__body">
         <div class="daily-challenge__label">Bugungi sinov</div>
         <div class="daily-challenge__title">${escapeHtml(book.title)}</div>
         <div class="daily-challenge__author">${escapeHtml(book.author || '')}</div>
       </div>
-      <a href="#book?id=${escapeHtml(String(book.id))}" class="btn btn-primary btn-sm" style="flex-shrink:0;">
-        Boshlash
+      <a href="#book?id=${escapeHtml(String(book.id))}" class="btn btn-primary btn-sm">
+        Sinovni boshlash
       </a>
     </div>
   `;
 }
 
-// ---- STAT CARDS ----
-function _renderStats(user, results, currentStreak = null) {
+// ---- STATISTIKA ----
+function _renderStats(user, results, currentStreak) {
   const grid = document.getElementById('stats-grid');
   if (!grid) return;
 
   const totalTests = results.length;
-  const avgScore   = totalTests > 0
+  const avgScore = totalTests > 0
     ? Math.round(results.reduce((s, r) => s + (r.percentage || 0), 0) / totalTests)
     : 0;
 
@@ -385,7 +482,7 @@ function _renderStats(user, results, currentStreak = null) {
   grid.innerHTML = `
     <div class="stat-card">
       <div class="stat-card__value">${user.score ?? 0}</div>
-      <div class="stat-card__label">Umumiy ball</div>
+      <div class="stat-card__label">Umumiy ball / XP</div>
     </div>
     <div class="stat-card">
       <div class="stat-card__value">${displayStreak}</div>
@@ -404,7 +501,7 @@ function _renderStats(user, results, currentStreak = null) {
 }
 
 // ---- KITOBLAR ----
-function _renderBooks(books) {
+function _renderBooks(books, user) {
   const grid = document.getElementById('books-grid');
   if (!grid) return;
 
@@ -413,7 +510,7 @@ function _renderBooks(books) {
     return;
   }
 
-  grid.innerHTML = books.map(book => _bookCardHTML(book)).join('');
+  grid.innerHTML = books.map(book => _bookCardHTML(book, user)).join('');
 
   grid.querySelectorAll('.book-card').forEach(card => {
     const id = card.dataset.bookId;
@@ -428,15 +525,18 @@ function _renderBooks(books) {
   });
 }
 
-function _bookCardHTML(book) {
+function _bookCardHTML(book, user) {
   const cover = _getBookCover(book);
+  const unlock = isBookUnlocked(book, user);
+  const isLocked = !unlock.isUnlocked;
+
   return `
     <article
-      class="book-card"
+      class="book-card ${isLocked ? 'book-card--locked' : ''}"
       data-book-id="${escapeHtml(String(book.id))}"
       role="button"
       tabindex="0"
-      aria-label="${escapeHtml(book.title)}"
+      aria-label="${escapeHtml(book.title)}${isLocked ? ` (Qulflangan: ${unlock.requiredLevel}-daraja)` : ''}"
     >
       <div class="book-card__cover">
         ${cover
@@ -449,14 +549,27 @@ function _bookCardHTML(book) {
              ${_coverPlaceholder(book).replace('display:flex', 'display:none').replace('class="book-card__cover-placeholder"', 'class="book-card__cover-placeholder" style="display:none"')}`
           : _coverPlaceholder(book)
         }
+
+        ${isLocked ? `
+          <div class="book-card__lock-overlay">
+            <div class="book-card__lock-badge">
+              <span class="lock-icon">🔒</span>
+              <span class="lock-text">${unlock.isMystery ? '7 kun streak' : `${unlock.requiredLevel}-daraja`}</span>
+            </div>
+            <div class="book-card__lock-progress">
+              <div class="book-card__lock-progress-bar" style="width:${unlock.progressPct}%"></div>
+            </div>
+            <span class="book-card__lock-hint">${user ? `${user.score || 0}/${unlock.requiredXP} XP` : 'Tizimga kiring'}</span>
+          </div>
+        ` : ''}
       </div>
       <div class="book-card__body">
         <div class="book-card__title">${escapeHtml(book.title)}</div>
         <div class="book-card__author">${escapeHtml(book.author || '')}</div>
       </div>
       <div class="book-card__footer">
-        <span class="badge">${escapeHtml(book.category || 'Adabiyot')}</span>
-        <span class="badge badge-primary">Test</span>
+        <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
+        <span class="badge ${isLocked ? '' : 'badge-primary'}">${isLocked ? '🔒 Qulflangan' : 'Test'}</span>
       </div>
     </article>
   `;
@@ -522,4 +635,5 @@ function _skeletonBookCards(n) {
 export function cleanup() {
   _cleanup.forEach(fn => fn());
   _cleanup = [];
+  _currentUser = null;
 }
