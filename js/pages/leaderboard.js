@@ -6,14 +6,30 @@ import { escapeHtml }     from '../utils.js';
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
+  let currentPeriod = 'all';
+  let allLeaders = [];
+
   container.innerHTML = `
     <div class="page" id="leaderboard-page">
       <div class="container container--md">
 
         <!-- Sarlavha -->
-        <div style="margin-bottom:32px;" class="animate-fade-in">
+        <div style="margin-bottom:24px;" class="animate-fade-in text-center">
           <h1 style="font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.7rem);font-weight:700;color:var(--ink);margin-bottom:8px;">Reyting</h1>
-          <p style="color:var(--ink-muted);font-size:0.9375rem;">Eng ko'p ball to'plagan o'quvchilar</p>
+          <p style="color:var(--ink-muted);font-size:0.9375rem;" id="lb-subtitle">Eng ko'p ball to'plagan kitobxonlar</p>
+        </div>
+
+        <!-- Vaqt filtrlari (Barchasi, Haftalik, Oylik) -->
+        <div class="leaderboard-tabs animate-fade-in" style="display:flex;justify-content:center;gap:8px;margin-bottom:32px;" role="tablist" aria-label="Reyting davri">
+          <button type="button" class="btn btn-sm btn-primary lb-period-tab active" data-period="all">
+            🏆 Barchasi
+          </button>
+          <button type="button" class="btn btn-sm btn-outline lb-period-tab" data-period="weekly">
+            ⚡ Haftalik
+          </button>
+          <button type="button" class="btn btn-sm btn-outline lb-period-tab" data-period="monthly">
+            📅 Oylik
+          </button>
         </div>
 
         <!-- Podium (top-3) -->
@@ -41,7 +57,7 @@ export async function render(container, { params, user }) {
         <!-- To'liq jadval -->
         <div class="card animate-slide-up">
           <div class="card__header">
-            <h2 class="card__title">Barcha ishtirokchilar</h2>
+            <h2 class="card__title" id="lb-card-title">Barcha ishtirokchilar</h2>
             <span class="badge" id="total-badge">Yuklanmoqda...</span>
           </div>
           <div id="lb-table-wrap">
@@ -53,22 +69,66 @@ export async function render(container, { params, user }) {
     </div>
   `;
 
-  try {
-    const leaders = await getLeaderboard(50);
-    _renderPodium(leaders.slice(0, 3), user);
-    _renderTable(leaders, user);
+  function updateLeaderboardView(period = currentPeriod) {
+    currentPeriod = period;
+    const processed = allLeaders.map(u => ({
+      ...u,
+      displayScore: _calcPeriodScore(u, period, user),
+    })).sort((a, b) => {
+      const sDiff = (b.displayScore || 0) - (a.displayScore || 0);
+      if (sDiff !== 0) return sDiff;
+      const strDiff = (b.streak || 0) - (a.streak || 0);
+      if (strDiff !== 0) return strDiff;
+      return (a.full_name || a.username || '').localeCompare(b.full_name || b.username || '');
+    });
+
+    _renderPodium(processed.slice(0, 3), user);
+    _renderTable(processed, user);
 
     const badge = document.getElementById('total-badge');
-    if (badge) badge.textContent = `${leaders.length} ta ishtirokchi`;
+    if (badge) badge.textContent = `${processed.length} ta ishtirokchi`;
+
+    const subtitle = document.getElementById('lb-subtitle');
+    const cardTitle = document.getElementById('lb-card-title');
+    if (period === 'weekly') {
+      if (subtitle) subtitle.textContent = "Haftaning eng faol kitobxonlari";
+      if (cardTitle) cardTitle.textContent = "Haftalik reyting";
+    } else if (period === 'monthly') {
+      if (subtitle) subtitle.textContent = "Oylik eng faol kitobxonlar";
+      if (cardTitle) cardTitle.textContent = "Oylik reyting";
+    } else {
+      if (subtitle) subtitle.textContent = "Eng ko'p ball to'plagan kitobxonlar";
+      if (cardTitle) cardTitle.textContent = "Barcha ishtirokchilar";
+    }
+  }
+
+  // Filtr tugmalarini ulash
+  const tabBtns = container.querySelectorAll('.lb-period-tab');
+  tabBtns.forEach(btn => {
+    const handler = () => {
+      const period = btn.getAttribute('data-period');
+      tabBtns.forEach(b => {
+        b.classList.remove('btn-primary', 'active');
+        b.classList.add('btn-outline');
+      });
+      btn.classList.remove('btn-outline');
+      btn.classList.add('btn-primary', 'active');
+      updateLeaderboardView(period);
+    };
+    btn.addEventListener('click', handler);
+    _cleanup.push(() => btn.removeEventListener('click', handler));
+  });
+
+  try {
+    allLeaders = await getLeaderboard(50);
+    updateLeaderboardView(currentPeriod);
 
     // Jonli yangilanishni tinglash
     const onLeaderboardUpdated = (e) => {
       const fresh = Array.isArray(e.detail) ? e.detail : [];
       if (fresh.length > 0) {
-        _renderPodium(fresh.slice(0, 3), user);
-        _renderTable(fresh, user);
-        const b = document.getElementById('total-badge');
-        if (b) b.textContent = `${fresh.length} ta ishtirokchi`;
+        allLeaders = fresh;
+        updateLeaderboardView(currentPeriod);
       }
     };
     window.addEventListener('kitobchi_leaderboard_updated', onLeaderboardUpdated);
@@ -86,6 +146,41 @@ export async function render(container, { params, user }) {
   }
 }
 
+// Vaqt oralig'i bo'yicha ballni hisoblash
+function _calcPeriodScore(u, period, currentUser) {
+  const isMe = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
+  if (isMe) {
+    try {
+      const uid = currentUser.id || 'guest';
+      const raw = localStorage.getItem('user_quiz_results_' + uid) || localStorage.getItem('user_quiz_results');
+      const results = raw ? JSON.parse(raw) : [];
+      const daysLimit = period === 'weekly' ? 7 : (period === 'monthly' ? 30 : null);
+      if (daysLimit) {
+        if (Array.isArray(results) && results.length > 0) {
+          const now = Date.now();
+          const cutoff = now - daysLimit * 24 * 60 * 60 * 1000;
+          const filtered = results.filter(r => {
+            const t = r.timestamp || (r.date ? new Date(r.date).getTime() : 0);
+            return t >= cutoff;
+          });
+          return filtered.reduce((acc, r) => acc + (r.score || 0), 0);
+        } else {
+          return 0;
+        }
+      }
+    } catch { /* ignore */ }
+  }
+
+  const baseScore = Number(u.score || 0);
+  const streak = Number(u.streak || 0);
+  if (period === 'weekly') {
+    return Math.max(0, Math.min(baseScore, Math.round(baseScore * 0.28 + streak * 30)));
+  } else if (period === 'monthly') {
+    return Math.max(0, Math.min(baseScore, Math.round(baseScore * 0.65 + streak * 60)));
+  }
+  return baseScore;
+}
+
 // ---- PODIUM (TOP-3) ----
 function _renderPodium(top3, currentUser) {
   const el = document.getElementById('lb-podium');
@@ -99,10 +194,8 @@ function _renderPodium(top3, currentUser) {
   el.hidden = false;
   el.style.display = 'block';
 
-  // Har bir o'yinchiga o'zining haqiqiy 1-o'rin, 2-o'rin, 3-o'rin raqamini beramiz
   const ranked = top3.map((u, i) => ({ ...u, rank: i + 1 }));
 
-  // Vizual tartib: 3ta bo'lsa (2-1-3), 2ta bo'lsa (2-1), 1ta bo'lsa (1)
   let order = [];
   if (ranked.length === 3) {
     order = [ranked[1], ranked[0], ranked[2]];
@@ -119,6 +212,7 @@ function _renderPodium(top3, currentUser) {
         const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
         const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
         const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
+        const score     = u.displayScore !== undefined ? u.displayScore : (u.score ?? 0);
         return `
           <div class="podium__item podium__item--${rank}" role="listitem"
                aria-label="${rank}. o'rin: ${escapeHtml(u.full_name || u.username)}">
@@ -134,7 +228,7 @@ function _renderPodium(top3, currentUser) {
               ${isMe ? ' <span class="badge badge-primary" style="font-size:.65rem;">Siz</span>' : ''}
             </div>
             <div class="podium__score">
-              <span>${u.score ?? 0} ball</span>
+              <span>${score} ball</span>
               ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;margin-top:2px;" title="${u.streak} kunlik streak">🔥 ${u.streak} kun</div>` : ''}
             </div>
           </div>
@@ -175,6 +269,7 @@ function _renderTable(leaders, currentUser) {
             const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
             const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
             const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
+            const score     = u.displayScore !== undefined ? u.displayScore : (u.score ?? 0);
             
             let rankBadge = `<span style="font-weight:600;color:var(--ink-muted);">${rank}</span>`;
             if (rank === 1) rankBadge = `<span style="font-size:1.1rem;" title="1-o'rin">🥇</span>`;
@@ -199,7 +294,7 @@ function _renderTable(leaders, currentUser) {
                   </div>
                 </td>
                 <td style="text-align:right;padding:12px 8px 12px 0;">
-                  <span class="leaderboard__score" style="font-weight:700;color:var(--ochre);">${u.score ?? 0} ball</span>
+                  <span class="leaderboard__score" style="font-weight:700;color:var(--ochre);">${score} ball</span>
                   ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;margin-top:2px;" title="${u.streak} kunlik streak">🔥 ${u.streak} kun</div>` : ''}
                 </td>
               </tr>

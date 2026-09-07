@@ -2,7 +2,7 @@
 // pages/book-detail.js — Kitob tafsiloti (Editorial uslub)
 // ============================================================
 import { getBookById, getQuestions, getComments, saveComment, deleteComment } from '../db.js';
-import { escapeHtml, showNotification } from '../utils.js';
+import { escapeHtml, showNotification, renderBookCoverPlaceholder } from '../utils.js';
 import { isBookUnlocked } from '../progression.js';
 let _cleanup = [];
 
@@ -105,10 +105,10 @@ function _renderBook(contentEl, book, questions, user) {
                     onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
                />
                <div class="book-detail__cover-placeholder" style="display:none">
-                 <span class="placeholder-initial">${escapeHtml(initial)}</span>
+                 ${renderBookCoverPlaceholder(book, { size: 'lg', style: 'position:relative;width:100%;height:100%;min-height:240px;border-radius:var(--radius-md);' })}
                </div>`
             : `<div class="book-detail__cover-placeholder">
-                 <span class="placeholder-initial">${escapeHtml(initial)}</span>
+                 ${renderBookCoverPlaceholder(book, { size: 'lg', style: 'position:relative;width:100%;height:100%;min-height:240px;border-radius:var(--radius-md);' })}
                </div>`
           }
         </div>
@@ -176,9 +176,20 @@ function _renderBook(contentEl, book, questions, user) {
                             <span>Sizda: <strong>${user ? (user.score || 0) : 0} XP</strong></span>
                             <span>Yana <strong>${u.remainingXP} XP</strong> kerak</span>
                           </div>
-                          <button class="btn btn-outline btn-sm" disabled style="opacity:0.75;cursor:not-allowed;width:100%;pointer-events:none;">
-                            🔒 Hali ochilmagan (${u.requiredLevel}-daraja)
-                          </button>
+                          ${user ? `
+                            <button class="btn btn-outline btn-sm" disabled style="opacity:0.75;cursor:not-allowed;width:100%;pointer-events:none;">
+                              🔒 Hali ochilmagan (${u.requiredLevel}-daraja)
+                            </button>
+                          ` : `
+                            <div style="display:flex;gap:8px;flex-direction:column;">
+                              <a href="#login" class="btn btn-primary btn-sm" style="width:100%;text-align:center;">
+                                Tizimga kirish va asarni ochish
+                              </a>
+                              <a href="#books" class="btn btn-ghost btn-sm" style="width:100%;text-align:center;">
+                                Ochiq kitoblarga o'tish
+                              </a>
+                            </div>
+                          `}
                         </div>
                       `;
                     })()
@@ -358,14 +369,14 @@ async function _loadBookComments(container, bookId, user) {
 
 function _skeletonHTML() {
   return `
-    <div class="book-detail">
+    <div class="book-detail skeleton-card" style="padding:16px;border:none;">
       <div class="book-detail__top">
-        <div class="book-detail__cover-wrap" style="background:var(--paper-alt);aspect-ratio:3/4;"></div>
+        <div class="book-detail__cover-wrap skeleton" style="aspect-ratio:3/4;border-radius:var(--radius-md);"></div>
         <div class="book-detail__info">
-          <div style="height:20px;background:var(--divider);border-radius:4px;width:60px;margin-bottom:16px;"></div>
-          <div style="height:32px;background:var(--divider);border-radius:4px;width:90%;margin-bottom:12px;"></div>
-          <div style="height:18px;background:var(--divider);border-radius:4px;width:50%;margin-bottom:24px;"></div>
-          <div style="height:48px;background:var(--divider);border-radius:6px;width:200px;"></div>
+          <div class="skeleton" style="height:20px;width:60px;margin-bottom:16px;"></div>
+          <div class="skeleton" style="height:32px;width:90%;margin-bottom:12px;"></div>
+          <div class="skeleton" style="height:18px;width:50%;margin-bottom:24px;"></div>
+          <div class="skeleton" style="height:48px;width:200px;border-radius:6px;"></div>
         </div>
       </div>
     </div>

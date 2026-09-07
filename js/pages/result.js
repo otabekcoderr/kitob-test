@@ -1,7 +1,7 @@
 // ============================================================
 // pages/result.js — Test natijasi & Rivojlanish sahifasi (Editorial uslub)
 // ============================================================
-import { escapeHtml, getUserLevel, getNextUnlockTarget, getBookUnlockReq } from '../utils.js';
+import { escapeHtml, getUserLevel, getNextUnlockTarget, getBookUnlockReq, renderBookCoverPlaceholder } from '../utils.js';
 import { getBooks } from '../db.js';
 import { getCurrentUser } from '../auth.js';
 
@@ -50,6 +50,10 @@ export async function render(container, { params, user: initialUser }) {
 
   // Fikr-mulohaza matni
   const feedback = _getFeedback(percentage);
+
+  const userAnswers    = Array.isArray(result.answers) ? result.answers : [];
+  const wrongAnswers   = userAnswers.filter(a => !a.isCorrect);
+  const correctAnswers = userAnswers.filter(a => a.isCorrect);
 
   container.innerHTML = `
     <div class="page" id="result-page">
@@ -166,11 +170,11 @@ export async function render(container, { params, user: initialUser }) {
           ${nextUnlock && nextUnlock.book ? `
             <div class="next-unlock-card" style="margin-bottom:24px;padding:16px;border-radius:var(--radius-md);background:var(--surface);border:1.5px dashed var(--ochre);text-align:left;display:flex;align-items:center;gap:16px;">
               <div style="width:48px;height:68px;border-radius:var(--radius-sm);overflow:hidden;background:var(--paper-alt);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
-                ${nextUnlock.book.coverImage
-                  ? `<img src="${escapeHtml(nextUnlock.book.coverImage)}" alt="${escapeHtml(nextUnlock.book.title)}" style="width:100%;height:100%;object-fit:cover;">`
-                  : `<span style="font-size:1.5rem;">📚</span>`
+                ${(nextUnlock.book.coverImage || nextUnlock.book.cover_url || nextUnlock.book.cover)
+                  ? `<img src="${escapeHtml(nextUnlock.book.coverImage || nextUnlock.book.cover_url || nextUnlock.book.cover)}" alt="${escapeHtml(nextUnlock.book.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='block';"><div style="display:none;width:100%;height:100%;">${renderBookCoverPlaceholder(nextUnlock.book)}</div>`
+                  : renderBookCoverPlaceholder(nextUnlock.book)
                 }
-                <div style="position:absolute;inset:0;background:rgba(23,54,45,0.45);display:flex;align-items:center;justify-content:center;color:#FFF;font-size:1.1rem;">🔒</div>
+                <div style="position:absolute;inset:0;background:rgba(23,54,45,0.45);display:flex;align-items:center;justify-content:center;color:#FFF;font-size:1.1rem;pointer-events:none;">🔒</div>
               </div>
               <div style="flex:1;min-width:0;">
                 <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ochre);">
@@ -210,6 +214,101 @@ export async function render(container, { params, user: initialUser }) {
           </div>
 
         </div>
+
+        ${userAnswers.length > 0 ? `
+          <!-- SAVOLLAR VA XATOLAR TAHLILI -->
+          <div class="result-review-section animate-slide-up" id="result-review-section">
+            <div class="result-review-header">
+              <h2 class="result-review-title">
+                <span>📝</span> Savollar va xatolar tahlili
+              </h2>
+              <div class="result-filter-tabs" role="tablist" aria-label="Savollarni filtrlash">
+                <button type="button" class="result-filter-tab active" data-review-filter="all">
+                  Barchasi (${userAnswers.length})
+                </button>
+                <button type="button" class="result-filter-tab" data-review-filter="mistakes">
+                  Xatolar (${wrongAnswers.length})
+                </button>
+                <button type="button" class="result-filter-tab" data-review-filter="correct">
+                  To'g'ri (${correctAnswers.length})
+                </button>
+              </div>
+            </div>
+
+            <div id="result-questions-list">
+              ${userAnswers.map((ans, idx) => {
+                const qNum = idx + 1;
+                const isCorrect = Boolean(ans.isCorrect);
+                const cardClass = isCorrect ? 'result-question-card--correct' : 'result-question-card--wrong';
+                const badgeClass = isCorrect ? 'result-question-badge--correct' : 'result-question-badge--wrong';
+                const badgeText = isCorrect ? "✓ To'g'ri" : "✕ Noto'g'ri";
+                const filterType = isCorrect ? 'correct' : 'mistakes';
+
+                const questionText = ans.question || ans.questionText || '';
+                const selectedText = ans.selectedOption ?? ans.selectedText;
+                const correctText = ans.correctAnswer ?? ans.correctText;
+
+                return `
+                  <div class="result-question-card ${cardClass}" data-type="${filterType}">
+                    <div class="result-question-header">
+                      <span class="result-question-num">${qNum}-savol</span>
+                      <span class="result-question-badge ${badgeClass}">${badgeText}</span>
+                    </div>
+
+                    <div class="result-question-text">${escapeHtml(questionText)}</div>
+
+                    <div class="result-options-list">
+                      ${Array.isArray(ans.options) && ans.options.length > 0 ? ans.options.map((optText, optIdx) => {
+                        const isSelected = (selectedText !== null && selectedText !== undefined && String(optText) === String(selectedText)) || (optIdx === ans.selectedOptionIndex);
+                        const isOptionCorrect = (correctText !== null && correctText !== undefined && String(optText) === String(correctText)) || (optIdx === ans.correctOptionIndex);
+
+                        let optClass = '';
+                        let optIcon = '○';
+
+                        if (isSelected && isCorrect) {
+                          optClass = 'result-option-item--user-correct';
+                          optIcon = '✓';
+                        } else if (isSelected && !isCorrect) {
+                          optClass = 'result-option-item--user-wrong';
+                          optIcon = '✕';
+                        } else if (isOptionCorrect && !isCorrect) {
+                          optClass = 'result-option-item--correct-answer';
+                          optIcon = '✓';
+                        }
+
+                        return `
+                          <div class="result-option-item ${optClass}">
+                            <span style="font-weight:700;min-width:18px;text-align:center;">${optIcon}</span>
+                            <span style="flex:1;">${escapeHtml(optText)}</span>
+                            ${isSelected ? `<span style="font-size:0.75rem;opacity:0.8;margin-left:auto;">(Sizning javobingiz)</span>` : ''}
+                            ${(!isSelected && isOptionCorrect && !isCorrect) ? `<span style="font-size:0.75rem;color:var(--success);font-weight:600;margin-left:auto;">(To'g'ri javob)</span>` : ''}
+                          </div>
+                        `;
+                      }).join('') : `
+                        <div class="result-option-item ${isCorrect ? 'result-option-item--user-correct' : 'result-option-item--user-wrong'}">
+                          <span>${isCorrect ? '✓' : '✕'}</span>
+                          <span>Sizning javobingiz: <strong>${escapeHtml(String(selectedText ?? 'Belgilanmagan'))}</strong></span>
+                        </div>
+                        ${!isCorrect && correctText ? `
+                          <div class="result-option-item result-option-item--correct-answer">
+                            <span>✓</span>
+                            <span>To'g'ri javob: <strong>${escapeHtml(String(correctText))}</strong></span>
+                          </div>
+                        ` : ''}
+                      `}
+                    </div>
+
+                    ${ans.explanation ? `
+                      <div class="result-explanation-box">
+                        <strong>💡 Izoh:</strong> ${escapeHtml(ans.explanation)}
+                      </div>
+                    ` : ''}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        ` : ''}
 
         <!-- Maslahat bloki -->
         ${percentage < 60 ? `
@@ -284,6 +383,31 @@ export async function render(container, { params, user: initialUser }) {
       closeBtn.addEventListener('click', closeModal);
       _cleanup.push(() => closeBtn.removeEventListener('click', closeModal));
     }
+  }
+
+  // Savollar tahlili filtri
+  if (userAnswers.length > 0) {
+    const filterTabs = container.querySelectorAll('[data-review-filter]');
+    const cards = container.querySelectorAll('.result-question-card');
+
+    filterTabs.forEach(tab => {
+      const handler = () => {
+        const filter = tab.getAttribute('data-review-filter');
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        cards.forEach(card => {
+          const type = card.getAttribute('data-type');
+          if (filter === 'all' || filter === type) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      };
+      tab.addEventListener('click', handler);
+      _cleanup.push(() => tab.removeEventListener('click', handler));
+    });
   }
 
   // Adabiy zarhal zarrachalar (literary golden confetti) animatsiyasini ishga tushirish
@@ -441,11 +565,11 @@ function _launchLiteraryConfetti() {
 }
 
 function _getFeedback(pct) {
-  if (pct >= 90) return { title: 'Ajoyib natija!',        desc: "Siz bu kitobni juda yaxshi o'rgangansiz." };
-  if (pct >= 75) return { title: 'Yaxshi natija!',         desc: "Bilimingiz mustahkam. Davom eting!" };
-  if (pct >= 60) return { title: "O'tdingiz",              desc: "Yaxshi ish. Kamchiliklar bor, lekin o'tib ketdi." };
-  if (pct >= 40) return { title: "Deyarli yetdi",          desc: "Ozroq more o'qish kerak. Qayta urinib ko'ring." };
-  return          { title: "Bu safar o'tmadi",              desc: "Xafa bo'lmang. Yana bir bor urinib ko'ring!" };
+  if (pct >= 90) return { title: "Ajoyib natija!",        desc: "Siz ushbu asar mazmunini mukammal o'zlashtirgansiz. Tabriklaymiz!" };
+  if (pct >= 75) return { title: "Yaxshi natija!",         desc: "Bilimingiz mustahkam va ishonchli. Yangi marralar sari davom eting!" };
+  if (pct >= 60) return { title: "Sinovdan o'tdingiz!",    desc: "Asosiy mazmunni yaxshi tushungansiz. Bilimingizni yanada mustahkamlash uchun xatolar tahlilini ko'rib chiqing." };
+  if (pct >= 40) return { title: "Deyarli yetarli natija", desc: "Biroz ko'proq mutolaa qilish tavsiya etiladi. Xatolaringizni ko'rib chiqib, qayta urinib ko'ring." };
+  return          { title: "Bu safar sinovdan o'tolmadingiz", desc: "Ruhingizni tushirmang! Asarni yana bir bor sinchiklab mutolaa qilib, bilimingizni qayta sinab ko'ring." };
 }
 
 export function cleanup() {

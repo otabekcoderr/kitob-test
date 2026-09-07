@@ -9,7 +9,7 @@ import {
   getQuizState,
 } from '../quiz.js';
 import { getBookById } from '../db.js';
-import { escapeHtml, showNotification }  from '../utils.js';
+import { escapeHtml, showNotification, isSoundEnabled, setSoundEnabled }  from '../utils.js';
 import { isBookUnlocked } from '../progression.js';
 
 let _callbacks  = {};
@@ -68,6 +68,10 @@ export async function render(container, { params, user }) {
               <span style="font-size:0.75rem;color:var(--ink-muted);">s</span>
             </div>
 
+            <button id="sound-toggle-btn" class="btn btn-ghost btn-sm" type="button" aria-label="Ovozni yoqish yoki o'chirish" title="Ovozni yoqish yoki o'chirish" style="padding:4px 8px;font-size:1.1rem;">
+              <span id="sound-icon">${isSoundEnabled() ? '🔊' : '🔇'}</span>
+            </button>
+
             <button id="abort-btn" class="btn btn-ghost btn-sm" type="button">
               Yakunlash
             </button>
@@ -112,7 +116,17 @@ export async function render(container, { params, user }) {
     }
   };
   abortBtn?.addEventListener('click', onAbort);
-  _cleanup.push(() => abortBtn?.removeEventListener('click', onAbort));
+  // Sound toggle tugmasi
+  const soundBtn  = document.getElementById('sound-toggle-btn');
+  const soundIcon = document.getElementById('sound-icon');
+  const onSoundToggle = () => {
+    const next = !isSoundEnabled();
+    setSoundEnabled(next);
+    if (soundIcon) soundIcon.textContent = next ? '🔊' : '🔇';
+    showNotification(next ? 'Ovoz effektlari yoqildi' : 'Ovoz effektlari o\'chirildi', 'info', 1500);
+  };
+  soundBtn?.addEventListener('click', onSoundToggle);
+  _cleanup.push(() => soundBtn?.removeEventListener('click', onSoundToggle));
 
   // Keyboard navigation shortcuts: 1-4, A-D, va Enter orqali keyingi savolga o'tish
   const onKeyDown = (e) => {

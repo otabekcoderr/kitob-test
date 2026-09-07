@@ -2,7 +2,7 @@
 // pages/books.js — Kitoblar katalogi (Progression & Lock integratsiyasi)
 // ============================================================
 import { getBooks } from '../db.js';
-import { escapeHtml, truncate } from '../utils.js';
+import { escapeHtml, truncate, renderBookCoverPlaceholder } from '../utils.js';
 import { isBookUnlocked, evaluateMasteryTier } from '../progression.js';
 
 let _allBooks = [];
@@ -17,11 +17,7 @@ function _getBookCover(book) {
 }
 
 function _coverPlaceholder(book) {
-  const initial = (book.title || '?')[0].toUpperCase();
-  return `<div class="book-card__cover-placeholder">
-    <span class="placeholder-initial">${escapeHtml(initial)}</span>
-    <span class="placeholder-label">${escapeHtml(truncate(book.title || '', 14))}</span>
-  </div>`;
+  return renderBookCoverPlaceholder(book);
 }
 
 export async function render(container, { params, user }) {
@@ -174,11 +170,10 @@ function _bookCardHTML(book, user) {
                   alt="${escapeHtml(book.title)}"
                   loading="lazy"
                   decoding="async"
-                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                  onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
              />
-             <div class="book-card__cover-placeholder" style="display:none">
-               <span class="placeholder-initial">${escapeHtml((book.title || '?')[0].toUpperCase())}</span>
-               <span class="placeholder-label">${escapeHtml(truncate(book.title || '', 14))}</span>
+             <div class="book-cover-fallback-wrap" style="display:none;position:absolute;inset:0;">
+               ${renderBookCoverPlaceholder(book)}
              </div>`
           : _coverPlaceholder(book)
         }
@@ -345,11 +340,11 @@ function _bindEvents() {
 
 function _skeletonBookCards(n) {
   return Array.from({ length: n }, () => `
-    <div class="book-card" style="cursor:default;pointer-events:none;">
-      <div class="book-card__cover" style="background:var(--paper-alt);"></div>
+    <div class="book-card skeleton-card" style="cursor:default;pointer-events:none;">
+      <div class="book-card__cover skeleton"></div>
       <div class="book-card__body">
-        <div style="height:14px;background:var(--divider);border-radius:4px;width:80%;margin-bottom:8px;"></div>
-        <div style="height:12px;background:var(--divider);border-radius:4px;width:50%;"></div>
+        <div class="skeleton" style="height:14px;width:80%;margin-bottom:8px;"></div>
+        <div class="skeleton" style="height:12px;width:50%;"></div>
       </div>
     </div>
   `).join('');

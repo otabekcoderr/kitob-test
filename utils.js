@@ -171,7 +171,7 @@ export function yesterday() {
  * @param {number} [duration=3000] — avtomatik yopilish (ms), 0 = yopilmaydi
  */
 export function showNotification(message, type = 'info', duration = 3000) {
-  // Eski bildirnomalrni tozalaymiz
+  // Eski bildirishnomalarni tozalaymiz
   document.querySelectorAll('.notification').forEach(el => el.remove());
 
   const el = document.createElement('div');
@@ -330,7 +330,179 @@ export const LOGO_SVG = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.
 </svg>`;
 
 // ============================================================
-// 7. RIVOJLANISH VA GEYMIFIKATSIYA (PROGRESSION)
+// 7. AUDIO EFFEKTLARI (Web Audio API — 0ms kechikish, tashqi faylsiz)
+// ============================================================
+let _audioCtx = null;
+function _getAudioContext() {
+  if (typeof window === 'undefined') return null;
+  if (!_audioCtx) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) _audioCtx = new AudioCtx();
+  }
+  if (_audioCtx && _audioCtx.state === 'suspended') {
+    _audioCtx.resume().catch(() => {});
+  }
+  return _audioCtx;
+}
+
+/**
+ * Tovush effektlari yoqilganligini tekshiradi.
+ * @returns {boolean}
+ */
+export function isSoundEnabled() {
+  try {
+    return localStorage.getItem('kitobchi_sound_enabled') !== 'false';
+  } catch {
+    return true;
+  }
+}
+
+/**
+ * Tovush effektlarini yoqish yoki o'chirish.
+ * @param {boolean} enabled
+ */
+export function setSoundEnabled(enabled) {
+  try {
+    localStorage.setItem('kitobchi_sound_enabled', enabled ? 'true' : 'false');
+    window.dispatchEvent(new CustomEvent('kitobchi_sound_toggled', { detail: enabled }));
+  } catch {}
+}
+
+/**
+ * Test va geymifikatsiya uchun audio effektlarni ijro etadi.
+ * @param {'correct'|'wrong'|'tick'|'levelup'} type
+ */
+export function playQuizSound(type) {
+  if (!isSoundEnabled()) return;
+  try {
+    const ctx = _getAudioContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+
+    if (type === 'correct') {
+      // Yoqimli, uyg'un arfa/chime (C5 -> E5 -> G5)
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+        gain.gain.setValueAtTime(0, now + i * 0.08);
+        gain.gain.linearRampToValueAtTime(0.18, now + i * 0.08 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.36);
+      });
+    } else if (type === 'wrong') {
+      // Yumshoq, past akkord (G3 -> E3)
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(146.83, now + 0.28);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.31);
+    } else if (type === 'tick') {
+      // Sekund strelkasi / taymer signali
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.06);
+    } else if (type === 'levelup') {
+      // Tantana fanfare akkordi (G4 -> C5 -> E5 -> G5 -> C6)
+      const fanfare = [392.00, 523.25, 659.25, 783.99, 1046.50];
+      fanfare.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + i * 0.09);
+        gain.gain.setValueAtTime(0, now + i * 0.09);
+        gain.gain.linearRampToValueAtTime(0.22, now + i * 0.09 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.45);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + i * 0.09);
+        osc.stop(now + i * 0.09 + 0.46);
+      });
+    }
+  } catch { /* Audio bloklangan bo'lsa xavfsiz o'tish */ }
+}
+
+// ============================================================
+// 8. TIPOGRAFIK KITOB MUQOVASI PLACEHOLDERI
+// ============================================================
+
+/**
+ * Kitob ID yoki nomiga qarab barqaror editorial mato rangini aniqlaydi.
+ * @param {object} book
+ * @returns {string}
+ */
+export function getCoverThemeClass(book) {
+  const themes = [
+    'book-cover-theme-navy',
+    'book-cover-theme-emerald',
+    'book-cover-theme-ruby',
+    'book-cover-theme-terracotta',
+    'book-cover-theme-indigo',
+    'book-cover-theme-walnut',
+    'book-cover-theme-ochre'
+  ];
+  const str = String(book?.id || book?.title || 'kitob');
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  const idx = Math.abs(hash) % themes.length;
+  return themes[idx];
+}
+
+/**
+ * Muqovasi yo'q yoki yuklanmagan kitoblar uchun tipografik nafis muqova HTML kodini yaratadi.
+ * @param {object} book
+ * @param {object} [options={}]
+ * @returns {string}
+ */
+export function renderBookCoverPlaceholder(book, options = {}) {
+  if (!book) book = { title: 'Kitob', author: '' };
+  const title = book.title || 'Kitob';
+  const author = book.author || 'Noma\'lum muallif';
+  const genre = book.category || book.genre || 'Adabiyot';
+  const themeClass = getCoverThemeClass(book);
+  const isLarge = options.size === 'lg';
+
+  return `
+    <div class="book-cover-placeholder ${themeClass} ${isLarge ? 'book-cover-placeholder--lg' : ''}" style="${options.style || ''}">
+      <div class="book-cover-placeholder__inner-frame"></div>
+      <div class="book-cover-placeholder__header">
+        <span class="book-cover-placeholder__genre">${escapeHtml(genre)}</span>
+      </div>
+      <div class="book-cover-placeholder__body">
+        <span class="book-cover-placeholder__emblem" aria-hidden="true">📖</span>
+        <div class="book-cover-placeholder__title">${escapeHtml(truncate(title, isLarge ? 50 : 28))}</div>
+        <div class="book-cover-placeholder__divider"></div>
+      </div>
+      <div class="book-cover-placeholder__footer">
+        <span class="book-cover-placeholder__author">${escapeHtml(truncate(author, isLarge ? 30 : 20))}</span>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// 9. RIVOJLANISH VA GEYMIFIKATSIYA (PROGRESSION)
 // ============================================================
 export * from './progression.js';
 

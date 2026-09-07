@@ -122,10 +122,8 @@ async function _loadQuickStats() {
     const bCnt  = books.length;
 
     let qCnt = 0;
-    for (const b of books) {
-      const qs = await getQuestions(b.id);
-      qCnt += qs.length;
-    }
+    const qResults = await Promise.all(books.map(b => getQuestions(b.id).catch(() => [])));
+    qResults.forEach(qs => { qCnt += (qs?.length || 0); });
 
     const resU = await supabase.from('profiles').select('id', { count: 'exact', head: true }).catch(() => null);
     const uCnt = resU?.count ?? 1;
@@ -228,8 +226,8 @@ function _renderBookRows(books) {
       <tr id="book-row-${b.id}">
         <td style="width:50px;text-align:center">
           ${coverSrc
-            ? `<img src="${escapeHtml(coverSrc)}" alt="" style="width:36px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border-color);display:inline-block" onerror="this.onerror=null;this.parentNode.innerHTML='—'">`
-            : `<span style="font-size:.875rem;color:var(--ink-faint);">—</span>`
+            ? `<img src="${escapeHtml(coverSrc)}" alt="" style="width:36px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border-color);display:inline-block" onerror="this.onerror=null;this.parentNode.innerHTML='<span style=\\'display:inline-flex;width:36px;height:48px;border-radius:4px;background:var(--paper-alt);border:1px solid var(--divider);align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--ochre);\\'>📖</span>'">`
+            : `<span style="display:inline-flex;width:36px;height:48px;border-radius:4px;background:var(--paper-alt);border:1px solid var(--divider);align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--ochre);">📖</span>`
           }
         </td>
         <td>${b.id}</td>

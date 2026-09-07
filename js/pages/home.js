@@ -2,7 +2,7 @@
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
 import { getBooks, getLeaderboard, getUserResults, getStreakStatus } from '../db.js';
-import { escapeHtml, truncate, today } from '../utils.js';
+import { escapeHtml, truncate, today, renderBookCoverPlaceholder } from '../utils.js';
 import { getUserLevel, getNextUnlockTarget, getDailyMissions, isBookUnlocked } from '../progression.js';
 
 let _cleanup = [];
@@ -26,11 +26,7 @@ function _getBookCover(book) {
 
 // ---- CSS tipografik placeholder ----
 function _coverPlaceholder(book) {
-  const initial = (book.title || '?')[0].toUpperCase();
-  return `<div class="book-card__cover-placeholder">
-    <span class="placeholder-initial">${escapeHtml(initial)}</span>
-    <span class="placeholder-label">${escapeHtml(truncate(book.title || '', 16))}</span>
-  </div>`;
+  return renderBookCoverPlaceholder(book);
 }
 
 export async function render(container, { params, user }) {
@@ -243,8 +239,8 @@ function _renderNextUnlock(target, user) {
       <div class="next-unlock-card card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:22px 24px;border:1.5px solid var(--ochre);background:var(--paper-alt);">
         <div class="next-unlock__cover" style="width:72px;height:104px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0;box-shadow:var(--shadow-sm);background:var(--surface);display:flex;align-items:center;justify-content:center;">
           ${cover
-            ? `<img src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;">`
-            : `<div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--ochre);">${escapeHtml(initial)}</div>`
+            ? `<img src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';"><div style="display:none;width:100%;height:100%;">${renderBookCoverPlaceholder(book)}</div>`
+            : renderBookCoverPlaceholder(book)
           }
         </div>
         <div style="flex:1;min-width:240px;">
@@ -577,9 +573,11 @@ function _bookCardHTML(book, user) {
                   alt="${escapeHtml(book.title)}"
                   loading="lazy"
                   decoding="async"
-                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                  onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
              />
-             ${_coverPlaceholder(book).replace('display:flex', 'display:none').replace('class="book-card__cover-placeholder"', 'class="book-card__cover-placeholder" style="display:none"')}`
+             <div class="book-cover-fallback-wrap" style="display:none;position:absolute;inset:0;">
+               ${renderBookCoverPlaceholder(book)}
+             </div>`
           : _coverPlaceholder(book)
         }
 
@@ -655,11 +653,11 @@ function _renderLeaderboardMini(leaders, currentUser) {
 // ---- SKELETON ----
 function _skeletonBookCards(n) {
   return Array.from({ length: n }, () => `
-    <div class="book-card" style="cursor:default;pointer-events:none;">
-      <div class="book-card__cover" style="background:var(--paper-alt);"></div>
+    <div class="book-card skeleton-card" style="cursor:default;pointer-events:none;">
+      <div class="book-card__cover skeleton"></div>
       <div class="book-card__body">
-        <div style="height:14px;background:var(--divider);border-radius:4px;width:80%;margin-bottom:8px;"></div>
-        <div style="height:12px;background:var(--divider);border-radius:4px;width:50%;"></div>
+        <div class="skeleton" style="height:14px;width:80%;margin-bottom:8px;"></div>
+        <div class="skeleton" style="height:12px;width:50%;"></div>
       </div>
     </div>
   `).join('');

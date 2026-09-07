@@ -10,6 +10,7 @@ import {
   getUserLevel,
   checkUserAchievements,
   calculateAllBooksMastery,
+  renderBookCoverPlaceholder,
 } from '../utils.js';
 
 let _cleanup = [];
@@ -838,9 +839,9 @@ function _renderMastery(user, results, books) {
         return `
           <div class="mastery-card" style="padding:16px;border-radius:var(--radius-md);background:var(--paper-alt);border:1.5px solid var(--divider);display:flex;gap:14px;align-items:center;">
             <div style="width:48px;height:68px;border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              ${book.coverImage
-                ? `<img src="${escapeHtml(book.coverImage)}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;">`
-                : `<span style="font-size:1.5rem;">📖</span>`
+              ${(book.coverImage || book.cover_url || book.cover)
+                ? `<img src="${escapeHtml(book.coverImage || book.cover_url || book.cover)}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='block';"><div style="display:none;width:100%;height:100%;">${renderBookCoverPlaceholder(book)}</div>`
+                : renderBookCoverPlaceholder(book)
               }
             </div>
             <div style="flex:1;min-width:0;">

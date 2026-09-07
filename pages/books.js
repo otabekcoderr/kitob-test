@@ -1,9 +1,12 @@
 // ============================================================
-// pages/books.js — Kitoblar katalogi
+// pages/books.js — Kitoblar katalogi (Progression & Lock integratsiyasi)
 // ============================================================
-import { getBooks }               from '../db.js';
-import { escapeHtml, truncate }    from '../utils.js';
+import { getBooks } from '../db.js';
+import { escapeHtml, truncate, renderBookCoverPlaceholder } from '../utils.js';
+import { isBookUnlocked, evaluateMasteryTier } from '../progression.js';
+
 let _allBooks = [];
+let _currentUser = null;
 let _cleanup  = [];
 
 function _getBookCover(book) {
@@ -14,25 +17,31 @@ function _getBookCover(book) {
 }
 
 function _coverPlaceholder(book) {
-  const initial = (book.title || '?')[0].toUpperCase();
-  return `<div class="book-card__cover-placeholder">
-    <span class="placeholder-initial">${escapeHtml(initial)}</span>
-    <span class="placeholder-label">${escapeHtml(truncate(book.title || '', 14))}</span>
-  </div>`;
+  return renderBookCoverPlaceholder(book);
 }
 
 export async function render(container, { params, user }) {
+  _currentUser = user;
+
   container.innerHTML = `
     <div class="page" id="books-page">
       <div class="container">
 
-        <div style="margin-bottom:32px;">
+        <div style="margin-bottom:28px;">
           <h1 style="font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.7rem);font-weight:700;color:var(--ink);margin-bottom:8px;">Kitoblar</h1>
-          <p style="color:var(--ink-muted);font-size:0.9375rem;">Bilimingizni sinab ko'ring — testlarni yeching</p>
+          <p style="color:var(--ink-muted);font-size:0.9375rem;">Bilimingizni sinab ko'ring — yangi darajalarga erishib, durdona asarlarni qulfdan chiqaring.</p>
         </div>
 
-        <!-- Qidiruv va filtlar -->
-        <div class="books-filter-bar" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;align-items:flex-end;">
+        <!-- Holat filtrlari (Ochiq / Qulflangan / Mastery) -->
+        <div class="tabs books-status-tabs" id="status-tabs" role="tablist" aria-label="Holat bo'yicha" style="margin-bottom:16px;">
+          <button class="tab tab--active status-tab" role="tab" data-status="all" aria-selected="true">Barchasi</button>
+          <button class="tab status-tab" role="tab" data-status="unlocked" aria-selected="false">🔓 Ochiq kitoblar</button>
+          <button class="tab status-tab" role="tab" data-status="locked" aria-selected="false">🔒 Qulflanganlar</button>
+          ${user ? `<button class="tab status-tab" role="tab" data-status="mastery" aria-selected="false">⭐ Mening Mastery'm</button>` : ''}
+        </div>
+
+        <!-- Qidiruv va qiyinlik filtri -->
+        <div class="books-filter-bar" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;align-items:flex-end;">
           <div style="flex:1;min-width:200px;">
             <label class="label" for="books-search">Qidirish</label>
             <input
@@ -56,13 +65,13 @@ export async function render(container, { params, user }) {
         </div>
 
         <!-- Kategoriyalar -->
-        <div class="tabs" role="tablist" aria-label="Kategoriyalar" style="margin-bottom:16px;">
-          <button class="tab tab--active" role="tab" data-category="all" aria-selected="true">Barchasi</button>
-          <button class="tab" role="tab" data-category="badiiy"      aria-selected="false">Badiiy adabiyot</button>
-          <button class="tab" role="tab" data-category="tarixiy"     aria-selected="false">Tarixiy asarlar</button>
-          <button class="tab" role="tab" data-category="rivojlanish" aria-selected="false">Rivojlanish & Psixologiya</button>
-          <button class="tab" role="tab" data-category="jahon"       aria-selected="false">Jahon durdonalari</button>
-          <button class="tab" role="tab" data-category="mumtoz"      aria-selected="false">Mumtoz meros</button>
+        <div class="tabs books-category-tabs" id="category-tabs" role="tablist" aria-label="Kategoriyalar" style="margin-bottom:16px;">
+          <button class="tab tab--active cat-tab" role="tab" data-category="all" aria-selected="true">Barcha janrlar</button>
+          <button class="tab cat-tab" role="tab" data-category="badiiy"      aria-selected="false">Badiiy adabiyot</button>
+          <button class="tab cat-tab" role="tab" data-category="tarixiy"     aria-selected="false">Tarixiy asarlar</button>
+          <button class="tab cat-tab" role="tab" data-category="rivojlanish" aria-selected="false">Rivojlanish & Psixologiya</button>
+          <button class="tab cat-tab" role="tab" data-category="jahon"       aria-selected="false">Jahon durdonalari</button>
+          <button class="tab cat-tab" role="tab" data-category="mumtoz"      aria-selected="false">Mumtoz meros</button>
         </div>
 
         <!-- Natija soni -->
@@ -83,7 +92,7 @@ export async function render(container, { params, user }) {
     _allBooks = [];
   }
 
-  _renderBooks(_allBooks);
+  _renderBooks(_getFilteredBooks());
   _bindEvents();
 }
 
@@ -111,7 +120,7 @@ function _renderBooks(books) {
     return;
   }
 
-  grid.innerHTML = books.map(book => _bookCardHTML(book)).join('');
+  grid.innerHTML = books.map(book => _bookCardHTML(book, _currentUser)).join('');
 
   grid.querySelectorAll('.book-card').forEach(card => {
     const id = card.dataset.bookId;
@@ -126,15 +135,34 @@ function _renderBooks(books) {
   });
 }
 
-function _bookCardHTML(book) {
+function _bookCardHTML(book, user) {
   const cover = _getBookCover(book);
+  const unlock = isBookUnlocked(book, user);
+  const isLocked = !unlock.isUnlocked;
+
+  // Foydalanuvchining ushbu kitob bo'yicha mastery darajasi
+  let masteryBadge = '';
+  if (user?.id) {
+    try {
+      const rawM = localStorage.getItem(`kitobchi_mastery_${user.id}`);
+      if (rawM) {
+        const mData = JSON.parse(rawM);
+        const bM = mData[String(book.id)];
+        if (bM && bM.bestPercentage > 0) {
+          const tier = evaluateMasteryTier(bM.bestPercentage);
+          masteryBadge = `<span class="badge badge-mastery ${tier.colorClass}" title="${tier.tier} (${bM.bestPercentage}%)">${tier.emoji} ${bM.bestPercentage}%</span>`;
+        }
+      }
+    } catch {}
+  }
+
   return `
     <article
-      class="book-card"
+      class="book-card ${isLocked ? 'book-card--locked' : ''}"
       data-book-id="${escapeHtml(String(book.id))}"
       role="button"
       tabindex="0"
-      aria-label="${escapeHtml(book.title)} — ${escapeHtml(book.author || '')}"
+      aria-label="${escapeHtml(book.title)} — ${escapeHtml(book.author || '')}${isLocked ? ` (Qulflangan: ${unlock.requiredLevel}-daraja talab qilinadi)` : ''}"
     >
       <div class="book-card__cover">
         ${cover
@@ -142,14 +170,26 @@ function _bookCardHTML(book) {
                   alt="${escapeHtml(book.title)}"
                   loading="lazy"
                   decoding="async"
-                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                  onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
              />
-             <div class="book-card__cover-placeholder" style="display:none">
-               <span class="placeholder-initial">${escapeHtml((book.title || '?')[0].toUpperCase())}</span>
-               <span class="placeholder-label">${escapeHtml(truncate(book.title || '', 14))}</span>
+             <div class="book-cover-fallback-wrap" style="display:none;position:absolute;inset:0;">
+               ${renderBookCoverPlaceholder(book)}
              </div>`
           : _coverPlaceholder(book)
         }
+
+        ${isLocked ? `
+          <div class="book-card__lock-overlay">
+            <div class="book-card__lock-badge">
+              <span class="lock-icon">🔒</span>
+              <span class="lock-text">${unlock.isMystery ? '7 kunlik streak' : `${unlock.requiredLevel}-daraja`}</span>
+            </div>
+            <div class="book-card__lock-progress">
+              <div class="book-card__lock-progress-bar" style="width:${unlock.progressPct}%"></div>
+            </div>
+            <span class="book-card__lock-hint">${user ? `${user.score || 0} / ${unlock.requiredXP} XP` : 'Tizimga kiring'}</span>
+          </div>
+        ` : ''}
       </div>
       <div class="book-card__body">
         <div class="book-card__title">${escapeHtml(book.title)}</div>
@@ -159,44 +199,74 @@ function _bookCardHTML(book) {
           : ''}
       </div>
       <div class="book-card__footer">
-        <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
-        ${book.difficulty ? `<span class="badge">${escapeHtml(book.difficulty)}</span>` : ''}
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
+          ${book.difficulty ? `<span class="badge">${escapeHtml(book.difficulty)}</span>` : ''}
+        </div>
+        ${masteryBadge}
       </div>
     </article>
   `;
 }
 
 function _getFilteredBooks() {
-  const query      = (document.getElementById('books-search')?.value || '').toLowerCase().trim();
-  const activeTab  = document.querySelector('.tab--active')?.dataset.category || 'all';
-  const difficulty = document.getElementById('books-difficulty')?.value || '';
+  const query       = (document.getElementById('books-search')?.value || '').toLowerCase().trim();
+  const activeCat   = document.querySelector('.cat-tab.tab--active')?.dataset.category || 'all';
+  const activeStatus= document.querySelector('.status-tab.tab--active')?.dataset.status || 'all';
+  const difficulty  = document.getElementById('books-difficulty')?.value || '';
+
+  // Mastery ma'lumotlari keshini tekshiramiz
+  let userMasteryData = null;
+  if (activeStatus === 'mastery' && _currentUser?.id) {
+    try {
+      const rawM = localStorage.getItem(`kitobchi_mastery_${_currentUser.id}`);
+      if (rawM) userMasteryData = JSON.parse(rawM);
+    } catch {}
+  }
 
   return _allBooks.filter(book => {
+    // 1. Status bo'yicha filtr (Ochiq / Qulflangan / Mastery)
+    if (activeStatus === 'unlocked') {
+      const unlock = isBookUnlocked(book, _currentUser);
+      if (!unlock.isUnlocked) return false;
+    } else if (activeStatus === 'locked') {
+      const unlock = isBookUnlocked(book, _currentUser);
+      if (unlock.isUnlocked) return false;
+    } else if (activeStatus === 'mastery') {
+      if (!userMasteryData) return false;
+      const bM = userMasteryData[String(book.id)];
+      if (!bM || !bM.bestPercentage || bM.bestPercentage <= 0) return false;
+    }
+
+    // 2. Kategoriya bo'yicha filtr
     const genre   = (book.genre || '').toLowerCase();
     const title   = (book.title || '').toLowerCase();
     const author  = (book.author || '').toLowerCase();
     const cat     = (book.category || '').toLowerCase();
     const allText = `${title} ${author} ${genre} ${cat}`;
 
-    let matchCat = activeTab === 'all';
+    let matchCat = activeCat === 'all';
     if (!matchCat) {
-      if (activeTab === 'badiiy') {
+      if (activeCat === 'badiiy') {
         matchCat = genre.includes('roman') || genre.includes('qissa') || genre.includes('hikoya') || genre.includes('satira') || cat.includes('adabiyot');
-      } else if (activeTab === 'tarixiy') {
+      } else if (activeCat === 'tarixiy') {
         matchCat = genre.includes('tarix') || allText.includes('temur') || allText.includes('bobur') || allText.includes('yulduzli tunlar') || allText.includes('ulug\'bek') || allText.includes('muqanna');
-      } else if (activeTab === 'rivojlanish') {
+      } else if (activeCat === 'rivojlanish') {
         matchCat = genre.includes('rivojlanish') || genre.includes('psixologiya') || genre.includes('moliya') || genre.includes('salomatlik') || genre.includes('ilm');
-      } else if (activeTab === 'jahon') {
+      } else if (activeCat === 'jahon') {
         matchCat = genre.includes('distopiya') || genre.includes('ekzistensial') || allText.includes('orwell') || allText.includes('koelo') || allText.includes('dostoyevskiy') || allText.includes('ekzyuperi') || allText.includes('xaminguey') || allText.includes('london');
-      } else if (activeTab === 'mumtoz') {
+      } else if (activeCat === 'mumtoz') {
         matchCat = genre.includes('mumtoz') || genre.includes('doston') || genre.includes('pandnoma') || genre.includes('tasavvuf') || allText.includes('navoiy') || allText.includes('koshg\'ariy') || allText.includes('yugnakiy') || allText.includes('nizomiy');
       } else {
-        matchCat = allText.includes(activeTab.toLowerCase());
+        matchCat = allText.includes(activeCat.toLowerCase());
       }
     }
 
+    // 3. Qiyinlik bo'yicha filtr
     const matchDiff = !difficulty || book.difficulty === difficulty;
-    const matchQ    = !query ||
+
+    // 4. Qidiruv so'rovi
+    const matchQ = !query ||
       title.includes(query) ||
       author.includes(query) ||
       genre.includes(query);
@@ -211,8 +281,14 @@ function _clearFilter() {
   if (searchEl) searchEl.value = '';
   if (diffEl)   diffEl.value   = '';
 
-  document.querySelectorAll('.tab').forEach(t => {
+  document.querySelectorAll('.cat-tab').forEach(t => {
     const isAll = t.dataset.category === 'all';
+    t.classList.toggle('tab--active', isAll);
+    t.setAttribute('aria-selected', String(isAll));
+  });
+
+  document.querySelectorAll('.status-tab').forEach(t => {
+    const isAll = t.dataset.status === 'all';
     t.classList.toggle('tab--active', isAll);
     t.setAttribute('aria-selected', String(isAll));
   });
@@ -225,10 +301,23 @@ function _bindEvents() {
   document.getElementById('books-search')?.addEventListener('input', () => _renderBooks(_getFilteredBooks()));
   document.getElementById('books-difficulty')?.addEventListener('change', () => _renderBooks(_getFilteredBooks()));
 
-  // Kategoriya tablar
-  document.querySelectorAll('.tab').forEach(tab => {
+  // Status tablar (Ochiq / Qulflangan / Mastery)
+  document.querySelectorAll('.status-tab').forEach(tab => {
     tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => {
+      document.querySelectorAll('.status-tab').forEach(t => {
+        t.classList.remove('tab--active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('tab--active');
+      tab.setAttribute('aria-selected', 'true');
+      _renderBooks(_getFilteredBooks());
+    });
+  });
+
+  // Kategoriya tablar
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => {
         t.classList.remove('tab--active');
         t.setAttribute('aria-selected', 'false');
       });
@@ -251,11 +340,11 @@ function _bindEvents() {
 
 function _skeletonBookCards(n) {
   return Array.from({ length: n }, () => `
-    <div class="book-card" style="cursor:default;pointer-events:none;">
-      <div class="book-card__cover" style="background:var(--paper-alt);"></div>
+    <div class="book-card skeleton-card" style="cursor:default;pointer-events:none;">
+      <div class="book-card__cover skeleton"></div>
       <div class="book-card__body">
-        <div style="height:14px;background:var(--divider);border-radius:4px;width:80%;margin-bottom:8px;"></div>
-        <div style="height:12px;background:var(--divider);border-radius:4px;width:50%;"></div>
+        <div class="skeleton" style="height:14px;width:80%;margin-bottom:8px;"></div>
+        <div class="skeleton" style="height:12px;width:50%;"></div>
       </div>
     </div>
   `).join('');
@@ -265,4 +354,5 @@ export function cleanup() {
   _cleanup.forEach(fn => fn());
   _cleanup = [];
   _allBooks = [];
+  _currentUser = null;
 }

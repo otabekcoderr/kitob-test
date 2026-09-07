@@ -19,6 +19,7 @@ import {
   showNotification,
   setButtonLoading,
   today,
+  playQuizSound,
 } from './utils.js';
 import {
   calculateQuizXPEarned,
@@ -64,6 +65,7 @@ const state = {
   startTime:    null,   // Test boshlangan vaqt
   sessionNonce: null,   // Bir martalik sessiya kaliti (anti-replay)
   isDaily:      false,  // Bugungi sinovmi?
+  userAnswers:  [],     // Foydalanuvchi bergan javoblar va xatolar tahlili
 };
 
 // ============================================================
@@ -202,6 +204,10 @@ function _startTimer(onTick, onExpire) {
 
     if (typeof onTick === 'function') onTick(state.timeLeft);
 
+    if (state.timeLeft <= 5 && state.timeLeft > 0) {
+      playQuizSound('tick');
+    }
+
     if (state.timeLeft <= 0) {
       _stopTimer();
       if (typeof onExpire === 'function') onExpire();
@@ -306,7 +312,13 @@ async function _finishQuiz(forceZero = false) {
     newLevel:          newLevel,
     isLevelUp:         isLevelUp,
     sessionNonce:      state.sessionNonce,
+    timestamp:         Date.now(),
+    answers:           [...state.userAnswers],
   };
+
+  if (isLevelUp) {
+    playQuizSound('levelup');
+  }
 
   // Natijani saqlaymiz va ballni darhol yangilaymiz
   try {
@@ -392,6 +404,7 @@ export async function startQuiz(config, callbacks = {}) {
     startTime:    Date.now(),
     sessionNonce: 'qz_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
     isDaily:      !!config.isDaily,
+    userAnswers:  [],
   });
 
   try {
@@ -491,7 +504,32 @@ function _nextQuestion(selectedOption, callbacks) {
   const isCorrect  = selectedOption !== null &&
                      String(selectedOption) === String(question.correct_answer ?? question.answer);
 
-  if (isCorrect) state.score += 1;
+  if (isCorrect) {
+    state.score += 1;
+    playQuizSound('correct');
+  } else {
+    playQuizSound('wrong');
+  }
+
+  const correctVal = question.correct_answer ?? question.answer;
+  const opts = Array.isArray(question.options) ? question.options : [];
+  const selectedIdx = opts.findIndex(o => String(o) === String(selectedOption));
+  const correctIdx = opts.findIndex(o => String(o) === String(correctVal));
+
+  // Savol va javoblar tahlili uchun to'liq saqlaymiz
+  state.userAnswers.push({
+    question: question.question || question.text || '',
+    questionText: question.question || question.text || '',
+    options: opts,
+    selectedOption: selectedOption,
+    selectedText: selectedOption,
+    selectedOptionIndex: selectedIdx >= 0 ? selectedIdx : null,
+    correctAnswer: correctVal,
+    correctText: correctVal,
+    correctOptionIndex: correctIdx >= 0 ? correctIdx : null,
+    isCorrect: isCorrect,
+    explanation: question.explanation || ''
+  });
 
   if (typeof onAnswer === 'function') {
     onAnswer({
