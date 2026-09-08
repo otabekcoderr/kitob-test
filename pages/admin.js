@@ -4,7 +4,7 @@
 // Faqat role === 'admin' bo'lgan foydalanuvchilar kiradi.
 // Import: db.js (CRUD) · auth.js · utils.js
 // ============================================================
-import { supabase }              from '../supabase-client.js';
+import { supabase, isSupabaseOnline } from '../supabase-client.js';
 import { getCurrentUser }        from '../auth.js';
 import { getBooks, saveBook,
          deleteBook, getQuestions,
@@ -125,8 +125,11 @@ async function _loadQuickStats() {
     const qResults = await Promise.all(books.map(b => getQuestions(b.id).catch(() => [])));
     qResults.forEach(qs => { qCnt += (qs?.length || 0); });
 
-    const resU = await supabase.from('profiles').select('id', { count: 'exact', head: true }).catch(() => null);
-    const uCnt = resU?.count ?? 1;
+    let uCnt = 1;
+    if (isSupabaseOnline()) {
+      const resU = await supabase.from('profiles').select('id', { count: 'exact', head: true }).catch(() => null);
+      if (resU?.count) uCnt = resU.count;
+    }
 
     const el = document.getElementById('admin-quick-stats');
     if (!el) return;
@@ -814,27 +817,41 @@ function _bindQuestionForm(existingId) {
 // ============================================================
 async function _renderUsers(panel) {
   let users = [];
-  try {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*');
-    if (!error && Array.isArray(data) && data.length > 0) {
-      users = data.map(p => {
-        const stats = p.stats || {};
-        return {
-          id: p.id,
-          full_name: p.full_name || p.username || 'Foydalanuvchi',
-          username: p.username || '',
-          score: stats.bestScore || stats.avgScore || p.score || 0,
-          streak: stats.currentStreak || stats.maxStreak || p.streak || 0,
-          role: p.is_admin ? 'admin' : (p.role || 'user'),
-          is_admin: p.is_admin,
-          avatar: p.avatar || '👤',
-          avatar_image: p.avatar_image || null,
-        };
-      });
+
+  if (isSupabaseOnline()) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      try { controller.abort(); } catch {}
+    }, 2500);
+
+    try {
+      let query = supabase.from('profiles').select('*');
+      if (typeof query.abortSignal === 'function') {
+        query = query.abortSignal(controller.signal);
+      }
+      const { data, error } = await query;
+      clearTimeout(timer);
+
+      if (!error && Array.isArray(data) && data.length > 0) {
+        users = data.map(p => {
+          const stats = p.stats || {};
+          return {
+            id: p.id,
+            full_name: p.full_name || p.username || 'Foydalanuvchi',
+            username: p.username || '',
+            score: stats.bestScore || stats.avgScore || p.score || 0,
+            streak: stats.currentStreak || stats.maxStreak || p.streak || 0,
+            role: p.is_admin ? 'admin' : (p.role || 'user'),
+            is_admin: p.is_admin,
+            avatar: p.avatar || '👤',
+            avatar_image: p.avatar_image || null,
+          };
+        });
+      }
+    } catch {
+      clearTimeout(timer);
     }
-  } catch { /* ignore */ }
+  }
 
   // Mahalliy foydalanuvchilar bilan birlashtirish
   let localUsers = {};
@@ -985,16 +1002,18 @@ function _bindUserEvents(users) {
 // ============================================================
 async function _renderComments(panel) {
   let comments = [];
-  try {
-    const { data, error } = await supabase
-      .from('comments')
-      .select('*')
-      .order('createdAt', { ascending: false })
-      .limit(100);
-    if (!error && Array.isArray(data)) {
-      comments = data;
-    }
-  } catch { /* ignore */ }
+  if (isSupabaseOnline()) {
+    try {
+      const { data, error } = await supabase
+        .from('comments')
+        .select('*')
+        .order('createdAt', { ascending: false })
+        .limit(100);
+      if (!error && Array.isArray(data)) {
+        comments = data;
+      }
+    } catch { /* ignore */ }
+  }
 
   if (comments.length === 0) {
     try {

@@ -9,7 +9,12 @@
 // Bu fayldan import qilinadi: barcha sahifa skriptlari
 // ============================================================
 
-import { supabase }      from './supabase-client.js';
+import {
+  supabase,
+  isSupabaseOnline,
+  markSupabaseSuccess as _recordSupabaseSuccess,
+  markSupabaseFailure as _recordSupabaseFailure
+} from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
 import * as localData    from './data.js';
 import { today, yesterday, formatDate, toLocalDateString, daysBetween } from './utils.js';
@@ -17,33 +22,8 @@ import { today, yesterday, formatDate, toLocalDateString, daysBetween } from './
 // ============================================================
 // SUPABASE TARMOQ STATUSI VA CIRCUIT BREAKER
 // ============================================================
-let _supabaseFailCount = 0;
-let _supabasePauseUntil = 0;
-
-/**
- * Supabase tarmog'i holatini tekshiradi.
- * Agar ketma-ket tarmoq uzilishi / reset yuz bergan bo'lsa,
- * brauzerni qotirmaslik va konsolga qizil xatolar chiqarmaslik uchun
- * so'rovlarni vaqtincha to'xtatadi.
- */
-export function isSupabaseOnline() {
-  if (typeof navigator !== 'undefined' && navigator.onLine === false) return false;
-  if (Date.now() < _supabasePauseUntil) return false;
-  return true;
-}
-
-function _recordSupabaseSuccess() {
-  _supabaseFailCount = 0;
-  _supabasePauseUntil = 0;
-}
-
-function _recordSupabaseFailure(err) {
-  _supabaseFailCount++;
-  // 30 soniyadan 90 soniyagacha avtonom kesh rejimiga o'tish
-  const pauseMs = Math.min(30_000 * Math.pow(1.5, _supabaseFailCount - 1), 90_000);
-  _supabasePauseUntil = Date.now() + pauseMs;
-  console.warn(`[db] Supabase tarmog'i vaqtincha uzilgan (${err?.message || 'aloqa yo\'q'}). Avtonom kesh rejimiga o'tildi (${Math.round(pauseMs / 1000)}s).`);
-}
+// supabase-client.js dagi yagona Circuit Breaker ni qayta eksport qilamiz
+export { isSupabaseOnline };
 
 // ============================================================
 // KONSTANTALAR

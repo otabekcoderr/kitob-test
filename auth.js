@@ -9,7 +9,7 @@
 // Bu fayldan import qilinadi: boshqa barcha fayllar
 // ============================================================
 
-import { supabase }      from './supabase-client.js';
+import { supabase, isSupabaseOnline } from './supabase-client.js';
 import { uzbekifyError } from './utils.js';
 
 // ============================================================
@@ -188,6 +188,9 @@ const _profileInFlight = new Map();
  */
 export async function _fetchProfile(userId) {
   if (!userId) return null;
+
+  // Supabase offlayn bo'lsa yoki circuit breaker faol bo'lsa — zudlik bilan 0ms da null qaytarish
+  if (!isSupabaseOnline()) return null;
 
   // Agar ayni paytda shu userId uchun so'rov ketayotgan bo'lsa — mavjud Promiseni qaytaramiz
   if (_profileInFlight.has(userId)) {
