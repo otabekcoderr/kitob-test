@@ -42,9 +42,9 @@ export async function render(container, { params, user }) {
           ${user
             ? `<div class="hero__user-row" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
                  <div>
-                   <p class="hero__eyebrow">Xush kelibsiz, kitobxon</p>
+                   <p class="hero__eyebrow" style="color:var(--ochre);font-weight:600;letter-spacing:0.04em;">Kitobchi.uz — Mutolaa maskani</p>
                    <h1 class="hero__title" style="margin-bottom:4px;">${escapeHtml(user.fullName || user.username)}</h1>
-                   <p class="hero__desc" style="margin:0;">Adabiy sayohatingiz davom etmoqda. Bilimingizni mustahkamlang.</p>
+                   <p class="hero__desc" style="margin:0;">Adabiy sayohatingiz davom etmoqda. Bilimingizni charxlang va yangi marralarni zabt eting.</p>
                  </div>
                  <div class="user-level-badge-card" style="padding:10px 16px;border:1px solid var(--ochre);border-radius:var(--radius-md);background:var(--surface);display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-sm);">
                    <span style="font-size:1.75rem;">${userLevel.emoji}</span>
@@ -69,12 +69,20 @@ export async function render(container, { params, user }) {
                    <span>${userLevel.isMaxLevel ? 'Eng oliy daraja!' : `Keyingi darajagacha yana ${userLevel.remainingXP} XP`}</span>
                  </div>
                </div>`
-            : `<p class="hero__eyebrow">Adabiyot va test platformasi</p>
-               <h1 class="hero__title">Kitobchi</h1>
-               <p class="hero__desc">O'zbek adabiyotini o'rganish, test yechish va darajangizni oshirish uchun zamonaviy platforma.</p>
-               <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
-                 <a href="#register" class="btn btn-primary btn-lg">Boshlash</a>
-                 <a href="#books"    class="btn btn-outline btn-lg">Kitoblar</a>
+            : `<div class="hero__guest animate-fade-in">
+                 <p class="hero__eyebrow" style="display:inline-flex;align-items:center;gap:6px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ochre);">
+                   🏛️ Milliy raqamli meros & intellektual sinovlar
+                 </p>
+                 <h1 class="hero__title" style="letter-spacing:-0.02em;margin-top:6px;margin-bottom:12px;">
+                   Kitobchi<span style="color:var(--ochre);">.uz</span>
+                 </h1>
+                 <p class="hero__desc" style="max-width:640px;line-height:1.65;font-size:1.125rem;color:var(--ink-muted);margin-bottom:20px;">
+                   Shunchaki o'qimang — teran anglang. O'zbek va jahon adabiyoti durdonalariga sho'ng'ing, asarlar tagmatnini kashf eting va adabiy darajangizni yuksaltiring.
+                 </p>
+                 <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;">
+                   <a href="#register" class="btn btn-primary btn-lg">Mutolaani boshlash</a>
+                   <a href="#books"    class="btn btn-outline btn-lg">Durdona asarlar</a>
+                 </div>
                </div>`
           }
         </section>

@@ -20,8 +20,8 @@ export async function render(container, { params, user }) {
             <div class="auth-card__logo-icon">
               ${LOGO_SVG}
             </div>
-            <h1 class="auth-card__title">Hisob yaratish</h1>
-            <p class="auth-card__sub">Kitobchi jamoasiga qo'shiling</p>
+            <h1 class="auth-card__title">Kitobchi<span style="color:var(--ochre);">.uz</span> ga a'zo bo'ling</h1>
+            <p class="auth-card__sub">Intellektual adabiy jamoamiz safiga qo'shiling</p>
           </div>
 
           <form id="register-form" class="auth-form" novalidate>

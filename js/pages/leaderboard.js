@@ -16,7 +16,7 @@ export async function render(container, { params, user }) {
         <!-- Sarlavha -->
         <div style="margin-bottom:24px;" class="animate-fade-in text-center">
           <h1 style="font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.7rem);font-weight:700;color:var(--ink);margin-bottom:8px;">Reyting</h1>
-          <p style="color:var(--ink-muted);font-size:0.9375rem;" id="lb-subtitle">Eng ko'p ball to'plagan kitobxonlar</p>
+          <p style="color:var(--ink-muted);font-size:0.9375rem;" id="lb-subtitle">Kitobchi.uz — Eng ko'p ball to'plagan va faol kitobxonlar</p>
         </div>
 
         <!-- Vaqt filtrlari (Barchasi, Haftalik, Oylik) -->
@@ -97,7 +97,7 @@ export async function render(container, { params, user }) {
       if (subtitle) subtitle.textContent = "Oylik eng faol kitobxonlar";
       if (cardTitle) cardTitle.textContent = "Oylik reyting";
     } else {
-      if (subtitle) subtitle.textContent = "Eng ko'p ball to'plagan kitobxonlar";
+      if (subtitle) subtitle.textContent = "Kitobchi.uz — Eng ko'p ball to'plagan va faol kitobxonlar";
       if (cardTitle) cardTitle.textContent = "Barcha ishtirokchilar";
     }
   }

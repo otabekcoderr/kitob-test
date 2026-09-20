@@ -247,6 +247,8 @@ export function uzbekifyError(error) {
     [/timeout|etimedout/,                    'So\'rov vaqti tugadi. Qayta urinib ko\'ring.'],
     [/not found|does not exist/,             'Ma\'lumot topilmadi.'],
     [/permission denied/,                    'Ruxsat yo\'q.'],
+    [/offline|connection_reset|aloqa yo'q|server vaqtincha/, 'Internet yoki server bilan aloqa yo\'q. Qayta urinib ko\'ring.'],
+    [/503|service unavailable/,              'Server vaqtincha band. Qayta urinib ko\'ring.'],
   ];
 
   for (const [pattern, uzText] of MAP) {

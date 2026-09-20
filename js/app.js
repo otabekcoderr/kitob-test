@@ -30,63 +30,63 @@ const ROUTES = [
   {
     path:  'home',
     load:  () => import('./pages/home.js'),
-    title: 'Bosh sahifa — Kitobchi',
+    title: 'Bosh sahifa — Kitobchi.uz',
   },
   {
     path:  'books',
     load:  () => import('./pages/books.js'),
-    title: 'Kitoblar — Kitobchi',
+    title: 'Kitoblar — Kitobchi.uz',
   },
   {
     path:  'book',       // #book?id=5
     load:  () => import('./pages/book-detail.js'),
-    title: 'Kitob — Kitobchi',
+    title: 'Kitob mutolaasi — Kitobchi.uz',
   },
   {
     path:  'quiz',       // #quiz?bookId=5
     load:  () => import('./pages/quiz.js'),
     auth:  true,
-    title: 'Test — Kitobchi',
+    title: 'Test — Kitobchi.uz',
   },
   {
     path:  'result',     // #result
     load:  () => import('./pages/result.js'),
     auth:  true,
-    title: "Natija — Kitobchi",
+    title: "Natija — Kitobchi.uz",
   },
   {
     path:  'leaderboard',
     load:  () => import('./pages/leaderboard.js'),
-    title: 'Reyting — Kitobchi',
+    title: 'Reyting — Kitobchi.uz',
   },
   {
     path:  'profile',
     load:  () => import('./pages/profile.js'),
     auth:  true,
-    title: 'Profil — Kitobchi',
+    title: 'Profil — Kitobchi.uz',
   },
   {
     path:  'login',
     load:  () => import('./pages/login.js'),
     guest: true,
-    title: 'Kirish — Kitobchi',
+    title: 'Kirish — Kitobchi.uz',
   },
   {
     path:  'register',
     load:  () => import('./pages/register.js'),
     guest: true,
-    title: "Ro'yxatdan o'tish — Kitobchi",
+    title: "Ro'yxatdan o'tish — Kitobchi.uz",
   },
   {
     path:  'admin',
     load:  () => import('./pages/admin.js'),
     auth:  true,
-    title: 'Admin panel — Kitobchi',
+    title: 'Admin panel — Kitobchi.uz',
   },
   {
     path:  '404',
     load:  () => import('./pages/not-found.js'),
-    title: 'Topilmadi — Kitobchi',
+    title: 'Sahifa topilmadi — Kitobchi.uz',
   },
 ];
 
@@ -476,9 +476,9 @@ function _buildNavbarHTML() {
   return `
     <!-- Mobil Topbar: faqat mobilda (<= 768px) ko'rinadi -->
     <div class="mobile-topbar" role="banner">
-      <a href="#home" class="mobile-topbar__logo" aria-label="Kitobchi — Bosh sahifa">
+      <a href="#home" class="mobile-topbar__logo" aria-label="Kitobchi.uz — Bosh sahifa">
         <span class="mobile-topbar__mark" aria-hidden="true">${LOGO_SVG}</span>
-        <span class="mobile-topbar__name">Kitobchi</span>
+        <span class="mobile-topbar__name">Kitobchi<span style="color:var(--ochre);">.uz</span></span>
       </a>
       <div class="mobile-topbar__actions">
         <div class="mobile-topbar__status" id="mobile-nav-status" title="Internet holati">
@@ -500,9 +500,9 @@ function _buildNavbarHTML() {
       <div class="navbar__inner">
 
         <!-- Logo -->
-        <a href="#home" class="navbar__logo" aria-label="Kitobchi — Bosh sahifa">
+        <a href="#home" class="navbar__logo" aria-label="Kitobchi.uz — Bosh sahifa">
           <span class="navbar__logo-mark" aria-hidden="true">${LOGO_SVG}</span>
-          <span class="navbar__logo-text">Kitobchi</span>
+          <span class="navbar__logo-text">Kitobchi<span style="color:var(--ochre);">.uz</span></span>
         </a>
 
         <!-- Navigatsiya havolalar -->
@@ -715,9 +715,19 @@ async function _syncSession() {
     const session = result?.data?.session;
 
     if (!session?.user) {
-      // Agar tarmoq kechikishi yoki offline/test foydalanuvchisi bo'lsa, majburiy logout qilmaymiz!
+      // Agar tarmoq kechikishi yoki offline/test/demo/admin foydalanuvchisi bo'lsa, majburiy logout qilmaymiz!
       const existing = getCurrentUser();
-      if (!isTimedOut && result?.error === null && !existing?.offlineSession && !String(existing?.id || '').startsWith('test_')) {
+      if (
+        existing?.offlineSession ||
+        String(existing?.id || '').startsWith('admin-') ||
+        String(existing?.id || '').startsWith('demo_') ||
+        String(existing?.id || '').startsWith('test_') ||
+        String(existing?.id || '').startsWith('local_') ||
+        String(existing?.id || '').startsWith('usr_')
+      ) {
+        return;
+      }
+      if (!isTimedOut && result?.error === null) {
         localStorage.removeItem(SESSION_KEY);
       }
       return;

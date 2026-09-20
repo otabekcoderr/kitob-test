@@ -21,8 +21,8 @@ export async function render(container, { params, user }) {
             <div class="auth-card__logo-icon">
               ${LOGO_SVG}
             </div>
-            <h1 class="auth-card__title">Kitobchiga xush kelibsiz</h1>
-            <p class="auth-card__sub">Hisobingizga kiring</p>
+            <h1 class="auth-card__title">Kitobchi<span style="color:var(--ochre);">.uz</span> ga xush kelibsiz</h1>
+            <p class="auth-card__sub">Mutolaa va tafakkur maskanidagi hisobingizga kiring</p>
           </div>
 
           <!-- Forma -->

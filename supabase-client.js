@@ -65,7 +65,10 @@ export function markSupabaseFailure(err) {
  *    qizil xato chiqarishini to'xtatadi.
  */
 async function resilientFetch(input, init = {}) {
-  if (!isSupabaseOnline()) {
+  const url = typeof input === 'string' ? input : (input?.url || '');
+  const isAuthRequest = typeof url === 'string' && url.includes('/auth/v1/');
+
+  if (!isSupabaseOnline() && !isAuthRequest) {
     return new Response(JSON.stringify({
       code: 'OFFLINE_MODE',
       message: 'Supabase vaqtincha mavjud emas. Avtonom kesh rejimida ishlanmoqda.'
