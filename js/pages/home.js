@@ -2,7 +2,7 @@
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
 import { getBooks, getLeaderboard, getUserResults, getStreakStatus } from '../db.js';
-import { escapeHtml, truncate, today, renderBookCoverPlaceholder } from '../utils.js';
+import { escapeHtml, truncate, today, formatDate, renderBookCoverPlaceholder, getBookCoverUrl } from '../utils.js';
 import { getUserLevel, getNextUnlockTarget, getDailyMissions, isBookUnlocked } from '../progression.js';
 
 let _cleanup = [];
@@ -16,12 +16,9 @@ function _getDailyChallenge(books) {
   return books[seed % books.length];
 }
 
-// ---- Muqova URL ----
+// ---- Muqova URL (picsum va noto'g'ri havolalardan tozalangan) ----
 function _getBookCover(book) {
-  if (!book) return '';
-  if (book.cover_url && (book.cover_url.startsWith('http') || book.cover_url.startsWith('data:'))) return book.cover_url;
-  if (book.cover    && (book.cover.startsWith('http')    || book.cover.startsWith('data:')))    return book.cover;
-  return book.coverImage || '';
+  return getBookCoverUrl(book);
 }
 
 // ---- CSS tipografik placeholder ----

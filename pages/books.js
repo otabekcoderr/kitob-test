@@ -2,7 +2,7 @@
 // pages/books.js — Kitoblar katalogi (Progression & Lock integratsiyasi)
 // ============================================================
 import { getBooks } from '../db.js';
-import { escapeHtml, truncate, renderBookCoverPlaceholder } from '../utils.js';
+import { escapeHtml, truncate, renderBookCoverPlaceholder, getBookCoverUrl } from '../utils.js';
 import { isBookUnlocked, evaluateMasteryTier } from '../progression.js';
 
 let _allBooks = [];
@@ -10,10 +10,7 @@ let _currentUser = null;
 let _cleanup  = [];
 
 function _getBookCover(book) {
-  if (!book) return '';
-  if (book.cover_url && (book.cover_url.startsWith('http') || book.cover_url.startsWith('data:'))) return book.cover_url;
-  if (book.cover    && (book.cover.startsWith('http')    || book.cover.startsWith('data:')))    return book.cover;
-  return book.coverImage || '';
+  return getBookCoverUrl(book);
 }
 
 function _coverPlaceholder(book) {

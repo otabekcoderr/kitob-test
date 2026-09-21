@@ -17,7 +17,7 @@ import {
 } from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
 import * as localData    from './data.js';
-import { today, yesterday, formatDate, toLocalDateString, daysBetween } from './utils.js';
+import { today, yesterday, formatDate, toLocalDateString, daysBetween, getBookCoverUrl } from './utils.js';
 
 // ============================================================
 // SUPABASE TARMOQ STATUSI VA CIRCUIT BREAKER
@@ -148,6 +148,9 @@ function _getLocalCustomBooks() {
           const itemKey = String(item.id || _slugify(item.title));
           if (!seenIds.has(itemKey)) {
             seenIds.add(itemKey);
+            if (item.cover && item.cover.includes('picsum.photos')) item.cover = '';
+            if (item.coverImage && item.coverImage.includes('picsum.photos')) item.coverImage = '';
+            if (item.cover_url && item.cover_url.includes('picsum.photos')) item.cover_url = '';
             result.push(item);
           }
         }
@@ -217,12 +220,20 @@ function _initLocalBooks() {
   const bookMap = new Map();
   const deletedIds = _getDeletedBookIds().map(String);
 
+  // Stale keshdagi picsum larni tozalash
+  try {
+    const rawCache = localStorage.getItem('kitobchi_books_store');
+    if (rawCache && rawCache.includes('picsum.photos')) {
+      localStorage.removeItem('kitobchi_books_store');
+    }
+  } catch {}
+
   // 1. data.js dagi barcha tayyor kitoblar
   (localData.books ?? []).forEach(b => {
     if (!b || (!b.id && !b.title)) return;
     const idStr = String(b.id || _slugify(b.title));
     if (!deletedIds.includes(idStr)) {
-      const cover = b.cover_url || b.coverImage || (typeof b.cover === 'string' && b.cover.startsWith('http') ? b.cover : '') || `https://picsum.photos/seed/${idStr}/300/400`;
+      const cover = getBookCoverUrl(b);
       bookMap.set(idStr, {
         ...b,
         id: idStr,
@@ -253,7 +264,7 @@ function _initLocalBooks() {
     }
 
     const existing = bookMap.get(targetKey) || {};
-    const cover = cb.cover_url || cb.coverImage || cb.cover || existing.cover || existing.cover_url || '';
+    const cover = getBookCoverUrl(cb) || getBookCoverUrl(existing);
     bookMap.set(targetKey, {
       ...existing,
       ...cb,
@@ -315,7 +326,9 @@ async function _syncBooksInBackground() {
             }
 
             const existing = bookMap.get(targetKey);
-            const cover = sb.coverImage || sb.cover || (existing ? (existing.coverImage || existing.cover) : '') || `https://picsum.photos/seed/${targetKey}/300/400`;
+            const sbCover = getBookCoverUrl(sb);
+            const existingCover = existing ? getBookCoverUrl(existing) : '';
+            const cover = sbCover || existingCover;
 
             if (existing) {
               const shouldUpdate =

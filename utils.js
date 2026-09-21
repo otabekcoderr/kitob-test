@@ -503,6 +503,28 @@ export function renderBookCoverPlaceholder(book, options = {}) {
   `;
 }
 
+/**
+ * Kitobning to'g'ri va haqiqiy muqova URL manzilini aniqlaydi.
+ * Picsum yoki yaroqsiz placeholderlarni avtomatik filtrlaydi.
+ * @param {object} book
+ * @returns {string} — Haqiqiy rasm URL manzili yoki bo'sh satr
+ */
+export function getBookCoverUrl(book) {
+  if (!book) return '';
+  const candidates = [book.cover_url, book.cover, book.coverImage];
+  for (const c of candidates) {
+    if (typeof c === 'string') {
+      const trimmed = c.trim();
+      if (trimmed && trimmed !== '📖' && !trimmed.includes('picsum.photos')) {
+        if (trimmed.startsWith('data:image/') || trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+          return trimmed;
+        }
+      }
+    }
+  }
+  return '';
+}
+
 // ============================================================
 // 9. RIVOJLANISH VA GEYMIFIKATSIYA (PROGRESSION)
 // ============================================================

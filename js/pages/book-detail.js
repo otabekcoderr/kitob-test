@@ -2,7 +2,7 @@
 // pages/book-detail.js — Kitob tafsiloti (Editorial uslub)
 // ============================================================
 import { getBookById, getQuestions, getComments, saveComment, deleteComment } from '../db.js';
-import { escapeHtml, showNotification, renderBookCoverPlaceholder } from '../utils.js';
+import { escapeHtml, showNotification, renderBookCoverPlaceholder, getBookCoverUrl } from '../utils.js';
 import { isBookUnlocked } from '../progression.js';
 let _cleanup = [];
 
@@ -22,10 +22,7 @@ function _toggleFavorite(bookId) {
 }
 
 function _getBookCover(book) {
-  if (!book) return '';
-  if (book.cover_url && (book.cover_url.startsWith('http') || book.cover_url.startsWith('data:'))) return book.cover_url;
-  if (book.cover    && (book.cover.startsWith('http')    || book.cover.startsWith('data:')))    return book.cover;
-  return book.coverImage || '';
+  return getBookCoverUrl(book);
 }
 
 export async function render(container, { params, user }) {
