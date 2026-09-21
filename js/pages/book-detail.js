@@ -141,56 +141,73 @@ function _renderBook(contentEl, book, questions, user) {
           <!-- Test CTA -->
           <div style="margin-top:8px;">
             ${qCount > 0
-              ? (isBookUnlocked(book, user).isUnlocked
-                  ? (user
-                      ? `<button id="start-quiz-btn" class="btn btn-primary btn-lg" data-book-id="${escapeHtml(String(book.id))}" style="width:100%;max-width:280px;">
-                           Bilimingizni tekshiring
-                         </button>`
-                      : `<div style="padding:16px;border:1px solid var(--divider);border-radius:var(--radius-md);background:var(--paper-alt);">
-                           <p style="color:var(--ink-muted);margin-bottom:12px;font-size:0.9375rem;">Testni boshlash uchun tizimga kiring.</p>
-                           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                             <a href="#login"    class="btn btn-primary">Kirish</a>
-                             <a href="#register" class="btn btn-outline">Ro'yxatdan o'tish</a>
-                           </div>
-                         </div>`
-                    )
-                  : (() => {
-                      const u = isBookUnlocked(book, user);
+              ? (() => {
+                  const u = isBookUnlocked(book, user);
+                  if (u.isUnlocked) {
+                    if (!user) {
                       return `
-                        <div class="book-detail__locked-box book-locked-box" style="padding:18px 20px;border:1px solid var(--ochre);border-radius:var(--radius-md);background:var(--paper-alt);max-width:440px;">
-                          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                            <span style="font-size:1.25rem;">🔒</span>
-                            <h3 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--ink);margin:0;">Ushbu asar testi qulflangan</h3>
+                        <div style="padding:16px;border:1px solid var(--divider);border-radius:var(--radius-md);background:var(--paper-alt);">
+                          <p style="color:var(--ink-muted);margin-bottom:12px;font-size:0.9375rem;">Testni boshlash uchun tizimga kiring.</p>
+                          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <a href="#login"    class="btn btn-primary">Kirish</a>
+                            <a href="#register" class="btn btn-outline">Ro'yxatdan o'tish</a>
                           </div>
-                          <p style="font-size:0.875rem;color:var(--ink-muted);line-height:1.6;margin:0 0 12px 0;">
-                            Ushbu asar testini yechish uchun <strong>${u.requiredLevel}-daraja (${u.requiredXP} XP)</strong> talab qilinadi.
-                            ${u.requiredStreak ? `<br>Yoki <strong>${u.requiredStreak} kunlik uzluksiz streak</strong> orqali ochishingiz mumkin.` : ''}
-                          </p>
-                          <div class="progress-bar" style="height:7px;margin-bottom:8px;" role="progressbar" aria-valuenow="${u.progressPct}" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar__fill" style="width:${u.progressPct}%;background:linear-gradient(90deg,var(--ochre),var(--terracotta));"></div>
-                          </div>
-                          <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem;color:var(--ink-muted);margin-bottom:14px;">
-                            <span>Sizda: <strong>${user ? (user.score || 0) : 0} XP</strong></span>
-                            <span>Yana <strong>${u.remainingXP} XP</strong> kerak</span>
-                          </div>
-                          ${user ? `
-                            <button class="btn btn-outline btn-sm" disabled style="opacity:0.75;cursor:not-allowed;width:100%;pointer-events:none;">
-                              🔒 Hali ochilmagan (${u.requiredLevel}-daraja)
-                            </button>
-                          ` : `
-                            <div style="display:flex;gap:8px;flex-direction:column;">
-                              <a href="#login" class="btn btn-primary btn-sm" style="width:100%;text-align:center;">
-                                Tizimga kirish va asarni ochish
-                              </a>
-                              <a href="#books" class="btn btn-ghost btn-sm" style="width:100%;text-align:center;">
-                                Ochiq kitoblarga o'tish
-                              </a>
-                            </div>
-                          `}
                         </div>
                       `;
-                    })()
-                )
+                    }
+                    return `
+                      ${u.isAdminBypass ? `
+                        <div style="margin-bottom:12px;padding:8px 12px;border-radius:var(--radius-sm);background:rgba(183,110,22,0.1);border:1px solid var(--ochre);font-size:0.8125rem;color:var(--ochre);display:flex;align-items:center;gap:6px;">
+                          <span>👑</span>
+                          <span><strong>Admin ruxsati:</strong> Ushbu asar aslida <strong>${u.requiredLevel}-daraja (${u.requiredXP} XP)</strong> talab qiladi. Admin sifatida testni sinab ko'rishingiz mumkin.</span>
+                        </div>
+                      ` : ''}
+                      <button id="start-quiz-btn" class="btn btn-primary btn-lg" data-book-id="${escapeHtml(String(book.id))}" style="width:100%;max-width:280px;">
+                        Bilimingizni tekshiring
+                      </button>
+                    `;
+                  }
+
+                  // Qulflangan holat
+                  return `
+                    <div class="book-detail__locked-box book-locked-box" style="padding:18px 20px;border:1.5px solid var(--ochre);border-radius:var(--radius-md);background:var(--paper-alt);max-width:460px;box-shadow:var(--shadow-sm);">
+                      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="font-size:1.5rem;">🔒</span>
+                        <div>
+                          <h3 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--ink);margin:0;">Ushbu asar testi qulflangan</h3>
+                          <span style="font-size:0.75rem;color:var(--ochre);font-weight:700;">${u.requiredLevel}-Daraja talab qilinadi</span>
+                        </div>
+                      </div>
+                      <p style="font-size:0.875rem;color:var(--ink-muted);line-height:1.6;margin:0 0 12px 0;">
+                        Ushbu durdona asar testini yechish uchun <strong>${u.requiredLevel}-daraja (${u.requiredXP} XP)</strong> to'plagan bo'lishingiz kerak.
+                        ${u.requiredStreak ? `<br>Yoki <strong>${u.requiredStreak} kunlik uzluksiz streak</strong> orqali ham asarni ochishingiz mumkin.` : ''}
+                      </p>
+                      <div class="progress-bar" style="height:8px;margin-bottom:8px;" role="progressbar" aria-valuenow="${u.progressPct}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar__fill" style="width:${u.progressPct}%;background:linear-gradient(90deg,var(--ochre),var(--terracotta));"></div>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8125rem;color:var(--ink-muted);margin-bottom:14px;">
+                        <span>Sizda: <strong>${user ? (user.score || 0) : 0} XP</strong></span>
+                        <span style="color:var(--ochre);font-weight:700;">Yana <strong>${u.remainingXP} XP</strong> kerak (${u.progressPct}%)</span>
+                      </div>
+                      ${user ? `
+                        <div style="display:flex;gap:8px;flex-direction:column;">
+                          <a href="#books" class="btn btn-outline btn-sm" style="width:100%;text-align:center;">
+                            🔓 Ochiq kitoblardan test yechib darajangizni oshiring
+                          </a>
+                        </div>
+                      ` : `
+                        <div style="display:flex;gap:8px;flex-direction:column;">
+                          <a href="#login" class="btn btn-primary btn-sm" style="width:100%;text-align:center;">
+                            Tizimga kirish va asarni ochish
+                          </a>
+                          <a href="#books" class="btn btn-ghost btn-sm" style="width:100%;text-align:center;">
+                            Ochiq kitoblarga o'tish
+                          </a>
+                        </div>
+                      `}
+                    </div>
+                  `;
+                })()
               : `<p style="color:var(--ink-muted);font-size:0.9375rem;padding:14px 0;">Bu kitob uchun hali savollar yo'q.</p>`
             }
           </div>

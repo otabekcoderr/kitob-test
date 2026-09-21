@@ -152,9 +152,9 @@ export function getUserLevel(rawXP = 0) {
 // ============================================================
 // 2. KITOBLARNING QULF XARITASI (BOOK UNLOCK SPECIFICATION)
 // ============================================================
-// Aniq asarlar bo'yicha darajalar va talablar (74 ta mavjud kitob)
+// Aniq asarlar bo'yicha darajalar va talablar (74 ta mavjud kitob to'liq qamrab olingan)
 export const BOOK_UNLOCK_MAP = {
-  // --- LEVEL 1: Boshlang'ich Ochiq Kitoblar (0 XP) ---
+  // --- LEVEL 1: Boshlang'ich Ochiq Kitoblar (0 XP) — 10 ta asar ---
   'shum-bola':             { level: 1, xp: 0, tier: 'Boshlang\'ich' },
   'kichkina-shohzoda':     { level: 1, xp: 0, tier: 'Boshlang\'ich' },
   'sariq-devni-minib':     { level: 1, xp: 0, tier: 'Boshlang\'ich' },
@@ -166,7 +166,7 @@ export const BOOK_UNLOCK_MAP = {
   'atom-odatlar':          { level: 1, xp: 0, tier: 'Boshlang\'ich' },
   'ikigai':                { level: 1, xp: 0, tier: 'Boshlang\'ich' },
 
-  // --- LEVEL 2: Kitobxon (100 XP) ---
+  // --- LEVEL 2: Kitobxon (100 XP) — 10 ta asar ---
   'otkan-kunlar':          { level: 2, xp: 100, tier: 'Klassika' },
   'ikki-eshik-orasi':      { level: 2, xp: 100, tier: 'Klassika' },
   'bahor-qaytmaydi':       { level: 2, xp: 100, tier: 'Qissa' },
@@ -175,8 +175,10 @@ export const BOOK_UNLOCK_MAP = {
   'dengiz-sadosi':         { level: 2, xp: 100, tier: 'Dramatik' },
   'baxtiyor-oila':         { level: 2, xp: 100, tier: 'Ma\'naviyat' },
   'halol-luqma':           { level: 2, xp: 100, tier: 'Ibrat' },
+  'boy-ota-kambagal-ota':  { level: 2, xp: 100, tier: 'Moliya' },
+  'samaradorlik-21':       { level: 2, xp: 100, tier: 'Samaradorlik' },
 
-  // --- LEVEL 3: Izlanuvchan (250 XP) ---
+  // --- LEVEL 3: Izlanuvchan (250 XP) — 10 ta asar ---
   'mehrobdan-chayon':      { level: 3, xp: 250, tier: 'Tarixiy Roman' },
   'kecha-va-kunduz':       { level: 3, xp: 250, tier: 'Mumtoz Roman' },
   'sarob':                 { level: 3, xp: 250, tier: 'Psixologik' },
@@ -185,8 +187,10 @@ export const BOOK_UNLOCK_MAP = {
   'ulugbek-xazinasi':      { level: 3, xp: 250, tier: 'Tarixiy' },
   'tushda-kechgan-umrlar': { level: 3, xp: 250, tier: 'Dramatik' },
   'ruhiy-tarbiya':         { level: 3, xp: 250, tier: 'Tafakkur' },
+  'chol-va-dengiz':        { level: 3, xp: 250, tier: 'Jahon Klassikasi' },
+  'sherlock-holmes':       { level: 3, xp: 250, tier: 'Detektiv' },
 
-  // --- LEVEL 4: Mutolaa ixlosmandi (450 XP) ---
+  // --- LEVEL 4: Mutolaa ixlosmandi (450 XP) — 10 ta asar ---
   'yulduzli-tunlar':       { level: 4, xp: 450, tier: 'Tarixiy Epopeya' },
   'ufq':                   { level: 4, xp: 450, tier: 'Trilogiya' },
   'boburnoma':             { level: 4, xp: 450, tier: 'Tarixiy Asar' },
@@ -194,19 +198,23 @@ export const BOOK_UNLOCK_MAP = {
   'orwell-1984':           { level: 4, xp: 450, tier: 'Distopiya' },
   'otamdan-qolgan-dalalar':{ level: 4, xp: 450, tier: 'Roman' },
   'ichimizdagi-shayton':   { level: 4, xp: 450, tier: 'Psixologik' },
+  'martin-iden':           { level: 4, xp: 450, tier: 'Roman' },
+  'robinzon-kruzo':        { level: 4, xp: 450, tier: 'Sarguzasht' },
+  'diqqat-deep-work':      { level: 4, xp: 450, tier: 'Samaradorlik' },
 
-  // --- LEVEL 5: Bilimdon (700 XP / Yoki 7 kunlik Streak) ---
+  // --- LEVEL 5: Bilimdon (700 XP / Yoki 7 kunlik Streak) — 10 ta asar ---
   'halqa':                 { level: 5, xp: 700, streakAlt: 7, isMystery: true, tier: 'Durdona' },
   'qorqma':                { level: 5, xp: 700, streakAlt: 7, isMystery: true, tier: 'Tarixiy Dramatik' },
   'dard':                  { level: 5, xp: 700, tier: 'Dramatik' },
   'javob':                 { level: 5, xp: 700, tier: 'Falsafiy' },
-  'shamol-ortidan-yugurib':{ level: 5, xp: 700, tier: 'Jahon Bestselleri' },
-  'ming-quyosh-shulasi':   { level: 5, xp: 700, tier: 'Jahon Bestselleri' },
+  'shamol-ortidan-yugurib':{ level: 5, xp: 700, tier: 'Bestseller' },
+  'ming-quyosh-shulasi':   { level: 5, xp: 700, tier: 'Bestseller' },
   'asrga-tatigulik-kun':   { level: 5, xp: 700, tier: 'Falsafiy Roman' },
   'jimjitlik':             { level: 5, xp: 700, tier: 'Roman' },
   'lolazor':               { level: 5, xp: 700, tier: 'Roman' },
+  'graf-monte-kristo':     { level: 5, xp: 700, tier: 'Sarguzasht' },
 
-  // --- LEVEL 6: Adabiyotshunos (1000 XP) ---
+  // --- LEVEL 6: Adabiyotshunos (1000 XP) — 9 ta asar ---
   'jinoyat-va-jazo':       { level: 6, xp: 1000, tier: 'Falsafiy Klassika' },
   'aka-uka-karamazovlar':  { level: 6, xp: 1000, tier: 'Jahon Durdonasi' },
   'farengeyt-451':         { level: 6, xp: 1000, tier: 'Distopiya' },
@@ -215,6 +223,26 @@ export const BOOK_UNLOCK_MAP = {
   'pul-psixologiyasi':     { level: 6, xp: 1000, tier: 'Psixologiya' },
   'kafansiz-komilganlar':  { level: 6, xp: 1000, tier: 'Tarixiy Hujjatli' },
   'saodat-asri':           { level: 6, xp: 1000, tier: 'Tarixiy Qissa' },
+  'lissabondagi-tun':      { level: 6, xp: 1000, tier: 'Roman' },
+
+  // --- LEVEL 7: Zukko kitobxon (1400 XP) — 8 ta asar ---
+  'qutadgu-bilig':         { level: 7, xp: 1400, tier: 'Falsafiy Doston' },
+  'siyosatnoma':           { level: 7, xp: 1400, tier: 'Siyosiy-Falsafiy' },
+  'alpomish':              { level: 7, xp: 1400, tier: 'Qahramonlik Dostoni' },
+  'qissasi-rabguziy':      { level: 7, xp: 1400, tier: 'Diniy-Tarixiy' },
+  'anna-karenina':         { level: 7, xp: 1400, tier: 'Mumtoz Roman' },
+  'romeo-juliet':          { level: 7, xp: 1400, tier: 'Tragediya' },
+  'muvaffaqiyat-7':        { level: 7, xp: 1400, tier: 'Rivojlanish' },
+  'qobusnoma':             { level: 7, xp: 1400, tier: 'Pandnoma' },
+
+  // --- LEVEL 8: Alloma (1900 XP) — 7 ta asar ---
+  'hamsa':                 { level: 8, xp: 1900, tier: 'Sharq Durdonasi' },
+  'lison-ut-tayr':         { level: 8, xp: 1900, tier: 'Irfoniy Doston' },
+  'urush-va-tinchlik':     { level: 8, xp: 1900, tier: 'Epik Roman' },
+  'sahih-buxoriy':         { level: 8, xp: 1900, tier: 'Hadislar Majmuasi' },
+  'faust':                 { level: 8, xp: 1900, tier: 'Epik Tragediya' },
+  'guliston':              { level: 8, xp: 1900, tier: 'Mumtoz Hikmat' },
+  'baxt-kochasi':          { level: 8, xp: 1900, tier: 'Ibratli Qissa' },
 };
 
 /**
@@ -248,6 +276,7 @@ export function getBookUnlockReq(book) {
  *
  * @param {object} book
  * @param {object|null} user
+ * @param {object} [options={}] - { forceStudentMode?: boolean }
  * @returns {{
  *   isUnlocked: boolean,
  *   requiredLevel: number,
@@ -256,13 +285,25 @@ export function getBookUnlockReq(book) {
  *   remainingXP: number,
  *   progressPct: number,
  *   isMystery: boolean,
+ *   isAdminBypass: boolean,
+ *   isNaturallyUnlocked: boolean,
  *   reason: string
  * }}
  */
-export function isBookUnlocked(book, user) {
-  if (!book) return { isUnlocked: true, requiredLevel: 1, requiredXP: 0, remainingXP: 0, progressPct: 100, isMystery: false, reason: '' };
+export function isBookUnlocked(book, user, options = {}) {
+  if (!book) return { isUnlocked: true, requiredLevel: 1, requiredXP: 0, remainingXP: 0, progressPct: 100, isMystery: false, isAdminBypass: false, isNaturallyUnlocked: true, reason: '' };
 
-  // 1. Admin har doim barcha kitoblarni ochiq ko'radi
+  const req = getBookUnlockReq(book);
+  const userXP = Number(user?.score || 0);
+  const userStreak = Number(user?.streak || 0);
+
+  // Tabiiy qulfdan chiqish shartlari:
+  const isLevel1 = req.level <= 1 || req.xp <= 0;
+  const isStreakUnlocked = !!(req.streakAlt && userStreak >= req.streakAlt);
+  const isXpUnlocked = !!(user && userXP >= req.xp);
+  const isNaturallyUnlocked = isLevel1 || isStreakUnlocked || isXpUnlocked;
+
+  // Admin statusini tekshiramiz
   const isAdmin = user && (
     user.role === 'admin' ||
     user.isAdmin === true ||
@@ -270,19 +311,27 @@ export function isBookUnlocked(book, user) {
     String(user.username || '').toLowerCase() === 'admin' ||
     String(user.email || '').toLowerCase().startsWith('admin@')
   );
-  if (isAdmin) {
-    return { isUnlocked: true, requiredLevel: 1, requiredXP: 0, remainingXP: 0, progressPct: 100, isMystery: false, reason: 'Admin ruxsati' };
-  }
 
-  const req = getBookUnlockReq(book);
+  // Admin o'quvchi ko'rinishini (preview) yoqqan bo'lsa, qulflar real ko'rinadi
+  const isStudentPreview = (typeof localStorage !== 'undefined' && localStorage.getItem('kitobchi_preview_mode') === 'student') || !!options.forceStudentMode;
 
-  // Level 1 kitoblar har doim hamma (hatto mehmonlar) uchun ham ochiq
-  if (req.level <= 1 || req.xp <= 0) {
-    return { isUnlocked: true, requiredLevel: 1, requiredXP: 0, remainingXP: 0, progressPct: 100, isMystery: false, reason: 'Boshlang\'ich asar' };
+  if (isAdmin && !isStudentPreview) {
+    return {
+      isUnlocked: true,
+      requiredLevel: req.level,
+      requiredXP: req.xp,
+      requiredStreak: req.streakAlt || null,
+      remainingXP: isNaturallyUnlocked ? 0 : Math.max(0, req.xp - userXP),
+      progressPct: isNaturallyUnlocked ? 100 : Math.min(100, Math.max(0, Math.round((userXP / req.xp) * 100))),
+      isMystery: !!req.isMystery,
+      isAdminBypass: !isNaturallyUnlocked,
+      isNaturallyUnlocked: isNaturallyUnlocked,
+      reason: isNaturallyUnlocked ? `${req.level}-darajaga erishildi` : `Admin ruxsati (Aslida ${req.level}-daraja)`
+    };
   }
 
   // Mehmon foydalanuvchi uchun faqat Level 1 ochiq
-  if (!user) {
+  if (!user && !isLevel1) {
     return {
       isUnlocked: false,
       requiredLevel: req.level,
@@ -291,15 +340,14 @@ export function isBookUnlocked(book, user) {
       remainingXP: req.xp,
       progressPct: 0,
       isMystery: !!req.isMystery,
+      isAdminBypass: false,
+      isNaturallyUnlocked: false,
       reason: 'Tizimga kiring va testlar yechib oching'
     };
   }
 
-  const userXP = Number(user.score || 0);
-  const userStreak = Number(user.streak || 0);
-
-  // Streak alternativi orqali ochilish (Masalan: Halqa yoki Qorqma 7 kunlik streak bilan)
-  if (req.streakAlt && userStreak >= req.streakAlt) {
+  // Streak alternativi orqali ochilish
+  if (isStreakUnlocked) {
     return {
       isUnlocked: true,
       requiredLevel: req.level,
@@ -308,12 +356,14 @@ export function isBookUnlocked(book, user) {
       remainingXP: 0,
       progressPct: 100,
       isMystery: !!req.isMystery,
+      isAdminBypass: false,
+      isNaturallyUnlocked: true,
       reason: `${req.streakAlt} kunlik uzluksiz streak orqali ochildi`
     };
   }
 
-  // XP talabi tekshiruvi
-  if (userXP >= req.xp) {
+  // XP talabi tekshiruvi yoki Level 1
+  if (isNaturallyUnlocked) {
     return {
       isUnlocked: true,
       requiredLevel: req.level,
@@ -322,13 +372,15 @@ export function isBookUnlocked(book, user) {
       remainingXP: 0,
       progressPct: 100,
       isMystery: !!req.isMystery,
-      reason: `${req.level}-darajaga erishildi`
+      isAdminBypass: false,
+      isNaturallyUnlocked: true,
+      reason: isLevel1 ? 'Boshlang\'ich asar' : `${req.level}-darajaga erishildi`
     };
   }
 
   // Hali qulflangan
   const remaining = Math.max(0, req.xp - userXP);
-  const pct = Math.min(100, Math.max(0, Math.round((userXP / req.xp) * 100)));
+  const pct = req.xp > 0 ? Math.min(100, Math.max(0, Math.round((userXP / req.xp) * 100))) : 0;
 
   return {
     isUnlocked: false,
@@ -338,7 +390,9 @@ export function isBookUnlocked(book, user) {
     remainingXP: remaining,
     progressPct: pct,
     isMystery: !!req.isMystery,
-    reason: `${req.level}-daraja yoki ${req.xp} XP talab qilinadi`
+    isAdminBypass: false,
+    isNaturallyUnlocked: false,
+    reason: user ? `${req.level}-daraja yoki ${req.xp} XP talab qilinadi` : 'Tizimga kiring va testlar yechib oching'
   };
 }
 
@@ -353,14 +407,37 @@ export function isBookUnlocked(book, user) {
 export function getNextUnlockTarget(books = [], user = null) {
   if (!books || !books.length) return null;
 
+  const isStudentPreview = typeof localStorage !== 'undefined' && localStorage.getItem('kitobchi_preview_mode') === 'student';
   const lockedBooks = books
     .map(book => {
-      const status = isBookUnlocked(book, user);
+      const status = isBookUnlocked(book, user, { forceStudentMode: isStudentPreview });
       return { book, status };
     })
-    .filter(item => !item.status.isUnlocked);
+    .filter(item => !item.status.isUnlocked || (item.status.isAdminBypass && isStudentPreview));
 
-  if (lockedBooks.length === 0) return null;
+  if (lockedBooks.length === 0) {
+    // Agar admin barcha kitoblarni ko'ra olsa ham, tabiiy ravishda qulflangan kitobni ko'rsatamiz
+    const naturalLocked = books
+      .map(book => ({ book, status: isBookUnlocked(book, user, { forceStudentMode: true }) }))
+      .filter(item => !item.status.isNaturallyUnlocked);
+    if (naturalLocked.length > 0) {
+      naturalLocked.sort((a, b) => a.status.remainingXP - b.status.remainingXP);
+      const best = naturalLocked[0];
+      return {
+        book: best.book,
+        status: best.status,
+        remainingXP: best.status.remainingXP,
+        xpNeeded: best.status.remainingXP,
+        progressPct: best.status.progressPct,
+        unlockReq: {
+          level: best.status.requiredLevel,
+          requiredLevel: best.status.requiredLevel,
+          xp: best.status.requiredXP
+        }
+      };
+    }
+    return null;
+  }
 
   // Eng kam XP yetishmayotgan kitobni birinchi navbatga qo'yamiz
   lockedBooks.sort((a, b) => a.status.remainingXP - b.status.remainingXP);

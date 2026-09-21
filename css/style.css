@@ -3781,40 +3781,52 @@ h1, h2, h3, h4, h5, h6 {
    PROGRESSION, LEVEL, BOOK LOCKS & GAMIFICATION
    ============================================================ */
 
-/* 1. Kitob qulflari (Book Locks) */
+/* 1. Kitob qulflari (Book Locks & Gamification Overlays) */
 .book-card--locked {
   position: relative;
 }
 
 .book-card--locked .book-card__cover {
-  filter: grayscale(0.75) contrast(0.92);
-  opacity: 0.85;
+  filter: grayscale(0.55) brightness(0.85);
+  opacity: 0.9;
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
 .book-card--locked:hover .book-card__cover {
-  filter: grayscale(0.5) contrast(0.95);
-  opacity: 0.95;
+  filter: grayscale(0.3) brightness(0.92);
+  opacity: 0.98;
+}
+
+.book-card__lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(180deg, rgba(12, 22, 18, 0.4) 0%, rgba(12, 22, 18, 0.72) 55%, rgba(12, 22, 18, 0.92) 100%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 4;
+  pointer-events: none;
+  box-sizing: border-box;
 }
 
 .book-card__lock-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5;
-  background: rgba(23, 54, 45, 0.88);
+  align-self: flex-end;
+  background: rgba(23, 54, 45, 0.92);
   color: #FFFDF8;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 4px 9px;
+  padding: 3px 9px;
   border-radius: var(--radius-full, 9999px);
-  border: 1px solid rgba(183, 110, 22, 0.4);
+  border: 1px solid rgba(183, 110, 22, 0.5);
   backdrop-filter: blur(6px);
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .book-card__lock-badge--mystery {
@@ -3824,31 +3836,132 @@ h1, h2, h3, h4, h5, h6 {
   animation: goldPulseAura 2.5s infinite ease-in-out;
 }
 
+.book-card__lock-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto 0;
+}
+
+.book-card__lock-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(23, 54, 45, 0.94);
+  border: 1.5px solid var(--ochre, #B76E16);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 12px rgba(183, 110, 22, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+  animation: lockGlowPulse 3s infinite ease-in-out;
+}
+
+@keyframes lockGlowPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 8px rgba(183, 110, 22, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), 0 0 16px rgba(183, 110, 22, 0.6);
+  }
+}
+
+.book-card__lock-req-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #FFFDF8;
+  background: rgba(18, 38, 32, 0.9);
+  padding: 3px 9px;
+  border-radius: 9999px;
+  border: 1px solid rgba(183, 110, 22, 0.5);
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
 .book-card__lock-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(23, 54, 45, 0.85);
-  padding: 6px 10px;
-  z-index: 4;
+  width: 100%;
+  background: rgba(12, 22, 18, 0.88);
+  border-radius: 6px;
+  padding: 6px 8px;
+  border: 1px solid rgba(183, 110, 22, 0.35);
   backdrop-filter: blur(4px);
-  border-top: 1px solid rgba(183, 110, 22, 0.3);
+  box-sizing: border-box;
 }
 
 .book-card__lock-progress-bar {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 3px;
   overflow: hidden;
   margin-top: 3px;
 }
 
 .book-card__lock-progress-fill {
   height: 100%;
-  background: var(--ochre);
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--ochre, #B76E16), #F59E0B);
+  border-radius: 3px;
   transition: width 0.4s ease;
+}
+
+.book-card__lock-hint {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #FEF3C7;
+  letter-spacing: 0.01em;
+}
+
+/* Ochiq kitoblar uchun nishon */
+.book-card__unlocked-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  background: rgba(20, 83, 45, 0.92);
+  color: #D1FAE5;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+}
+
+/* Admin ruxsati bilan ochilgan kitob nishoni */
+.book-card__admin-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  background: rgba(183, 110, 22, 0.92);
+  color: #FEF3C7;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid #FEF3C7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+}
+
+/* Geymifikatsiya Banneri */
+.books-gamification-banner {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 /* 2. Asar Mastery nishonlari (Book Mastery Badges) */

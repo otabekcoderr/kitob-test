@@ -3,7 +3,7 @@
 // ============================================================
 import { getBooks } from '../db.js';
 import { escapeHtml, truncate, renderBookCoverPlaceholder, getBookCoverUrl } from '../utils.js';
-import { isBookUnlocked, evaluateMasteryTier } from '../progression.js';
+import { isBookUnlocked, evaluateMasteryTier, getUserLevel } from '../progression.js';
 
 let _allBooks = [];
 let _currentUser = null;
@@ -20,20 +20,90 @@ function _coverPlaceholder(book) {
 export async function render(container, { params, user }) {
   _currentUser = user;
 
+  try {
+    _allBooks = await getBooks();
+  } catch {
+    _allBooks = [];
+  }
+
+  const userLevel = getUserLevel(_currentUser?.score || 0);
+  const isStudentPreview = (typeof localStorage !== 'undefined' && localStorage.getItem('kitobchi_preview_mode') === 'student');
+  const isAdmin = _currentUser && (
+    _currentUser.role === 'admin' ||
+    _currentUser.isAdmin === true ||
+    _currentUser.is_admin === true ||
+    String(_currentUser.username || '').toLowerCase() === 'admin' ||
+    String(_currentUser.email || '').toLowerCase().startsWith('admin@')
+  );
+
+  let unlockedCount = 0;
+  let lockedCount = 0;
+  _allBooks.forEach(b => {
+    const u = isBookUnlocked(b, _currentUser);
+    if (u.isUnlocked && (!u.isAdminBypass || !isStudentPreview)) {
+      unlockedCount++;
+    } else {
+      lockedCount++;
+    }
+  });
+
   container.innerHTML = `
     <div class="page" id="books-page">
       <div class="container">
 
-        <div style="margin-bottom:28px;">
-          <h1 style="font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.7rem);font-weight:700;color:var(--ink);margin-bottom:8px;">Kitoblar</h1>
+        <div style="margin-bottom:20px;">
+          <h1 style="font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.7rem);font-weight:700;color:var(--ink);margin-bottom:6px;">Kitoblar</h1>
           <p style="color:var(--ink-muted);font-size:0.9375rem;">Bilimingizni sinab ko'ring — yangi darajalarga erishib, durdona asarlarni qulfdan chiqaring.</p>
+        </div>
+
+        <!-- Geymifikatsiya va Daraja Holati Banneri -->
+        <div class="books-gamification-banner card animate-slide-up" style="margin-bottom:24px;padding:18px 22px;border:1.5px solid var(--ochre);background:var(--paper-alt);border-radius:var(--radius-lg);">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+            <!-- Chap tomon: Foydalanuvchi darajasi va progress -->
+            <div style="display:flex;align-items:center;gap:14px;min-width:240px;flex:1;">
+              <div style="font-size:2rem;width:52px;height:52px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;border:2px solid var(--ochre);box-shadow:var(--shadow-sm);flex-shrink:0;">
+                ${userLevel.emoji}
+              </div>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;">
+                  <h3 style="font-family:var(--font-display);font-size:1.15rem;font-weight:700;margin:0;color:var(--ink);">
+                    ${user ? `${userLevel.level}-Daraja: ${escapeHtml(userLevel.title)}` : 'Mehmon rejimi (1-Daraja ochiq)'}
+                  </h3>
+                  ${user ? `<span class="badge badge-primary">${user.score || 0} XP</span>` : ''}
+                </div>
+                <p style="font-size:0.8125rem;color:var(--ink-muted);margin:0 0 6px 0;">
+                  ${user ? userLevel.desc : 'Ro\'yxatdan o\'ting, testlar yechib XP to\'plang va yangi darajadagi kitoblarni oching!'}
+                </p>
+                ${user ? `
+                  <div class="progress-bar" style="height:6px;max-width:320px;" role="progressbar" aria-valuenow="${userLevel.progressPct}" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar__fill" style="width:${userLevel.progressPct}%;background:linear-gradient(90deg,var(--ochre),var(--terracotta));"></div>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+
+            <!-- O'ng tomon: Kitoblar qulf statistikasi va Admin rejimi tugmasi -->
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <div class="gamification-stat-pill" style="display:flex;gap:10px;background:var(--surface);padding:8px 14px;border-radius:var(--radius-md);border:1px solid var(--divider);font-size:0.8125rem;">
+                <span style="color:var(--success);font-weight:700;">🔓 ${unlockedCount} ta ochiq</span>
+                <span style="color:var(--divider);">|</span>
+                <span style="color:var(--ochre);font-weight:700;">🔒 ${lockedCount} ta qulflangan</span>
+              </div>
+
+              ${isAdmin ? `
+                <button id="btn-toggle-preview-mode" class="btn btn-sm ${isStudentPreview ? 'btn-primary' : 'btn-outline'}" style="display:inline-flex;align-items:center;gap:6px;" title="O'quvchi va admin ko'rinishlari orasida almashish">
+                  ${isStudentPreview ? '🎓 O\'quvchi ko\'rinishi (Faol)' : '👑 Admin ko\'rinishi'}
+                </button>
+              ` : ''}
+            </div>
+          </div>
         </div>
 
         <!-- Holat filtrlari (Ochiq / Qulflangan / Mastery) -->
         <div class="tabs books-status-tabs" id="status-tabs" role="tablist" aria-label="Holat bo'yicha" style="margin-bottom:16px;">
-          <button class="tab tab--active status-tab" role="tab" data-status="all" aria-selected="true">Barchasi</button>
-          <button class="tab status-tab" role="tab" data-status="unlocked" aria-selected="false">🔓 Ochiq kitoblar</button>
-          <button class="tab status-tab" role="tab" data-status="locked" aria-selected="false">🔒 Qulflanganlar</button>
+          <button class="tab tab--active status-tab" role="tab" data-status="all" aria-selected="true">Barchasi (${_allBooks.length})</button>
+          <button class="tab status-tab" role="tab" data-status="unlocked" aria-selected="false">🔓 Ochiq (${unlockedCount})</button>
+          <button class="tab status-tab" role="tab" data-status="locked" aria-selected="false">🔒 Qulflangan (${lockedCount})</button>
           ${user ? `<button class="tab status-tab" role="tab" data-status="mastery" aria-selected="false">⭐ Mening Mastery'm</button>` : ''}
         </div>
 
@@ -83,14 +153,8 @@ export async function render(container, { params, user }) {
     </div>
   `;
 
-  try {
-    _allBooks = await getBooks();
-  } catch {
-    _allBooks = [];
-  }
-
   _renderBooks(_getFilteredBooks());
-  _bindEvents();
+  _bindEvents(container, { params, user });
 }
 
 function _renderBooks(books) {
@@ -136,6 +200,7 @@ function _bookCardHTML(book, user) {
   const cover = _getBookCover(book);
   const unlock = isBookUnlocked(book, user);
   const isLocked = !unlock.isUnlocked;
+  const isAdminBypass = !!unlock.isAdminBypass;
 
   // Foydalanuvchining ushbu kitob bo'yicha mastery darajasi
   let masteryBadge = '';
@@ -153,9 +218,31 @@ function _bookCardHTML(book, user) {
     } catch {}
   }
 
+  // Yuqori o'ng burchakdagi status nishoni
+  let topBadge = '';
+  if (isLocked) {
+    topBadge = `
+      <div class="book-card__lock-badge ${unlock.isMystery ? 'book-card__lock-badge--mystery' : ''}">
+        <span>${unlock.isMystery ? '⚡ 7 kun streak' : `🔒 ${unlock.requiredLevel}-daraja`}</span>
+      </div>
+    `;
+  } else if (isAdminBypass) {
+    topBadge = `
+      <div class="book-card__admin-badge" title="Admin ruxsati bilan ochilgan (Aslida ${unlock.requiredLevel}-daraja)">
+        <span>👑 Admin (${unlock.requiredLevel}-d.)</span>
+      </div>
+    `;
+  } else {
+    topBadge = `
+      <div class="book-card__unlocked-badge">
+        <span>🔓 Ochiq</span>
+      </div>
+    `;
+  }
+
   return `
     <article
-      class="book-card ${isLocked ? 'book-card--locked' : ''}"
+      class="book-card ${isLocked ? 'book-card--locked' : 'book-card--unlocked'}"
       data-book-id="${escapeHtml(String(book.id))}"
       role="button"
       tabindex="0"
@@ -175,16 +262,24 @@ function _bookCardHTML(book, user) {
           : _coverPlaceholder(book)
         }
 
+        ${topBadge}
+
         ${isLocked ? `
           <div class="book-card__lock-overlay">
-            <div class="book-card__lock-badge">
-              <span class="lock-icon">🔒</span>
-              <span class="lock-text">${unlock.isMystery ? '7 kunlik streak' : `${unlock.requiredLevel}-daraja`}</span>
+            <div style="height:20px;"></div>
+            <div class="book-card__lock-center">
+              <div class="book-card__lock-icon-circle">🔒</div>
+              <span class="book-card__lock-req-text">${unlock.isMystery ? '7 kunlik streak talabi' : `${unlock.requiredLevel}-daraja talabi`}</span>
             </div>
             <div class="book-card__lock-progress">
-              <div class="book-card__lock-progress-bar" style="width:${unlock.progressPct}%"></div>
+              <div class="book-card__lock-hint">
+                <span>${user ? `${user.score || 0} XP` : 'Mehmon'}</span>
+                <span>${unlock.requiredXP} XP talab</span>
+              </div>
+              <div class="book-card__lock-progress-bar">
+                <div class="book-card__lock-progress-fill" style="width:${unlock.progressPct}%"></div>
+              </div>
             </div>
-            <span class="book-card__lock-hint">${user ? `${user.score || 0} / ${unlock.requiredXP} XP` : 'Tizimga kiring'}</span>
           </div>
         ` : ''}
       </div>
@@ -199,6 +294,9 @@ function _bookCardHTML(book, user) {
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
           <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
           ${book.difficulty ? `<span class="badge">${escapeHtml(book.difficulty)}</span>` : ''}
+          <span class="badge ${isLocked ? '' : 'badge-primary'}" style="font-size:0.72rem;">
+            ${isLocked ? `🔒 ${unlock.requiredLevel}-d.` : (isAdminBypass ? '👑 Admin' : '✓ Ochiq')}
+          </span>
         </div>
         ${masteryBadge}
       </div>
@@ -293,10 +391,21 @@ function _clearFilter() {
   _renderBooks(_allBooks);
 }
 
-function _bindEvents() {
+function _bindEvents(container, context) {
   // Qidiruv
   document.getElementById('books-search')?.addEventListener('input', () => _renderBooks(_getFilteredBooks()));
   document.getElementById('books-difficulty')?.addEventListener('change', () => _renderBooks(_getFilteredBooks()));
+
+  // Admin o'quvchi ko'rinishini almashtirish
+  document.getElementById('btn-toggle-preview-mode')?.addEventListener('click', () => {
+    const cur = localStorage.getItem('kitobchi_preview_mode');
+    if (cur === 'student') {
+      localStorage.removeItem('kitobchi_preview_mode');
+    } else {
+      localStorage.setItem('kitobchi_preview_mode', 'student');
+    }
+    render(container, context);
+  });
 
   // Status tablar (Ochiq / Qulflangan / Mastery)
   document.querySelectorAll('.status-tab').forEach(tab => {

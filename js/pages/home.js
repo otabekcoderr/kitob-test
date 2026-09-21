@@ -563,10 +563,33 @@ function _bookCardHTML(book, user) {
   const cover = _getBookCover(book);
   const unlock = isBookUnlocked(book, user);
   const isLocked = !unlock.isUnlocked;
+  const isAdminBypass = !!unlock.isAdminBypass;
+
+  // Yuqori o'ng burchakdagi status nishoni
+  let topBadge = '';
+  if (isLocked) {
+    topBadge = `
+      <div class="book-card__lock-badge ${unlock.isMystery ? 'book-card__lock-badge--mystery' : ''}">
+        <span>${unlock.isMystery ? '⚡ 7 kun streak' : `🔒 ${unlock.requiredLevel}-daraja`}</span>
+      </div>
+    `;
+  } else if (isAdminBypass) {
+    topBadge = `
+      <div class="book-card__admin-badge" title="Admin ruxsati bilan ochilgan (Aslida ${unlock.requiredLevel}-daraja)">
+        <span>👑 Admin (${unlock.requiredLevel}-d.)</span>
+      </div>
+    `;
+  } else {
+    topBadge = `
+      <div class="book-card__unlocked-badge">
+        <span>🔓 Ochiq</span>
+      </div>
+    `;
+  }
 
   return `
     <article
-      class="book-card ${isLocked ? 'book-card--locked' : ''}"
+      class="book-card ${isLocked ? 'book-card--locked' : 'book-card--unlocked'}"
       data-book-id="${escapeHtml(String(book.id))}"
       role="button"
       tabindex="0"
@@ -586,16 +609,24 @@ function _bookCardHTML(book, user) {
           : _coverPlaceholder(book)
         }
 
+        ${topBadge}
+
         ${isLocked ? `
           <div class="book-card__lock-overlay">
-            <div class="book-card__lock-badge">
-              <span class="lock-icon">🔒</span>
-              <span class="lock-text">${unlock.isMystery ? '7 kun streak' : `${unlock.requiredLevel}-daraja`}</span>
+            <div style="height:20px;"></div>
+            <div class="book-card__lock-center">
+              <div class="book-card__lock-icon-circle">🔒</div>
+              <span class="book-card__lock-req-text">${unlock.isMystery ? '7 kunlik streak' : `${unlock.requiredLevel}-daraja`}</span>
             </div>
             <div class="book-card__lock-progress">
-              <div class="book-card__lock-progress-bar" style="width:${unlock.progressPct}%"></div>
+              <div class="book-card__lock-hint">
+                <span>${user ? `${user.score || 0} XP` : 'Mehmon'}</span>
+                <span>${unlock.requiredXP} XP</span>
+              </div>
+              <div class="book-card__lock-progress-bar">
+                <div class="book-card__lock-progress-fill" style="width:${unlock.progressPct}%"></div>
+              </div>
             </div>
-            <span class="book-card__lock-hint">${user ? `${user.score || 0}/${unlock.requiredXP} XP` : 'Tizimga kiring'}</span>
           </div>
         ` : ''}
       </div>
@@ -605,7 +636,7 @@ function _bookCardHTML(book, user) {
       </div>
       <div class="book-card__footer">
         <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
-        <span class="badge ${isLocked ? '' : 'badge-primary'}">${isLocked ? '🔒 Qulflangan' : 'Test'}</span>
+        <span class="badge ${isLocked ? '' : 'badge-primary'}">${isLocked ? `🔒 ${unlock.requiredLevel}-daraja` : '✓ Testga tayyor'}</span>
       </div>
     </article>
   `;
