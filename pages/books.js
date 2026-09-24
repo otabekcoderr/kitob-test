@@ -28,13 +28,7 @@ export async function render(container, { params, user }) {
 
   const userLevel = getUserLevel(_currentUser?.score || 0);
   const isStudentPreview = (typeof localStorage !== 'undefined' && localStorage.getItem('kitobchi_preview_mode') === 'student');
-  const isAdmin = _currentUser && (
-    _currentUser.role === 'admin' ||
-    _currentUser.isAdmin === true ||
-    _currentUser.is_admin === true ||
-    String(_currentUser.username || '').toLowerCase() === 'admin' ||
-    String(_currentUser.email || '').toLowerCase().startsWith('admin@')
-  );
+  const isAdmin = _currentUser && (_currentUser.role === 'admin' && _currentUser.isAdmin === true);
 
   let unlockedCount = 0;
   let lockedCount = 0;

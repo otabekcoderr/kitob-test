@@ -40,11 +40,7 @@ export async function render(container, { params, user }) {
     } catch {}
   }
 
-  const isAdmin = user?.role === 'admin' ||
-                  user?.isAdmin === true ||
-                  user?.is_admin === true ||
-                  String(user?.username || '').toLowerCase() === 'admin' ||
-                  String(user?.email || '').toLowerCase().startsWith('admin@');
+  const isAdmin = user && (user.role === 'admin' && user.isAdmin === true);
 
   const userLevel = getUserLevel(user.score || 0);
 

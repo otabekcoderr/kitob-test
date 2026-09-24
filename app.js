@@ -78,10 +78,11 @@ const ROUTES = [
     title: "Ro'yxatdan o'tish — Kitobchi.uz",
   },
   {
-    path:  'admin',
-    load:  () => import('./pages/admin.js'),
-    auth:  true,
-    title: 'Admin panel — Kitobchi.uz',
+    path:      'admin',
+    load:      () => import('./pages/admin.js'),
+    auth:      true,
+    adminOnly: true,
+    title:     'Admin panel — Kitobchi.uz',
   },
   {
     path:  '404',
@@ -235,6 +236,15 @@ async function _loadPage() {
   if (route.guest && user) {
     navigate(HOME_ROUTE);
     return;
+  }
+
+  // Admin huquqi tekshiruvi (Role-Based Access Control)
+  if (route.adminOnly) {
+    if (!user || user.role !== 'admin' || !user.isAdmin) {
+      showNotification('Ushbu sahifaga faqat administrator kira oladi.', 'error');
+      navigate(HOME_ROUTE);
+      return;
+    }
   }
 
   // Sahifa title
@@ -401,13 +411,7 @@ function _buildNavbarHTML() {
     profile:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
   };
 
-  const isAdmin = user && (
-    user.role === 'admin' ||
-    user.isAdmin === true ||
-    user.is_admin === true ||
-    String(user.username || '').toLowerCase() === 'admin' ||
-    String(user.email || '').toLowerCase().startsWith('admin@')
-  );
+  const isAdmin = user && (user.role === 'admin' && user.isAdmin === true);
 
   const adminLink = isAdmin
     ? `<li>
@@ -762,8 +766,7 @@ async function _syncSession() {
     } catch { /* ignore */ }
 
     const cleanUsername = String(profile?.username || session.user.user_metadata?.username || existingUser?.username || '').trim().toLowerCase();
-    const cleanEmail = String(session.user.email || '').trim().toLowerCase();
-    const isAdmin = profile?.role === 'admin' || profile?.is_admin === true || cleanUsername === 'admin' || cleanEmail.startsWith('admin@');
+    const isAdmin = (profile?.role === 'admin' || profile?.is_admin === true) && (cleanUsername === 'admin' || cleanUsername === 'admin_kitobchi');
     const stats = profile?.stats || {};
 
     const userObj = {

@@ -1,7 +1,7 @@
 // ============================================================
 // pages/login.js — Tizimga kirish sahifasi (Editorial uslub)
 // ============================================================
-import { login }                        from '../auth.js';
+import { login, getRateLimitStatus }   from '../auth.js';
 import { escapeHtml, setButtonLoading,
          showNotification, LOGO_SVG }  from '../utils.js';
 let _cleanup = [];
@@ -132,9 +132,40 @@ function _bindEvents() {
     () => passwordEl.removeEventListener('input', onPasswordInput),
   );
 
+  // Rate limit holatini tekshirish va jonli taymer ko'rsatish
+  let _lockoutTimer = null;
+  const _checkRateLimit = () => {
+    const status = getRateLimitStatus();
+    if (status.isLocked) {
+      submitBtn.disabled = true;
+      globalError.hidden = false;
+      globalError.innerHTML = `🛡️ <strong>Xavfsizlik tizimi:</strong> Ko'p marta xato urinish aniqlandi. Qayta urinish: <strong id="auth-cooldown-timer">${status.remainingSeconds}</strong> soniya.`;
+      clearInterval(_lockoutTimer);
+      _lockoutTimer = setInterval(() => {
+        const current = getRateLimitStatus();
+        const span = document.getElementById('auth-cooldown-timer');
+        if (current.isLocked) {
+          if (span) span.textContent = String(current.remainingSeconds);
+        } else {
+          clearInterval(_lockoutTimer);
+          submitBtn.disabled = false;
+          globalError.hidden = true;
+          globalError.textContent = '';
+        }
+      }, 1000);
+      _cleanup.push(() => clearInterval(_lockoutTimer));
+      return true;
+    }
+    return false;
+  };
+
+  _checkRateLimit();
+
   // Submit
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (_checkRateLimit()) return;
 
     const username = usernameEl.value.trim();
     const password = passwordEl.value;
@@ -162,12 +193,15 @@ function _bindEvents() {
         showNotification('Xush kelibsiz!', 'success');
         window.navigate('home');
       } else {
-        _showGlobalError(globalError, result.error);
+        if (!_checkRateLimit()) {
+          _showGlobalError(globalError, result.error);
+        }
       }
     } catch (err) {
       _showGlobalError(globalError, 'Tizimga kirishda kutilmagan xatolik.');
     } finally {
       setButtonLoading(submitBtn, false, 'Kirish');
+      _checkRateLimit();
     }
   };
 

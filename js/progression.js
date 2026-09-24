@@ -304,13 +304,7 @@ export function isBookUnlocked(book, user, options = {}) {
   const isNaturallyUnlocked = isLevel1 || isStreakUnlocked || isXpUnlocked;
 
   // Admin statusini tekshiramiz
-  const isAdmin = user && (
-    user.role === 'admin' ||
-    user.isAdmin === true ||
-    user.is_admin === true ||
-    String(user.username || '').toLowerCase() === 'admin' ||
-    String(user.email || '').toLowerCase().startsWith('admin@')
-  );
+  const isAdmin = user && user.role === 'admin' && user.isAdmin === true;
 
   // Admin o'quvchi ko'rinishini (preview) yoqqan bo'lsa, qulflar real ko'rinadi
   const isStudentPreview = (typeof localStorage !== 'undefined' && localStorage.getItem('kitobchi_preview_mode') === 'student') || !!options.forceStudentMode;

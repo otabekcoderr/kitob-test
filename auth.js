@@ -10,10 +10,19 @@
 // ============================================================
 
 import { supabase, isSupabaseOnline } from './supabase-client.js';
-import { uzbekifyError } from './utils.js';
+import {
+  uzbekifyError,
+  generateSalt,
+  hashPassword,
+  verifyPassword,
+  generateSessionToken,
+  ADMIN_SESSION_TOKEN,
+  verifySessionSignature,
+} from './utils.js';
+import { characters }    from './data.js';
 
 // ============================================================
-// ICHKI KONSTANTALAR
+// ICHKI KONSTANTALAR VA XAVFSIZLIK SOZLAMALARI
 // ============================================================
 
 /** localStorage kalit nomi — sessiyani saqlash uchun */
@@ -21,6 +30,56 @@ export const SESSION_KEY = 'kitobchi_user';
 
 /** Ro'yxatdan o'tgan foydalanuvchilar zaxirasi (offline/fallback uchun) */
 export const REGISTERED_USERS_KEY = 'kitobchi_registered_users';
+
+/** Brute-force va tez-tez noto'g'ri urinishlardan himoya kaliti */
+export const RATE_LIMIT_KEY = 'kitobchi_auth_rate_limit';
+
+/**
+ * Autentifikatsiya cheklovi (Rate Limiting) holatini qaytaradi.
+ * @returns {{ isLocked: boolean, remainingSeconds: number, attempts: number }}
+ */
+export function getRateLimitStatus() {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_KEY);
+    if (!raw) return { isLocked: false, remainingSeconds: 0, attempts: 0 };
+    const data = JSON.parse(raw);
+    const now = Date.now();
+    if (data.lockoutUntil && now < data.lockoutUntil) {
+      const remainingSeconds = Math.ceil((data.lockoutUntil - now) / 1000);
+      return { isLocked: true, remainingSeconds, attempts: data.attempts || 0 };
+    }
+    return { isLocked: false, remainingSeconds: 0, attempts: data.attempts || 0 };
+  } catch {
+    return { isLocked: false, remainingSeconds: 0, attempts: 0 };
+  }
+}
+
+/**
+ * Noto'g'ri urinishni qayd qiladi va kerak bo'lsa kirishni bloklaydi.
+ */
+export function _recordFailedLogin() {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_KEY);
+    const data = raw ? JSON.parse(raw) : { attempts: 0, lockoutUntil: 0 };
+    data.attempts = (data.attempts || 0) + 1;
+    const now = Date.now();
+    if (data.attempts >= 10) {
+      data.lockoutUntil = now + 300 * 1000; // 10 marta xatoda 5 daqiqa (300s) lockout
+    } else if (data.attempts >= 5) {
+      data.lockoutUntil = now + 30 * 1000;  // 5 marta xatoda 30 soniya lockout
+    }
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data));
+  } catch {}
+}
+
+/**
+ * Muvaffaqiyatli kirishda cheklovlarni bekor qiladi.
+ */
+export function _clearRateLimit() {
+  try {
+    localStorage.removeItem(RATE_LIMIT_KEY);
+  } catch {}
+}
 
 function _getRegisteredUsers() {
   try {
@@ -31,25 +90,43 @@ function _getRegisteredUsers() {
   }
 }
 
-function _saveRegisteredUser(user, plainPassword) {
+/**
+ * Foydalanuvchini mahalliy xotiraga xavfsiz (SHA-256 + tuz bilan xeshlangan) saqlaydi.
+ * Hech qachon ochiq parol yozilmaydi.
+ * @param {object} user
+ * @param {string} [plainPassword]
+ */
+async function _saveRegisteredUser(user, plainPassword) {
   if (!user || !user.username) return;
   try {
     const users = _getRegisteredUsers();
     const uname = String(user.username).toLowerCase();
+    let salt = users[uname]?.salt || null;
+    let passwordHash = users[uname]?.passwordHash || null;
+
+    if (plainPassword) {
+      salt = generateSalt(16);
+      passwordHash = await hashPassword(plainPassword, salt);
+    }
+
     users[uname] = {
       id: user.id || `local_user_${uname}`,
       username: uname,
       fullName: user.fullName || uname,
       email: user.email || `${uname}@kitobchi.local`,
-      password: plainPassword || users[uname]?.password || '',
+      passwordHash: passwordHash,
+      salt: salt,
       avatar: user.avatar || '👤',
       avatarCharId: user.avatarCharId || null,
       avatarImage: user.avatarImage || null,
       score: user.score || 0,
       streak: user.streak || 0,
-      role: user.role || 'user',
-      registeredAt: new Date().toISOString()
+      role: 'user',
+      registeredAt: users[uname]?.registeredAt || new Date().toISOString()
     };
+    // Agar eski ochiq parol bo'lsa uni olib tashlaymiz
+    delete users[uname].password;
+
     localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(users));
   } catch (err) {
     console.warn('[auth] _saveRegisteredUser xatosi:', err);
@@ -139,22 +216,25 @@ function _buildUserObject(authUser, profileData = {}) {
   const cleanUsername = String(username).trim().toLowerCase();
   const cleanEmail    = String(email).trim().toLowerCase();
 
-  // Adminlik huquqi: serverdagi role, username 'admin', yoki email 'admin@...'
-  const isAdmin = profileData.role === 'admin' ||
-                  profileData.is_admin === true ||
-                  profileData.isAdmin === true ||
-                  authUser.user_metadata?.role === 'admin' ||
-                  cleanUsername === 'admin' ||
-                  cleanEmail.startsWith('admin@');
+  // Adminlik huquqi: Hech qachon email.startsWith('admin@') orqali berilmaydi!
+  // Faqat tasdiqlangan admin roli va maxsus admin akkauntlar uchun
+  const isAdmin = (
+    profileData.role === 'admin' ||
+    profileData.is_admin === true ||
+    profileData.isAdmin === true ||
+    authUser.user_metadata?.role === 'admin'
+  ) && (cleanUsername === 'admin' || cleanUsername === 'admin_kitobchi');
 
   // Avatar va Personaj ustuvorligi:
-  const avatarImage = charData?.avatarImage !== undefined 
-    ? charData.avatarImage 
-    : (existingUser?.avatarImage !== undefined ? existingUser.avatarImage : (storedUser?.avatarImage || authUser.user_metadata?.avatarImage || authUser.user_metadata?.avatar_image || profileData.avatar_image || null));
-
   const avatarCharId = charData?.avatarCharId !== undefined 
     ? charData.avatarCharId 
     : (existingUser?.avatarCharId !== undefined ? existingUser.avatarCharId : (storedUser?.avatarCharId || authUser.user_metadata?.avatarCharId || authUser.user_metadata?.avatar_char_id || profileData.avatar_char_id || null));
+
+  const charFallback = avatarCharId ? (characters || []).find(c => String(c.id) === String(avatarCharId)) : null;
+
+  const avatarImage = charData?.avatarImage !== undefined 
+    ? charData.avatarImage 
+    : (existingUser?.avatarImage !== undefined ? existingUser.avatarImage : (storedUser?.avatarImage || authUser.user_metadata?.avatarImage || authUser.user_metadata?.avatar_image || profileData.avatar_image || charFallback?.avatarImage || null));
 
   const avatar = charData?.avatar 
     || existingUser?.avatar 
@@ -163,6 +243,7 @@ function _buildUserObject(authUser, profileData = {}) {
     || (profileData.avatar_url && (profileData.avatar_url.startsWith('http') || profileData.avatar_url.startsWith('data:image/')) ? profileData.avatar_url : null)
     || authUser.user_metadata?.avatar 
     || authUser.user_metadata?.avatar_url 
+    || charFallback?.avatar
     || '🎭';
 
   const stats = profileData.stats || {};
@@ -299,7 +380,7 @@ export async function register(fullName, username, password) {
     const cleanName     = fullName.trim();
     const cleanUsername = username.trim().toLowerCase();
 
-    if (cleanUsername === 'admin') {
+    if (cleanUsername === 'admin' || cleanUsername === 'admin_kitobchi') {
       return { success: false, error: 'Bu foydalanuvchi nomi xizmat uchun band.' };
     }
 
@@ -354,8 +435,8 @@ export async function register(fullName, username, password) {
       }
     };
 
-    // Mahalliy va doimiy xotiraga saqlash
-    _saveRegisteredUser(userObj, password);
+    // Mahalliy va doimiy xotiraga xavfsiz saqlash (xesh + tuz)
+    await _saveRegisteredUser(userObj, password);
     _saveSession(userObj);
 
     // Agar Supabase auth muvaffaqiyatli bo'lgan bo'lsa, profiles jadvaliga ham yozib qo'yish
@@ -410,20 +491,35 @@ export async function login(username, password) {
     if (!username?.trim()) return { success: false, error: 'Foydalanuvchi nomi kiritilishi shart.' };
     if (!password)          return { success: false, error: 'Parol kiritilishi shart.' };
 
+    // 0. Xavfsizlik cheklovi (Rate Limiting) tekshiruvi
+    const rateLimit = getRateLimitStatus();
+    if (rateLimit.isLocked) {
+      return {
+        success: false,
+        error: `Xavfsizlik tizimi: Ko'p marta xato urinish aniqlandi. Iltimos, ${rateLimit.remainingSeconds} soniyadan so'ng qayta urinib ko'ring.`
+      };
+    }
+
     const cleanInput = username.trim().toLowerCase();
     const cleanPass = password;
 
-    // 1. Admin hisobi (offline/online kafolati)
-    if (cleanInput === 'admin' || cleanInput === 'admin@kitobchi.uz' || cleanInput === 'admin@kitobchi.local') {
-      if (cleanPass === 'admin' || cleanPass === 'admin123' || cleanPass === 'admin2026') {
+    // 1. Yangi xavfsiz Admin hisobi (Salted SHA-256 + Seans imzosi)
+    const ADMIN_SALT = 'k1t0bch1_2026_s3cur3_s4lt';
+    const ADMIN_EXPECTED_HASH = '469e246ff762e3cd5480e23db1d501197885d0591c3f710fbbf585dc4cb1ab25';
+
+    if (cleanInput === 'admin' || cleanInput === 'admin_kitobchi' || cleanInput === 'admin@kitobchi.uz' || cleanInput === 'admin@kitobchi.local') {
+      const isPasswordCorrect = await verifyPassword(cleanPass, ADMIN_SALT, ADMIN_EXPECTED_HASH);
+      if (isPasswordCorrect) {
+        _clearRateLimit();
         const adminUser = {
           id: 'admin-master-001',
-          username: 'admin',
-          fullName: 'Administrator',
+          username: cleanInput.startsWith('admin_') ? cleanInput : 'admin_kitobchi',
+          fullName: 'Administrator (Pro)',
           email: 'admin@kitobchi.uz',
           role: 'admin',
           isAdmin: true,
           is_admin: true,
+          sessionToken: ADMIN_SESSION_TOKEN,
           score: 2500,
           streak: 15,
           avatar: '👑',
@@ -442,6 +538,9 @@ export async function login(username, password) {
         };
         _saveSession(adminUser);
         return { success: true, user: adminUser };
+      } else {
+        _recordFailedLogin();
+        return { success: false, error: 'Login yoki parol noto\'g\'ri.' };
       }
     }
 
@@ -452,6 +551,7 @@ export async function login(username, password) {
       'umarof':   { name: 'Umar Umarov',      pass: ['umarof123', '123456', 'parol123'], score: 980,  streak: 5, avatar: '🧑‍💻', charId: 'ulugbek' },
     };
     if (DEMO_USERS[cleanInput] && DEMO_USERS[cleanInput].pass.includes(cleanPass)) {
+      _clearRateLimit();
       const demo = DEMO_USERS[cleanInput];
       const demoUser = {
         id: `demo_${cleanInput}_001`,
@@ -499,9 +599,10 @@ export async function login(username, password) {
 
     // 5. Agar Supabase muvaffaqiyatli qabul qildi
     if (authData?.user) {
+      _clearRateLimit();
       const profile = await _fetchProfile(authData.user.id);
       const userObj = _buildUserObject(authData.user, profile || {});
-      _saveRegisteredUser(userObj, cleanPass);
+      await _saveRegisteredUser(userObj, cleanPass);
       _saveSession(userObj);
       return { success: true, user: userObj };
     }
@@ -516,22 +617,37 @@ export async function login(username, password) {
     const localUser = regUsers[cleanInput] || regUsers[cleanInput.replace('@kitobchi.local', '')];
 
     if (localUser) {
-      // Parol to'g'ri bo'lsa yoki Supabase "Email not confirmed" degan bo'lsa (chunki Supabase parolni tekshirib to'g'riligini tasdiqlagan!)
-      if (localUser.password === cleanPass || isEmailNotConfirmed) {
+      let isPassValid = false;
+      if (localUser.passwordHash && localUser.salt) {
+        isPassValid = await verifyPassword(cleanPass, localUser.salt, localUser.passwordHash);
+      } else if (localUser.password) {
+        // Eski ochiq parolni xavfsiz xeshga yangilaymiz (Migratsiya)
+        if (localUser.password === cleanPass) {
+          isPassValid = true;
+          await _saveRegisteredUser(localUser, cleanPass);
+        }
+      }
+
+      if (isPassValid || isEmailNotConfirmed) {
+        _clearRateLimit();
         const userObj = {
           ...localUser,
           offlineSession: true
         };
         delete userObj.password;
+        delete userObj.passwordHash;
+        delete userObj.salt;
         _saveSession(userObj);
         return { success: true, user: userObj };
       } else if (!isNetworkError && !isEmailNotConfirmed) {
+        _recordFailedLogin();
         return { success: false, error: 'Login yoki parol noto\'g\'ri.' };
       }
     }
 
     // Agar localUser keshda bo'lmasa, lekin Supabase email tasdiqlanmagan desa (parol to'g'ri bo'lgan):
     if (isEmailNotConfirmed) {
+      _clearRateLimit();
       const confirmedUser = {
         id: `user_${cleanInput.replace(/[^a-zA-Z0-9_]/g, '')}_${Date.now()}`,
         username: cleanInput.includes('@') ? cleanInput.split('@')[0] : cleanInput,
@@ -554,10 +670,12 @@ export async function login(username, password) {
       return { success: false, error: 'Internet yoki server bilan aloqa yo\'q. Iltimos qayta urinib ko\'ring.' };
     }
 
-    return { success: false, error: uzbekifyError(authError) };
+    _recordFailedLogin();
+    return { success: false, error: uzbekifyError(authError) || 'Login yoki parol noto\'g\'ri.' };
 
   } catch (err) {
     console.error('[auth] login xatosi:', err);
+    _recordFailedLogin();
     return { success: false, error: uzbekifyError(err) };
   }
 }
@@ -616,11 +734,19 @@ export function getCurrentUser() {
       return null;
     }
 
-    const cleanUsername = String(user.username || '').trim().toLowerCase();
-    const cleanEmail    = String(user.email || '').trim().toLowerCase();
-    if (user.role === 'admin' || user.isAdmin === true || user.is_admin === true || cleanUsername === 'admin' || cleanEmail.startsWith('admin@')) {
-      user.role = 'admin';
-      user.isAdmin = true;
+    // Sessiya yaxlitligi va soxtalashtirishdan himoya (Tamper-proofing):
+    // Adminlik da'vosi faqat tasdiqlangan kriptografik sessiya tokeni bilan qabul qilinadi.
+    if (user.role === 'admin' || user.isAdmin === true || user.is_admin === true) {
+      if (!verifySessionSignature(user)) {
+        console.warn('[auth] Ruxsatsiz yoki soxta admin sessiyasi aniqlandi va bekor qilindi.');
+        user.role = 'user';
+        user.isAdmin = false;
+        delete user.is_admin;
+        delete user.sessionToken;
+        try {
+          localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+        } catch {}
+      }
     }
 
     return user;

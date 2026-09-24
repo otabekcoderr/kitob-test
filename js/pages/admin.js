@@ -26,14 +26,8 @@ let _activeTab   = 'books';
 // ============================================================
 export async function render(container, { params, user }) {
 
-  // Adminlik tekshiruvi: role === 'admin' yoki username === 'admin' yoki email admin@...
-  const isAdmin = user && (
-    user.role === 'admin' ||
-    user.isAdmin === true ||
-    user.is_admin === true ||
-    String(user.username || '').toLowerCase() === 'admin' ||
-    String(user.email || '').toLowerCase().startsWith('admin@')
-  );
+  // Adminlik tekshiruvi: faqat tasdiqlangan role === 'admin' va isAdmin
+  const isAdmin = user && (user.role === 'admin' && user.isAdmin === true);
 
   if (!isAdmin) {
     container.innerHTML = `
