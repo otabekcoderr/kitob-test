@@ -1128,8 +1128,13 @@ function _buildLocalLeaderboard() {
     }
   }
 
-  if (list.length === 0) {
-    SAMPLE_LEADERBOARD.forEach(s => list.push({ ...s }));
+  // Namunaviy o'yinchilarni qo'shamiz (shohsupa va reyting jadvali doim to'laqonli bo'lishi uchun)
+  if (list.length < 5) {
+    SAMPLE_LEADERBOARD.forEach(s => {
+      if (!list.some(u => u.id === s.id || (u.username && u.username === s.username))) {
+        list.push({ ...s });
+      }
+    });
   }
 
   // Deterministic tie-breaking: 1) score desc, 2) streak desc, 3) full_name/username asc
@@ -1245,10 +1250,12 @@ async function _syncLeaderboardInBackground() {
         }
       }
 
-      // Agar foydalanuvchilar bo'lmasa, namunaviy o'yinchilarni qo'shamiz
-      if (list.length === 0) {
+      // Namunaviy o'yinchilarni qo'shamiz (shohsupa va reyting jadvali doim to'laqonli bo'lishi uchun)
+      if (list.length < 5) {
         SAMPLE_LEADERBOARD.forEach(s => {
-          list.push({ ...s });
+          if (!list.some(u => u.id === s.id || (u.username && u.username === s.username))) {
+            list.push({ ...s });
+          }
         });
       }
 

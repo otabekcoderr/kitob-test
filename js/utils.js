@@ -338,8 +338,12 @@ let _audioCtx = null;
 function _getAudioContext() {
   if (typeof window === 'undefined') return null;
   if (!_audioCtx) {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (AudioCtx) _audioCtx = new AudioCtx();
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) _audioCtx = new AudioCtx();
+    } catch {
+      return null;
+    }
   }
   if (_audioCtx && _audioCtx.state === 'suspended') {
     _audioCtx.resume().catch(() => {});

@@ -112,12 +112,13 @@ function _renderBook(contentEl, book, questions, user) {
 
         <!-- Ma'lumotlar -->
         <div class="book-detail__info">
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+          <div class="book-detail__badges-row" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
             <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
             ${book.difficulty ? `<span class="badge">${escapeHtml(book.difficulty)}</span>` : ''}
             <!-- Sevimli belgisi -->
             <button
               id="fav-btn"
+              class="book-detail__fav-btn"
               aria-label="${isFav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish'}"
               title="${isFav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish'}"
               style="margin-left:auto;background:none;border:1px solid var(--divider);border-radius:var(--radius-sm);padding:4px 10px;cursor:pointer;font-size:0.875rem;color:var(--ink-muted);display:inline-flex;align-items:center;gap:5px;"
