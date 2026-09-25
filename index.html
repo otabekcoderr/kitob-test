@@ -40,6 +40,7 @@
   <!-- =====================================================
        APP (ES Module)
   ====================================================== -->
+  <script src="js/theme-init.js"></script>
   <script type="module" src="js/app.js?v=8.3.0"></script>
 </head>
 
@@ -87,27 +88,5 @@
   <footer class="footer" role="contentinfo">
     <p>© <span id="footer-year"></span> Kitobchi.uz — Mutolaa va tafakkur maskani. Barcha huquqlar himoyalangan.</p>
   </footer>
-
-  <!-- =====================================================
-       INLINE SCRIPT — faqat eng muhim boshlang'ich ishlar:
-       1. Temani FOUC (Flash of Unstyled Content) dan himoya
-       2. Footer yilni dinamik qo'yish
-  ====================================================== -->
-  <script>
-    // Temani iloji boricha ertaroq qo'llash (FOUC oldini olish)
-    (function () {
-      try {
-        var saved = localStorage.getItem('kitobchi_theme');
-        var theme = (saved === 'dark' || saved === 'light')
-          ? saved
-          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-      } catch (e) { /* ignore */ }
-    })();
-
-    // Footer yil
-    var yearEl = document.getElementById('footer-year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>

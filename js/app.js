@@ -238,7 +238,7 @@ async function _loadPage() {
     return;
   }
 
-  // Admin huquqi tekshiruvi (Role-Based Access Control)
+  // R-access check
   if (route.adminOnly) {
     if (!user || user.role !== 'admin' || !user.isAdmin) {
       showNotification('Ushbu sahifaga faqat administrator kira oladi.', 'error');
@@ -719,7 +719,7 @@ async function _syncSession() {
     const session = result?.data?.session;
 
     if (!session?.user) {
-      // Agar tarmoq kechikishi yoki offline/test/demo/admin foydalanuvchisi bo'lsa, majburiy logout qilmaymiz!
+      // Maxsus yoki offline sessiyalarda majburiy logout qilinmaydi
       const existing = getCurrentUser();
       if (
         existing?.offlineSession ||
