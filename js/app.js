@@ -187,7 +187,7 @@ function _bindPrefetchEvents() {
 }
 
 /**
- * Joriy hash dan path va query parametrlarini ajratib oladi.
+ * Joriy hash dan yo'l va kalit parametrlarini ajratib oladi.
  *
  * @example
  *   #quiz?bookId=3  →  { path: 'quiz', params: { bookId: '3' } }
@@ -323,7 +323,7 @@ async function _loadPage() {
  * Dasturiy navigatsiya — sahifaga yo'naltiradi.
  *
  * @param {string}               path    — marshrut nomi ('home', 'quiz', ...)
- * @param {Record<string,string>} [params] — query parametrlar
+ * @param {Record<string,string>} [params] — parametrlar ro'yxati
  *
  * @example
  *   navigate('quiz', { bookId: '3' });  →  #quiz?bookId=3
