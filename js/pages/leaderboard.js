@@ -220,7 +220,7 @@ function _renderPodium(top3, currentUser) {
             <div class="podium__avatar"${isMe ? ' style="border-color:var(--ochre);box-shadow:0 0 10px rgba(183,110,22,0.3);"' : ''}>
               ${avatarImg
                 ? `<img src="${escapeHtml(avatarImg)}" alt="${escapeHtml(u.full_name || '')}" style="width:100%;height:100%;object-fit:cover;">`
-                : (u.avatar || u.avatar_url || escapeHtml(initial))
+                : escapeHtml(u.avatar || u.avatar_url || initial)
               }
             </div>
             <div class="podium__name">
@@ -284,7 +284,7 @@ function _renderTable(leaders, currentUser) {
                     <div style="width:34px;height:34px;border-radius:50%;background:var(--paper-alt);border:1.5px solid ${isMe ? 'var(--ochre)' : 'var(--divider)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8125rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
                       ${avatarImg
                         ? `<img src="${escapeHtml(avatarImg)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                        : (u.avatar || u.avatar_url || escapeHtml(initial))
+                        : escapeHtml(u.avatar || u.avatar_url || initial)
                       }
                     </div>
                     <span style="font-weight:${isMe ? 600 : 400};">

@@ -85,6 +85,10 @@ const _handlers = {
 let _hiddenAt = 0;
 const VISIBILITY_GRACE_MS = 1500;
 
+// To'g'ri javoblarni himoyalangan private xotirada saqlash (DevTools inspect orqali ko'rib olishdan himoya)
+let _secureAnswerKeys = [];
+let _secureExplanations = [];
+
 /**
  * Qoida buzilishini qayd etadi va ogohlantiradi.
  * 3 marta buzilsa — test 0 ball bilan tugaydi.
@@ -418,9 +422,26 @@ export async function startQuiz(config, callbacks = {}) {
       return;
     }
 
-    // 2. Savollarni aralashtirish va har birining variantlarini mustaqil shuffle qilish
+    // 2. Savollarni aralashtirish va to'g'ri javoblarni yopiq xotiraga ajratish
+    _secureAnswerKeys = [];
+    _secureExplanations = [];
+
     const shuffledQuestions = shuffle([...raw]);
-    state.questions = shuffledQuestions.map(shuffleOptions);
+    state.questions = shuffledQuestions.map((q, idx) => {
+      const prepared = shuffleOptions(q);
+      const correctVal = String(prepared.correct_answer ?? prepared.correctAnswer ?? '');
+      _secureAnswerKeys[idx] = correctVal;
+      _secureExplanations[idx] = String(prepared.explanation || '');
+
+      // Klientda ochiq ko'rinmasligi uchun javob va izohlarni tozalaymiz
+      const cleanQ = {
+        id: prepared.id,
+        bookId: prepared.bookId,
+        question: prepared.question || prepared.text || '',
+        options: prepared.options || [],
+      };
+      return Object.freeze(cleanQ);
+    });
     state.isRunning = true;
 
     // 3. Anti-cheat yoqish
@@ -500,9 +521,12 @@ function _nextQuestion(selectedOption, callbacks) {
   if (!state.isAcceptingAnswer) return;
   state.isAcceptingAnswer = false;
 
-  const question   = state.questions[state.currentIndex];
+  const question       = state.questions[state.currentIndex];
+  const correctVal     = _secureAnswerKeys[state.currentIndex] || '';
+  const explanationVal = _secureExplanations[state.currentIndex] || '';
+
   const isCorrect  = selectedOption !== null &&
-                     String(selectedOption) === String(question.correct_answer ?? question.answer);
+                     String(selectedOption) === String(correctVal);
 
   if (isCorrect) {
     state.score += 1;
@@ -511,7 +535,6 @@ function _nextQuestion(selectedOption, callbacks) {
     playQuizSound('wrong');
   }
 
-  const correctVal = question.correct_answer ?? question.answer;
   const opts = Array.isArray(question.options) ? question.options : [];
   const selectedIdx = opts.findIndex(o => String(o) === String(selectedOption));
   const correctIdx = opts.findIndex(o => String(o) === String(correctVal));
@@ -528,15 +551,15 @@ function _nextQuestion(selectedOption, callbacks) {
     correctText: correctVal,
     correctOptionIndex: correctIdx >= 0 ? correctIdx : null,
     isCorrect: isCorrect,
-    explanation: question.explanation || ''
+    explanation: explanationVal
   });
 
   if (typeof onAnswer === 'function') {
     onAnswer({
       isCorrect,
       selectedOption,
-      correctAnswer: question.correct_answer ?? question.answer,
-      explanation:   question.explanation || '',
+      correctAnswer: correctVal,
+      explanation:   explanationVal,
       score:         state.score,
       index:         state.currentIndex,
     });

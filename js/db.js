@@ -875,12 +875,18 @@ export async function saveQuizResult(result) {
       ? parseInt(book.id, 10)
       : (/^\d+$/.test(String(result.bookId)) ? parseInt(result.bookId, 10) : null);
 
+    // Xavfsizlik: Natijalarni soxtalashtirishdan himoya
+    const safeTotal = Math.max(1, Math.min(100, Math.round(Number(result.total) || 10)));
+    const safeScore = Math.max(0, Math.min(safeTotal, Math.round(Number(result.score) || 0)));
+    const safePercentage = Math.round((safeScore / safeTotal) * 100);
+    const safePenalty = Math.max(0, Math.min(100, Math.round(Number(result.penalty) || 0)));
+
     const payload = {
       user_id:    user.id,
-      score:      result.score,
-      total:      result.total,
-      percentage: result.percentage,
-      penalty:    result.penalty ?? 0,
+      score:      safeScore,
+      total:      safeTotal,
+      percentage: safePercentage,
+      penalty:    safePenalty,
       date:       result.date,
       created_at: new Date().toISOString(),
     };
@@ -1463,7 +1469,9 @@ export async function updateStreakAndScore(earnedScore, todayDate, metadata = {}
 
     const validToday = toLocalDateString(todayDate) || today();
     const yesterdayStr = yesterday();
-    const validEarned = Math.max(0, Math.round(Number(earnedScore) || 0));
+    // Xavfsizlik: Bitta test urinishida sun'iy ball (score tampering) yozishni cheklash
+    const MAX_ALLOWED_EARNED_XP = 500;
+    const validEarned = Math.max(0, Math.min(MAX_ALLOWED_EARNED_XP, Math.round(Number(earnedScore) || 0)));
 
     const lastDate = toLocalDateString(user.lastQuizDate) || null;
     const oldStreak = Number(user.streak || 0);

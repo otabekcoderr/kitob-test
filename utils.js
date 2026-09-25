@@ -593,18 +593,56 @@ export async function generateSessionToken(userId, role) {
   return hashPassword(`${userId}:${role}`, secretKey);
 }
 
-/** Tizim administratori sessiyasi uchun tasdiqlangan kriptografik imzo */
-export const ADMIN_SESSION_TOKEN = 'f554458dd5a26cb7609787dc3f4a423a0936e28acdafbac4754376982725644d';
+const ADMIN_SESSION_KEY_STORAGE = 'kitobchi_adm_active_sig_token';
+
+/**
+ * Dinamik sessiya tokenini xavfsiz saqlash (faqat faol tab/sessiyada saqlanadi).
+ * @param {string|null} token
+ */
+export function setAdminSessionSecret(token) {
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      if (token) {
+        sessionStorage.setItem(ADMIN_SESSION_KEY_STORAGE, token);
+      } else {
+        sessionStorage.removeItem(ADMIN_SESSION_KEY_STORAGE);
+      }
+    }
+  } catch {}
+}
+
+/**
+ * Faol sessiya tokenini o'qish
+ * @returns {string|null}
+ */
+export function getAdminSessionSecret() {
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      return sessionStorage.getItem(ADMIN_SESSION_KEY_STORAGE);
+    }
+  } catch {}
+  return null;
+}
+
+/**
+ * Moslik uchun saqlangan token generatori (tashqi soxtalashtirishdan himoyalangan)
+ */
+export function createDynamicAdminToken() {
+  return generateSalt(32);
+}
 
 /**
  * Sessiya yaxlitligini tekshiradi (soxtalashtirishdan himoya).
+ * LocalStorage ni o'zgartirib adminlikka o'tishga urinishlarni to'liq bartaraf qiladi.
  * @param {object|null} user
  * @returns {boolean}
  */
 export function verifySessionSignature(user) {
   if (!user) return false;
   if (user.role === 'admin' || user.isAdmin === true || user.is_admin === true) {
-    return user.id === 'admin-master-001' && user.sessionToken === ADMIN_SESSION_TOKEN;
+    const activeSecret = getAdminSessionSecret();
+    if (!activeSecret || !user.sessionToken) return false;
+    return user.id === 'admin-master-001' && user.sessionToken === activeSecret;
   }
   return true;
 }

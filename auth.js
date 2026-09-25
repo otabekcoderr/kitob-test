@@ -16,7 +16,8 @@ import {
   hashPassword,
   verifyPassword,
   generateSessionToken,
-  ADMIN_SESSION_TOKEN,
+  setAdminSessionSecret,
+  createDynamicAdminToken,
   verifySessionSignature,
 } from './utils.js';
 import { characters }    from './data.js';
@@ -511,6 +512,8 @@ export async function login(username, password) {
       const isPasswordCorrect = await verifyPassword(cleanPass, ADMIN_SALT, ADMIN_EXPECTED_HASH);
       if (isPasswordCorrect) {
         _clearRateLimit();
+        const dynamicToken = createDynamicAdminToken();
+        setAdminSessionSecret(dynamicToken);
         const adminUser = {
           id: 'admin-master-001',
           username: cleanInput.startsWith('admin_') ? cleanInput : 'admin_kitobchi',
@@ -519,7 +522,7 @@ export async function login(username, password) {
           role: 'admin',
           isAdmin: true,
           is_admin: true,
-          sessionToken: ADMIN_SESSION_TOKEN,
+          sessionToken: dynamicToken,
           score: 2500,
           streak: 15,
           avatar: '👑',
@@ -694,7 +697,8 @@ export async function logout() {
   try {
     const { error } = await supabase.auth.signOut();
 
-    // localStorage ni har doim tozalaymiz (hatto Supabase xato qilsa ham)
+    // localStorage va admin sessiya imzosini har doim tozalaymiz
+    setAdminSessionSecret(null);
     _saveSession(null);
 
     if (error) {
@@ -706,6 +710,7 @@ export async function logout() {
 
   } catch (err) {
     console.error('[auth] logout xatosi:', err);
+    setAdminSessionSecret(null);
     _saveSession(null); // Baribir tozalaymiz
     return { success: false, error: uzbekifyError(err) };
   }
