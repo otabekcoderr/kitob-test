@@ -671,7 +671,7 @@ function _renderLeaderboardMini(leaders, currentUser) {
                   <div style="width:28px;height:28px;border-radius:50%;background:var(--paper-alt);border:1px solid ${isMe ? 'var(--ochre)' : 'var(--divider)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
                     ${avatarImg
                       ? `<img src="${escapeHtml(avatarImg)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                      : (u.avatar || u.avatar_url || escapeHtml(initial))
+                      : escapeHtml(u.avatar || u.avatar_url || initial)
                     }
                   </div>
                   <span class="leaderboard__name">${escapeHtml(u.full_name || u.username)}${isMe ? ' <span class="badge badge-primary" style="font-size:.65rem;margin-left:4px;">Siz</span>' : ''}</span>
