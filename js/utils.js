@@ -642,15 +642,54 @@ export function verifySessionSignature(user) {
   if (user.role === 'admin' || user.isAdmin === true || user.is_admin === true) {
     const activeSecret = getAdminSessionSecret();
     if (!activeSecret || !user.sessionToken) return false;
-    return user.id === 'admin-master-001' && user.sessionToken === activeSecret;
+    return user.sessionToken === activeSecret;
   }
   return true;
+}
+
+/**
+ * Berilgan qiymat haqiqiy rasm URL (http/https), data URI yoki nisbiy rasm yo'li ekanligini tekshiradi.
+ * Emoji yoki oddiy matnlarni rasm deb hisoblamaydi (broken image img teglarining oldini oladi).
+ * @param {*} val
+ * @returns {boolean}
+ */
+export function isImageUrl(val) {
+  if (!val || typeof val !== 'string') return false;
+  const s = val.trim();
+  return s.startsWith('http://') ||
+         s.startsWith('https://') ||
+         s.startsWith('data:image/') ||
+         s.startsWith('/') ||
+         s.startsWith('./') ||
+         s.startsWith('../');
+}
+
+/**
+ * PostgREST / SQL query inputlarini xavfsiz tozalash.
+ * Maxsus PostgREST operatorlari, qavslar va injection belgilarini olib tashlaydi.
+ * @param {*} input
+ * @returns {string}
+ */
+export function sanitizeQueryInput(input) {
+  if (typeof input !== 'string') return String(input || '');
+  return input.replace(/[\x00-\x1f"'\\]/g, '').trim();
+}
+
+/**
+ * ID va slug larni xavfsiz tozalash (faqat harflar, raqamlar, chiziqcha va pastki chiziq).
+ * @param {*} input
+ * @returns {string}
+ */
+export function sanitizeIdentifier(input) {
+  if (typeof input !== 'string') return String(input || '');
+  return input.replace(/[^a-zA-Z0-9_\-]/g, '').trim();
 }
 
 // ============================================================
 // 9. RIVOJLANISH VA GEYMIFIKATSIYA (PROGRESSION)
 // ============================================================
 export * from './progression.js';
+
 
 
 

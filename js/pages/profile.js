@@ -12,6 +12,7 @@ import {
   calculateAllBooksMastery,
   renderBookCoverPlaceholder,
   getBookCoverUrl,
+  isImageUrl,
 } from '../utils.js';
 
 let _cleanup = [];
@@ -930,13 +931,11 @@ function _renderHistory(results) {
 
 // ---- AVATAR HTML ----
 function _avatarHTML(user) {
-  if (user.avatarImage) {
-    return `<img src="${escapeHtml(user.avatarImage)}" alt="${escapeHtml(user.fullName || '')}" class="profile-hero__avatar-img">`;
+  const rawImg = user.avatarImage || user.avatar_image || user.avatar_url || user.avatar;
+  if (isImageUrl(rawImg)) {
+    return `<img src="${escapeHtml(rawImg)}" alt="${escapeHtml(user.fullName || '')}" class="profile-hero__avatar-img">`;
   }
-  if (user.avatar) {
-    if (user.avatar.startsWith('http://') || user.avatar.startsWith('https://') || user.avatar.startsWith('data:image/')) {
-      return `<img src="${escapeHtml(user.avatar)}" alt="${escapeHtml(user.fullName || '')}" class="profile-hero__avatar-img">`;
-    }
+  if (user.avatar && !isImageUrl(user.avatar)) {
     return `<span class="profile-hero__avatar-letter" style="font-size: 2.2rem; display:flex; align-items:center; justify-content:center;">${escapeHtml(user.avatar)}</span>`;
   }
   const initial = (user.fullName || user.username || 'U')[0].toUpperCase();

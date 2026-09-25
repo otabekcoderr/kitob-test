@@ -17,7 +17,7 @@ import {
 } from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
 import * as localData    from './data.js';
-import { today, yesterday, formatDate, toLocalDateString, daysBetween, getBookCoverUrl } from './utils.js';
+import { today, yesterday, formatDate, toLocalDateString, daysBetween, getBookCoverUrl, sanitizeQueryInput, sanitizeIdentifier } from './utils.js';
 
 // ============================================================
 // SUPABASE TARMOQ STATUSI VA CIRCUIT BREAKER
@@ -638,13 +638,14 @@ function _getLocalQuestionsForBook(bookId) {
 async function _syncQuestionsInBackground(bookId, localQs = []) {
   if (!isSupabaseOnline()) return;
   try {
-    const targetId = String(bookId);
-    const targetSlug = _slugify(bookId);
+    const targetId = sanitizeIdentifier(String(bookId));
+    const targetSlug = sanitizeIdentifier(_slugify(bookId));
     let query = supabase.from('questions').select('*');
-    if (targetSlug && targetSlug !== targetId) {
-      query = query.or(`bookId.eq.${targetId},bookId.eq.${targetSlug}`);
+    const searchIds = Array.from(new Set([targetId, targetSlug].filter(Boolean)));
+    if (searchIds.length > 1) {
+      query = query.in('bookId', searchIds);
     } else {
-      query = query.eq('bookId', targetId);
+      query = query.eq('bookId', searchIds[0] || targetId);
     }
     const { data, error } = await runQuery(query, 2500);
     if (!error && Array.isArray(data) && data.length > 0) {
@@ -707,12 +708,14 @@ export async function getQuestions(bookId, forceRefresh = false) {
   // 3. Agar lokal topilmasa yoki forceRefresh bo'lsa — Supabase dan so'raymiz
   let dbQuestions = [];
   try {
-    const searchId = targetSlug || targetId;
+    const safeTargetId = sanitizeIdentifier(targetId);
+    const safeTargetSlug = sanitizeIdentifier(targetSlug);
     let query = supabase.from('questions').select('*');
-    if (targetSlug && targetSlug !== targetId) {
-      query = query.or(`bookId.eq.${targetId},bookId.eq.${targetSlug}`);
+    const searchIds = Array.from(new Set([safeTargetId, safeTargetSlug].filter(Boolean)));
+    if (searchIds.length > 1) {
+      query = query.in('bookId', searchIds);
     } else {
-      query = query.eq('bookId', targetId);
+      query = query.eq('bookId', searchIds[0] || safeTargetId);
     }
     const { data, error } = await runQuery(query, 2500);
     if (!error && Array.isArray(data) && data.length > 0) {
@@ -1134,8 +1137,8 @@ function _buildLocalLeaderboard() {
     }
   }
 
-  // Namunaviy o'yinchilarni qo'shamiz (shohsupa va reyting jadvali doim to'laqonli bo'lishi uchun)
-  if (list.length < 5) {
+  // Namunaviy o'yinchilarni faqat ro'yxat mutlaqo bo'sh bo'lgandagina qo'shamiz (real foydalanuvchilar o'rnini bosmasligi uchun)
+  if (list.length === 0) {
     SAMPLE_LEADERBOARD.forEach(s => {
       if (!list.some(u => u.id === s.id || (u.username && u.username === s.username))) {
         list.push({ ...s });
@@ -1256,8 +1259,8 @@ async function _syncLeaderboardInBackground() {
         }
       }
 
-      // Namunaviy o'yinchilarni qo'shamiz (shohsupa va reyting jadvali doim to'laqonli bo'lishi uchun)
-      if (list.length < 5) {
+      // Namunaviy o'yinchilarni faqat ro'yxat mutlaqo bo'sh bo'lgandagina qo'shamiz
+      if (list.length === 0) {
         SAMPLE_LEADERBOARD.forEach(s => {
           if (!list.some(u => u.id === s.id || (u.username && u.username === s.username))) {
             list.push({ ...s });

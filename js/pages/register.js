@@ -242,7 +242,8 @@ function _bindEvents() {
 
       if (result.success) {
         showNotification("Muvaffaqiyatli ro'yxatdan o'tdingiz!", 'success');
-        window.navigate('home');
+        const target = params?.redirect ? decodeURIComponent(params.redirect) : 'home';
+        window.navigate(target);
       } else {
         _showGlobalError(globalError, result.error);
       }

@@ -2,7 +2,7 @@
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
 import { getBooks, getLeaderboard, getUserResults, getStreakStatus } from '../db.js';
-import { escapeHtml, truncate, today, formatDate, renderBookCoverPlaceholder, getBookCoverUrl } from '../utils.js';
+import { escapeHtml, truncate, today, formatDate, renderBookCoverPlaceholder, getBookCoverUrl, isImageUrl } from '../utils.js';
 import { getUserLevel, getNextUnlockTarget, getDailyMissions, isBookUnlocked } from '../progression.js';
 
 let _cleanup = [];
@@ -68,7 +68,7 @@ export async function render(container, { params, user }) {
                </div>`
             : `<div class="hero__guest animate-fade-in">
                  <p class="hero__eyebrow" style="display:inline-flex;align-items:center;gap:6px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ochre);">
-                   🏛️ Milliy raqamli meros & intellektual sinovlar
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Milliy raqamli meros & intellektual sinovlar
                  </p>
                  <h1 class="hero__title" style="letter-spacing:-0.02em;margin-top:6px;margin-bottom:12px;">
                    Kitobchi<span style="color:var(--ochre);">.uz</span>
@@ -250,7 +250,7 @@ function _renderNextUnlock(target, user) {
         </div>
         <div style="flex:1;min-width:240px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
-            <span class="badge badge-primary">🔓 Keyingi maqsad</span>
+            <span class="badge badge-primary"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>Keyingi maqsad</span>
             <span style="font-size:0.8125rem;color:var(--ochre);font-weight:700;">${status.requiredLevel}-daraja talabi</span>
           </div>
           <h3 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin:0 0 4px 0;color:var(--ink);">${escapeHtml(book.title)}</h3>
@@ -570,7 +570,7 @@ function _bookCardHTML(book, user) {
   if (isLocked) {
     topBadge = `
       <div class="book-card__lock-badge ${unlock.isMystery ? 'book-card__lock-badge--mystery' : ''}">
-        <span>${unlock.isMystery ? '⚡ 7 kun streak' : `🔒 ${unlock.requiredLevel}-daraja`}</span>
+        <span>${unlock.isMystery ? '⚡ 7 kun streak' : `<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:2px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>${unlock.requiredLevel}-daraja`}</span>
       </div>
     `;
   } else if (isAdminBypass) {
@@ -582,7 +582,7 @@ function _bookCardHTML(book, user) {
   } else {
     topBadge = `
       <div class="book-card__unlocked-badge">
-        <span>🔓 Ochiq</span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>Ochiq</span>
       </div>
     `;
   }
@@ -615,7 +615,7 @@ function _bookCardHTML(book, user) {
           <div class="book-card__lock-overlay">
             <div style="height:20px;"></div>
             <div class="book-card__lock-center">
-              <div class="book-card__lock-icon-circle">🔒</div>
+              <div class="book-card__lock-icon-circle"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
               <span class="book-card__lock-req-text">${unlock.isMystery ? '7 kunlik streak' : `${unlock.requiredLevel}-daraja`}</span>
             </div>
             <div class="book-card__lock-progress">
@@ -636,7 +636,7 @@ function _bookCardHTML(book, user) {
       </div>
       <div class="book-card__footer">
         <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
-        <span class="badge ${isLocked ? '' : 'badge-primary'}">${isLocked ? `🔒 ${unlock.requiredLevel}-daraja` : '✓ Testga tayyor'}</span>
+        <span class="badge ${isLocked ? '' : 'badge-primary'}">${isLocked ? `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:2px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>${unlock.requiredLevel}-daraja` : '✓ Testga tayyor'}</span>
       </div>
     </article>
   `;
@@ -660,7 +660,9 @@ function _renderLeaderboardMini(leaders, currentUser) {
         ${sorted.map((u, i) => {
           const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
           const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
-          const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
+          const rawImg    = u.avatarImage || u.avatar_image || u.avatar_url || u.avatar;
+          const avatarImg = isImageUrl(rawImg) ? rawImg : null;
+          const fallbackAvatar = !isImageUrl(u.avatar) && u.avatar ? u.avatar : initial;
           const rank = i + 1;
           const rankBadge = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : rank));
           return `
@@ -671,7 +673,7 @@ function _renderLeaderboardMini(leaders, currentUser) {
                   <div style="width:28px;height:28px;border-radius:50%;background:var(--paper-alt);border:1px solid ${isMe ? 'var(--ochre)' : 'var(--divider)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
                     ${avatarImg
                       ? `<img src="${escapeHtml(avatarImg)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                      : escapeHtml(u.avatar || u.avatar_url || initial)
+                      : escapeHtml(fallbackAvatar)
                     }
                   </div>
                   <span class="leaderboard__name">${escapeHtml(u.full_name || u.username)}${isMe ? ' <span class="badge badge-primary" style="font-size:.65rem;margin-left:4px;">Siz</span>' : ''}</span>

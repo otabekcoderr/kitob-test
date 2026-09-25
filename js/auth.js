@@ -20,7 +20,7 @@ import {
   createDynamicAdminToken,
   verifySessionSignature,
 } from './utils.js';
-import { characters }    from './data.js';
+import { characters }    from './characters.js';
 
 // ============================================================
 // ICHKI KONSTANTALAR VA XAVFSIZLIK SOZLAMALARI
@@ -144,6 +144,14 @@ async function _saveRegisteredUser(user, plainPassword) {
  */
 function _saveSession(user) {
   if (user && user.id) {
+    if (user.role === 'admin' || user.isAdmin === true) {
+      if (!user.sessionToken) {
+        user.sessionToken = createDynamicAdminToken();
+      }
+      setAdminSessionSecret(user.sessionToken);
+    } else {
+      setAdminSessionSecret(null);
+    }
     localStorage.setItem(SESSION_KEY, JSON.stringify(user));
 
     // Tanlangan personaj va avatarni hech qachon yo'qolmaydigan alohida kalitda mustahkam saqlaymiz
@@ -176,6 +184,7 @@ function _saveSession(user) {
       localStorage.setItem('kitobchi_all_users', JSON.stringify(all));
     } catch { /* ignore */ }
   } else {
+    setAdminSessionSecret(null);
     localStorage.removeItem(SESSION_KEY);
   }
 }
@@ -218,13 +227,13 @@ function _buildUserObject(authUser, profileData = {}) {
   const cleanEmail    = String(email).trim().toLowerCase();
 
   // Adminlik huquqi: Hech qachon email.startsWith('admin@') orqali berilmaydi!
-  // Faqat tasdiqlangan admin roli va maxsus admin akkauntlar uchun
-  const isAdmin = (
+  // Faqat bazada tasdiqlangan admin roli va metadata uchun
+  const isAdmin = Boolean(
     profileData.role === 'admin' ||
     profileData.is_admin === true ||
     profileData.isAdmin === true ||
     authUser.user_metadata?.role === 'admin'
-  ) && (cleanUsername === 'admin' || cleanUsername === 'admin_kitobchi');
+  );
 
   // Avatar va Personaj ustuvorligi:
   const avatarCharId = charData?.avatarCharId !== undefined 
@@ -504,48 +513,6 @@ export async function login(username, password) {
     const cleanInput = username.trim().toLowerCase();
     const cleanPass = password;
 
-    // 1. Yangi xavfsiz Admin hisobi (Salted SHA-256 + Seans imzosi)
-    const ADMIN_SALT = 'k1t0bch1_2026_s3cur3_s4lt';
-    const ADMIN_EXPECTED_HASH = '469e246ff762e3cd5480e23db1d501197885d0591c3f710fbbf585dc4cb1ab25';
-
-    if (cleanInput === 'admin' || cleanInput === 'admin_kitobchi' || cleanInput === 'admin@kitobchi.uz' || cleanInput === 'admin@kitobchi.local') {
-      const isPasswordCorrect = await verifyPassword(cleanPass, ADMIN_SALT, ADMIN_EXPECTED_HASH);
-      if (isPasswordCorrect) {
-        _clearRateLimit();
-        const dynamicToken = createDynamicAdminToken();
-        setAdminSessionSecret(dynamicToken);
-        const adminUser = {
-          id: 'admin-master-001',
-          username: cleanInput.startsWith('admin_') ? cleanInput : 'admin_kitobchi',
-          fullName: 'Administrator (Pro)',
-          email: 'admin@kitobchi.uz',
-          role: 'admin',
-          isAdmin: true,
-          is_admin: true,
-          sessionToken: dynamicToken,
-          score: 2500,
-          streak: 15,
-          avatar: '👑',
-          avatarCharId: 'navoiy',
-          offlineSession: true,
-          stats: {
-            score: 2500,
-            totalScore: 2500,
-            bestScore: 2500,
-            avgScore: 2500,
-            currentStreak: 15,
-            maxStreak: 15,
-            testsCompleted: 25,
-            lastQuizDate: new Date().toISOString().split('T')[0]
-          }
-        };
-        _saveSession(adminUser);
-        return { success: true, user: adminUser };
-      } else {
-        _recordFailedLogin();
-        return { success: false, error: 'Login yoki parol noto\'g\'ri.' };
-      }
-    }
 
     // 2. O'rnatilgan Demo kitobxonlar (shohida, khasanov, umarof)
     const DEMO_USERS = {

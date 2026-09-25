@@ -191,7 +191,8 @@ function _bindEvents() {
 
       if (result.success) {
         showNotification('Xush kelibsiz!', 'success');
-        window.navigate('home');
+        const target = params?.redirect ? decodeURIComponent(params.redirect) : 'home';
+        window.navigate(target);
       } else {
         if (!_checkRateLimit()) {
           _showGlobalError(globalError, result.error);

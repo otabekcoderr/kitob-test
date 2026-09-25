@@ -2,7 +2,7 @@
 // pages/leaderboard.js — Reyting jadvali (Editorial uslub)
 // ============================================================
 import { getLeaderboard } from '../db.js';
-import { escapeHtml }     from '../utils.js';
+import { escapeHtml, isImageUrl } from '../utils.js';
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
@@ -211,7 +211,9 @@ function _renderPodium(top3, currentUser) {
         const rank      = u.rank;
         const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
         const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
-        const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
+        const rawImg    = u.avatarImage || u.avatar_image || u.avatar_url || u.avatar;
+        const avatarImg = isImageUrl(rawImg) ? rawImg : null;
+        const fallbackAvatar = !isImageUrl(u.avatar) && u.avatar ? u.avatar : initial;
         const score     = u.displayScore !== undefined ? u.displayScore : (u.score ?? 0);
         return `
           <div class="podium__item podium__item--${rank}" role="listitem"
@@ -220,7 +222,7 @@ function _renderPodium(top3, currentUser) {
             <div class="podium__avatar"${isMe ? ' style="border-color:var(--ochre);box-shadow:0 0 10px rgba(183,110,22,0.3);"' : ''}>
               ${avatarImg
                 ? `<img src="${escapeHtml(avatarImg)}" alt="${escapeHtml(u.full_name || '')}" style="width:100%;height:100%;object-fit:cover;">`
-                : escapeHtml(u.avatar || u.avatar_url || initial)
+                : escapeHtml(fallbackAvatar)
               }
             </div>
             <div class="podium__name">
@@ -268,7 +270,9 @@ function _renderTable(leaders, currentUser) {
             const rank      = i + 1;
             const isMe      = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
             const initial   = (u.full_name || u.username || '?')[0].toUpperCase();
-            const avatarImg = u.avatarImage || (u.avatar_url && (u.avatar_url.startsWith('http') || u.avatar_url.startsWith('data:image/')) ? u.avatar_url : null);
+            const rawImg    = u.avatarImage || u.avatar_image || u.avatar_url || u.avatar;
+            const avatarImg = isImageUrl(rawImg) ? rawImg : null;
+            const fallbackAvatar = !isImageUrl(u.avatar) && u.avatar ? u.avatar : initial;
             const score     = u.displayScore !== undefined ? u.displayScore : (u.score ?? 0);
             
             let rankBadge = `<span style="font-weight:600;color:var(--ink-muted);">${rank}</span>`;
@@ -284,7 +288,7 @@ function _renderTable(leaders, currentUser) {
                     <div style="width:34px;height:34px;border-radius:50%;background:var(--paper-alt);border:1.5px solid ${isMe ? 'var(--ochre)' : 'var(--divider)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8125rem;color:var(--ochre);flex-shrink:0;overflow:hidden;">
                       ${avatarImg
                         ? `<img src="${escapeHtml(avatarImg)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
-                        : escapeHtml(u.avatar || u.avatar_url || initial)
+                        : escapeHtml(fallbackAvatar)
                       }
                     </div>
                     <span style="font-weight:${isMe ? 600 : 400};">

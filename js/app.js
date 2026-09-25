@@ -230,7 +230,9 @@ async function _loadPage() {
 
   // Auth tekshiruvi
   if (route.auth && !user) {
-    navigate(LOGIN_ROUTE);
+    const rawTarget = window.location.hash.slice(1);
+    const returnUrl = encodeURIComponent(rawTarget || path);
+    navigate(`${LOGIN_ROUTE}?redirect=${returnUrl}`);
     return;
   }
   if (route.guest && user) {
@@ -300,6 +302,8 @@ async function _loadPage() {
 
     _finishProgressBar();
     window.scrollTo({ top: 0, behavior: 'instant' });
+    appEl.setAttribute('tabindex', '-1');
+    try { appEl.focus({ preventScroll: true }); } catch {}
 
   } catch (err) {
     _finishProgressBar();
