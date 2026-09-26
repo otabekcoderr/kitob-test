@@ -394,6 +394,19 @@ export async function register(fullName, username, password) {
       return { success: false, error: 'Bu foydalanuvchi nomi xizmat uchun band.' };
     }
 
+    // Mavjud foydalanuvchi nomini profiles jadvalidan tekshirish
+    try {
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('username', cleanUsername)
+        .maybeSingle();
+
+      if (existingProfile) {
+        return { success: false, error: 'Bu foydalanuvchi nomi allaqachon ro\'yxatdan o\'tgan.' };
+      }
+    } catch {}
+
     // Supabase Auth signUp
     let authData = null;
     let authError = null;
@@ -414,16 +427,28 @@ export async function register(fullName, username, password) {
       authError = netErr;
     }
 
-    // Agar foydalanuvchi allaqachon mavjud bo'lsa
-    if (authError && /user already registered|already exists|duplicate/i.test(authError.message || '')) {
+    // Xatoliklarni tekshirish
+    if (authError) {
+      if (/user already registered|already exists|duplicate/i.test(authError.message || '')) {
+        return { success: false, error: 'Bu foydalanuvchi nomi allaqachon ro\'yxatdan o\'tgan.' };
+      }
+      return { success: false, error: uzbekifyError(authError) || 'Ro\'yxatdan o\'tishda xatolik yuz berdi.' };
+    }
+
+    // Agar foydalanuvchi mavjud bo'lsa (identities bo'sh qaytadi)
+    if (authData?.user && Array.isArray(authData.user.identities) && authData.user.identities.length === 0) {
       return { success: false, error: 'Bu foydalanuvchi nomi allaqachon ro\'yxatdan o\'tgan.' };
     }
 
+    if (!authData?.user?.id) {
+      return { success: false, error: 'Ro\'yxatdan o\'tish amalga oshmadi. Iltimos qayta urinib ko\'ring.' };
+    }
+
     // Foydalanuvchi obyektini yaratish
-    const userId = authData?.user?.id || `usr_${cleanUsername}_${Date.now()}`;
+    const userId = authData.user.id;
     const userObj = {
       id:           userId,
-      email:        authData?.user?.email || `${cleanUsername}@kitobchi.local`,
+      email:        authData.user.email || `${cleanUsername}@kitobchi.local`,
       fullName:     cleanName,
       username:     cleanUsername,
       role:         'user',
@@ -514,46 +539,10 @@ export async function login(username, password) {
     const cleanPass = password;
 
 
-    // 2. O'rnatilgan Demo kitobxonlar (shohida, khasanov, umarof)
-    const DEMO_USERS = {
-      'shohida':  { name: 'Shohida Rahimova', pass: ['shohida123', '123456', 'parol123'], score: 1450, streak: 9, avatar: '👩‍🏫', charId: 'nodira' },
-      'khasanov': { name: 'Hasan Hasanov',    pass: ['khasanov123', '123456', 'parol123'], score: 1280, streak: 7, avatar: '👨‍🎓', charId: 'temur' },
-      'umarof':   { name: 'Umar Umarov',      pass: ['umarof123', '123456', 'parol123'], score: 980,  streak: 5, avatar: '🧑‍💻', charId: 'ulugbek' },
-    };
-    if (DEMO_USERS[cleanInput] && DEMO_USERS[cleanInput].pass.includes(cleanPass)) {
-      _clearRateLimit();
-      const demo = DEMO_USERS[cleanInput];
-      const demoUser = {
-        id: `demo_${cleanInput}_001`,
-        username: cleanInput,
-        fullName: demo.name,
-        email: `${cleanInput}@kitobchi.uz`,
-        role: 'user',
-        isAdmin: false,
-        score: demo.score,
-        streak: demo.streak,
-        avatar: demo.avatar,
-        avatarCharId: demo.charId,
-        offlineSession: true,
-        stats: {
-          score: demo.score,
-          totalScore: demo.score,
-          bestScore: demo.score,
-          avgScore: demo.score,
-          currentStreak: demo.streak,
-          maxStreak: demo.streak,
-          testsCompleted: 10,
-          lastQuizDate: new Date().toISOString().split('T')[0]
-        }
-      };
-      _saveSession(demoUser);
-      return { success: true, user: demoUser };
-    }
-
-    // 3. Email formatini to'g'ri shakllantirish (Double-@ xatosining oldini olish)
+    // 2. Email formatini to'g'ri shakllantirish (Double-@ xatosining oldini olish)
     const emailToUse = cleanInput.includes('@') ? cleanInput : `${cleanInput}@kitobchi.local`;
 
-    // 4. Supabase Auth orqali kirish
+    // 3. Supabase Auth orqali kirish (Parol Supabase darajasida tekshiriladi)
     let authData = null;
     let authError = null;
     try {
@@ -567,7 +556,7 @@ export async function login(username, password) {
       authError = err;
     }
 
-    // 5. Agar Supabase muvaffaqiyatli qabul qildi
+    // 4. Agar Supabase muvaffaqiyatli qabul qildi
     if (authData?.user) {
       _clearRateLimit();
       const profile = await _fetchProfile(authData.user.id);
@@ -577,71 +566,44 @@ export async function login(username, password) {
       return { success: true, user: userObj };
     }
 
-    // 6. Supabase xatolik qaytargan holatda zaxira (Fallback) tahlili
+    // 5. Supabase xatolik qaytargan holatda tahlil
     const errorMsg = (authError?.message || String(authError || '')).toLowerCase();
-    const isEmailNotConfirmed = errorMsg.includes('email not confirmed');
     const isNetworkError = errorMsg.includes('offline') || errorMsg.includes('connection_reset') || errorMsg.includes('fetch') || errorMsg.includes('network') || errorMsg.includes('503') || errorMsg.includes('timeout');
 
-    // Mahalliy ro'yxatdan o'tgan foydalanuvchilar orasidan tekshiramiz
-    const regUsers = _getRegisteredUsers();
-    const localUser = regUsers[cleanInput] || regUsers[cleanInput.replace('@kitobchi.local', '')];
+    // Faqat haqiqiy tarmoq uzilishida (offline) mahalliy keshdagi xesh orqali tekshirish
+    if (isNetworkError) {
+      const regUsers = _getRegisteredUsers();
+      const localUser = regUsers[cleanInput] || regUsers[cleanInput.replace('@kitobchi.local', '')];
 
-    if (localUser) {
-      let isPassValid = false;
-      if (localUser.passwordHash && localUser.salt) {
-        isPassValid = await verifyPassword(cleanPass, localUser.salt, localUser.passwordHash);
-      } else if (localUser.password) {
-        // Eski ochiq parolni xavfsiz xeshga yangilaymiz (Migratsiya)
-        if (localUser.password === cleanPass) {
-          isPassValid = true;
-          await _saveRegisteredUser(localUser, cleanPass);
+      if (localUser) {
+        let isPassValid = false;
+        if (localUser.passwordHash && localUser.salt) {
+          isPassValid = await verifyPassword(cleanPass, localUser.salt, localUser.passwordHash);
+        } else if (localUser.password) {
+          if (localUser.password === cleanPass) {
+            isPassValid = true;
+            await _saveRegisteredUser(localUser, cleanPass);
+          }
+        }
+
+        if (isPassValid) {
+          _clearRateLimit();
+          const userObj = {
+            ...localUser,
+            offlineSession: true
+          };
+          delete userObj.password;
+          delete userObj.passwordHash;
+          delete userObj.salt;
+          _saveSession(userObj);
+          return { success: true, user: userObj };
         }
       }
-
-      if (isPassValid || isEmailNotConfirmed) {
-        _clearRateLimit();
-        const userObj = {
-          ...localUser,
-          offlineSession: true
-        };
-        delete userObj.password;
-        delete userObj.passwordHash;
-        delete userObj.salt;
-        _saveSession(userObj);
-        return { success: true, user: userObj };
-      } else if (!isNetworkError && !isEmailNotConfirmed) {
-        _recordFailedLogin();
-        return { success: false, error: 'Login yoki parol noto\'g\'ri.' };
-      }
-    }
-
-    // Agar localUser keshda bo'lmasa, lekin Supabase email tasdiqlanmagan desa (parol to'g'ri bo'lgan):
-    if (isEmailNotConfirmed) {
-      _clearRateLimit();
-      const confirmedUser = {
-        id: `user_${cleanInput.replace(/[^a-zA-Z0-9_]/g, '')}_${Date.now()}`,
-        username: cleanInput.includes('@') ? cleanInput.split('@')[0] : cleanInput,
-        fullName: cleanInput.includes('@') ? cleanInput.split('@')[0] : cleanInput,
-        email: emailToUse,
-        role: 'user',
-        isAdmin: false,
-        score: 0,
-        streak: 0,
-        avatar: '👤',
-        offlineSession: true,
-        stats: { score: 0, currentStreak: 0 }
-      };
-      _saveSession(confirmedUser);
-      return { success: true, user: confirmedUser };
-    }
-
-    // Agar tarmoq xatosi bo'lsa
-    if (isNetworkError) {
       return { success: false, error: 'Internet yoki server bilan aloqa yo\'q. Iltimos qayta urinib ko\'ring.' };
     }
 
     _recordFailedLogin();
-    return { success: false, error: uzbekifyError(authError) || 'Login yoki parol noto\'g\'ri.' };
+    return { success: false, error: 'Login yoki parol noto\'g\'ri.' };
 
   } catch (err) {
     console.error('[auth] login xatosi:', err);

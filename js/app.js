@@ -421,15 +421,6 @@ function _buildNavbarHTML() {
     ? `<li>
         <a href="#admin" class="nav__link nav__admin-link" data-path="admin">
           <span class="nav__link-icon">${ICONS.admin}</span>
-          <span class="nav__link-label">Admin panel</span>
-        </a>
-      </li>`
-    : '';
-
-  const mobileAdminLink = isAdmin
-    ? `<li class="nav__item--mobile-only">
-        <a href="#admin" class="nav__link" data-path="admin">
-          <span class="nav__link-icon">${ICONS.admin}</span>
           <span class="nav__link-label">Admin</span>
         </a>
       </li>`
@@ -534,7 +525,6 @@ function _buildNavbarHTML() {
             </a>
           </li>
           ${adminLink}
-          ${mobileAdminLink}
           ${mobileProfileLink}
         </ul>
 
