@@ -1,7 +1,7 @@
 // ============================================================
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
-import { getBooks, getLeaderboard, getUserResults, getStreakStatus } from '../db.js';
+import { getBooks, getLeaderboard, getUserResults, getStreakStatus, isEligibleLeaderboardUser } from '../db.js';
 import { escapeHtml, truncate, today, formatDate, renderBookCoverPlaceholder, getBookCoverUrl, isImageUrl } from '../utils.js';
 import { getUserLevel, getNextUnlockTarget, getDailyMissions, isBookUnlocked } from '../progression.js';
 
@@ -647,12 +647,14 @@ function _renderLeaderboardMini(leaders, currentUser) {
   const el = document.getElementById('leaderboard-mini');
   if (!el) return;
 
-  if (!leaders.length) {
+  const eligible = (leaders || []).filter(isEligibleLeaderboardUser);
+
+  if (!eligible.length) {
     el.innerHTML = `<div class="empty-state"><p class="empty-state__desc">Hali hech kim test yechmagan</p></div>`;
     return;
   }
 
-  const sorted = [...leaders].sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 5);
+  const sorted = [...eligible].sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 5);
 
   el.innerHTML = `
     <table class="leaderboard-table" aria-label="Top 5 o'yinchilar">

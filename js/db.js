@@ -1061,15 +1061,24 @@ export async function getUserResults(userId, forceRefresh = false) {
   return [];
 }
 
-const SAMPLE_LEADERBOARD = [
-  { id: 'sample-1', full_name: 'Alisher Rahimov',   username: 'alisher_r', score: 1450, streak: 12, avatar_url: '' },
-  { id: 'sample-2', full_name: 'Zilola Saidova',    username: 'zilola_s',  score: 1280, streak: 9,  avatar_url: '' },
-  { id: 'sample-3', full_name: 'Javohir Karimov',   username: 'javohir_k', score: 1150, streak: 7,  avatar_url: '' },
-  { id: 'sample-4', full_name: 'Shahnoza Tursunova',username: 'shahnoza_t',score: 980,  streak: 5,  avatar_url: '' },
-  { id: 'sample-5', full_name: 'Bobur Mirzaev',     username: 'bobur_m',   score: 840,  streak: 4,  avatar_url: '' },
-  { id: 'sample-6', full_name: 'Madina Umarova',    username: 'madina_u',  score: 720,  streak: 3,  avatar_url: '' },
-  { id: 'sample-7', full_name: 'Sardor Hakimov',    username: 'sardor_h',  score: 610,  streak: 2,  avatar_url: '' },
-];
+/**
+ * Foydalanuvchi reytingda qatnashishi mumkin bo'lgan o'quvchi ekanligini tekshiradi:
+ * - Adminlar reytingga ASLO kiritilmaydi (admin platforma boshqaruvchisi, o'quvchi emas)
+ * - Sun'iy, demo yoki namunaviy foydalanuvchilar to'liq chiqarib tashlanadi
+ * @param {object|null} u
+ * @returns {boolean}
+ */
+export function isEligibleLeaderboardUser(u) {
+  if (!u || !u.id) return false;
+  if (u.is_admin === true || u.isAdmin === true || u.role === 'admin') return false;
+  const uname = String(u.username || '').toLowerCase();
+  const uid = String(u.id || '').toLowerCase();
+  if (uname === 'admin' || uname === 'admin_kitobchi' || uname.includes('admin@') || uname.startsWith('admin_')) return false;
+  if (uid.startsWith('admin') || uid.startsWith('sample-') || uid.startsWith('demo_')) return false;
+  return true;
+}
+
+const SAMPLE_LEADERBOARD = [];
 
 function _buildLocalLeaderboard() {
   try {
@@ -1077,7 +1086,8 @@ function _buildLocalLeaderboard() {
     if (rawCached) {
       const parsed = JSON.parse(rawCached);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
+        const eligible = parsed.filter(isEligibleLeaderboardUser);
+        if (eligible.length > 0) return eligible;
       }
     }
   } catch { /* ignore */ }
@@ -1090,7 +1100,7 @@ function _buildLocalLeaderboard() {
   } catch { /* ignore */ }
 
   Object.values(localUsers).forEach(u => {
-    if (!u || !u.id) return;
+    if (!isEligibleLeaderboardUser(u)) return;
     const stats = u.stats || {};
     list.push({
       id: u.id,
@@ -1108,7 +1118,7 @@ function _buildLocalLeaderboard() {
   });
 
   const cur = getCurrentUser();
-  if (cur && cur.id) {
+  if (cur && cur.id && isEligibleLeaderboardUser(cur)) {
     const curStats = cur.stats || {};
     const curScore = Number(curStats.totalScore ?? curStats.score ?? cur.score ?? 0);
     const curStreak = curStats.currentStreak !== undefined && curStats.currentStreak !== null
@@ -1132,18 +1142,9 @@ function _buildLocalLeaderboard() {
         avatar_url: cur.avatarImage || cur.avatar_image || cur.avatar || '',
         avatar: cur.avatar || '👤',
         avatarImage: cur.avatarImage || cur.avatar_image || null,
-        role: cur.isAdmin ? 'admin' : 'user',
+        role: 'user',
       });
     }
-  }
-
-  // Namunaviy o'yinchilarni faqat ro'yxat mutlaqo bo'sh bo'lgandagina qo'shamiz (real foydalanuvchilar o'rnini bosmasligi uchun)
-  if (list.length === 0) {
-    SAMPLE_LEADERBOARD.forEach(s => {
-      if (!list.some(u => u.id === s.id || (u.username && u.username === s.username))) {
-        list.push({ ...s });
-      }
-    });
   }
 
   // Deterministic tie-breaking: 1) score desc, 2) streak desc, 3) full_name/username asc
@@ -1155,7 +1156,7 @@ function _buildLocalLeaderboard() {
     return (a.full_name || a.username || '').localeCompare(b.full_name || b.username || '');
   });
 
-  return list;
+  return list.filter(isEligibleLeaderboardUser);
 }
 
 // Boshlang'ich keshni darhol lokal ma'lumotlar bilan to'ldiramiz (0ms instant render)
@@ -1169,30 +1170,33 @@ async function _syncLeaderboardInBackground() {
       supabase
         .from('profiles')
         .select('id, username, full_name, avatar, avatar_image, avatar_char_id, is_admin, stats, created_at')
+        .eq('is_admin', false)
         .limit(100),
       2500
     );
 
-    if (!error && Array.isArray(data) && data.length > 0) {
-      let list = data.map(p => {
-        const stats = p.stats || {};
-        const userScore = Number(stats.totalScore ?? stats.score ?? p.score ?? stats.avgScore ?? stats.bestScore ?? 0);
-        const userStreak = stats.currentStreak !== undefined && stats.currentStreak !== null
-          ? Number(stats.currentStreak)
-          : (p.streak !== undefined && p.streak !== null ? Number(p.streak) : 0);
+    if (!error && Array.isArray(data)) {
+      let list = data
+        .filter(isEligibleLeaderboardUser)
+        .map(p => {
+          const stats = p.stats || {};
+          const userScore = Number(stats.totalScore ?? stats.score ?? p.score ?? stats.avgScore ?? stats.bestScore ?? 0);
+          const userStreak = stats.currentStreak !== undefined && stats.currentStreak !== null
+            ? Number(stats.currentStreak)
+            : (p.streak !== undefined && p.streak !== null ? Number(p.streak) : 0);
 
-        return {
-          id: p.id,
-          full_name: p.full_name || p.username || 'Kitobxon',
-          username: p.username || '',
-          score: userScore,
-          streak: userStreak,
-          avatar_url: p.avatar_image || p.avatar || '',
-          avatar: p.avatar || '👤',
-          avatarImage: p.avatar_image || null,
-          role: p.is_admin ? 'admin' : 'user',
-        };
-      });
+          return {
+            id: p.id,
+            full_name: p.full_name || p.username || 'Kitobxon',
+            username: p.username || '',
+            score: userScore,
+            streak: userStreak,
+            avatar_url: p.avatar_image || p.avatar || '',
+            avatar: p.avatar || '👤',
+            avatarImage: p.avatar_image || null,
+            role: 'user',
+          };
+        });
 
       let localUsers = {};
       try {
@@ -1201,7 +1205,7 @@ async function _syncLeaderboardInBackground() {
       } catch { /* ignore */ }
 
       Object.values(localUsers).forEach(u => {
-        if (!u || !u.id) return;
+        if (!isEligibleLeaderboardUser(u)) return;
         const uStats = u.stats || {};
         const uScore = Number(uStats.totalScore ?? uStats.score ?? u.score ?? 0);
         const uStreak = uStats.currentStreak !== undefined && uStats.currentStreak !== null
@@ -1227,12 +1231,13 @@ async function _syncLeaderboardInBackground() {
             streak: uStreak,
             avatar_url: u.avatarImage || u.avatar || '',
             avatarImage: u.avatarImage || null,
+            role: 'user',
           });
         }
       });
 
       const cur = getCurrentUser();
-      if (cur && cur.id) {
+      if (cur && cur.id && isEligibleLeaderboardUser(cur)) {
         const curStats = cur.stats || {};
         const curScore = Number(curStats.totalScore ?? curStats.score ?? cur.score ?? 0);
         const curStreak = curStats.currentStreak !== undefined && curStats.currentStreak !== null
@@ -1255,18 +1260,12 @@ async function _syncLeaderboardInBackground() {
             streak: curStreak,
             avatar_url: cur.avatarImage || cur.avatar_image || cur.avatar || '',
             avatarImage: cur.avatarImage || cur.avatar_image || null,
+            role: 'user',
           });
         }
       }
 
-      // Namunaviy o'yinchilarni faqat ro'yxat mutlaqo bo'sh bo'lgandagina qo'shamiz
-      if (list.length === 0) {
-        SAMPLE_LEADERBOARD.forEach(s => {
-          if (!list.some(u => u.id === s.id || (u.username && u.username === s.username))) {
-            list.push({ ...s });
-          }
-        });
-      }
+      list = list.filter(isEligibleLeaderboardUser);
 
       // Deterministic tie-breaking: 1) score desc, 2) streak desc, 3) full_name/username asc
       list.sort((a, b) => {
@@ -1291,6 +1290,7 @@ async function _syncLeaderboardInBackground() {
 
 /**
  * Eng yuqori ballli foydalanuvchilarni qaytaradi (Local-First: 0ms instant render).
+ * Admin va sun'iy foydalanuvchilar qat'iyan chiqarib tashlanadi.
  *
  * @param {number} [limit=50] — nechta foydalanuvchi
  * @param {boolean} [forceRefresh=false]
@@ -1299,7 +1299,7 @@ async function _syncLeaderboardInBackground() {
 export async function getLeaderboard(limit = 50, forceRefresh = false) {
   const now = Date.now();
   if (!forceRefresh && _leaderboardCache && (now - _leaderboardCacheTime < LEADERBOARD_CACHE_TTL)) {
-    return _leaderboardCache.slice(0, limit);
+    return _leaderboardCache.filter(isEligibleLeaderboardUser).slice(0, limit);
   }
 
   if (!_leaderboardCache) {
@@ -1309,11 +1309,11 @@ export async function getLeaderboard(limit = 50, forceRefresh = false) {
 
   if (!forceRefresh) {
     _syncLeaderboardInBackground().catch(() => {});
-    return _leaderboardCache.slice(0, limit);
+    return (_leaderboardCache || []).filter(isEligibleLeaderboardUser).slice(0, limit);
   }
 
   await _syncLeaderboardInBackground().catch(() => {});
-  return (_leaderboardCache || _buildLocalLeaderboard()).slice(0, limit);
+  return (_leaderboardCache || _buildLocalLeaderboard()).filter(isEligibleLeaderboardUser).slice(0, limit);
 }
 
 // ============================================================

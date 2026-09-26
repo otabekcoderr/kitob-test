@@ -1,7 +1,7 @@
 // ============================================================
 // pages/leaderboard.js — Reyting jadvali (Editorial uslub)
 // ============================================================
-import { getLeaderboard } from '../db.js';
+import { getLeaderboard, isEligibleLeaderboardUser } from '../db.js';
 import { escapeHtml, isImageUrl } from '../utils.js';
 let _cleanup = [];
 
@@ -71,7 +71,8 @@ export async function render(container, { params, user }) {
 
   function updateLeaderboardView(period = currentPeriod) {
     currentPeriod = period;
-    const processed = allLeaders.map(u => ({
+    const eligibleLeaders = (allLeaders || []).filter(isEligibleLeaderboardUser);
+    const processed = eligibleLeaders.map(u => ({
       ...u,
       displayScore: _calcPeriodScore(u, period, user),
     })).sort((a, b) => {
@@ -120,14 +121,15 @@ export async function render(container, { params, user }) {
   });
 
   try {
-    allLeaders = await getLeaderboard(50);
+    const rawLeaders = await getLeaderboard(50);
+    allLeaders = (rawLeaders || []).filter(isEligibleLeaderboardUser);
     updateLeaderboardView(currentPeriod);
 
     // Jonli yangilanishni tinglash
     const onLeaderboardUpdated = (e) => {
       const fresh = Array.isArray(e.detail) ? e.detail : [];
       if (fresh.length > 0) {
-        allLeaders = fresh;
+        allLeaders = fresh.filter(isEligibleLeaderboardUser);
         updateLeaderboardView(currentPeriod);
       }
     };

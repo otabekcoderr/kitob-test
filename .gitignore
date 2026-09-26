@@ -4,6 +4,6 @@ scratch/
 *.log
 .DS_Store
 /data.js
-pages/
+/pages/
 
 .vercel

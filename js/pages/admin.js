@@ -112,7 +112,7 @@ export async function render(container, { params, user }) {
 // ============================================================
 /**
  * Supabase va mahalliy xotiradagi barcha foydalanuvchilarni to'playdi,
- * deduplikatsiya qiladi, asosiy administrator (admin-master-001)ni to'g'ri
+ * deduplikatsiya qiladi, haqiqiy foydalanuvchilarni to'g'ri
  * statistika (score: 2500, streak: 15) bilan kafolatlaydi va tartiblab qaytaradi.
  */
 async function _fetchAdminUsers() {
@@ -138,20 +138,20 @@ async function _fetchAdminUsers() {
           const stats = p.stats || {};
           const rawUname = String(p.username || '').replace(/^@+/, '').trim().toLowerCase();
           const rawEmail = String(p.email || '').trim().toLowerCase();
-          const isMaster = p.id === 'admin-master-001' || 
+          const isMaster = p.is_admin === true || p.role === 'admin' || 
                            rawUname === 'admin_kitobchi' || 
                            rawUname === 'admin' ||
                            rawEmail.startsWith('admin@') ||
                            rawUname.startsWith('admin@');
           return {
-            id: isMaster ? 'admin-master-001' : p.id,
-            full_name: isMaster ? 'Administrator (Pro)' : (p.full_name || p.username || 'Foydalanuvchi'),
-            username: isMaster ? 'admin_kitobchi' : (rawUname || (p.id ? String(p.id).slice(0, 8) : 'foydalanuvchi')),
-            score: isMaster ? 2500 : (stats.totalScore || stats.bestScore || stats.avgScore || p.score || 0),
-            streak: isMaster ? 15 : (stats.currentStreak !== undefined && stats.currentStreak !== null ? Number(stats.currentStreak) : (p.streak || 0)),
+            id: p.id,
+            full_name: p.full_name || p.username || 'Foydalanuvchi',
+            username: rawUname || (p.id ? String(p.id).slice(0, 8) : 'foydalanuvchi'),
+            score: Number(stats.totalScore || stats.bestScore || stats.avgScore || p.score || 0),
+            streak: stats.currentStreak !== undefined && stats.currentStreak !== null ? Number(stats.currentStreak) : Number(p.streak || 0),
             role: (p.is_admin || isMaster) ? 'admin' : (p.role || 'user'),
             is_admin: Boolean(p.is_admin || isMaster),
-            avatar: isMaster ? '👑' : (p.avatar || '👤'),
+            avatar: isMaster ? (p.avatar || '👑') : (p.avatar || '👤'),
             avatar_image: p.avatar_image || null,
             is_master: isMaster,
           };
@@ -162,55 +162,7 @@ async function _fetchAdminUsers() {
     }
   }
 
-  // 2. Tizimning asosiy foydalanuvchilari (master admin va faol kitobxonlar)
-  const defaultUsers = [
-    {
-      id: 'admin-master-001',
-      full_name: 'Administrator (Pro)',
-      username: 'admin_kitobchi',
-      score: 2500,
-      streak: 15,
-      role: 'admin',
-      is_admin: true,
-      avatar: '👑',
-      is_master: true,
-    },
-    {
-      id: 'demo_shohida_001',
-      full_name: 'Shohida Rahimova',
-      username: 'shohida',
-      score: 1450,
-      streak: 9,
-      role: 'user',
-      is_admin: false,
-      avatar: '👩‍🏫',
-      is_master: false,
-    },
-    {
-      id: 'demo_khasanov_001',
-      full_name: 'Hasan Hasanov',
-      username: 'khasanov',
-      score: 1280,
-      streak: 7,
-      role: 'user',
-      is_admin: false,
-      avatar: '👨‍🎓',
-      is_master: false,
-    },
-    {
-      id: 'demo_umarof_001',
-      full_name: 'Umar Umarov',
-      username: 'umarof',
-      score: 980,
-      streak: 5,
-      role: 'user',
-      is_admin: false,
-      avatar: '🧑‍💻',
-      is_master: false,
-    }
-  ];
-
-  // 3. Mahalliy xotiradagi kitobchi_all_users va kitobchi_registered_users ni birlashtirish
+  // 2. Mahalliy xotiradagi kitobchi_all_users va kitobchi_registered_users ni birlashtirish (sun'iy demo foydalanuvchilarsiz)
   let localUsers = {};
   try {
     const raw = localStorage.getItem('kitobchi_all_users');
@@ -223,60 +175,47 @@ async function _fetchAdminUsers() {
     if (rawReg) regUsers = JSON.parse(rawReg);
   } catch {}
 
-  const candidateList = [...defaultUsers, ...Object.values(localUsers), ...Object.values(regUsers)];
+  const candidateList = [
+    ...Object.values(localUsers),
+    ...Object.values(regUsers)
+  ].filter(u => u && u.id && !String(u.id).startsWith('demo_') && !String(u.id).startsWith('sample-'));
 
   candidateList.forEach(u => {
     if (!u) return;
     const cleanUname = String(u.username || '').replace(/^@+/, '').trim().toLowerCase();
     const cleanEmail = String(u.email || '').trim().toLowerCase();
-    const isMaster = u.id === 'admin-master-001' || 
+    const isMaster = u.is_admin === true || u.role === 'admin' ||
                      cleanUname === 'admin_kitobchi' || 
                      cleanUname === 'admin' || 
                      cleanEmail.startsWith('admin@') ||
                      cleanUname.startsWith('admin@');
-    const finalUname = isMaster ? 'admin_kitobchi' : (cleanUname || (u.id ? String(u.id).slice(0, 8) : 'foydalanuvchi'));
+    const finalUname = cleanUname || (u.id ? String(u.id).slice(0, 8) : 'foydalanuvchi');
 
     // Deduplikatsiya
     const idx = users.findIndex(item => 
       (item.id && u.id && item.id === u.id) ||
-      (item.username && finalUname && item.username.toLowerCase() === finalUname) ||
-      (isMaster && (item.is_master || item.username === 'admin_kitobchi' || item.username === 'admin' || item.username?.includes('admin@kitobchi')))
+      (item.username && finalUname && item.username.toLowerCase() === finalUname)
     );
 
     if (idx >= 0) {
-      if (isMaster) {
-        users[idx] = {
-          ...users[idx],
-          id: 'admin-master-001',
-          full_name: 'Administrator (Pro)',
-          username: 'admin_kitobchi',
-          score: 2500,
-          streak: 15,
-          role: 'admin',
-          is_admin: true,
-          avatar: '👑',
-          is_master: true,
-        };
-      } else {
-        users[idx] = {
-          ...users[idx],
-          score: Math.max(users[idx].score || 0, u.score || 0),
-          streak: Math.max(users[idx].streak || 0, u.streak || 0),
-          role: u.role || users[idx].role || (u.is_admin ? 'admin' : 'user'),
-          is_admin: u.role === 'admin' || u.is_admin === true || users[idx].is_admin === true,
-          full_name: u.fullName || u.full_name || users[idx].full_name,
-        };
-      }
+      users[idx] = {
+        ...users[idx],
+        score: Math.max(users[idx].score || 0, u.score || 0),
+        streak: Math.max(users[idx].streak || 0, u.streak || 0),
+        role: u.role || users[idx].role || (u.is_admin ? 'admin' : 'user'),
+        is_admin: u.role === 'admin' || u.is_admin === true || users[idx].is_admin === true,
+        full_name: u.fullName || u.full_name || users[idx].full_name,
+      };
     } else {
       users.push({
-        id: isMaster ? 'admin-master-001' : (u.id || `user_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`),
-        full_name: isMaster ? 'Administrator (Pro)' : (u.fullName || u.full_name || finalUname),
+        id: u.id || `user_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        full_name: u.fullName || u.full_name || finalUname,
         username: finalUname,
-        score: isMaster ? 2500 : (u.score || 0),
-        streak: isMaster ? 15 : (u.streak || 0),
+        score: u.score || 0,
+        streak: u.streak || 0,
         role: (u.role === 'admin' || u.is_admin || isMaster) ? 'admin' : 'user',
         is_admin: Boolean(u.role === 'admin' || u.is_admin || isMaster),
-        avatar: isMaster ? '👑' : (u.avatar || '👤'),
+        avatar: isMaster ? (u.avatar || '👑') : (u.avatar || '👤'),
         is_master: isMaster,
       });
     }
@@ -286,17 +225,13 @@ async function _fetchAdminUsers() {
   const cur = getCurrentUser();
   if (cur && cur.username) {
     const curUname = String(cur.username || '').replace(/^@+/, '').trim().toLowerCase();
-    const isCurMaster = cur.id === 'admin-master-001' || curUname === 'admin_kitobchi' || cur.role === 'admin';
+    const isCurAdmin = cur.role === 'admin' || cur.is_admin === true || cur.isAdmin === true || curUname === 'admin' || curUname.includes('admin@');
     const cIdx = users.findIndex(item => item.id === cur.id || item.username?.toLowerCase() === curUname);
     if (cIdx >= 0) {
-      if (isCurMaster) {
+      if (isCurAdmin) {
         users[cIdx].is_master = true;
         users[cIdx].role = 'admin';
         users[cIdx].is_admin = true;
-        users[cIdx].streak = 15;
-        users[cIdx].score = 2500;
-        users[cIdx].full_name = 'Administrator (Pro)';
-        users[cIdx].username = 'admin_kitobchi';
       }
     }
   }
@@ -1071,7 +1006,7 @@ function _renderUserRows(users) {
     return `<tr><td colspan="7" style="padding:24px;text-align:center" class="text-muted">Birorta ham foydalanuvchi topilmadi.</td></tr>`;
   }
   return users.map(u => {
-    const isMaster = u.is_master || u.id === 'admin-master-001' || u.username === 'admin_kitobchi';
+    const isMaster = u.is_master || u.role === 'admin' || u.is_admin || String(u.username || '').includes('admin');
     const isAdmin = u.role === 'admin' || u.is_admin || isMaster;
     const roleBadge = isAdmin
       ? `<span class="badge-admin-role">👑 Administrator</span>`
