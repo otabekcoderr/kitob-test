@@ -735,6 +735,64 @@ export async function getQuestions(bookId, forceRefresh = false) {
 }
 
 /**
+ * Test savollarini /api/quiz serverless API dan xavfsiz yuklaydi.
+ * Serverdan to'g'ri javoblar va izohlar tozalangan holda keladi (Anti-cheat).
+ * Tarmoq uzilganda lokal savollar bilan mashg'ulot rejimiga o'tadi.
+ *
+ * @param {string|number} bookId
+ * @returns {Promise<{questions: object[], isOffline: boolean, total: number}>}
+ */
+export async function fetchQuizQuestions(bookId) {
+  if (!bookId) return { questions: [], isOffline: false, total: 0 };
+
+  const targetId = String(bookId);
+
+  // 1. Agar tarmoq onlayn bo'lsa, /api/quiz dan xavfsiz yuklash
+  if (typeof fetch === 'function' && (typeof navigator === 'undefined' || navigator.onLine !== false)) {
+    try {
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 4000) : null;
+
+      const res = await fetch(`/api/quiz?bookId=${encodeURIComponent(targetId)}`, {
+        signal: controller ? controller.signal : undefined,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (timeoutId) clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success && Array.isArray(data.questions) && data.questions.length > 0) {
+          return {
+            questions: data.questions,
+            isOffline: false,
+            total: data.total || data.questions.length
+          };
+        }
+      }
+    } catch (err) {
+      console.warn('[db] /api/quiz fetch warning, using offline fallback:', err.message);
+    }
+  }
+
+  // 2. Oflayn mashg'ulot rejimi uchun lokal savollar fallback
+  const localQs = _getLocalQuestionsForBook(bookId);
+  const sanitizedLocal = localQs.map(q => ({
+    id: String(q.id),
+    bookId: String(q.book_id || q.bookId || targetId),
+    question: q.question || '',
+    options: Array.isArray(q.options) ? q.options : [],
+    _localCorrectAnswer: q.correct_answer ?? q.correctAnswer,
+    _localExplanation: q.explanation || ''
+  }));
+
+  return {
+    questions: sanitizedLocal,
+    isOffline: true,
+    total: sanitizedLocal.length
+  };
+}
+
+/**
  * Savol qo'shadi yoki tahrirlaydi (Supabase + localStorage).
  */
 export async function saveQuestion(data, id = null) {
@@ -911,6 +969,177 @@ export async function saveQuizResult(result) {
   } catch (err) {
     return { success: false, error: err.message };
   }
+}
+
+function _findLocalBook(bookId) {
+  if (!bookId) return null;
+  const list = _booksCache || _initLocalBooks();
+  const idStr = String(bookId);
+  const slug = _slugify(bookId);
+  return list.find(b =>
+    String(b.id) === idStr ||
+    _slugify(b.title) === idStr ||
+    _slugify(b.title) === slug ||
+    (b.slug && (_slugify(b.slug) === idStr || _slugify(b.slug) === slug))
+  ) || null;
+}
+
+/**
+ * Test javoblarini /api/quiz-submit serverless endpointiga yuborib tekshiradi.
+ * Ball, XP va streak server tomonidan hisoblanib, Supabase bazasiga avtoritativ saqlanadi.
+ * Tarmoq uzilgan bo'lsa, oflayn mashg'ulot rejimida 0 rasmiy ball berib saqlaydi.
+ *
+ * @param {object} payload
+ * @param {string|number} payload.bookId
+ * @param {Array<{questionId: string, selectedOption: any}>} payload.answers
+ * @param {number} [payload.quizStartTime]
+ * @param {number} [payload.penalty]
+ * @param {boolean} [payload.isDaily]
+ * @returns {Promise<object>} — verified result schema
+ */
+export async function submitQuizAnswers(payload) {
+  const token = await getAccessToken();
+  const user = getCurrentUser();
+
+  // 1. Agar tarmoq onlayn bo'lsa, serverless endpointga yuborish
+  if (typeof fetch === 'function' && (typeof navigator === 'undefined' || navigator.onLine !== false)) {
+    try {
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 6000) : null;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const res = await fetch('/api/quiz-submit', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+        signal: controller ? controller.signal : undefined
+      });
+      if (timeoutId) clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success) {
+          // Mahalliy kesh va profil ma'lumotlarini darhol yangilash
+          if (user && data.newScore !== undefined) {
+            try {
+              const updatedUser = {
+                ...user,
+                score: data.newScore,
+                streak: data.newStreak !== undefined ? data.newStreak : user.streak,
+                stats: {
+                  ...(user.stats || {}),
+                  totalScore: data.newScore,
+                  score: data.newScore,
+                  currentStreak: data.newStreak !== undefined ? data.newStreak : user.streak,
+                  lastQuizDate: data.date || today()
+                }
+              };
+              localStorage.setItem('kitobchi_user', JSON.stringify(updatedUser));
+              if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('kitobchi_user_updated', { detail: updatedUser }));
+              }
+            } catch {}
+          }
+
+          // Keshni tozalash
+          _leaderboardCache = null;
+          _leaderboardCacheTime = 0;
+          if (user?.id) {
+            _userResultsCache.delete(user.id);
+            _userResultsTime.delete(user.id);
+          }
+
+          try {
+            sessionStorage.setItem('quiz_result', JSON.stringify(data));
+            localStorage.setItem('last_quiz_result', JSON.stringify(data));
+          } catch {}
+
+          return {
+            ...data,
+            isOffline: false,
+            officialVerified: true
+          };
+        }
+      }
+    } catch (err) {
+      console.warn('[db] /api/quiz-submit fetch warning, using offline fallback:', err.message);
+    }
+  }
+
+  // 2. Oflayn mashg'ulot rejimi fallback (0 rasmiy XP, anti-cheat himoyasi)
+  const localQs = _getLocalQuestionsForBook(payload.bookId);
+  const qMap = new Map();
+  localQs.forEach(q => qMap.set(String(q.id), q));
+
+  let rawScore = 0;
+  const verifiedAnswers = (payload.answers || []).map(ans => {
+    const q = qMap.get(String(ans.questionId));
+    const correctVal = q ? String(q.correct_answer ?? q.correctAnswer ?? '') : '';
+    const isCorrect = Boolean(
+      q &&
+      ans.selectedOption !== null &&
+      ans.selectedOption !== undefined &&
+      String(ans.selectedOption).trim().toLowerCase() === correctVal.trim().toLowerCase()
+    );
+    if (isCorrect) rawScore += 1;
+
+    const opts = q?.options || [];
+    const selIdx = opts.findIndex(o => String(o) === String(ans.selectedOption));
+    const corIdx = opts.findIndex(o => String(o) === String(correctVal));
+
+    return {
+      questionId: ans.questionId,
+      question: q?.question || 'Savol',
+      questionText: q?.question || 'Savol',
+      options: opts,
+      selectedOption: ans.selectedOption,
+      selectedText: ans.selectedOption ? String(ans.selectedOption) : null,
+      selectedOptionIndex: selIdx >= 0 ? selIdx : null,
+      correctAnswer: correctVal,
+      correctText: correctVal,
+      correctOptionIndex: corIdx >= 0 ? corIdx : null,
+      isCorrect,
+      explanation: q?.explanation || 'Mashg\'ulot rejimi izohi'
+    };
+  });
+
+  const total = payload.answers?.length || localQs.length || 10;
+  const penalty = Math.max(0, Math.min(100, Math.round(Number(payload.penalty) || 0)));
+  const penaltyAmount = Math.round(rawScore * (penalty / 100));
+  const finalScore = Math.max(0, rawScore - penaltyAmount);
+  const percentage = total > 0 ? Math.round((finalScore / total) * 100) : 0;
+
+  const offlineResult = {
+    success: true,
+    isOffline: true,
+    officialVerified: false,
+    score: finalScore,
+    rawScore,
+    correctCount: rawScore,
+    wrongCount: Math.max(0, total - rawScore),
+    total,
+    percentage,
+    penalty,
+    bookId: String(payload.bookId),
+    xpEarned: 0, // Oflayn rejimda 0 ball (anti-cheat)
+    xpBreakdown: { base: 0, accuracyBonus: 0, speedBonus: 0, dailyBonus: 0, streakBonus: 0 },
+    currentStreak: Number(user?.streak || 0),
+    answers: verifiedAnswers
+  };
+
+  try {
+    sessionStorage.setItem('quiz_result', JSON.stringify(offlineResult));
+    localStorage.setItem('last_quiz_result', JSON.stringify(offlineResult));
+  } catch {}
+
+  return offlineResult;
 }
 
 let _quizResultsTableMissing = false;

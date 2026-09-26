@@ -11,7 +11,7 @@
 // Import: db.js · auth.js · utils.js
 // ============================================================
 
-import { getQuestions, getBookById, saveQuizResult, updateStreakAndScore } from './db.js';
+import { getQuestions, getBookById, saveQuizResult, updateStreakAndScore, fetchQuizQuestions, submitQuizAnswers } from './db.js';
 import { getCurrentUser }  from './auth.js';
 import {
   shuffle,
@@ -249,97 +249,50 @@ async function _finishQuiz(forceZero = false) {
   _disableAntiCheat();
 
   const totalQuestions = state.questions.length;
-  const rawScore       = forceZero ? 0 : state.score;
+  const penaltyRate = forceZero ? 100 : state.penaltyTotal;
 
-  // Jarima hisoblash
-  const penaltyAmount = Math.round(rawScore * (state.penaltyTotal / 100));
-  const finalScore    = Math.max(0, rawScore - penaltyAmount);
-  const percentage    = totalQuestions > 0
-    ? Math.round((finalScore / totalQuestions) * 100)
-    : 0;
-
-  let bookTitle = '';
-  try {
-    const b = await getBookById(state.bookId);
-    if (b) bookTitle = b.title;
-  } catch { /* ignore */ }
-
-  const user = getCurrentUser();
-  const currentStreak = Number(user?.streak || 0);
-
-  // XP hisoblash
-  const xpCalculation = calculateQuizXPEarned({
-    score: finalScore,
-    total: totalQuestions,
-    percentage: percentage,
-    penalty: state.penaltyTotal,
-    isDaily: state.isDaily,
-    currentStreak: currentStreak,
-  });
-
-  // Anti-replay / Multi-tab / Refresh tekshiruvi
-  const isUniqueSession = verifyAndConsumeQuizSession(state.sessionNonce);
-  const earnedXP = (!forceZero && isUniqueSession) ? xpCalculation.totalXP : 0;
-
-  const currentXP = Number(user?.score || 0);
-  const oldLevel = getUserLevel(currentXP);
-  const newLevel = getUserLevel(currentXP + earnedXP);
-  const isLevelUp = newLevel.level > oldLevel.level;
-
-  // Kunlik missiyalarni tekshirish va yangilash
-  let missionBonusXP = 0;
-  let newlyCompletedMissions = [];
-  if (user && isUniqueSession && !forceZero) {
-    const mRes = checkAndUpdateDailyMissions(user, { score: finalScore, percentage, bookId: state.bookId }, state.isDaily);
-    newlyCompletedMissions = mRes.newlyCompleted || [];
-    missionBonusXP = mRes.bonusXP || 0;
-  }
-
-  const finalTotalXP = earnedXP + missionBonusXP;
-
-  const result = {
-    bookId:            state.bookId,
-    bookTitle:         bookTitle,
-    score:             finalScore,
-    rawScore:          rawScore,
-    correctCount:      rawScore,
-    total:             totalQuestions,
-    percentage:        percentage,
-    penalty:           state.penaltyTotal,
-    date:              today(),
-    xpEarned:          finalTotalXP,
-    baseXP:            earnedXP,
-    xpBreakdown:       xpCalculation.breakdown,
-    missionBonusXP:    missionBonusXP,
-    missionsCompleted: newlyCompletedMissions,
-    oldLevel:          oldLevel,
-    newLevel:          newLevel,
-    isLevelUp:         isLevelUp,
-    sessionNonce:      state.sessionNonce,
-    timestamp:         Date.now(),
-    answers:           [...state.userAnswers],
+  // 1. Javoblarni serverless backendga yuborish (/api/quiz-submit)
+  const payload = {
+    bookId: state.bookId,
+    answers: state.userAnswers.map(ans => ({
+      questionId: String(ans.questionId),
+      selectedOption: ans.selectedOption
+    })),
+    quizStartTime: state.startTime,
+    penalty: penaltyRate,
+    isDaily: state.isDaily
   };
 
-  if (isLevelUp) {
+  let result = null;
+  try {
+    result = await submitQuizAnswers(payload);
+  } catch (err) {
+    console.warn('[quiz] submitQuizAnswers error, using fallback:', err);
+  }
+
+  // 2. Default natija xavfsizlik himoyasi
+  if (!result || typeof result.score === 'undefined') {
+    result = {
+      bookId: state.bookId,
+      score: 0,
+      total: totalQuestions,
+      percentage: 0,
+      penalty: penaltyRate,
+      xpEarned: 0,
+      answers: []
+    };
+  }
+
+  // 3. Level-up ovoz effekti
+  if (result.isLevelUp) {
     playQuizSound('levelup');
   }
 
-  // Natijani saqlaymiz va ballni darhol yangilaymiz
+  // 4. Sessiya va lokal xotiraga saqlash
   try {
     sessionStorage.setItem('quiz_result', JSON.stringify(result));
     localStorage.setItem('last_quiz_result', JSON.stringify(result));
-
-    if (user) {
-      await saveQuizResult(result).catch(err => console.warn('[quiz] saveQuizResult warning:', err));
-      if (finalTotalXP > 0) {
-        await updateStreakAndScore(finalTotalXP, today(), { bookId: state.bookId, percentage }).catch(err => console.warn('[quiz] updateStreak warning:', err));
-      } else {
-        await updateStreakAndScore(0, today(), { bookId: state.bookId, percentage }).catch(err => console.warn('[quiz] updateStreak warning:', err));
-      }
-    }
-  } catch (err) {
-    console.warn('[quiz] Natija saqlash bajarilmadi:', err);
-  }
+  } catch {}
 
   return result;
 }
@@ -409,11 +362,13 @@ export async function startQuiz(config, callbacks = {}) {
     sessionNonce: 'qz_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
     isDaily:      !!config.isDaily,
     userAnswers:  [],
+    isOffline:    false,
   });
 
   try {
-    // 1. Savollarni yuklash
-    const raw = await getQuestions(bookId);
+    // 1. Savollarni xavfsiz yuklash (/api/quiz orqali)
+    const { questions: raw, isOffline } = await fetchQuizQuestions(bookId);
+    state.isOffline = Boolean(isOffline);
 
     if (!raw || raw.length === 0) {
       if (typeof onError === 'function') {
@@ -422,23 +377,25 @@ export async function startQuiz(config, callbacks = {}) {
       return;
     }
 
-    // 2. Savollarni aralashtirish va to'g'ri javoblarni yopiq xotiraga ajratish
+    // 2. Savollarni tayyorlash
     _secureAnswerKeys = [];
     _secureExplanations = [];
 
     const shuffledQuestions = shuffle([...raw]);
     state.questions = shuffledQuestions.map((q, idx) => {
-      const prepared = shuffleOptions(q);
-      const correctVal = String(prepared.correct_answer ?? prepared.correctAnswer ?? '');
-      _secureAnswerKeys[idx] = correctVal;
-      _secureExplanations[idx] = String(prepared.explanation || '');
+      // Faqat oflayn rejimda bo'lsagina mahalliy javob kalitlarini ajratamiz
+      if (state.isOffline && (q._localCorrectAnswer !== undefined || q.correct_answer !== undefined || q.correctAnswer !== undefined)) {
+        const correctVal = String(q._localCorrectAnswer ?? q.correct_answer ?? q.correctAnswer ?? '');
+        _secureAnswerKeys[idx] = correctVal;
+        _secureExplanations[idx] = String(q._localExplanation ?? q.explanation ?? '');
+      }
 
-      // Klientda ochiq ko'rinmasligi uchun javob va izohlarni tozalaymiz
+      // Klientda javob va izohlarni aslo ochiq qoldirmaymiz (Anti-cheat)
       const cleanQ = {
-        id: prepared.id,
-        bookId: prepared.bookId,
-        question: prepared.question || prepared.text || '',
-        options: prepared.options || [],
+        id: String(q.id),
+        bookId: String(q.bookId || q.book_id || bookId),
+        question: q.question || q.text || '',
+        options: Array.isArray(q.options) ? q.options : [],
       };
       return Object.freeze(cleanQ);
     });
@@ -525,53 +482,60 @@ function _nextQuestion(selectedOption, callbacks) {
   const correctVal     = _secureAnswerKeys[state.currentIndex] || '';
   const explanationVal = _secureExplanations[state.currentIndex] || '';
 
-  const isCorrect  = selectedOption !== null &&
-                     String(selectedOption) === String(correctVal);
+  const isOffline = Boolean(state.isOffline);
+  const hasLocalKey = isOffline && Boolean(correctVal);
 
-  if (isCorrect) {
+  const isCorrect = hasLocalKey ? (selectedOption !== null &&
+                    String(selectedOption).trim().toLowerCase() === String(correctVal).trim().toLowerCase()) : null;
+
+  if (isCorrect === true) {
     state.score += 1;
     playQuizSound('correct');
-  } else {
+  } else if (isCorrect === false) {
     playQuizSound('wrong');
+  } else {
+    playQuizSound('click');
   }
 
   const opts = Array.isArray(question.options) ? question.options : [];
   const selectedIdx = opts.findIndex(o => String(o) === String(selectedOption));
-  const correctIdx = opts.findIndex(o => String(o) === String(correctVal));
+  const correctIdx = hasLocalKey ? opts.findIndex(o => String(o) === String(correctVal)) : null;
 
   // Savol va javoblar tahlili uchun to'liq saqlaymiz
   state.userAnswers.push({
+    questionId: question.id,
     question: question.question || question.text || '',
     questionText: question.question || question.text || '',
     options: opts,
     selectedOption: selectedOption,
-    selectedText: selectedOption,
+    selectedText: selectedOption ? String(selectedOption) : null,
     selectedOptionIndex: selectedIdx >= 0 ? selectedIdx : null,
-    correctAnswer: correctVal,
-    correctText: correctVal,
-    correctOptionIndex: correctIdx >= 0 ? correctIdx : null,
+    correctAnswer: hasLocalKey ? correctVal : null,
+    correctText: hasLocalKey ? correctVal : null,
+    correctOptionIndex: correctIdx !== null && correctIdx >= 0 ? correctIdx : null,
     isCorrect: isCorrect,
-    explanation: explanationVal
+    explanation: hasLocalKey ? explanationVal : null
   });
 
   if (typeof onAnswer === 'function') {
     onAnswer({
       isCorrect,
       selectedOption,
-      correctAnswer: correctVal,
-      explanation:   explanationVal,
+      correctAnswer: hasLocalKey ? correctVal : null,
+      explanation:   hasLocalKey ? explanationVal : null,
       score:         state.score,
       index:         state.currentIndex,
+      isOffline:     state.isOffline,
     });
   }
 
   state.currentIndex += 1;
 
-  // Izohni o'qish uchun pauza (yoki foydalanuvchi "Keyingi savol" tugmasini bosganda darhol o'tadi)
+  // Izohni o'qish yoki keyingi savolga silliq o'tish
   _clearAdvanceTimer();
   _advanceTimer = setTimeout(() => {
     _proceedToNext(callbacks);
-  }, 4500);
+  }, hasLocalKey ? 4500 : 700);
 }
 
 let _advanceTimer = null;

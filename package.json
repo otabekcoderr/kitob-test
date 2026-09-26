@@ -1,0 +1,18 @@
+{
+  "name": "kitobchi-uz",
+  "version": "8.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Kitobchi.uz Vercel Serverless Backend and Anti-Cheat System",
+  "main": "api/quiz.js",
+  "scripts": {
+    "test": "node tests/run-e2e-tests.js",
+    "check": "node --check api/quiz.js api/quiz-submit.js api/_utils.js api/_progression.js api/_supabase.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

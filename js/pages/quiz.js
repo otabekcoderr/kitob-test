@@ -179,6 +179,19 @@ function _onReady(questions) {
   const uiEl      = document.getElementById('quiz-ui');
   if (loadingEl) { loadingEl.hidden = true; loadingEl.style.display = 'none'; }
   if (uiEl)      { uiEl.hidden = false;     uiEl.removeAttribute('hidden'); }
+
+  const qState = getQuizState();
+  if (qState && qState.isOffline) {
+    const banner = document.getElementById('quiz-violations');
+    const text = document.getElementById('violations-text');
+    if (banner && text) {
+      text.textContent = "ℹ️ Oflayn mashg'ulot rejimi: Aloqa uzilganligi sababli test mashq tarzida o'tkaziladi.";
+      banner.style.borderColor = "var(--ochre)";
+      banner.style.background = "var(--ochre-light)";
+      banner.style.color = "var(--ink)";
+      banner.hidden = false;
+    }
+  }
 }
 
 function _onQuestion({ question, index, total, timeLeft }) {
@@ -264,23 +277,26 @@ function _onTick(timeLeft) {
   }
 }
 
-function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
-  // Variantlarni belgilash
+function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation, isOffline }) {
+  // Tanlangan variantni belgilash
   document.querySelectorAll('.quiz-option').forEach(btn => {
     const val = btn.dataset.value;
-    if (String(val) === String(correctAnswer)) {
-      btn.classList.add('correct');
+    if (selectedOption !== null && String(val) === String(selectedOption)) {
+      btn.classList.add('selected');
     }
-    if (selectedOption !== null &&
-        String(val) === String(selectedOption) &&
-        !isCorrect) {
-      btn.classList.add('wrong');
+    if (correctAnswer !== undefined && correctAnswer !== null) {
+      if (String(val) === String(correctAnswer)) {
+        btn.classList.add('correct');
+      }
+      if (selectedOption !== null && String(val) === String(selectedOption) && isCorrect === false) {
+        btn.classList.add('wrong');
+      }
     }
   });
 
-  // Darhol boyitilgan izoh paneli
+  // Darhol boyitilgan izoh paneli (agar izoh mavjud bo'lsa)
   const explanationEl = document.getElementById('quiz-explanation');
-  if (explanationEl) {
+  if (explanationEl && explanation) {
     const titleText = isCorrect ? "To'g'ri javob! Chuqur tahlil:" : "Mantiqiy tahlil va izoh:";
     explanationEl.innerHTML = `
       <div style="display:flex;align-items:flex-start;gap:12px;">
@@ -290,7 +306,7 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation }) {
             ${titleText}
           </div>
           <div style="font-size:0.875rem;line-height:1.65;color:var(--ink);">
-            ${escapeHtml(explanation || "Ushbu asar inson ruhiyati va hayotiy qonuniyatlarni chuqur mushohada qilishga undaydi.")}
+            ${escapeHtml(explanation)}
           </div>
         </div>
       </div>

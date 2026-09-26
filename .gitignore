@@ -7,3 +7,4 @@ scratch/
 /pages/
 
 .vercel
+node_modules/

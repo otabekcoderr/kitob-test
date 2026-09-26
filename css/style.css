@@ -2183,6 +2183,17 @@ h1, h2, h3, h4, h5, h6 {
   background:   var(--error-light);
   color:        var(--error);
   animation:    gentleShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+.quiz-option.selected {
+  border-color: var(--ochre);
+  background:   var(--ochre-light);
+  color:        var(--ink);
+  box-shadow:   0 0 0 1.5px var(--ochre);
+}
+
+.quiz-option.selected .quiz-option__letter {
+  background:   var(--ochre);
+  color:        #ffffff;
+  border-color: var(--ochre);
 }
 
 .quiz-option:disabled {

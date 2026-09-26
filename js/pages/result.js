@@ -197,8 +197,8 @@ export async function render(container, { params, user: initialUser }) {
           <!-- Online/Offline holati -->
           <div style="display:flex;justify-content:center;margin-bottom:24px;">
             <span class="offline-badge">
-              <span class="offline-badge__dot" style="background:${isOnline ? 'var(--success)' : 'var(--ink-faint)'};"></span>
-              ${isOnline ? 'Natija profilga saqlandi' : 'Lokal xotirada saqlandi'}
+              <span class="offline-badge__dot" style="background:${result.isOffline ? 'var(--warning)' : (isOnline ? 'var(--success)' : 'var(--ink-faint)')};"></span>
+              ${result.isOffline ? "Mashg'ulot rejimi (Oflayn amaliyot)" : (isOnline ? "Natija tasdiqlanib, profilga saqlandi" : "Lokal xotirada saqlandi")}
             </span>
           </div>
 
