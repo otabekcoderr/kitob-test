@@ -93,21 +93,18 @@ function _renderBook(contentEl, book, questions, user) {
 
       <div class="book-detail__top">
         <!-- Muqova -->
-        <div class="book-detail__cover-wrap">
-          ${cover
-            ? `<img src="${escapeHtml(cover)}"
-                    alt="${escapeHtml(book.title)}"
-                    class="book-detail__cover"
-                    loading="eager"
-                    onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
-               />
-               <div class="book-detail__cover-placeholder" style="display:none">
-                 ${renderBookCoverPlaceholder(book, { size: 'lg', style: 'position:relative;width:100%;height:100%;min-height:240px;border-radius:var(--radius-md);' })}
-               </div>`
-            : `<div class="book-detail__cover-placeholder">
-                 ${renderBookCoverPlaceholder(book, { size: 'lg', style: 'position:relative;width:100%;height:100%;min-height:240px;border-radius:var(--radius-md);' })}
-               </div>`
-          }
+        <div class="book-detail__cover-wrap" style="position:relative;">
+          <div class="book-detail__cover-placeholder" style="position:relative;width:100%;height:100%;min-height:240px;border-radius:var(--radius-md);overflow:hidden;z-index:1;">
+            ${renderBookCoverPlaceholder(book, { size: 'lg', style: 'position:relative;width:100%;height:100%;min-height:240px;border-radius:var(--radius-md);' })}
+          </div>
+          ${cover ? `
+            <img src="${escapeHtml(cover)}"
+                 alt="${escapeHtml(book.title)}"
+                 class="book-detail__cover"
+                 loading="eager"
+                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--radius-md);z-index:2;"
+            />
+          ` : ''}
         </div>
 
         <!-- Ma'lumotlar -->

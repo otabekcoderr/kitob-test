@@ -242,11 +242,16 @@ function _renderNextUnlock(target, user) {
   wrap.innerHTML = `
     <section class="section animate-slide-up" id="next-unlock-section" aria-label="Keyingi ochiladigan asar" style="margin-bottom:28px;">
       <div class="next-unlock-card card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:22px 24px;border:1.5px solid var(--ochre);background:var(--paper-alt);">
-        <div class="next-unlock__cover" style="width:72px;height:104px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0;box-shadow:var(--shadow-sm);background:var(--surface);display:flex;align-items:center;justify-content:center;">
-          ${cover
-            ? `<img src="${escapeHtml(cover)}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';"><div style="display:none;width:100%;height:100%;">${renderBookCoverPlaceholder(book)}</div>`
-            : renderBookCoverPlaceholder(book)
-          }
+        <div class="next-unlock__cover" style="width:72px;height:104px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0;box-shadow:var(--shadow-sm);background:var(--surface);position:relative;">
+          <div style="position:absolute;inset:0;width:100%;height:100%;z-index:1;">
+            ${renderBookCoverPlaceholder(book)}
+          </div>
+          ${cover ? `
+            <img src="${escapeHtml(cover)}"
+                 alt="${escapeHtml(book.title)}"
+                 style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;"
+            />
+          ` : ''}
         </div>
         <div style="flex:1;min-width:240px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
@@ -596,18 +601,18 @@ function _bookCardHTML(book, user) {
       aria-label="${escapeHtml(book.title)}${isLocked ? ` (Qulflangan: ${unlock.requiredLevel}-daraja)` : ''}"
     >
       <div class="book-card__cover">
-        ${cover
-          ? `<img src="${escapeHtml(cover)}"
-                  alt="${escapeHtml(book.title)}"
-                  loading="lazy"
-                  decoding="async"
-                  onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
-             />
-             <div class="book-cover-fallback-wrap" style="display:none;position:absolute;inset:0;">
-               ${renderBookCoverPlaceholder(book)}
-             </div>`
-          : _coverPlaceholder(book)
-        }
+        <div class="book-cover-fallback-wrap" style="position:absolute;inset:0;z-index:1;">
+          ${renderBookCoverPlaceholder(book)}
+        </div>
+        ${cover ? `
+          <img src="${escapeHtml(cover)}"
+               alt="${escapeHtml(book.title)}"
+               class="book-card__img"
+               loading="lazy"
+               decoding="async"
+               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;"
+          />
+        ` : ''}
 
         ${topBadge}
 

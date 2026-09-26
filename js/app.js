@@ -796,6 +796,20 @@ async function _syncSession() {
   }
 }
 
+// ============================================================
+// CSP mos rasm yuklanish xatolari tinglovchisi (Capture phase)
+// ============================================================
+window.addEventListener('error', (e) => {
+  if (e.target && e.target.tagName === 'IMG') {
+    const img = e.target;
+    img.style.display = 'none';
+    const fallback = img.parentElement?.querySelector('.book-cover-fallback-wrap, .book-detail__cover-placeholder, .book-card__cover-placeholder');
+    if (fallback) {
+      fallback.style.display = 'flex';
+    }
+  }
+}, true);
+
 /**
  * Ilovani ishga tushuradi.
  */

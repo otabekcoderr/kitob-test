@@ -360,10 +360,12 @@ function _renderBookRows(books) {
     return `
       <tr id="book-row-${b.id}">
         <td style="width:50px;text-align:center">
-          ${coverSrc
-            ? `<img src="${escapeHtml(coverSrc)}" alt="" style="width:36px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--border-color);display:inline-block" onerror="this.onerror=null;this.parentNode.innerHTML='<span style=\\'display:inline-flex;width:36px;height:48px;border-radius:4px;background:var(--paper-alt);border:1px solid var(--divider);align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--ochre);\\'>📖</span>'">`
-            : `<span style="display:inline-flex;width:36px;height:48px;border-radius:4px;background:var(--paper-alt);border:1px solid var(--divider);align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--ochre);">📖</span>`
-          }
+          <div style="width:36px;height:48px;border-radius:4px;overflow:hidden;position:relative;display:inline-flex;align-items:center;justify-content:center;background:var(--paper-alt);border:1px solid var(--divider);">
+            <span style="display:inline-flex;width:100%;height:100%;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--ochre);z-index:1;">📖</span>
+            ${coverSrc ? `
+              <img src="${escapeHtml(coverSrc)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;">
+            ` : ''}
+          </div>
         </td>
         <td>${b.id}</td>
         <td><strong>${escapeHtml(b.title)}</strong></td>

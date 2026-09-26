@@ -836,11 +836,16 @@ function _renderMastery(user, results, books) {
 
         return `
           <div class="mastery-card" style="padding:16px;border-radius:var(--radius-md);background:var(--paper-alt);border:1.5px solid var(--divider);display:flex;gap:14px;align-items:center;">
-            <div style="width:48px;height:68px;border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              ${getBookCoverUrl(book)
-                ? `<img src="${escapeHtml(getBookCoverUrl(book))}" alt="${escapeHtml(book.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='block';"><div style="display:none;width:100%;height:100%;">${renderBookCoverPlaceholder(book)}</div>`
-                : renderBookCoverPlaceholder(book)
-              }
+            <div style="width:48px;height:68px;border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);border:1px solid var(--divider);position:relative;flex-shrink:0;">
+              <div style="position:absolute;inset:0;width:100%;height:100%;z-index:1;">
+                ${renderBookCoverPlaceholder(book)}
+              </div>
+              ${getBookCoverUrl(book) ? `
+                <img src="${escapeHtml(getBookCoverUrl(book))}"
+                     alt="${escapeHtml(book.title)}"
+                     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;"
+                />
+              ` : ''}
             </div>
             <div style="flex:1;min-width:0;">
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">

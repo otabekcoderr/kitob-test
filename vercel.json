@@ -34,7 +34,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://esm.sh; style-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com; font-src 'self' data:; connect-src 'self' https://*.supabase.co https://esm.sh; frame-ancestors 'self'; form-action 'self'; base-uri 'self';"
+          "value": "default-src 'self'; script-src 'self' https://esm.sh; style-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co https://esm.sh; frame-ancestors 'self'; form-action 'self'; base-uri 'self';"
         },
         {
           "key": "Access-Control-Allow-Origin",

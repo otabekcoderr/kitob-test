@@ -243,18 +243,18 @@ function _bookCardHTML(book, user) {
       aria-label="${escapeHtml(book.title)} — ${escapeHtml(book.author || '')}${isLocked ? ` (Qulflangan: ${unlock.requiredLevel}-daraja talab qilinadi)` : ''}"
     >
       <div class="book-card__cover">
-        ${cover
-          ? `<img src="${escapeHtml(cover)}"
-                  alt="${escapeHtml(book.title)}"
-                  loading="lazy"
-                  decoding="async"
-                  onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex'"
-             />
-             <div class="book-cover-fallback-wrap" style="display:none;position:absolute;inset:0;">
-               ${renderBookCoverPlaceholder(book)}
-             </div>`
-          : _coverPlaceholder(book)
-        }
+        <div class="book-cover-fallback-wrap" style="position:absolute;inset:0;z-index:1;">
+          ${renderBookCoverPlaceholder(book)}
+        </div>
+        ${cover ? `
+          <img src="${escapeHtml(cover)}"
+               alt="${escapeHtml(book.title)}"
+               class="book-card__img"
+               loading="lazy"
+               decoding="async"
+               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;"
+          />
+        ` : ''}
 
         ${topBadge}
 

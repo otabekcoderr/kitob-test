@@ -169,12 +169,17 @@ export async function render(container, { params, user: initialUser }) {
           <!-- KEYINGI OCHILADIGAN KITOB ANNOTATSIYASI (Next Unlock Teaser) -->
           ${nextUnlock && nextUnlock.book ? `
             <div class="next-unlock-card" style="margin-bottom:24px;padding:16px;border-radius:var(--radius-md);background:var(--surface);border:1.5px dashed var(--ochre);text-align:left;display:flex;align-items:center;gap:16px;">
-              <div style="width:48px;height:68px;border-radius:var(--radius-sm);overflow:hidden;background:var(--paper-alt);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
-                ${(nextUnlock.book.coverImage || nextUnlock.book.cover_url || nextUnlock.book.cover)
-                  ? `<img src="${escapeHtml(nextUnlock.book.coverImage || nextUnlock.book.cover_url || nextUnlock.book.cover)}" alt="${escapeHtml(nextUnlock.book.title)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='block';"><div style="display:none;width:100%;height:100%;">${renderBookCoverPlaceholder(nextUnlock.book)}</div>`
-                  : renderBookCoverPlaceholder(nextUnlock.book)
-                }
-                <div style="position:absolute;inset:0;background:rgba(23,54,45,0.45);display:flex;align-items:center;justify-content:center;color:#FFF;font-size:1.1rem;pointer-events:none;">🔒</div>
+              <div style="width:48px;height:68px;border-radius:var(--radius-sm);overflow:hidden;background:var(--paper-alt);border:1px solid var(--divider);flex-shrink:0;position:relative;">
+                <div style="position:absolute;inset:0;width:100%;height:100%;z-index:1;">
+                  ${renderBookCoverPlaceholder(nextUnlock.book)}
+                </div>
+                ${(nextUnlock.book.coverImage || nextUnlock.book.cover_url || nextUnlock.book.cover) ? `
+                  <img src="${escapeHtml(nextUnlock.book.coverImage || nextUnlock.book.cover_url || nextUnlock.book.cover)}"
+                       alt="${escapeHtml(nextUnlock.book.title)}"
+                       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;"
+                  />
+                ` : ''}
+                <div style="position:absolute;inset:0;background:rgba(23,54,45,0.45);display:flex;align-items:center;justify-content:center;color:#FFF;font-size:1.1rem;pointer-events:none;z-index:3;">🔒</div>
               </div>
               <div style="flex:1;min-width:0;">
                 <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ochre);">
