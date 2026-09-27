@@ -126,8 +126,13 @@ export async function render(container, { params, user }) {
     updateLeaderboardView(currentPeriod);
 
     // Jonli yangilanishni tinglash
-    const onLeaderboardUpdated = (e) => {
-      const fresh = Array.isArray(e.detail) ? e.detail : [];
+    const onLeaderboardUpdated = async (e) => {
+      let fresh = Array.isArray(e.detail) ? e.detail : [];
+      if (fresh.length === 0) {
+        try {
+          fresh = await getLeaderboard(50);
+        } catch {}
+      }
       if (fresh.length > 0) {
         allLeaders = fresh.filter(isEligibleLeaderboardUser);
         updateLeaderboardView(currentPeriod);

@@ -213,8 +213,13 @@ export async function render(container, { params, user }) {
     _cleanup.push(() => window.removeEventListener('kitobchi_books_updated', onBooksUpdated));
 
     // Jonli reyting yangilanishini tinglash
-    const onLeaderboardUpdated = (e) => {
-      const fresh = Array.isArray(e.detail) ? e.detail : [];
+    const onLeaderboardUpdated = async (e) => {
+      let fresh = Array.isArray(e.detail) ? e.detail : [];
+      if (fresh.length === 0) {
+        try {
+          fresh = await getLeaderboard(5);
+        } catch {}
+      }
       if (fresh.length > 0) {
         _renderLeaderboardMini(fresh, user);
       }

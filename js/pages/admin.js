@@ -18,6 +18,7 @@ import { escapeHtml,
          truncate,
          svgIcon }                 from '../utils.js';
 import * as localData            from '../data.js';
+import { broadcastSyncEvent }    from '../sync.js';
 
 let _cleanup     = [];
 let _activeTab   = 'books';
@@ -1018,22 +1019,32 @@ function _renderUserRows(users) {
     let actionBtn = '';
     if (isMaster) {
       actionBtn = `<span class="badge-master-locked" title="Bosh administrator huquqi o'zgartirilmaydi">${svgIcon('lock', 12, 'margin-right:3px;')} Asosiy ma'mur</span>`;
-    } else if (isAdmin) {
-      actionBtn = `<button class="btn btn-sm btn-role-demote toggle-role-btn"
+    } else {
+      const roleBtn = isAdmin
+        ? `<button class="btn btn-sm btn-role-demote toggle-role-btn"
                      data-id="${u.id}"
                      data-username="${escapeHtml(u.username || '')}"
                      data-name="${escapeHtml(u.full_name || u.username || '')}"
                      data-role="admin">
                      ${svgIcon('arrow-down', 12, 'margin-right:3px;')} O'quvchi qilish
-                   </button>`;
-    } else {
-      actionBtn = `<button class="btn btn-sm btn-role-promote toggle-role-btn"
+                   </button>`
+        : `<button class="btn btn-sm btn-role-promote toggle-role-btn"
                      data-id="${u.id}"
                      data-username="${escapeHtml(u.username || '')}"
                      data-name="${escapeHtml(u.full_name || u.username || '')}"
                      data-role="user">
                      ${svgIcon('arrow-up', 12, 'margin-right:3px;')} Admin qilish
                    </button>`;
+
+      const delBtn = `<button class="btn btn-sm btn-danger del-user-btn"
+                              data-id="${u.id}"
+                              data-username="${escapeHtml(u.username || '')}"
+                              data-name="${escapeHtml(u.full_name || u.username || '')}"
+                              title="Foydalanuvchini bazadan butunlay o'chirish">
+                              ${svgIcon('trash', 12, 'margin-right:2px;')} O'chirish
+                            </button>`;
+
+      actionBtn = `<div style="display:flex;gap:6px;align-items:center;">${roleBtn}${delBtn}</div>`;
     }
 
     const shortId = u.id ? (String(u.id).length > 8 ? String(u.id).slice(0, 8) + '…' : String(u.id)) : '—';
@@ -1148,6 +1159,84 @@ function _bindUserEvents(users) {
       } finally {
         const finalLabel = btn.dataset.role === 'admin' ? `${svgIcon('arrow-down', 12, 'margin-right:3px;')} O'quvchi qilish` : `${svgIcon('arrow-up', 12, 'margin-right:3px;')} Admin qilish`;
         setButtonLoading(btn, false, finalLabel);
+      }
+    });
+  });
+
+  // Foydalanuvchini butunlay o'chirish (Supabase + LocalStorage + Multi-tab sync)
+  document.querySelectorAll('.del-user-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const userId = btn.dataset.id;
+      const userName = btn.dataset.name || 'Foydalanuvchi';
+      const userUname = btn.dataset.username || '';
+
+      if (!confirm(`"${userName}" (@${userUname}) foydalanuvchisini BUTUNLAY O'CHIRMOQCHIMISIZ?\n\nDiqqat: Ushbu amal bekor qilinmaydi! Foydalanuvchining barcha natijalari, izohlari va yozuvlari Supabase bazasidan hamda barcha qurilmalardan to'liq o'chiriladi.`)) {
+        return;
+      }
+
+      setButtonLoading(btn, true);
+
+      try {
+        // 1. Supabase profiles, comments, quiz_results jadvallaridan o'chirish
+        if (isSupabaseOnline()) {
+          try {
+            await supabase.from('comments').delete().eq('user_id', userId);
+            await supabase.from('quiz_results').delete().eq('user_id', userId);
+            const { error: delErr } = await supabase.from('profiles').delete().eq('id', userId);
+            if (delErr) {
+              console.warn('[admin] Supabase profile delete error:', delErr.message);
+            }
+          } catch (e) {
+            console.warn('[admin] Supabase delete exception:', e);
+          }
+        }
+
+        // 2. Mahalliy xotiradan tozalash
+        try {
+          const rawAll = localStorage.getItem('kitobchi_all_users');
+          if (rawAll) {
+            const all = JSON.parse(rawAll);
+            delete all[userId];
+            if (userUname) delete all[userUname];
+            localStorage.setItem('kitobchi_all_users', JSON.stringify(all));
+          }
+        } catch {}
+
+        try {
+          const rawReg = localStorage.getItem('kitobchi_registered_users');
+          if (rawReg) {
+            const reg = JSON.parse(rawReg);
+            delete reg[userUname];
+            delete reg[userId];
+            localStorage.setItem('kitobchi_registered_users', JSON.stringify(reg));
+          }
+        } catch {}
+
+        try {
+          localStorage.removeItem('kitobchi_cached_leaderboard');
+        } catch {}
+
+        // 3. Multi-tab va barcha qurilmalarga o'chirish hodisasini tarqatish
+        broadcastSyncEvent('USER_DELETED', { userId, username: userUname });
+        window.dispatchEvent(new CustomEvent('kitobchi_leaderboard_updated'));
+
+        showNotification(`"${userName}" bazadan va tizimdan butunlay o'chirildi!`, 'success');
+
+        // Qatorni DOM dan olib tashlash
+        const row = document.getElementById(`user-row-${userId}`) || btn.closest('tr');
+        if (row) row.remove();
+
+        // Foydalanuvchilar soni sarlavhasini yangilash
+        const countTitle = document.getElementById('users-count-title');
+        if (countTitle) {
+          const remaining = document.querySelectorAll('#users-tbody tr').length;
+          countTitle.textContent = `Foydalanuvchilar (${remaining})`;
+        }
+
+        _loadQuickStats().catch(() => {});
+      } catch (err) {
+        showNotification(`Xatolik yuz berdi: ${err.message}`, 'error');
+        setButtonLoading(btn, false, "O'chirish");
       }
     });
   });

@@ -20,7 +20,8 @@ import {
   createDynamicAdminToken,
   verifySessionSignature,
 } from './utils.js';
-import { characters }    from './characters.js';
+import { characters }         from './characters.js';
+import { broadcastSyncEvent } from './sync.js';
 
 // ============================================================
 // ICHKI KONSTANTALAR VA XAVFSIZLIK SOZLAMALARI
@@ -34,6 +35,92 @@ export const REGISTERED_USERS_KEY = 'kitobchi_registered_users';
 
 /** Brute-force va tez-tez noto'g'ri urinishlardan himoya kaliti */
 export const RATE_LIMIT_KEY = 'kitobchi_auth_rate_limit';
+
+/**
+ * Barcha eski, soxta yoki test foydalanuvchilar qoldiqlarini
+ * barcha qurilmalar mahalliy xotirasidan avtomatik va butunlay tozalaydi.
+ */
+export function purgeLegacyMockUsers() {
+  try {
+    const curRaw = localStorage.getItem(SESSION_KEY);
+    if (curRaw) {
+      const cur = JSON.parse(curRaw);
+      const uid = String(cur?.id || '').toLowerCase();
+      const uname = String(cur?.username || '').toLowerCase();
+      if (
+        uid.startsWith('demo_') ||
+        uid.startsWith('sample-') ||
+        uid.startsWith('test_') ||
+        uid.startsWith('usr_') ||
+        uid.startsWith('local_') ||
+        uname === 'demo_user' ||
+        uname === 'alisher_rahimov' ||
+        uname === 'zilola_saidova' ||
+        uname === 'test_user'
+      ) {
+        localStorage.removeItem(SESSION_KEY);
+        try { sessionStorage.clear(); } catch {}
+      }
+    }
+
+    const rawAll = localStorage.getItem('kitobchi_all_users');
+    if (rawAll) {
+      const all = JSON.parse(rawAll);
+      let changed = false;
+      Object.keys(all).forEach(k => {
+        const u = all[k];
+        const uid = String(u?.id || '').toLowerCase();
+        const uname = String(u?.username || '').toLowerCase();
+        if (
+          !u ||
+          uid.startsWith('demo_') ||
+          uid.startsWith('sample-') ||
+          uid.startsWith('test_') ||
+          uid.startsWith('usr_') ||
+          uid.startsWith('local_') ||
+          uname === 'demo_user' ||
+          uname === 'alisher_rahimov' ||
+          uname === 'zilola_saidova' ||
+          uname === 'test_user'
+        ) {
+          delete all[k];
+          changed = true;
+        }
+      });
+      if (changed) localStorage.setItem('kitobchi_all_users', JSON.stringify(all));
+    }
+
+    const rawReg = localStorage.getItem(REGISTERED_USERS_KEY);
+    if (rawReg) {
+      const reg = JSON.parse(rawReg);
+      let changed = false;
+      Object.keys(reg).forEach(k => {
+        const u = reg[k];
+        const uid = String(u?.id || '').toLowerCase();
+        const uname = String(u?.username || '').toLowerCase();
+        if (
+          !u ||
+          uid.startsWith('demo_') ||
+          uid.startsWith('sample-') ||
+          uid.startsWith('test_') ||
+          uid.startsWith('usr_') ||
+          uid.startsWith('local_') ||
+          uname === 'demo_user' ||
+          uname === 'alisher_rahimov' ||
+          uname === 'zilola_saidova' ||
+          uname === 'test_user'
+        ) {
+          delete reg[k];
+          changed = true;
+        }
+      });
+      if (changed) localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(reg));
+    }
+  } catch {}
+}
+
+// Skript yuklanishi bilan barcha eski mock userlarni avtomatik tozalash
+purgeLegacyMockUsers();
 
 /**
  * Autentifikatsiya cheklovi (Rate Limiting) holatini qaytaradi.
@@ -183,9 +270,13 @@ function _saveSession(user) {
       };
       localStorage.setItem('kitobchi_all_users', JSON.stringify(all));
     } catch { /* ignore */ }
+
+    // Boshqa barcha vkladkalarga zudlik bilan tarqatish
+    broadcastSyncEvent('AUTH_CHANGE', { user });
   } else {
     setAdminSessionSecret(null);
     localStorage.removeItem(SESSION_KEY);
+    broadcastSyncEvent('AUTH_CHANGE', { user: null });
   }
 }
 
