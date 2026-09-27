@@ -2,7 +2,7 @@
 // pages/book-detail.js — Kitob tafsiloti (Editorial uslub)
 // ============================================================
 import { getBookById, getQuestions, getComments, saveComment, deleteComment } from '../db.js';
-import { escapeHtml, showNotification, renderBookCoverPlaceholder, getBookCoverUrl } from '../utils.js';
+import { escapeHtml, showNotification, renderBookCoverPlaceholder, getBookCoverUrl, svgIcon } from '../utils.js';
 import { isBookUnlocked } from '../progression.js';
 let _cleanup = [];
 
@@ -156,7 +156,7 @@ function _renderBook(contentEl, book, questions, user) {
                     return `
                       ${u.isAdminBypass ? `
                         <div style="margin-bottom:12px;padding:8px 12px;border-radius:var(--radius-sm);background:rgba(183,110,22,0.1);border:1px solid var(--ochre);font-size:0.8125rem;color:var(--ochre);display:flex;align-items:center;gap:6px;">
-                          <span>👑</span>
+                          <span>${svgIcon('crown', 16)}</span>
                           <span><strong>Admin ruxsati:</strong> Ushbu asar aslida <strong>${u.requiredLevel}-daraja (${u.requiredXP} XP)</strong> talab qiladi. Admin sifatida testni sinab ko'rishingiz mumkin.</span>
                         </div>
                       ` : ''}
@@ -170,7 +170,7 @@ function _renderBook(contentEl, book, questions, user) {
                   return `
                     <div class="book-detail__locked-box book-locked-box" style="padding:18px 20px;border:1.5px solid var(--ochre);border-radius:var(--radius-md);background:var(--paper-alt);max-width:460px;box-shadow:var(--shadow-sm);">
                       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                        <span style="font-size:1.5rem;">🔒</span>
+                        <span style="color:var(--ochre);">${svgIcon('lock', 26)}</span>
                         <div>
                           <h3 style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--ink);margin:0;">Ushbu asar testi qulflangan</h3>
                           <span style="font-size:0.75rem;color:var(--ochre);font-weight:700;">${u.requiredLevel}-Daraja talab qilinadi</span>
@@ -190,7 +190,7 @@ function _renderBook(contentEl, book, questions, user) {
                       ${user ? `
                         <div style="display:flex;gap:8px;flex-direction:column;">
                           <a href="#books" class="btn btn-outline btn-sm" style="width:100%;text-align:center;">
-                            🔓 Ochiq kitoblardan test yechib darajangizni oshiring
+                            ${svgIcon('unlock', 13, 'margin-right:4px;')} Ochiq kitoblardan test yechib darajangizni oshiring
                           </a>
                         </div>
                       ` : `
@@ -224,7 +224,7 @@ function _renderBook(contentEl, book, questions, user) {
       <!-- Fikr-mulohazalar va sharhlar -->
       <div class="book-detail__comments" style="margin-top:40px;padding-top:28px;border-top:1px solid var(--divider);">
         <h2 style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:20px;display:flex;align-items:center;gap:8px;">
-          <span>💬</span> Kitobxonlar fikrlari <span id="comments-count" style="font-size:0.875rem;font-weight:400;color:var(--ink-muted);"></span>
+          <span>${svgIcon('comment', 20)}</span> Kitobxonlar fikrlari <span id="comments-count" style="font-size:0.875rem;font-weight:400;color:var(--ink-muted);"></span>
         </h2>
 
         ${user ? `
@@ -295,7 +295,7 @@ function _bindEvents(container, book, user) {
         const res = await saveComment({ book_id: String(book.id), text });
         if (res.success) {
           if (input) input.value = '';
-          showNotification('Fikringiz muvaffaqiyatli saqlandi! 💬', 'success');
+          showNotification('Fikringiz muvaffaqiyatli saqlandi!', 'success');
           _loadBookComments(container, book.id, user);
         } else {
           showNotification(res.error || 'Xatolik yuz berdi', 'error');
@@ -323,7 +323,7 @@ async function _loadBookComments(container, bookId, user) {
     if (!comments || comments.length === 0) {
       listEl.innerHTML = `
         <div style="padding:20px;text-align:center;color:var(--ink-muted);font-size:0.875rem;background:var(--surface);border-radius:var(--radius-md);border:1px solid var(--divider);">
-          Hali hech kim fikr bildirmagan. Birinchi bo'lib o'z taassurotingizni yozing! ✍️
+          Hali hech kim fikr bildirmagan. Birinchi bo'lib o'z taassurotingizni yozing!
         </div>
       `;
       return;

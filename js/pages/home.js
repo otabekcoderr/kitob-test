@@ -2,7 +2,7 @@
 // pages/home.js — Bosh sahifa / Editorial Dashboard
 // ============================================================
 import { getBooks, getLeaderboard, getUserResults, getStreakStatus, isEligibleLeaderboardUser } from '../db.js';
-import { escapeHtml, truncate, today, formatDate, renderBookCoverPlaceholder, getBookCoverUrl, isImageUrl } from '../utils.js';
+import { escapeHtml, truncate, today, formatDate, renderBookCoverPlaceholder, getBookCoverUrl, isImageUrl, svgIcon } from '../utils.js';
 import { getUserLevel, getNextUnlockTarget, getDailyMissions, isBookUnlocked } from '../progression.js';
 
 let _cleanup = [];
@@ -11,9 +11,11 @@ let _currentUser = null;
 // ---- Deterministik kunlik sinov (sanaga asoslangan) ----
 function _getDailyChallenge(books) {
   if (!books || !books.length) return null;
-  const today = new Date();
-  const seed  = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-  return books[seed % books.length];
+  const now = new Date();
+  const seed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+  // Manba (kesh/live) farqidan qat'i nazar barqaror tartib
+  const sorted = [...books].sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  return sorted[seed % sorted.length];
 }
 
 // ---- Muqova URL (picsum va noto'g'ri havolalardan tozalangan) ----
@@ -335,7 +337,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
     if (!alreadyAcked) {
       brokenWrap.innerHTML = `
         <div class="streak-broken-banner" id="streak-broken-banner">
-          <div class="streak-broken-banner__icon" aria-hidden="true">🕯️</div>
+          <div class="streak-broken-banner__icon" aria-hidden="true">${svgIcon('candle', 22)}</div>
           <div style="flex:1;min-width:0;">
             <div class="streak-broken-banner__title">Yangi sahifa, yangi marra!</div>
             <div class="streak-broken-banner__desc">
@@ -344,7 +346,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
             </div>
           </div>
           <div class="streak-broken-banner__actions">
-            ${dailyId ? `<a href="#book?id=${escapeHtml(dailyId)}" id="btn-start-broken-streak" class="btn btn-primary btn-sm">Yangi streakni boshlash ✨</a>` : `<a href="#books" id="btn-start-broken-streak" class="btn btn-primary btn-sm">Kitob tanlash va boshlash ✨</a>`}
+            ${dailyId ? `<a href="#book?id=${escapeHtml(dailyId)}" id="btn-start-broken-streak" class="btn btn-primary btn-sm">Yangi streakni boshlash</a>` : `<a href="#books" id="btn-start-broken-streak" class="btn btn-primary btn-sm">Kitob tanlash va boshlash</a>`}
             <button class="btn btn-ghost btn-sm" id="btn-dismiss-broken-streak">Tushundim</button>
           </div>
         </div>
@@ -367,11 +369,9 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
   const currentStreak = streakStatus.currentStreak;
   const isCompletedToday = streakStatus.isCompletedToday;
 
-  let streakTitle = '0 kunlik zanjir';
   let streakDesc = 'Bugungi testni yeching va zanjirni boshlang!';
 
   if (currentStreak > 0) {
-    streakTitle = `${currentStreak} kunlik faol streak 🔥`;
     streakDesc = isCompletedToday
       ? 'Bugungi zanjir uzilmadi! Ajoyib matonat ko\'rsatdingiz.'
       : 'Bugun hali test yechilmadi. Zanjirni saqlab qolish uchun 1 ta test yeching!';
@@ -382,7 +382,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
       <div class="streak-card__header">
         <div class="streak-card__flame-wrap">
           <div class="streak-card__flame ${currentStreak > 0 ? 'streak-card__flame--active' : 'streak-card__flame--idle'}">
-            <span class="streak-card__flame-emoji">${currentStreak > 0 ? '🔥' : '🕯️'}</span>
+            <span class="streak-card__flame-emoji">${svgIcon(currentStreak > 0 ? 'flame' : 'candle', 22)}</span>
             ${currentStreak > 0 ? `
               <div class="streak-flame-sparks" aria-hidden="true">
                 <span>✦</span><span>✦</span><span>✦</span>
@@ -431,7 +431,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
                    role="listitem">
                 <span class="streak-day__name">${escapeHtml(dayLabel)}</span>
                 <div class="streak-day__circle" title="${escapeHtml(titleAttr)}">
-                  ${isActive ? '<span class="streak-day__flame">🔥</span>' : escapeHtml(String(dayNumber))}
+                  ${isActive ? `<span class="streak-day__flame">${svgIcon('flame', 13)}</span>` : escapeHtml(String(dayNumber))}
                 </div>
                 ${isToday ? '<span class="streak-day__today-indicator">Bugun</span>' : ''}
               </div>
@@ -575,13 +575,13 @@ function _bookCardHTML(book, user) {
   if (isLocked) {
     topBadge = `
       <div class="book-card__lock-badge ${unlock.isMystery ? 'book-card__lock-badge--mystery' : ''}">
-        <span>${unlock.isMystery ? '⚡ 7 kun streak' : `<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:2px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>${unlock.requiredLevel}-daraja`}</span>
+        <span>${unlock.isMystery ? `${svgIcon('bolt', 11, 'margin-right:2px;')}7 kun streak` : `<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:2px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>${unlock.requiredLevel}-daraja`}</span>
       </div>
     `;
   } else if (isAdminBypass) {
     topBadge = `
       <div class="book-card__admin-badge" title="Admin ruxsati bilan ochilgan (Aslida ${unlock.requiredLevel}-daraja)">
-        <span>👑 Admin (${unlock.requiredLevel}-d.)</span>
+        <span>${svgIcon('crown', 11, 'margin-right:2px;')}Admin (${unlock.requiredLevel}-d.)</span>
       </div>
     `;
   } else {
@@ -671,7 +671,9 @@ function _renderLeaderboardMini(leaders, currentUser) {
           const avatarImg = isImageUrl(rawImg) ? rawImg : null;
           const fallbackAvatar = !isImageUrl(u.avatar) && u.avatar ? u.avatar : initial;
           const rank = i + 1;
-          const rankBadge = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : rank));
+          const rankBadge = rank <= 3
+            ? `<span style="font-weight:700;color:${rank === 1 ? 'var(--ochre)' : 'var(--ink-muted)'};">${rank}</span>`
+            : rank;
           return `
             <tr${isMe ? ' style="background:var(--ochre-light);font-weight:600;"' : ''}>
               <td class="leaderboard__rank" style="width:36px;text-align:center;">${rankBadge}</td>

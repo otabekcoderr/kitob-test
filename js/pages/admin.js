@@ -15,7 +15,8 @@ import { getBooks, saveBook,
 import { escapeHtml,
          showNotification,
          setButtonLoading,
-         truncate }              from '../utils.js';
+         truncate,
+         svgIcon }                 from '../utils.js';
 import * as localData            from '../data.js';
 
 let _cleanup     = [];
@@ -361,7 +362,7 @@ function _renderBookRows(books) {
       <tr id="book-row-${b.id}">
         <td style="width:50px;text-align:center">
           <div style="width:36px;height:48px;border-radius:4px;overflow:hidden;position:relative;display:inline-flex;align-items:center;justify-content:center;background:var(--paper-alt);border:1px solid var(--divider);">
-            <span style="display:inline-flex;width:100%;height:100%;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--ochre);z-index:1;">📖</span>
+            <span style="display:inline-flex;width:100%;height:100%;align-items:center;justify-content:center;color:var(--ochre);z-index:1;">${svgIcon('book', 16)}</span>
             ${coverSrc ? `
               <img src="${escapeHtml(coverSrc)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;">
             ` : ''}
@@ -1011,19 +1012,19 @@ function _renderUserRows(users) {
     const isMaster = u.is_master || u.role === 'admin' || u.is_admin || String(u.username || '').includes('admin');
     const isAdmin = u.role === 'admin' || u.is_admin || isMaster;
     const roleBadge = isAdmin
-      ? `<span class="badge-admin-role">👑 Administrator</span>`
-      : `<span class="badge-user-role">👤 O'quvchi</span>`;
+      ? `<span class="badge-admin-role">${svgIcon('crown', 12, 'margin-right:3px;')} Administrator</span>`
+      : `<span class="badge-user-role">O'quvchi</span>`;
 
     let actionBtn = '';
     if (isMaster) {
-      actionBtn = `<span class="badge-master-locked" title="Bosh administrator huquqi o'zgartirilmaydi">🔒 Asosiy ma'mur</span>`;
+      actionBtn = `<span class="badge-master-locked" title="Bosh administrator huquqi o'zgartirilmaydi">${svgIcon('lock', 12, 'margin-right:3px;')} Asosiy ma'mur</span>`;
     } else if (isAdmin) {
       actionBtn = `<button class="btn btn-sm btn-role-demote toggle-role-btn"
                      data-id="${u.id}"
                      data-username="${escapeHtml(u.username || '')}"
                      data-name="${escapeHtml(u.full_name || u.username || '')}"
                      data-role="admin">
-                     ⬇️ O'quvchi qilish
+                     ${svgIcon('arrow-down', 12, 'margin-right:3px;')} O'quvchi qilish
                    </button>`;
     } else {
       actionBtn = `<button class="btn btn-sm btn-role-promote toggle-role-btn"
@@ -1031,12 +1032,12 @@ function _renderUserRows(users) {
                      data-username="${escapeHtml(u.username || '')}"
                      data-name="${escapeHtml(u.full_name || u.username || '')}"
                      data-role="user">
-                     ⬆️ Admin qilish
+                     ${svgIcon('arrow-up', 12, 'margin-right:3px;')} Admin qilish
                    </button>`;
     }
 
     const shortId = u.id ? (String(u.id).length > 8 ? String(u.id).slice(0, 8) + '…' : String(u.id)) : '—';
-    const streakDisplay = (u.streak !== undefined && u.streak !== null) ? `🔥 ${u.streak}` : '0';
+    const streakDisplay = (u.streak !== undefined && u.streak !== null) ? `${svgIcon('flame', 12, 'margin-right:2px;color:var(--ochre);')} ${u.streak}` : '0';
 
     return `
       <tr id="user-row-${u.id}">
@@ -1126,17 +1127,17 @@ function _bindUserEvents(users) {
           const roleCell = row.querySelector('.role-cell');
           if (roleCell) {
             roleCell.innerHTML = targetRole === 'admin'
-              ? `<span class="badge-admin-role">👑 Administrator</span>`
-              : `<span class="badge-user-role">👤 O'quvchi</span>`;
+              ? `<span class="badge-admin-role">${svgIcon('crown', 12, 'margin-right:3px;')} Administrator</span>`
+              : `<span class="badge-user-role">O'quvchi</span>`;
           }
 
           btn.dataset.role = targetRole;
           if (targetRole === 'admin') {
             btn.className = 'btn btn-sm btn-role-demote toggle-role-btn';
-            btn.innerHTML = '⬇️ O\'quvchi qilish';
+            btn.innerHTML = `${svgIcon('arrow-down', 12, 'margin-right:3px;')} O'quvchi qilish`;
           } else {
             btn.className = 'btn btn-sm btn-role-promote toggle-role-btn';
-            btn.innerHTML = '⬆️ Admin qilish';
+            btn.innerHTML = `${svgIcon('arrow-up', 12, 'margin-right:3px;')} Admin qilish`;
           }
         }
 
@@ -1145,7 +1146,7 @@ function _bindUserEvents(users) {
       } catch (err) {
         showNotification(`Xatolik: ${err.message}`, 'error');
       } finally {
-        const finalLabel = btn.dataset.role === 'admin' ? '⬇️ O\'quvchi qilish' : '⬆️ Admin qilish';
+        const finalLabel = btn.dataset.role === 'admin' ? `${svgIcon('arrow-down', 12, 'margin-right:3px;')} O'quvchi qilish` : `${svgIcon('arrow-up', 12, 'margin-right:3px;')} Admin qilish`;
         setButtonLoading(btn, false, finalLabel);
       }
     });

@@ -1,7 +1,7 @@
 // ============================================================
 // pages/result.js — Test natijasi & Rivojlanish sahifasi (Editorial uslub)
 // ============================================================
-import { escapeHtml, getUserLevel, getNextUnlockTarget, getBookUnlockReq, renderBookCoverPlaceholder } from '../utils.js';
+import { escapeHtml, getUserLevel, getNextUnlockTarget, getBookUnlockReq, renderBookCoverPlaceholder, svgIcon } from '../utils.js';
 import { getBooks } from '../db.js';
 import { getCurrentUser } from '../auth.js';
 
@@ -80,7 +80,7 @@ export async function render(container, { params, user: initialUser }) {
           ${bookTitle ? `
             <div style="margin-bottom:20px;">
               <span class="badge" style="font-size:0.875rem;padding:6px 14px;background:var(--paper-alt);border:1px solid var(--divider);color:var(--ink);">
-                📖 ${escapeHtml(bookTitle)}
+                ${svgIcon('book', 14, 'margin-right:4px;')} ${escapeHtml(bookTitle)}
               </span>
             </div>
           ` : ''}
@@ -137,7 +137,7 @@ export async function render(container, { params, user: initialUser }) {
             <!-- Daraja progress indikatori -->
             <div class="result-level-bar-wrap">
               <div style="display:flex;justify-content:space-between;font-size:0.8125rem;color:var(--ink-muted);margin-bottom:6px;">
-                <span>${userLevel.isMaxLevel ? "Oliy daraja zabt etildi! 👑" : `Keyingi darajagacha progress`}</span>
+                <span>${userLevel.isMaxLevel ? `Oliy daraja zabt etildi! ${svgIcon('crown', 13)}` : `Keyingi darajagacha progress`}</span>
                 <span><strong>${userLevel.progressPct}%</strong></span>
               </div>
               <div style="height:9px;background:var(--divider);border-radius:6px;overflow:hidden;position:relative;">
@@ -156,7 +156,7 @@ export async function render(container, { params, user: initialUser }) {
           <!-- KUNLIK MISSIYA NATIJASI (Agar bajarilgan bo'lsa) -->
           ${missionsCompleted.length > 0 ? `
             <div style="margin-bottom:20px;padding:12px 16px;border-radius:var(--radius-md);background:rgba(183,110,22,0.08);border:1px solid var(--ochre);text-align:left;display:flex;align-items:center;gap:12px;">
-              <span style="font-size:1.5rem;">🎯</span>
+              <span style="color:var(--ochre);flex-shrink:0;">${svgIcon('target', 26)}</span>
               <div>
                 <div style="font-size:0.8125rem;font-weight:700;color:var(--ochre);">Kunlik missiya muvaffaqiyatli yakunlandi!</div>
                 <div style="font-size:0.875rem;color:var(--ink);">
@@ -179,7 +179,7 @@ export async function render(container, { params, user: initialUser }) {
                        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;"
                   />
                 ` : ''}
-                <div style="position:absolute;inset:0;background:rgba(23,54,45,0.45);display:flex;align-items:center;justify-content:center;color:#FFF;font-size:1.1rem;pointer-events:none;z-index:3;">🔒</div>
+                <div style="position:absolute;inset:0;background:rgba(23,54,45,0.45);display:flex;align-items:center;justify-content:center;color:#FFF;pointer-events:none;z-index:3;">${svgIcon('lock', 18)}</div>
               </div>
               <div style="flex:1;min-width:0;">
                 <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ochre);">
@@ -225,7 +225,7 @@ export async function render(container, { params, user: initialUser }) {
           <div class="result-review-section animate-slide-up" id="result-review-section">
             <div class="result-review-header">
               <h2 class="result-review-title">
-                <span>📝</span> Savollar va xatolar tahlili
+                <span>${svgIcon('pencil', 18)}</span> Savollar va xatolar tahlili
               </h2>
               <div class="result-filter-tabs" role="tablist" aria-label="Savollarni filtrlash">
                 <button type="button" class="result-filter-tab active" data-review-filter="all">
@@ -305,7 +305,7 @@ export async function render(container, { params, user: initialUser }) {
 
                     ${ans.explanation ? `
                       <div class="result-explanation-box">
-                        <strong>💡 Izoh:</strong> ${escapeHtml(ans.explanation)}
+                        <strong>${svgIcon('bulb', 13, 'margin-right:2px;')} Izoh:</strong> ${escapeHtml(ans.explanation)}
                       </div>
                     ` : ''}
                   </div>
@@ -337,7 +337,7 @@ export async function render(container, { params, user: initialUser }) {
           </div>
 
           <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--ochre);font-weight:700;margin-bottom:6px;">
-            ✨ TABRIKLAYMIZ! DARAJA OSHDI! ✨
+            ${svgIcon('sparkle', 13, 'margin-right:4px;')} TABRIKLAYMIZ! DARAJA OSHDI! ${svgIcon('sparkle', 13, 'margin-left:4px;')}
           </div>
 
           <h2 id="level-up-title" style="font-family:var(--font-display);font-size:1.65rem;color:var(--ink);font-weight:700;margin-bottom:8px;">
@@ -351,12 +351,12 @@ export async function render(container, { params, user: initialUser }) {
           ${newlyUnlockedBooks.length > 0 ? `
             <div style="text-align:left;background:var(--paper-alt);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:24px;border:1px solid var(--divider);">
               <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--ochre);font-weight:700;margin-bottom:8px;">
-                🔓 Yangi ochilgan asarlar:
+                ${svgIcon('unlock', 12, 'margin-right:3px;')} Yangi ochilgan asarlar:
               </div>
               <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
                 ${newlyUnlockedBooks.map(b => `
                   <li style="font-size:0.875rem;color:var(--ink);display:flex;align-items:center;gap:8px;">
-                    <span>📖</span>
+                    <span style="color:var(--ochre);flex-shrink:0;">${svgIcon('book', 15)}</span>
                     <strong style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(b.title)}</strong>
                     <span style="font-size:0.75rem;color:var(--ink-muted);">${escapeHtml(b.author || '')}</span>
                   </li>

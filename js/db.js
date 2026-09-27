@@ -1392,8 +1392,17 @@ function _buildLocalLeaderboard() {
 _leaderboardCache = _buildLocalLeaderboard();
 _leaderboardCacheTime = Date.now();
 
-async function _syncLeaderboardInBackground() {
-  if (!isSupabaseOnline()) return;
+let _syncLeaderboardPromise = null;
+
+function _syncLeaderboardInBackground() {
+  // In-flight dedup: bir vaqtning o'zida faqat bitta profiles so'rovi
+  if (_syncLeaderboardPromise) return _syncLeaderboardPromise;
+  if (!isSupabaseOnline()) return Promise.resolve();
+  _syncLeaderboardPromise = _doSyncLeaderboard().finally(() => { _syncLeaderboardPromise = null; });
+  return _syncLeaderboardPromise;
+}
+
+async function _doSyncLeaderboard() {
   try {
     const { data, error } = await runQuery(
       supabase

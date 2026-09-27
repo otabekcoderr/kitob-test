@@ -11,7 +11,7 @@
 //   7. Anti-cheat / Takroriy ball olishdan himoya (Anti-replay guard)
 // ============================================================
 
-import { today, yesterday, formatDate } from './utils.js';
+import { today, yesterday, formatDate, svgIcon } from './utils.js';
 
 // ============================================================
 // 1. DARAJALAR (LEVELS) KONFIGURATSIYASI
@@ -560,7 +560,7 @@ export function getDailyMissions(user, todayStr = today()) {
       current: 0,
       completed: false,
       xpReward: 15,
-      icon: '📖',
+      icon: svgIcon('book', 22),
     },
     {
       id: 'm2_high_score',
@@ -570,7 +570,7 @@ export function getDailyMissions(user, todayStr = today()) {
       current: 0,
       completed: false,
       xpReward: 20,
-      icon: '🎯',
+      icon: svgIcon('target', 22),
     },
     {
       id: 'm3_try_book',
@@ -580,7 +580,7 @@ export function getDailyMissions(user, todayStr = today()) {
       current: 0,
       completed: false,
       xpReward: 15,
-      icon: '✨',
+      icon: svgIcon('sparkle', 22),
     }
   ];
 
@@ -592,7 +592,7 @@ export function getDailyMissions(user, todayStr = today()) {
     if (raw) {
       const saved = JSON.parse(raw);
       if (Array.isArray(saved) && saved.length === 3) {
-        return saved;
+        return saved.map((m, i) => ({ ...m, icon: defaultMissions[i].icon }));
       }
     }
   } catch {}

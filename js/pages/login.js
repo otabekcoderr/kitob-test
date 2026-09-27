@@ -3,7 +3,7 @@
 // ============================================================
 import { login, getRateLimitStatus }   from '../auth.js';
 import { escapeHtml, setButtonLoading,
-         showNotification, LOGO_SVG }  from '../utils.js';
+         showNotification, LOGO_SVG, svgIcon }  from '../utils.js';
 let _cleanup = [];
 
 const EYE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
@@ -77,6 +77,12 @@ export async function render(container, { params, user }) {
               <span class="input-error" id="password-error" role="alert" aria-live="polite"></span>
             </div>
 
+            <div style="display:flex;justify-content:flex-end;margin-top:-4px;">
+              <button type="button" id="forgot-password-link" class="auth-link" style="background:none;border:none;cursor:pointer;font-size:0.8125rem;padding:2px 0;">
+                Parolni unutdingizmi?
+              </button>
+            </div>
+
             <!-- Global xato -->
             <div id="login-error" class="auth-error" role="alert" aria-live="polite" hidden></div>
 
@@ -122,6 +128,15 @@ function _bindEvents() {
   toggleBtn.addEventListener('click', onToggle);
   _cleanup.push(() => toggleBtn.removeEventListener('click', onToggle));
 
+  // Parolni tiklash — hisoblar pseudo-email bilan yaratilgani uchun
+  // avtomatik tiklash imkonsiz; faqat administrator orqali.
+  const forgotBtn = document.getElementById('forgot-password-link');
+  const onForgot = () => {
+    showNotification('Parolni tiklash hozircha avtomatik ishlamaydi. Iltimos, administratorga murojaat qiling — u parolingizni yangilab beradi.', 'info', 7000);
+  };
+  forgotBtn?.addEventListener('click', onForgot);
+  _cleanup.push(() => forgotBtn?.removeEventListener('click', onForgot));
+
   // Input validatsiya (real vaqt)
   const onUsernameInput = () => _clearError('username-error', usernameEl);
   const onPasswordInput = () => _clearError('password-error', passwordEl);
@@ -139,7 +154,7 @@ function _bindEvents() {
     if (status.isLocked) {
       submitBtn.disabled = true;
       globalError.hidden = false;
-      globalError.innerHTML = `🛡️ <strong>Xavfsizlik tizimi:</strong> Ko'p marta xato urinish aniqlandi. Qayta urinish: <strong id="auth-cooldown-timer">${status.remainingSeconds}</strong> soniya.`;
+      globalError.innerHTML = `${svgIcon('shield', 14, 'margin-right:4px;')} <strong>Xavfsizlik tizimi:</strong> Ko'p marta xato urinish aniqlandi. Qayta urinish: <strong id="auth-cooldown-timer">${status.remainingSeconds}</strong> soniya.`;
       clearInterval(_lockoutTimer);
       _lockoutTimer = setInterval(() => {
         const current = getRateLimitStatus();

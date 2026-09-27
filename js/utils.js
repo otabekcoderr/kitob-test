@@ -332,6 +332,50 @@ export const LOGO_SVG = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.
 </svg>`;
 
 // ============================================================
+// 6b. UI SVG IKONKALAR (DESIGN.md: emoji o'rniga vektor ikonka)
+// ============================================================
+const SVG_ICONS = {
+  lock:     '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>',
+  unlock:   '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>',
+  flame:    '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>',
+  candle:   '<path d="M12 2c1.2 2.2 2.5 3.6 2.5 5.8a2.5 2.5 0 1 1-5 0C9.5 5.6 10.8 4.2 12 2z"></path><rect x="8" y="11" width="8" height="11" rx="1.5"></rect>',
+  trophy:   '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>',
+  bolt:     '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>',
+  comment:  '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>',
+  pencil:   '<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>',
+  crown:    '<path d="m2 6 3.5 11a1 1 0 0 0 .95.7h11.1a1 1 0 0 0 .95-.7L22 6l-5 4.5L12 3 7 10.5Z"></path><path d="M6 21h12"></path>',
+  sprout:   '<path d="M7 20h10"></path><path d="M10 20c5.5-2.5.8-6.4 3-10"></path><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"></path><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"></path>',
+  target:   '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle>',
+  sparkle:  '<path d="M12 3l1.9 5.7a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-2a2 2 0 0 0 1.3-1.3Z"></path>',
+  book:     '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>',
+  brain:    '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path>',
+  bulb:     '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path>',
+  info:     '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>',
+  volume:   '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>',
+  'volume-off': '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="22" y1="9" x2="16" y2="15"></line><line x1="16" y1="9" x2="22" y2="15"></line>',
+  star:     '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>',
+  'arrow-up':   '<line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline>',
+  'arrow-down': '<line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline>',
+  shield:   '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>',
+  camera:   '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle>',
+  link:     '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>',
+};
+
+/**
+ * Inline SVG ikonka HTML kodini qaytaradi (emoji o'rniga).
+ * @param {string} name — SVG_ICONS kaliti
+ * @param {number} [size=16]
+ * @param {string} [extraStyle='']
+ * @returns {string}
+ */
+export function svgIcon(name, size = 16, extraStyle = '') {
+  const body = SVG_ICONS[name];
+  if (!body) return '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-${Math.max(2, Math.round(size * 0.15))}px;${extraStyle}">${body}</svg>`;
+}
+
+// ============================================================
 // 7. AUDIO EFFEKTLARI (Web Audio API — 0ms kechikish, tashqi faylsiz)
 // ============================================================
 let _audioCtx = null;
@@ -496,7 +540,7 @@ export function renderBookCoverPlaceholder(book, options = {}) {
         <span class="book-cover-placeholder__genre">${escapeHtml(genre)}</span>
       </div>
       <div class="book-cover-placeholder__body">
-        <span class="book-cover-placeholder__emblem" aria-hidden="true">📖</span>
+        <span class="book-cover-placeholder__emblem" aria-hidden="true">${svgIcon('book', 22)}</span>
         <div class="book-cover-placeholder__title">${escapeHtml(truncate(title, isLarge ? 50 : 28))}</div>
         <div class="book-cover-placeholder__divider"></div>
       </div>
@@ -520,7 +564,7 @@ export function getBookCoverUrl(book) {
     if (typeof c === 'string') {
       const trimmed = c.trim();
       if (trimmed && trimmed !== '📖' && !trimmed.includes('picsum.photos')) {
-        if (trimmed.startsWith('data:image/') || trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+        if (trimmed.startsWith('data:image/') || trimmed.startsWith('http://') || trimmed.startsWith('https://') || isImageUrl(trimmed)) {
           return trimmed;
         }
       }
@@ -661,7 +705,8 @@ export function isImageUrl(val) {
          s.startsWith('data:image/') ||
          s.startsWith('/') ||
          s.startsWith('./') ||
-         s.startsWith('../');
+         s.startsWith('../') ||
+         /^[\w-]+\/[\w./-]+\.(jpe?g|png|webp|gif|svg|avif)$/i.test(s);
 }
 
 /**

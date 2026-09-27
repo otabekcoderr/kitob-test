@@ -13,6 +13,7 @@ import {
   renderBookCoverPlaceholder,
   getBookCoverUrl,
   isImageUrl,
+  svgIcon,
 } from '../utils.js';
 
 let _cleanup = [];
@@ -69,7 +70,7 @@ export async function render(container, { params, user }) {
                   ${userLevel.emoji} ${escapeHtml(userLevel.title)} · Daraja ${userLevel.level}
                 </span>
                 <span style="font-size:0.75rem;color:var(--ink-muted);font-weight:600;">
-                  ${userLevel.isMaxLevel ? 'Oliy daraja 👑' : `${userLevel.currentLevelXP} / ${userLevel.nextLevelXP} XP (${userLevel.progressPct}%)`}
+                  ${userLevel.isMaxLevel ? `Oliy daraja ${svgIcon('crown', 12)}` : `${userLevel.currentLevelXP} / ${userLevel.nextLevelXP} XP (${userLevel.progressPct}%)`}
                 </span>
               </div>
               <div style="height:7px;background:var(--divider);border-radius:4px;overflow:hidden;">
@@ -129,11 +130,11 @@ export async function render(container, { params, user }) {
             Personaj tanlash 🎭
           </button>
           <button class="tab" data-tab="achievements" role="tab" aria-selected="false">
-            <span style="font-size:1rem;margin-right:2px;">🏆</span>
+            <span style="display:inline-flex;color:var(--ochre);">${svgIcon('trophy', 14)}</span>
             Yutuqlar
           </button>
           <button class="tab" data-tab="mastery" role="tab" aria-selected="false">
-            <span style="font-size:1rem;margin-right:2px;">⭐</span>
+            <span style="display:inline-flex;color:var(--ochre);">${svgIcon('star', 14)}</span>
             Mastery
           </button>
           <button class="tab" data-tab="history" role="tab" aria-selected="false">
@@ -189,7 +190,7 @@ export async function render(container, { params, user }) {
                     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
                       <label for="pf-avatar-file" class="btn btn-outline btn-sm" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                        Qurilmadan tanlash 📷
+                        Qurilmadan tanlash
                       </label>
                       <input id="pf-avatar-file" type="file" accept="image/png, image/jpeg, image/webp, image/gif" style="display:none;" />
                       
@@ -208,7 +209,7 @@ export async function render(container, { params, user }) {
                 <!-- URL orqali kiritish varianti (accordion/toggle) -->
                 <div style="margin-top:12px;">
                   <button type="button" id="toggle-url-avatar-btn" class="btn btn-ghost btn-xs" style="font-size:0.75rem;padding:4px 8px;color:var(--ochre);display:inline-flex;align-items:center;gap:4px;">
-                    <span>🔗 Internet havolasi (URL) orqali kiritish</span>
+                    <span style="display:inline-flex;align-items:center;gap:4px;">${svgIcon('link', 13)} Internet havolasi (URL) orqali kiritish</span>
                     <svg id="url-toggle-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
                   </button>
 
@@ -271,7 +272,7 @@ export async function render(container, { params, user }) {
         <div id="tab-achievements" class="profile-panel animate-slide-up" hidden>
           <div class="card">
             <div style="margin-bottom: 20px;">
-              <h2 class="card__title" style="margin-bottom: 4px;">Adabiy yutuqlar 🏆</h2>
+              <h2 class="card__title" style="margin-bottom: 4px;">Adabiy yutuqlar <span style="color:var(--ochre);display:inline-flex;">${svgIcon('trophy', 18)}</span></h2>
               <p class="text-sm text-muted" style="margin:0;">Muntazam mutolaa qilib, yangi marralar va faxriy nishonlarni qo'lga kiriting.</p>
             </div>
             <div id="achievements-container">
@@ -287,7 +288,7 @@ export async function render(container, { params, user }) {
         <div id="tab-mastery" class="profile-panel animate-slide-up" hidden>
           <div class="card">
             <div style="margin-bottom: 20px;">
-              <h2 class="card__title" style="margin-bottom: 4px;">Asarlarni o'zlashtirish (Mastery ⭐)</h2>
+              <h2 class="card__title" style="margin-bottom: 4px;">Asarlarni o'zlashtirish (Mastery <span style="color:var(--ochre);display:inline-flex;">${svgIcon('star', 16)}</span>)</h2>
               <p class="text-sm text-muted" style="margin:0;">Har bir asar bo'yicha eng yuqori natijangiz va bilim darajangiz.</p>
             </div>
             <div id="mastery-container">
@@ -702,7 +703,7 @@ function _renderCharacterGrid(user) {
             </div>
             <div class="character-name">${escapeHtml(char.name)}</div>
             <div class="character-book">${escapeHtml(char.bookTitle || '')}</div>
-            ${isSelected ? `<div class="character-selected-badge">✨ Tanlangan</div>` : ''}
+            ${isSelected ? `<div class="character-selected-badge">${svgIcon('sparkle', 11, 'margin-right:2px;')} Tanlangan</div>` : ''}
           </div>
         `;
       }).join('')}
@@ -789,7 +790,7 @@ function _renderAchievements(user, results) {
               </h4>
               ${a.unlocked
                 ? `<span style="font-size:0.7rem;font-weight:700;color:var(--success);">✓</span>`
-                : `<span style="font-size:0.7rem;color:var(--ink-muted);">🔒</span>`
+                : `<span style="display:inline-flex;color:var(--ink-muted);">${svgIcon('lock', 11)}</span>`
               }
             </div>
             <p style="font-size:0.8125rem;color:var(--ink-muted);line-height:1.45;margin:0;">

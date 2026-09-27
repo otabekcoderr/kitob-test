@@ -2,7 +2,7 @@
 // pages/leaderboard.js — Reyting jadvali (Editorial uslub)
 // ============================================================
 import { getLeaderboard, isEligibleLeaderboardUser } from '../db.js';
-import { escapeHtml, isImageUrl } from '../utils.js';
+import { escapeHtml, isImageUrl, svgIcon } from '../utils.js';
 let _cleanup = [];
 
 export async function render(container, { params, user }) {
@@ -22,13 +22,13 @@ export async function render(container, { params, user }) {
         <!-- Vaqt filtrlari (Barchasi, Haftalik, Oylik) -->
         <div class="leaderboard-tabs animate-fade-in" style="display:flex;justify-content:center;gap:8px;margin-bottom:32px;" role="tablist" aria-label="Reyting davri">
           <button type="button" class="btn btn-sm btn-primary lb-period-tab active" data-period="all">
-            🏆 Barchasi
+            ${svgIcon('trophy', 13, 'margin-right:4px;')} Barchasi
           </button>
           <button type="button" class="btn btn-sm btn-outline lb-period-tab" data-period="weekly">
-            ⚡ Haftalik
+            ${svgIcon('bolt', 13, 'margin-right:4px;')} Haftalik
           </button>
           <button type="button" class="btn btn-sm btn-outline lb-period-tab" data-period="monthly">
-            📅 Oylik
+            ${svgIcon('calendar', 13, 'margin-right:4px;')} Oylik
           </button>
         </div>
 
@@ -220,7 +220,7 @@ function _renderPodium(top3, currentUser) {
         return `
           <div class="podium__item podium__item--${rank}" role="listitem"
                aria-label="${rank}. o'rin: ${escapeHtml(u.full_name || u.username)}">
-            <div class="podium__rank">${rank === 1 ? '🥇' : (rank === 2 ? '🥈' : '🥉')}</div>
+            <div class="podium__rank"><span style="font-weight:800;color:${rank === 1 ? 'var(--ochre)' : (rank === 2 ? 'var(--ink-muted)' : '#A9714B')};">${rank}</span></div>
             <div class="podium__avatar"${isMe ? ' style="border-color:var(--ochre);box-shadow:0 0 10px rgba(183,110,22,0.3);"' : ''}>
               ${avatarImg
                 ? `<img src="${escapeHtml(avatarImg)}" alt="${escapeHtml(u.full_name || '')}" style="width:100%;height:100%;object-fit:cover;">`
@@ -233,7 +233,7 @@ function _renderPodium(top3, currentUser) {
             </div>
             <div class="podium__score">
               <span>${score} ball</span>
-              ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;margin-top:2px;" title="${u.streak} kunlik streak">🔥 ${u.streak} kun</div>` : ''}
+              ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;margin-top:2px;" title="${u.streak} kunlik streak">${svgIcon('flame', 12, 'margin-right:2px;')} ${u.streak} kun</div>` : ''}
             </div>
           </div>
         `;
@@ -278,9 +278,9 @@ function _renderTable(leaders, currentUser) {
             const score     = u.displayScore !== undefined ? u.displayScore : (u.score ?? 0);
             
             let rankBadge = `<span style="font-weight:600;color:var(--ink-muted);">${rank}</span>`;
-            if (rank === 1) rankBadge = `<span style="font-size:1.1rem;" title="1-o'rin">🥇</span>`;
-            else if (rank === 2) rankBadge = `<span style="font-size:1.1rem;" title="2-o'rin">🥈</span>`;
-            else if (rank === 3) rankBadge = `<span style="font-size:1.1rem;" title="3-o'rin">🥉</span>`;
+            if (rank === 1) rankBadge = `<span style="font-size:1.05rem;font-weight:800;color:var(--ochre);" title="1-o'rin">1</span>`;
+            else if (rank === 2) rankBadge = `<span style="font-size:1.05rem;font-weight:800;color:var(--ink-muted);" title="2-o'rin">2</span>`;
+            else if (rank === 3) rankBadge = `<span style="font-size:1.05rem;font-weight:800;color:#A9714B;" title="3-o'rin">3</span>`;
 
             return `
               <tr${isMe ? ' style="background:var(--ochre-light);font-weight:600;"' : ''}>
@@ -301,7 +301,7 @@ function _renderTable(leaders, currentUser) {
                 </td>
                 <td style="text-align:right;padding:12px 8px 12px 0;">
                   <span class="leaderboard__score" style="font-weight:700;color:var(--ochre);">${score} ball</span>
-                  ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;margin-top:2px;" title="${u.streak} kunlik streak">🔥 ${u.streak} kun</div>` : ''}
+                  ${u.streak > 0 ? `<div style="font-size:0.75rem;color:var(--ochre);font-weight:600;margin-top:2px;" title="${u.streak} kunlik streak">${svgIcon('flame', 12, 'margin-right:2px;')} ${u.streak} kun</div>` : ''}
                 </td>
               </tr>
             `;

@@ -9,7 +9,7 @@ import {
   getQuizState,
 } from '../quiz.js';
 import { getBookById } from '../db.js';
-import { escapeHtml, showNotification, isSoundEnabled, setSoundEnabled }  from '../utils.js';
+import { escapeHtml, showNotification, isSoundEnabled, setSoundEnabled, svgIcon }  from '../utils.js';
 import { isBookUnlocked } from '../progression.js';
 
 let _callbacks  = {};
@@ -69,7 +69,7 @@ export async function render(container, { params, user }) {
             </div>
 
             <button id="sound-toggle-btn" class="btn btn-ghost btn-sm" type="button" aria-label="Ovozni yoqish yoki o'chirish" title="Ovozni yoqish yoki o'chirish" style="padding:4px 8px;font-size:1.1rem;">
-              <span id="sound-icon">${isSoundEnabled() ? '🔊' : '🔇'}</span>
+              <span id="sound-icon" style="display:inline-flex;">${svgIcon(isSoundEnabled() ? 'volume' : 'volume-off', 18)}</span>
             </button>
 
             <button id="abort-btn" class="btn btn-ghost btn-sm" type="button">
@@ -122,7 +122,7 @@ export async function render(container, { params, user }) {
   const onSoundToggle = () => {
     const next = !isSoundEnabled();
     setSoundEnabled(next);
-    if (soundIcon) soundIcon.textContent = next ? '🔊' : '🔇';
+    if (soundIcon) soundIcon.innerHTML = svgIcon(next ? 'volume' : 'volume-off', 18);
     showNotification(next ? 'Ovoz effektlari yoqildi' : 'Ovoz effektlari o\'chirildi', 'info', 1500);
   };
   soundBtn?.addEventListener('click', onSoundToggle);
@@ -185,7 +185,7 @@ function _onReady(questions) {
     const banner = document.getElementById('quiz-violations');
     const text = document.getElementById('violations-text');
     if (banner && text) {
-      text.textContent = "ℹ️ Oflayn mashg'ulot rejimi: Aloqa uzilganligi sababli test mashq tarzida o'tkaziladi.";
+      text.textContent = "Oflayn mashg'ulot rejimi: Aloqa uzilganligi sababli test mashq tarzida o'tkaziladi.";
       banner.style.borderColor = "var(--ochre)";
       banner.style.background = "var(--ochre-light)";
       banner.style.color = "var(--ink)";
@@ -207,7 +207,12 @@ function _onQuestion({ question, index, total, timeLeft }) {
   // Badge va savol matni
   const questionEl = document.getElementById('quiz-question');
   if (questionEl) {
-    const badges = ['🎯 Falsafiy tahlil', '🧠 Qahramon ruhiyati', '📖 Syujet va mantiq', '💡 Asar tagmatni'];
+    const badges = [
+      `${svgIcon('target', 12, 'margin-right:3px;')} Falsafiy tahlil`,
+      `${svgIcon('brain', 12, 'margin-right:3px;')} Qahramon ruhiyati`,
+      `${svgIcon('book', 12, 'margin-right:3px;')} Syujet va mantiq`,
+      `${svgIcon('bulb', 12, 'margin-right:3px;')} Asar tagmatni`,
+    ];
     const badgeText = badges[index % badges.length];
     questionEl.innerHTML = `
       <div style="margin-bottom:12px;">
@@ -300,7 +305,7 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation, isOf
     const titleText = isCorrect ? "To'g'ri javob! Chuqur tahlil:" : "Mantiqiy tahlil va izoh:";
     explanationEl.innerHTML = `
       <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span style="font-size:1.3rem;line-height:1;flex-shrink:0;">💡</span>
+        <span style="line-height:1;flex-shrink:0;color:var(--ochre);">${svgIcon('bulb', 22)}</span>
         <div style="flex:1;">
           <div style="font-weight:700;color:var(--ink);margin-bottom:6px;font-size:0.9375rem;">
             ${titleText}

@@ -2,7 +2,7 @@
 // pages/books.js — Kitoblar katalogi (Progression & Lock integratsiyasi)
 // ============================================================
 import { getBooks } from '../db.js';
-import { escapeHtml, truncate, renderBookCoverPlaceholder, getBookCoverUrl } from '../utils.js';
+import { escapeHtml, truncate, renderBookCoverPlaceholder, getBookCoverUrl, svgIcon } from '../utils.js';
 import { isBookUnlocked, evaluateMasteryTier, getUserLevel } from '../progression.js';
 
 let _allBooks = [];
@@ -79,14 +79,14 @@ export async function render(container, { params, user }) {
             <!-- O'ng tomon: Kitoblar qulf statistikasi va Admin rejimi tugmasi -->
             <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
               <div class="gamification-stat-pill" style="display:flex;gap:10px;background:var(--surface);padding:8px 14px;border-radius:var(--radius-md);border:1px solid var(--divider);font-size:0.8125rem;">
-                <span style="color:var(--success);font-weight:700;">🔓 ${unlockedCount} ta ochiq</span>
+                <span style="color:var(--success);font-weight:700;">${svgIcon('unlock', 13, 'margin-right:3px;')}${unlockedCount} ta ochiq</span>
                 <span style="color:var(--divider);">|</span>
-                <span style="color:var(--ochre);font-weight:700;">🔒 ${lockedCount} ta qulflangan</span>
+                <span style="color:var(--ochre);font-weight:700;">${svgIcon('lock', 13, 'margin-right:3px;')}${lockedCount} ta qulflangan</span>
               </div>
 
               ${isAdmin ? `
                 <button id="btn-toggle-preview-mode" class="btn btn-sm ${isStudentPreview ? 'btn-primary' : 'btn-outline'}" style="display:inline-flex;align-items:center;gap:6px;" title="O'quvchi va admin ko'rinishlari orasida almashish">
-                  ${isStudentPreview ? '🎓 O\'quvchi ko\'rinishi (Faol)' : '👑 Admin ko\'rinishi'}
+                  ${isStudentPreview ? `${svgIcon('book', 13)} O'quvchi ko'rinishi (Faol)` : `${svgIcon('crown', 13)} Admin ko'rinishi`}
                 </button>
               ` : ''}
             </div>
@@ -96,9 +96,9 @@ export async function render(container, { params, user }) {
         <!-- Holat filtrlari (Ochiq / Qulflangan / Mastery) -->
         <div class="tabs books-status-tabs" id="status-tabs" role="tablist" aria-label="Holat bo'yicha" style="margin-bottom:16px;">
           <button class="tab tab--active status-tab" role="tab" data-status="all" aria-selected="true">Barchasi (${_allBooks.length})</button>
-          <button class="tab status-tab" role="tab" data-status="unlocked" aria-selected="false">🔓 Ochiq (${unlockedCount})</button>
-          <button class="tab status-tab" role="tab" data-status="locked" aria-selected="false">🔒 Qulflangan (${lockedCount})</button>
-          ${user ? `<button class="tab status-tab" role="tab" data-status="mastery" aria-selected="false">⭐ Mening Mastery'm</button>` : ''}
+          <button class="tab status-tab" role="tab" data-status="unlocked" aria-selected="false">${svgIcon('unlock', 13, 'margin-right:3px;')}Ochiq (${unlockedCount})</button>
+          <button class="tab status-tab" role="tab" data-status="locked" aria-selected="false">${svgIcon('lock', 13, 'margin-right:3px;')}Qulflangan (${lockedCount})</button>
+          ${user ? `<button class="tab status-tab" role="tab" data-status="mastery" aria-selected="false">${svgIcon('trophy', 13, 'margin-right:3px;')}Mening Mastery'm</button>` : ''}
         </div>
 
         <!-- Qidiruv va qiyinlik filtri -->
@@ -217,19 +217,19 @@ function _bookCardHTML(book, user) {
   if (isLocked) {
     topBadge = `
       <div class="book-card__lock-badge ${unlock.isMystery ? 'book-card__lock-badge--mystery' : ''}">
-        <span>${unlock.isMystery ? '⚡ 7 kun streak' : `🔒 ${unlock.requiredLevel}-daraja`}</span>
+        <span>${unlock.isMystery ? `${svgIcon('bolt', 12, 'margin-right:2px;')} 7 kun streak` : `${svgIcon('lock', 12, 'margin-right:2px;')} ${unlock.requiredLevel}-daraja`}</span>
       </div>
     `;
   } else if (isAdminBypass) {
     topBadge = `
       <div class="book-card__admin-badge" title="Admin ruxsati bilan ochilgan (Aslida ${unlock.requiredLevel}-daraja)">
-        <span>👑 Admin (${unlock.requiredLevel}-d.)</span>
+        <span>${svgIcon('crown', 12, 'margin-right:2px;')} Admin (${unlock.requiredLevel}-d.)</span>
       </div>
     `;
   } else {
     topBadge = `
       <div class="book-card__unlocked-badge">
-        <span>🔓 Ochiq</span>
+        <span>${svgIcon('unlock', 12, 'margin-right:2px;')} Ochiq</span>
       </div>
     `;
   }
@@ -262,7 +262,7 @@ function _bookCardHTML(book, user) {
           <div class="book-card__lock-overlay">
             <div style="height:20px;"></div>
             <div class="book-card__lock-center">
-              <div class="book-card__lock-icon-circle">🔒</div>
+              <div class="book-card__lock-icon-circle">${svgIcon('lock', 24)}</div>
               <span class="book-card__lock-req-text">${unlock.isMystery ? '7 kunlik streak talabi' : `${unlock.requiredLevel}-daraja talabi`}</span>
             </div>
             <div class="book-card__lock-progress">
@@ -289,7 +289,7 @@ function _bookCardHTML(book, user) {
           <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
           ${book.difficulty ? `<span class="badge">${escapeHtml(book.difficulty)}</span>` : ''}
           <span class="badge ${isLocked ? '' : 'badge-primary'}" style="font-size:0.72rem;">
-            ${isLocked ? `🔒 ${unlock.requiredLevel}-d.` : (isAdminBypass ? '👑 Admin' : '✓ Ochiq')}
+            ${isLocked ? `${svgIcon('lock', 11, 'margin-right:2px;')} ${unlock.requiredLevel}-d.` : (isAdminBypass ? `${svgIcon('crown', 11, 'margin-right:2px;')} Admin` : `${svgIcon('unlock', 11, 'margin-right:2px;')} Ochiq`)}
           </span>
         </div>
         ${masteryBadge}
