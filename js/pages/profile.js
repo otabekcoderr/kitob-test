@@ -42,9 +42,23 @@ export async function render(container, { params, user }) {
     } catch {}
   }
 
-  const isAdmin = user && (user.role === 'admin' && user.isAdmin === true);
+  const isAdmin = user && (
+    user.role === 'admin' ||
+    user.isAdmin === true ||
+    user.is_admin === true ||
+    (user.username && ['admin', 'admin_kitobchi'].includes(String(user.username).toLowerCase()))
+  );
 
   const userLevel = getUserLevel(user.score || 0);
+
+  let userBadgeHTML = '';
+  if (isAdmin) {
+    userBadgeHTML = `<span class="badge badge-primary" style="display:inline-flex;align-items:center;gap:4px;font-weight:700;padding:3px 10px;font-size:0.75rem;">👑 Administrator</span>`;
+  } else if (user.username && String(user.username).trim() !== '') {
+    userBadgeHTML = `<span class="badge" style="display:inline-flex;align-items:center;gap:4px;font-weight:600;padding:3px 10px;font-size:0.75rem;">@${escapeHtml(user.username)}</span>`;
+  }
+
+  const cleanDisplayName = (user.fullName || user.username || 'Foydalanuvchi').trim();
 
   container.innerHTML = `
     <div class="page" id="profile-page">
@@ -57,15 +71,13 @@ export async function render(container, { params, user }) {
           </div>
           <div class="profile-hero__info">
             <div class="profile-hero__header-row">
-              <h1 class="profile-hero__name">${escapeHtml(user.fullName || user.username)}</h1>
-              <span class="badge ${isAdmin ? 'badge-primary' : ''}">
-                ${isAdmin ? 'Administrator' : `@${escapeHtml(user.username)}`}
-              </span>
+              <h1 class="profile-hero__name">${escapeHtml(cleanDisplayName)}</h1>
+              ${userBadgeHTML}
             </div>
 
             <!-- Daraja va XP Progress bari -->
-            <div class="profile-hero__level-wrap" style="margin:10px 0 14px;max-width:420px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;">
+            <div class="profile-hero__level-wrap">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">
                 <span class="badge ${userLevel.badgeClass || 'badge-primary'}" style="font-size:0.8125rem;padding:3px 10px;font-weight:700;">
                   ${userLevel.emoji} ${escapeHtml(userLevel.title)} · Daraja ${userLevel.level}
                 </span>
@@ -73,30 +85,31 @@ export async function render(container, { params, user }) {
                   ${userLevel.isMaxLevel ? `Oliy daraja ${svgIcon('crown', 12)}` : `${userLevel.currentLevelXP} / ${userLevel.nextLevelXP} XP (${userLevel.progressPct}%)`}
                 </span>
               </div>
-              <div style="height:7px;background:var(--divider);border-radius:4px;overflow:hidden;">
-                <div style="width:${userLevel.progressPct}%;height:100%;background:linear-gradient(90deg, var(--ochre), #e08e28);border-radius:4px;"></div>
+              <div class="progress-bar" style="height:8px;border-radius:4px;overflow:hidden;background:var(--divider);">
+                <div class="progress-bar__fill" style="width:${userLevel.progressPct}%;height:100%;background:linear-gradient(90deg, var(--ochre), var(--terracotta));border-radius:4px;"></div>
               </div>
             </div>
 
             <div class="profile-hero__stats">
-              <div class="profile-hero__stat">
+              <div class="profile-hero__stat" title="Umumiy ball va to'plangan XP">
+                <span style="display:inline-flex;color:var(--ochre);">${svgIcon('star', 15)}</span>
                 <span class="profile-hero__stat-val">${user.score ?? 0}</span>
                 <span class="profile-hero__stat-label">XP Ball</span>
               </div>
-              <div class="profile-hero__stat" id="streak-stat">
-                <span class="profile-hero__stat-val" style="display:inline-flex; align-items:center; gap:4px;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
-                  ${user.streak ?? 0}
-                </span>
+              <div class="profile-hero__stat" id="streak-stat" title="Kunlik mutolaa zanjiri">
+                <span style="display:inline-flex;color:var(--ochre);">${svgIcon('fire', 15)}</span>
+                <span class="profile-hero__stat-val">${user.streak ?? 0}</span>
                 <span class="profile-hero__stat-label">Streak</span>
               </div>
-              <div class="profile-hero__stat" id="test-count-stat">
+              <div class="profile-hero__stat" id="test-count-stat" title="Yechilgan testlar soni">
+                <span style="display:inline-flex;color:var(--ochre);">${svgIcon('book', 15)}</span>
                 <span class="profile-hero__stat-val">—</span>
                 <span class="profile-hero__stat-label">Test</span>
               </div>
             </div>
           </div>
-          <button id="logout-profile-btn" class="btn btn-outline btn-sm profile-logout">
+          <button id="logout-profile-btn" class="btn btn-outline btn-sm profile-logout" style="display:inline-flex;align-items:center;gap:6px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
             Chiqish
           </button>
         </div>
