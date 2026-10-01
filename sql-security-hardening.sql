@@ -281,24 +281,56 @@ ON CONFLICT (question_id) DO UPDATE
 
 
 -- ########################################################################
+-- BOLIM 4b — JAVOB KALITLARINI ANON DAN YOPISH (anti-cheat)
+-- ########################################################################
+-- `questions` jadvalidagi correctAnswer / explanation ustunlari ustun
+-- darajasidagi huquq orqali yopiladi. RLS qator darajasida ishlaydi va
+-- bitta ustunni ajratolmaydi — buning uchun REVOKE SELECT(column) kerak.
+--
+-- Natija: anon yoki authenticated kaliti bilan
+--     supabase.from('questions').select('correctAnswer')
+-- desak, 0 qator qaytadi. Savol matnlari ochiq qoladi.
+--
+-- MUHIM: backend endi kalitlarni `question_keys` dan o'qiydi
+-- (api/quiz-submit.js, service_role bilan), shuning uchun baholash
+-- buzilmaydi. Admin panel esa api/question-keys.js orqali o'qiydi.
+-- Bu SQL ni bajarishdan OLDIN shu kod deploy qilingan bo'lishi kerak.
+
+DO $$
+BEGIN
+  EXECUTE 'REVOKE SELECT ("correctAnswer") ON public.questions FROM anon';
+  EXECUTE 'REVOKE SELECT ("correctAnswer") ON public.questions FROM authenticated';
+  EXECUTE 'REVOKE SELECT ("explanation") ON public.questions FROM anon';
+  EXECUTE 'REVOKE SELECT ("explanation") ON public.questions FROM authenticated';
+  RAISE NOTICE 'questions.correctAnswer va explanation yopildi';
+EXCEPTION WHEN others THEN
+  RAISE NOTICE 'REVOKE bajarilmadi: %', SQLERRM;
+END $$;
+
+
+-- ########################################################################
 -- BOLIM 5 — leaderboard view (ixtiyoriy, xato bo'lsa to'xtatmaydi)
 -- ########################################################################
--- Reyting `profiles` va `quiz_results` dan agregatlanadi; klient yozadigan
--- qiymatga tayanmaydi. Adminlar chiqariladi.
+-- `security_invoker` OLMAYDI (security definer). Sababi:
+--   quiz_results_select_own faqat o'z qatorini ko'rsatadi, shuning uchun
+--   invoker rejimida har kim faqat o'z ballini ko'rardi va reyting bo'sh
+--   chiqardi. Reyting ochiq ma'lumot bo'lgani uchun view egasi
+--   (postgres) huquqlari bilan agregatlash kerak.
+--
+-- Bu oqimada faqat AGREGAT (sum, count) ko'rinadi — individual
+-- quiz_results qatorlari view orqali ochiq bo'lmaydi, shuning uchun
+-- RLS ni aylantirish oqilamaydi.
 --
 -- Eslatma: `profiles` da `score` / `streak` / `role` USTUNLARI yo'q.
 --   score  = quiz_results dan SUM()
 --   streak = profiles.stats ->> 'currentStreak'
---
--- Bu qism DO blokida: currentStrace kabi nosoz qiymat yuzaga kelsa ham
--- 1-4-bo'limlardagi xavfsizlik o'zgarishlari saqlanib qoladi.
 
 DROP VIEW IF EXISTS public.leaderboard CASCADE;
 
 DO $$
 BEGIN
   EXECUTE $view$
-    CREATE VIEW public.leaderboard WITH (security_invoker = true) AS
+    CREATE VIEW public.leaderboard AS
     SELECT
       p.id            AS user_id,
       p.username      AS username,
@@ -385,6 +417,17 @@ SELECT has_column_privilege('authenticated', 'public.profiles', 'is_admin', 'UPD
          AS authenticated_can_update_is_admin,
        has_column_privilege('anon', 'public.profiles', 'is_admin', 'UPDATE')
          AS anon_can_update_is_admin;
+
+-- 7.4d ⭐ Anti-cheat: correctAnswer yopilgan, question ochiq bo'lishi kerak.
+--       Kutilgan: anon_can_read_correctAnswer = false
+--                 authenticated_can_read_correctAnswer = false
+--                 anon_can_read_question = true
+SELECT has_column_privilege('anon','public.questions','correctAnswer','SELECT')
+         AS anon_can_read_correctAnswer,
+       has_column_privilege('authenticated','public.questions','correctAnswer','SELECT')
+         AS authenticated_can_read_correctAnswer,
+       has_column_privilege('anon','public.questions','question','SELECT')
+         AS anon_can_read_question;
 
 -- 7.5 Ko'chirilgan javob kalitlari soni (questions qatorlariga teng bo'lishi
 --     kerak):

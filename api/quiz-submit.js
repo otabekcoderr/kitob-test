@@ -267,12 +267,22 @@ export default async function handler(req, res) {
       });
     }
 
-    // Supabase questions query with 2000ms safety timeout
+    // Supabase questions query with 2000ms safety timeout.
+    //
+    // The answer key comes from `question_keys`, NOT from `questions`.
+    // `questions.correctAnswer` / `explanation` are REVOKEd from anon and
+    // authenticated, so reading them with the anon client would return nothing
+    // and grading would silently fail. `question_keys` has no policy at all, so
+    // only the service-role client can read it — which is the point.
+    //
+    // The public question text is still read with the anon client, because that
+    // part is meant to be readable.
     try {
       const anonClient = getSupabaseAnon();
+      const searchIds = Array.from(new Set([targetBookId, canonicalBookId, targetBookSlug, canonicalSlug].filter(Boolean)));
+
       if (anonClient) {
-        const searchIds = Array.from(new Set([targetBookId, canonicalBookId, targetBookSlug, canonicalSlug].filter(Boolean)));
-        let dbQuery = anonClient.from('questions').select('*');
+        let dbQuery = anonClient.from('questions').select('id, bookId, question, options');
         if (searchIds.length > 1) {
           dbQuery = dbQuery.in('bookId', searchIds);
         } else {
@@ -280,7 +290,7 @@ export default async function handler(req, res) {
         }
 
         const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Supabase query timeout')), 2000)
+          setTimeout(() => reject(new Error('Supabase question query timeout')), 2000)
         );
 
         const { data: dbQuestions, error: dbErr } = await Promise.race([dbQuery, timeoutPromise]);
@@ -291,6 +301,39 @@ export default async function handler(req, res) {
               authMap.set(String(q.id), { ...existing, ...q });
             }
           });
+        }
+      }
+
+      // Privileged read of the answer keys.
+      const keyClient = getSupabaseAdmin(token);
+      const keyIds = Array.from(authMap.keys());
+      if (keyClient && keyIds.length > 0) {
+        const keyTimeout = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Supabase question_keys timeout')), 2000)
+        );
+
+        const { data: keyRows } = await Promise.race([
+          keyClient
+            .from('question_keys')
+            .select('question_id, correct_answer, explanation')
+            .in('question_id', keyIds.slice(0, 60)),
+          keyTimeout
+        ]);
+
+        if (Array.isArray(keyRows)) {
+          for (const row of keyRows) {
+            if (!row || !row.question_id) continue;
+            const target = authMap.get(String(row.question_id));
+            if (!target) continue;
+            authMap.set(String(row.question_id), {
+              ...target,
+              // Grading resolves the index against `options`, so keep the
+              // stored key in both shapes the resolver understands.
+              correctAnswer: row.correct_answer,
+              correct_answer: row.correct_answer,
+              explanation: row.explanation ?? ''
+            });
+          }
         }
       }
     } catch (err) {

@@ -10,6 +10,7 @@ import { getBooks, saveBook,
          deleteBook, getQuestions,
          saveQuestion,
          deleteQuestion,
+         attachQuestionKeys,
          getCharacters, saveCharacter,
          deleteCharacter }        from '../db.js';
 import { escapeHtml,
@@ -737,6 +738,13 @@ async function _renderQuestions(panel) {
       })
     );
     qs = allResults.flat();
+  } catch { /* ignore */ }
+
+  // Answer keys are REVOKEd from anon/authenticated, so pull them through the
+  // admin-only endpoint. Without this the edit form's correct-answer field
+  // would always be blank.
+  try {
+    qs = await attachQuestionKeys(qs);
   } catch { /* ignore */ }
 
   const bookOptions = books.map(b =>

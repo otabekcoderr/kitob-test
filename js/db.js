@@ -758,6 +758,77 @@ export async function getQuestions(bookId, forceRefresh = false) {
 }
 
 /**
+ * Admin-only answer key retrieval via the serverless endpoint.
+ *
+ * `questions.correctAnswer` / `explanation` are REVOKEd from anon and
+ * authenticated in SQL, so the admin question editor cannot prefill the correct
+ * answer through PostgREST any more. `api/question-keys.js` verifies the caller
+ * is an admin and reads the `question_keys` table with the service-role key.
+ *
+ * Returns a Map of questionId -> { correct_answer, explanation }.
+ *
+ * @param {string} [bookId] — restrict to one book when the ids are known
+ * @returns {Promise<Map<string, {correct_answer: string, explanation: string}>>}
+ */
+export async function getQuestionKeys(bookId = null) {
+  const out = new Map();
+  if (typeof fetch !== 'function') return out;
+
+  try {
+    const token = await getAccessToken();
+    if (!token) return out;
+
+    const url = bookId
+      ? `/api/question-keys?bookId=${encodeURIComponent(String(bookId))}`
+      : '/api/question-keys';
+
+    const res = await fetch(url, {
+      headers: { Accept: 'application/json', Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return out;
+
+    const data = await res.json();
+    if (!data || data.success !== true || !Array.isArray(data.keys)) return out;
+
+    for (const k of data.keys) {
+      if (k && k.id !== undefined) {
+        out.set(String(k.id), {
+          correct_answer: k.correct_answer ?? '',
+          explanation: k.explanation ?? ''
+        });
+      }
+    }
+  } catch {
+    /* Admin panel degrades to a blank answer field rather than breaking. */
+  }
+
+  return out;
+}
+
+/**
+ * Merges answer keys into a question list. Used by the admin editor only.
+ *
+ * @param {object[]} questions
+ * @returns {Promise<object[]>}
+ */
+export async function attachQuestionKeys(questions) {
+  if (!Array.isArray(questions) || questions.length === 0) return questions || [];
+
+  const keys = await getQuestionKeys();
+  if (keys.size === 0) return questions;
+
+  return questions.map(q => {
+    const key = keys.get(String(q.id));
+    if (!key) return q;
+    return {
+      ...q,
+      correct_answer: key.correct_answer,
+      explanation: q.explanation || key.explanation
+    };
+  });
+}
+
+/**
  * Test savollarini /api/quiz serverless API dan xavfsiz yuklaydi.
  * Serverdan to'g'ri javoblar va izohlar tozalangan holda keladi (Anti-cheat).
  * Tarmoq uzilganda lokal savollar bilan mashg'ulot rejimiga o'tadi.
@@ -844,12 +915,16 @@ export async function saveQuestion(data, id = null) {
   localStorage.setItem('kitobchi_deleted_questions', JSON.stringify(deleted));
 
   // Supabase ga urinish
+  const keyText = data.correctAnswer !== undefined && data.correctAnswer !== null
+    ? String(data.correctAnswer)
+    : String(data.correct_answer ?? 0);
+
   try {
     const sbPayload = {
       bookId:         String(data.bookId || data.book_id || fullQ.bookId || fullQ.book_id || ''),
       question:       data.question,
       options:        data.options,
-      correctAnswer:  data.correctAnswer !== undefined ? data.correctAnswer : (data.correct_answer ?? 0),
+      correctAnswer:  keyText,
       explanation:    data.explanation || '',
     };
 
@@ -869,6 +944,32 @@ export async function saveQuestion(data, id = null) {
     }
   } catch (err) {
     console.warn('[db] Supabase save question fallback:', err);
+  }
+
+  // Keep `question_keys` in sync. Grading reads answer keys from that table
+  // only, so a key written to `questions` alone would never be used.
+  try {
+    const token = await getAccessToken();
+    if (token) {
+      const res = await fetch('/api/question-keys', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          questionId: String(targetId),
+          correctAnswer: keyText,
+          explanation: data.explanation || ''
+        })
+      });
+      if (!res.ok) {
+        console.warn('[db] question_keys sync failed with status', res.status);
+      }
+    }
+  } catch (err) {
+    console.warn('[db] question_keys sync warning:', err);
   }
 
   _questionsCache.clear();
@@ -1375,26 +1476,20 @@ function _buildLocalLeaderboard() {
 
   const cur = getCurrentUser();
   if (cur && cur.id && isEligibleLeaderboardUser(cur)) {
-    const curStats = cur.stats || {};
-    const curScore = Number(curStats.totalScore ?? curStats.score ?? cur.score ?? 0);
-    const curStreak = curStats.currentStreak !== undefined && curStats.currentStreak !== null
-      ? Number(curStats.currentStreak)
-      : (cur.streak !== undefined && cur.streak !== null ? Number(cur.streak) : 0);
-
+    // Presentation only. Score and streak stay server-sourced: this value comes
+    // from localStorage, which the browser can rewrite at will.
     const idx = list.findIndex(u => u.id === cur.id || (u.username && u.username === cur.username));
     if (idx >= 0) {
-      list[idx].score = Math.max(list[idx].score || 0, curScore);
-      list[idx].streak = curStreak;
       list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
       list[idx].avatar_url = cur.avatarImage || cur.avatar_image || cur.avatar || list[idx].avatar_url || '';
       list[idx].avatarImage = cur.avatarImage || cur.avatar_image || list[idx].avatarImage || null;
-    } else {
+    } else if (Number(cur.score) > 0 || Number(cur.streak) > 0) {
       list.push({
         id: cur.id,
         full_name: cur.fullName || cur.username,
         username: cur.username,
-        score: curScore,
-        streak: curStreak,
+        score: Number(cur.score) || 0,
+        streak: Number(cur.streak) || 0,
         avatar_url: cur.avatarImage || cur.avatar_image || cur.avatar || '',
         avatar: cur.avatar || '👤',
         avatarImage: cur.avatarImage || cur.avatar_image || null,
@@ -1469,60 +1564,44 @@ async function _doSyncLeaderboard() {
         if (raw) localUsers = JSON.parse(raw);
       } catch { /* ignore */ }
 
+      // localStorage is written by the browser, so it may only supply cosmetic
+      // fields (name, avatar) for users the server already knows about.
+      // Previously the merge took Math.max(serverScore, localScore), which let
+      // anyone paste a high score into localStorage and climb the ranking.
+      // Score and streak now come from the server only.
       Object.values(localUsers).forEach(u => {
         if (!isEligibleLeaderboardUser(u)) return;
-        const uStats = u.stats || {};
-        const uScore = Number(uStats.totalScore ?? uStats.score ?? u.score ?? 0);
-        const uStreak = uStats.currentStreak !== undefined && uStats.currentStreak !== null
-          ? Number(uStats.currentStreak)
-          : (u.streak !== undefined && u.streak !== null ? Number(u.streak) : 0);
 
-        const idx = list.findIndex(item => item.id === u.id || (item.username && item.username === u.username));
+        const idx = list.findIndex(item =>
+          (u.id && item.id === u.id) ||
+          (u.username && item.username && item.username === u.username)
+        );
         if (idx >= 0) {
           list[idx] = {
             ...list[idx],
-            score: Math.max(list[idx].score || 0, uScore),
-            streak: uStreak,
             avatar_url: u.avatarImage || u.avatar || list[idx].avatar_url || '',
             avatarImage: u.avatarImage || list[idx].avatarImage || null,
             full_name: u.fullName || list[idx].full_name || u.username,
           };
-        } else {
-          list.push({
-            id: u.id,
-            full_name: u.fullName || u.username,
-            username: u.username,
-            score: uScore,
-            streak: uStreak,
-            avatar_url: u.avatarImage || u.avatar || '',
-            avatarImage: u.avatarImage || null,
-            role: 'user',
-          });
         }
       });
 
       const cur = getCurrentUser();
       if (cur && cur.id && isEligibleLeaderboardUser(cur)) {
-        const curStats = cur.stats || {};
-        const curScore = Number(curStats.totalScore ?? curStats.score ?? cur.score ?? 0);
-        const curStreak = curStats.currentStreak !== undefined && curStats.currentStreak !== null
-          ? Number(curStats.currentStreak)
-          : (cur.streak !== undefined && cur.streak !== null ? Number(cur.streak) : 0);
-
+        // Same rule for the current user: presentation only.
         const idx = list.findIndex(u => u.id === cur.id || (u.username && u.username === cur.username));
         if (idx >= 0) {
-          list[idx].score = Math.max(list[idx].score || 0, curScore);
-          list[idx].streak = curStreak;
           list[idx].full_name = cur.fullName || list[idx].full_name || cur.username;
           list[idx].avatar_url = cur.avatarImage || cur.avatar_image || cur.avatar || list[idx].avatar_url || '';
           list[idx].avatarImage = cur.avatarImage || cur.avatar_image || list[idx].avatarImage || null;
-        } else {
+        } else if (cur.score > 0 || cur.streak > 0) {
+          // Only shown when the server has not indexed this user yet.
           list.push({
             id: cur.id,
             full_name: cur.fullName || cur.username,
             username: cur.username,
-            score: curScore,
-            streak: curStreak,
+            score: cur.score,
+            streak: cur.streak,
             avatar_url: cur.avatarImage || cur.avatar_image || cur.avatar || '',
             avatarImage: cur.avatarImage || cur.avatar_image || null,
             role: 'user',

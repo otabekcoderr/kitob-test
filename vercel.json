@@ -9,8 +9,7 @@
       "memory": 1024,
       "maxDuration": 30
     }
-  },
-  "headers": [
+  },  "headers": [
     {
       "source": "/(css|favicon.svg|covers)/.*",
       "headers": [
