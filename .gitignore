@@ -3,7 +3,12 @@ scratch/
 .agents/
 *.log
 .DS_Store
+
+# Root'da data.js yo'q — haqiqiy fayl js/data.js va u allaqachon kuzatiladi
 /data.js
+
+# pages/ — js/pages/ ning eski nusxalari, hech qaerda import qilinmaydi.
+# .vercelignore ham uni bloklaydi.
 /pages/
 
 .vercel

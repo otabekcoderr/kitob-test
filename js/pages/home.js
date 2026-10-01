@@ -133,7 +133,7 @@ export async function render(container, { params, user }) {
         <section class="section">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
             <h2 class="section-heading" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">Kitoblar</h2>
-            <a href="#books" class="btn btn-ghost btn-sm">Barchasini ko'rish →</a>
+            <a href="#books" class="btn btn-ghost btn-sm">Barchasini ko'rish ${svgIcon('arrow-right', 14, 'margin-left:5px;')}</a>
           </div>
           <div class="grid grid-auto" id="books-grid">
             ${_skeletonBookCards(6)}
@@ -144,7 +144,7 @@ export async function render(container, { params, user }) {
         <section class="section">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
             <h2 class="section-heading" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">Reyting</h2>
-            <a href="#leaderboard" class="btn btn-ghost btn-sm">To'liq jadval →</a>
+            <a href="#leaderboard" class="btn btn-ghost btn-sm">To'liq jadval ${svgIcon('arrow-right', 14, 'margin-left:5px;')}</a>
           </div>
           <div class="card" id="leaderboard-mini">
             <div class="loading-state"><div class="spinner spinner--sm"></div><span>Yuklanmoqda...</span></div>
@@ -309,7 +309,7 @@ function _renderDailyMissions(missions, user) {
         ${missions.map(m => `
           <div class="mission-card card ${m.completed ? 'mission-card--completed' : ''}" style="padding:16px 18px;display:flex;align-items:center;gap:14px;border:1px solid ${m.completed ? 'var(--success)' : 'var(--divider)'};background:var(--surface);">
             <div class="mission-icon" style="font-size:1.4rem;width:42px;height:42px;border-radius:50%;background:${m.completed ? 'var(--success-light)' : 'var(--paper-alt)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              ${m.completed ? '✓' : m.icon}
+              ${m.completed ? svgIcon('check', 18) : escapeHtml(m.icon)}
             </div>
             <div style="flex:1;min-width:0;">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
@@ -390,7 +390,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
             <span class="streak-card__flame-emoji">${svgIcon(currentStreak > 0 ? 'flame' : 'candle', 22)}</span>
             ${currentStreak > 0 ? `
               <div class="streak-flame-sparks" aria-hidden="true">
-                <span>✦</span><span>✦</span><span>✦</span>
+                ${svgIcon('sparkle', 12)}${svgIcon('sparkle', 12)}${svgIcon('sparkle', 12)}
               </div>` : ''}
           </div>
           <div>
@@ -403,7 +403,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
         </div>
         <div class="streak-card__action">
           ${isCompletedToday ? `
-            <span class="streak-card__badge-done">BUGUN YAKUNLANDI ✓</span>
+            <span class="streak-card__badge-done">BUGUN YAKUNLANDI ${svgIcon('check', 13, 'margin-left:4px;')}</span>
           ` : `
             <a href="${dailyId ? `#book?id=${escapeHtml(dailyId)}` : '#books'}" class="btn btn-primary btn-sm pulse-button">
               Testni boshlash
@@ -426,7 +426,7 @@ function _renderStreakWidget(streakStatus, user, dailyBook) {
             const dateStr = day.date || '';
 
             let titleAttr = `${dateStr}: Reja`;
-            if (isActive) titleAttr = `${dateStr}: Test muvaffaqiyatli topshirilgan ✓`;
+            if (isActive) titleAttr = `${dateStr}: Test muvaffaqiyatli topshirilgan`;
             else if (isToday) titleAttr = `${dateStr}: Bugungi test kutilmoqda`;
             else if (isMissed) titleAttr = `${dateStr}: Test yechilmagan`;
 
@@ -646,7 +646,7 @@ function _bookCardHTML(book, user) {
       </div>
       <div class="book-card__footer">
         <span class="badge">${escapeHtml(book.category || book.genre || 'Adabiyot')}</span>
-        <span class="badge ${isLocked ? '' : 'badge-primary'}">${isLocked ? `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:2px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>${unlock.requiredLevel}-daraja` : '✓ Testga tayyor'}</span>
+        <span class="badge ${isLocked ? '' : 'badge-primary'}">${isLocked ? `${svgIcon('lock', 12, 'margin-right:3px;')}${escapeHtml(String(unlock.requiredLevel))}-daraja` : `${svgIcon('check', 12, 'margin-right:3px;')} Testga tayyor`}</span>
       </div>
     </article>
   `;

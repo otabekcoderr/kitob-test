@@ -126,32 +126,32 @@ export async function render(container, { params, user }) {
               <p class="text-sm text-muted" style="margin:0;">Kitoblar, test savollari, foydalanuvchilar va izohlarni to'liq boshqarish.</p>
             </div>
             <a href="#admin" class="btn btn-primary btn-sm" style="display:inline-flex; align-items:center; gap:6px;">
-              Admin panelni ochish →
+              Admin panelni ochish ${svgIcon('arrow-right', 14, 'margin-left:2px;')}
             </a>
           </div>
         </div>
         ` : ''}
 
         <!-- Tablar -->
-        <div class="tabs profile-tabs animate-slide-up" id="profile-tabs" role="tablist">
-          <button class="tab tab--active" data-tab="edit" role="tab" aria-selected="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        <div class="tabs profile-tabs animate-slide-up" id="profile-tabs" role="tablist" aria-label="Profil bo'limlari">
+          <button class="tab tab--active" data-tab="edit" id="tab-btn-edit" role="tab" aria-selected="true" aria-controls="tab-edit" tabindex="0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre-text);" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             Tahrirlash
           </button>
-          <button class="tab" data-tab="characters" role="tab" aria-selected="false">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
-            Personaj tanlash 🎭
+          <button class="tab" data-tab="characters" id="tab-btn-characters" role="tab" aria-selected="false" aria-controls="tab-characters" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre-text);" aria-hidden="true"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
+            Personaj tanlash
           </button>
-          <button class="tab" data-tab="achievements" role="tab" aria-selected="false">
-            <span style="display:inline-flex;color:var(--ochre);">${svgIcon('trophy', 14)}</span>
+          <button class="tab" data-tab="achievements" id="tab-btn-achievements" role="tab" aria-selected="false" aria-controls="tab-achievements" tabindex="-1">
+            <span style="display:inline-flex;color:var(--ochre-text);">${svgIcon('trophy', 14)}</span>
             Yutuqlar
           </button>
-          <button class="tab" data-tab="mastery" role="tab" aria-selected="false">
-            <span style="display:inline-flex;color:var(--ochre);">${svgIcon('star', 14)}</span>
-            Mastery
+          <button class="tab" data-tab="mastery" id="tab-btn-mastery" role="tab" aria-selected="false" aria-controls="tab-mastery" tabindex="-1">
+            <span style="display:inline-flex;color:var(--ochre-text);">${svgIcon('star', 14)}</span>
+            <span lang="en">Mastery</span>
           </button>
-          <button class="tab" data-tab="history" role="tab" aria-selected="false">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre);"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <button class="tab" data-tab="history" id="tab-btn-history" role="tab" aria-selected="false" aria-controls="tab-history" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ochre-text);" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             Test tarixi
           </button>
         </div>
@@ -243,8 +243,8 @@ export async function render(container, { params, user }) {
 
                 <div class="character-tab-hint" style="margin-top:12px;padding:10px 14px;background:var(--paper-alt);border-radius:var(--radius-sm);border:1px dashed var(--divider);display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:0.8125rem;">
                   <span style="color:var(--ink);">🎭 Milliy adabiy qahramonlar timsolini xohlaysizmi?</span>
-                  <button type="button" class="btn btn-ghost btn-xs" id="go-to-chars-tab-btn" style="color:var(--ochre);font-weight:700;white-space:nowrap;">
-                    Personaj tanlash →
+                  <button type="button" class="btn btn-ghost btn-xs" id="go-to-chars-tab-btn" style="color:var(--ochre-text);font-weight:700;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;min-height:44px;">
+                    Personaj tanlash ${svgIcon('arrow-right', 13)}
                   </button>
                 </div>
               </div>
@@ -346,15 +346,28 @@ function _bindEvents(user, params = {}) {
     history: document.getElementById('tab-history'),
   };
 
-  const switchTab = (targetTab) => {
-    tabsEl?.querySelectorAll('.tab').forEach(t => {
+  const tabButtons = tabsEl ? Array.from(tabsEl.querySelectorAll('.tab')) : [];
+
+  const switchTab = (targetTab, { focus = false } = {}) => {
+    tabButtons.forEach(t => {
       const isMatch = t.dataset.tab === targetTab;
       t.classList.toggle('tab--active', isMatch);
       t.setAttribute('aria-selected', String(isMatch));
+      // Roving tabindex: only the selected tab is in the tab sequence.
+      t.setAttribute('tabindex', isMatch ? '0' : '-1');
+      if (isMatch && focus) {
+        try { t.focus({ preventScroll: true }); } catch {}
+      }
     });
 
     Object.keys(panels).forEach(key => {
-      if (panels[key]) panels[key].hidden = (key !== targetTab);
+      const panel = panels[key];
+      if (!panel) return;
+      const isActive = key === targetTab;
+      panel.hidden = !isActive;
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', `tab-btn-${key}`);
+      panel.setAttribute('tabindex', '0');
     });
   };
 
@@ -363,8 +376,32 @@ function _bindEvents(user, params = {}) {
     if (!btn) return;
     switchTab(btn.dataset.tab);
   };
+
+  // Arrow-key navigation is required for a tablist; Tab alone only reaches the
+  // active tab, so keyboard users could not move between sections at all.
+  const onTabKeyDown = (e) => {
+    const keys = ['ArrowRight', 'ArrowLeft', 'Home', 'End'];
+    if (!keys.includes(e.key)) return;
+    const current = tabButtons.findIndex(t => t.dataset.tab === e.target.dataset?.tab);
+    if (current === -1) return;
+    e.preventDefault();
+
+    let next;
+    if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = tabButtons.length - 1;
+    else if (e.key === 'ArrowRight') next = (current + 1) % tabButtons.length;
+    else next = (current - 1 + tabButtons.length) % tabButtons.length;
+
+    const targetName = tabButtons[next]?.dataset.tab;
+    if (targetName) switchTab(targetName, { focus: true });
+  };
+
   tabsEl?.addEventListener('click', onTabClick);
-  _cleanup.push(() => tabsEl?.removeEventListener('click', onTabClick));
+  tabsEl?.addEventListener('keydown', onTabKeyDown);
+  _cleanup.push(() => {
+    tabsEl?.removeEventListener('click', onTabClick);
+    tabsEl?.removeEventListener('keydown', onTabKeyDown);
+  });
 
   // Agar query param orqali tab berilgan bo'lsa
   const initialTab = params?.tab;
@@ -802,7 +839,7 @@ function _renderAchievements(user, results) {
                 ${escapeHtml(a.title)}
               </h4>
               ${a.unlocked
-                ? `<span style="font-size:0.7rem;font-weight:700;color:var(--success);">✓</span>`
+                ? `<span style="display:inline-flex;color:var(--success);">${svgIcon('check', 13)}</span>`
                 : `<span style="display:inline-flex;color:var(--ink-muted);">${svgIcon('lock', 11)}</span>`
               }
             </div>

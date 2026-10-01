@@ -34,14 +34,22 @@
   --surface:          #FFFDF8;
   --paper-alt:        #EFE8D9;
   --divider:          #D8D0C1;
+  /* Non-text UI boundaries (input borders, checkbox outlines) need 3:1 per
+     WCAG 1.4.11; --divider alone measured 1.51:1 on the surface. */
+  --border-strong:    #8F8369;
 
   /* --- Matn --- */
   --ink:              #17362D;
   --ink-muted:        #65706B;
-  --ink-faint:        #9AACA6;
+  /* Was #9AACA6 = 2.34:1 on --surface, well under the 4.5:1 minimum, so
+     placeholders and secondary labels were effectively unreadable. */
+  --ink-faint:        #5F6E67;
 
   /* --- Aksent --- */
   --ochre:            #B76E16;
+  /* Text-weight ochre. --ochre is 3.93:1 on --surface, so it is kept for
+     fills and rules but must not carry small text. */
+  --ochre-text:       #8A5410;
   --ochre-light:      rgba(183, 110, 22, 0.12);
   --ochre-hover:      #9A5C10;
   --terracotta:       #C85A32;
@@ -52,6 +60,7 @@
   --success:          #2D6A4F;
   --success-light:    rgba(45, 106, 79, 0.12);
   --error:            #A33B20;
+  --error-text:       #A33B20;
   --error-light:      rgba(163, 59, 32, 0.12);
   --warning:          #92660A;
   --warning-light:    rgba(146, 102, 10, 0.12);
@@ -121,12 +130,16 @@
   --surface:    #17201C;
   --paper-alt:  #202A25;
   --divider:    #34413A;
+  --border-strong: #5F7166;
 
   --ink:        #F2EBDD;
   --ink-muted:  #AAB4AE;
-  --ink-faint:  #6E7F77;
+  /* Was #6E7F77 = 3.94:1 on --surface, below the 4.5:1 minimum. */
+  --ink-faint:  #7C8D85;
 
   --ochre:        #E1A64D;
+  /* Dark ochre already measures 7.75:1 on --surface. */
+  --ochre-text:   #E1A64D;
   --ochre-light:  rgba(225, 166, 77, 0.14);
   --ochre-hover:  #C98B35;
   --terracotta:       #E27955;
@@ -136,6 +149,9 @@
   --success:       #52B788;
   --success-light: rgba(82, 183, 136, 0.14);
   --error:         #D4614A;
+  /* #D4614A was 4.45:1 on --surface, just under AA. --error-text is used for
+     the text/icon while --error stays the fill colour. */
+  --error-text:    #E4785F;
   --error-light:   rgba(212, 97, 74, 0.14);
   --warning:       #D4A056;
   --warning-light: rgba(212, 160, 86, 0.14);
@@ -180,8 +196,11 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
-  max-width: 100vw;
+  /* `overflow-x: hidden` on html/body made the element a scroll container,
+     which silently disabled `position: sticky` for the mobile top bar.
+     `overflow-x: clip` contains the same stray overflow without creating a
+     scroll container, so sticky positioning keeps working. */
+  overflow-x: clip;
 }
 
 body {
@@ -195,8 +214,7 @@ body {
   flex-direction:   column;
   -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x:       hidden;
-  max-width:        100vw;
+  overflow-x:       clip;
 }
 
 img, video, svg {
@@ -205,7 +223,7 @@ img, video, svg {
 }
 
 a {
-  color:           var(--ochre);
+  color:           var(--ochre-text);
   text-decoration: none;
   transition:      var(--transition-fast);
 }
@@ -264,7 +282,7 @@ h1, h2, h3, h4, h5, h6 {
 .text-primary   { color: var(--ink);       }
 .text-secondary { color: var(--ink-muted); }
 .text-muted     { color: var(--ink-faint); }
-.text-accent    { color: var(--ochre);     }
+.text-accent    { color: var(--ochre-text);     }
 .text-success   { color: var(--success);   }
 .text-error     { color: var(--error);     }
 
@@ -305,9 +323,11 @@ h1, h2, h3, h4, h5, h6 {
 .container--lg  { max-width: 1024px; }
 .container--xl  { max-width: 1320px; }
 
+/* DESIGN.md fixes the desktop content width at 1180px. The previous 1280px
+   rule widened it to 1220px, contradicting the design contract. */
 @media (min-width: 1280px) {
   .container {
-    max-width: 1220px;
+    max-width: 1180px;
   }
 }
 
@@ -406,15 +426,18 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
-/* Primary — ochre solid */
+/* Primary — ochre solid.
+   --surface on --ochre measured 3.93:1, below AA for 15px/600 label text.
+   --ochre-text is the text-weight ochre; pairing it with --surface gives
+   6.15:1 while keeping the same warm accent family. */
 .btn-primary {
-  background:   var(--ochre);
+  background:   var(--ochre-text);
   color:        var(--surface);
-  border-color: var(--ochre);
+  border-color: var(--ochre-text);
 }
 .btn-primary:hover {
-  background:   var(--ochre-hover);
-  border-color: var(--ochre-hover);
+  background:   var(--ochre);
+  border-color: var(--ochre);
   color:        var(--surface);
   text-decoration: none;
 }
@@ -422,7 +445,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Outline */
 .btn-outline {
   background:   transparent;
-  color:        var(--ochre);
+  color:        var(--ochre-text);
   border-color: var(--ochre);
 }
 .btn-outline:hover {
@@ -468,6 +491,23 @@ h1, h2, h3, h4, h5, h6 {
 /* Sizes */
 .btn-sm { padding: 6px 14px; font-size: 0.8125rem; }
 .btn-lg { padding: 14px 32px; font-size: 1.0625rem; }
+
+/* WCAG 2.5.8 target size: touch devices get at least a 44px hit area for the
+   compact variants, which were 32–40px and easy to mis-tap. */
+@media (hover: none), (pointer: coarse) {
+  .btn-sm,
+  .btn-xs,
+  .btn-icon,
+  .nav__settings-link,
+  .theme-toggle {
+    min-height: 44px;
+  }
+
+  .btn-icon,
+  .theme-toggle {
+    min-width: 44px;
+  }
+}
 
 /* Icon button */
 .btn-icon {
@@ -528,6 +568,87 @@ h1, h2, h3, h4, h5, h6 {
 .input-hint {
   font-size: 0.75rem;
   color:     var(--ink-muted);
+}
+
+/* Form validation state.
+   `js/pages/login.js`, `js/pages/register.js` and `js/pages/profile.js` add
+   `input--error` to the field and render the message into an element with
+   class `input-error`. Without these rules the message inherited the muted
+   body colour and the field border stayed neutral, so validation errors were
+   effectively invisible. */
+.input--error,
+.input.input--error {
+  border-color: var(--error);
+  background:   color-mix(in srgb, var(--error) 4%, var(--surface));
+}
+
+.input--error:focus {
+  border-color: var(--error);
+  box-shadow:  0 0 0 3px color-mix(in srgb, var(--error) 18%, transparent);
+}
+
+.input-error {
+  display:     block;
+  min-height:  1.1em;
+  margin-top:  4px;
+  font-size:   0.8125rem;
+  line-height: 1.35;
+  color:       var(--error);
+}
+
+.input-error:empty {
+  margin-top: 0;
+}
+
+/* Focus visibility. Only a handful of components defined :focus-visible
+   before, so keyboard users had no reliable indicator on nav links, tabs and
+   icon buttons. Forced-colors mode gets the native outline instead of a
+   colour swap that Windows high contrast would discard. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline:        2px solid var(--ochre);
+  outline-offset: 2px;
+  border-radius:  2px;
+}
+
+.input:focus-visible {
+  outline:    none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ochre) 22%, transparent);
+}
+
+@media (forced-colors: active) {
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid CanvasText;
+  }
+}
+
+/* Error page markup is injected by js/app.js but had no styles at all. */
+.error-page {
+  display:       flex;
+  flex-direction:column;
+  align-items:   center;
+  justify-content:center;
+  gap:           12px;
+  min-height:    50vh;
+  padding:       32px 16px;
+  text-align:    center;
+}
+
+.error-page__code {
+  font-family: var(--font-display);
+  font-size:   clamp(3rem, 12vw, 6rem);
+  line-height: 1;
+  color:       var(--ochre-text);
+}
+
+.error-page__title {
+  font-family: var(--font-display);
+  font-size:   clamp(1.5rem, 4vw, 2.2rem);
+  color:       var(--ink);
+}
+
+.error-page__text {
+  max-width: 46ch;
+  color:      var(--ink-muted);
 }
 
 /* ============================================================
@@ -822,7 +943,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .badge-primary {
   background: var(--ochre-light);
-  color:      var(--ochre);
+  color:      var(--ochre-text);
   border-color: transparent;
 }
 
@@ -881,16 +1002,35 @@ h1, h2, h3, h4, h5, h6 {
    11. BILDIRISHNOMA
    ============================================================ */
 
+/* `js/utils.js:showNotification` renders a single element per message with the
+   classes `notification notification--<type>`, so the card styling lives on
+   `.notification` itself. `.notification__item` is kept as an alias in case any
+   older markup still uses it. */
 .notification {
   position:      fixed;
   top:           80px;
   right:         16px;
   z-index:       var(--z-notify);
-  display:       flex;
-  flex-direction:column;
-  gap:           8px;
-  max-width:     360px;
-  pointer-events:none;
+  max-width:     min(360px, calc(100vw - 32px));
+  background:    var(--surface);
+  border:        1px solid var(--divider);
+  border-left:   3px solid var(--ochre);
+  border-radius: var(--radius-md);
+  padding:       12px 16px;
+  font-size:     0.9rem;
+  line-height:   1.45;
+  color:         var(--ink);
+  box-shadow:    var(--shadow-overlay);
+  overflow-wrap: break-word;
+  transition:    opacity 0.3s ease, transform 0.3s ease;
+  opacity:       0;
+  transform:     translateX(16px);
+  pointer-events:all;
+}
+
+.notification--visible {
+  opacity:   1;
+  transform: translateX(0);
 }
 
 .notification__item {
@@ -900,15 +1040,24 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: var(--radius-md);
   padding:       12px 16px;
   font-size:     0.9rem;
+  line-height:   1.45;
   color:         var(--ink);
   box-shadow:    var(--shadow-overlay);
   pointer-events:all;
   animation:     slide-in-right 0.2s ease;
 }
 
+.notification--success,
 .notification__item--success { border-left-color: var(--success); }
+
+.notification--error,
 .notification__item--error   { border-left-color: var(--error);   }
+
+.notification--info,
 .notification__item--info    { border-left-color: var(--ochre);   }
+
+.notification--warning,
+.notification__item--warning { border-left-color: var(--ochre);   }
 
 /* ============================================================
    12. SPINNER & LOADING & EMPTY STATE
@@ -1055,7 +1204,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .empty-state__icon  {
   font-size: 2.75rem;
-  color:     var(--ochre);
+  color:     var(--ochre-text);
   line-height: 1;
   display:   flex;
   align-items: center;
@@ -1140,8 +1289,34 @@ h1, h2, h3, h4, h5, h6 {
   transition:  width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.navbar:hover,
-.navbar.sidebar--open {
+/* Hover must not be the only way to reveal the labels.
+   On touch devices and in Windows high contrast there is no hover state, so
+   the sidebar stayed at 56px with every label at opacity 0 — the guest
+   "Kirish / Ro'yxatdan o'tish" links were unreachable, not merely hidden.
+   Width is now driven by a hover/focus-within capability query, and
+   `:focus-within` also opens it for keyboard users. */
+@media (hover: hover) and (pointer: fine) {
+  .navbar:hover,
+  .navbar.sidebar--open {
+    width: var(--sidebar-w-open);
+  }
+}
+
+/* Without hover the sidebar is always expanded so no control is ever
+   unreachable. On narrow viewports the mobile bar takes over anyway. */
+@media (hover: none), (pointer: coarse) {
+  .navbar {
+    width: var(--sidebar-w-open);
+  }
+}
+
+@media (min-width: 769px) and (forced-colors: active) {
+  .navbar {
+    width: var(--sidebar-w-open);
+  }
+}
+
+.navbar:focus-within {
   width: var(--sidebar-w-open);
 }
 
@@ -1401,6 +1576,24 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
+/* Without hover there is no way to trigger the rules above, so the labels are
+   always shown. The sidebar is permanently expanded in that case (see the
+   `hover: none` / `pointer: coarse` block), which keeps every label visible and
+   the guest auth buttons clickable. */
+@media (hover: none), (pointer: coarse), (forced-colors: active) {
+  .nav__link-label,
+  .nav__auth-name,
+  .nav__auth-guest {
+    opacity: 1;
+  }
+}
+
+.navbar:focus-within .nav__link-label,
+.navbar:focus-within .nav__auth-name,
+.navbar:focus-within .nav__auth-guest {
+  opacity: 1;
+}
+
 /* Online/Offline indicator */
 .nav__status {
   display:     flex;
@@ -1516,6 +1709,7 @@ h1, h2, h3, h4, h5, h6 {
   padding:         8px 16px;
   font-size:       0.875rem;
   font-weight:     500;
+  min-height:      44px;
   color:           var(--ink-muted);
   border-radius:   var(--radius-sm) var(--radius-sm) 0 0;
   border:          none;
@@ -1533,7 +1727,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tab--active {
-  color:        var(--ochre);
+  color:        var(--ochre-text);
   font-weight:  600;
   border-bottom-color: var(--ochre);
 }
@@ -1809,8 +2003,8 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .mobile-topbar__btn {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: 1px solid var(--divider);
     background: var(--paper-alt);
@@ -1826,7 +2020,7 @@ h1, h2, h3, h4, h5, h6 {
   .mobile-topbar__btn:active {
     transform: scale(0.92);
     background: var(--ochre-light);
-    color: var(--ochre);
+    color: var(--ochre-text);
   }
 
   /* Pastki tab-bar navigatsiya (Safe area bilan) */
@@ -1926,7 +2120,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .nav__link--active {
-    color: var(--ochre) !important;
+    color: var(--ochre-text) !important;
     background: var(--ochre-light);
     font-weight: 700;
   }
@@ -1989,6 +2183,18 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   gap:     clamp(24px, 4vw, 48px);
   margin-bottom: 32px;
+}
+
+/* DESIGN.md: "1024px+: editorial split layouts with 60/40 proportions".
+   The breakpoint was missing entirely, so the editorial split composition
+   never appeared on the most common laptop widths. */
+@media (min-width: 1024px) {
+  .book-detail__top {
+    display:         grid;
+    grid-template-columns: 60fr 40fr;
+    align-items:     start;
+    gap:             clamp(32px, 4vw, 56px);
+  }
 }
 
 .book-detail__cover-wrap {
@@ -2275,7 +2481,7 @@ h1, h2, h3, h4, h5, h6 {
   color:       var(--ink-muted);
 }
 
-.podium__item--1 .podium__rank { color: var(--ochre); font-size: 2rem; }
+.podium__item--1 .podium__rank { color: var(--ochre-text); font-size: 2rem; }
 .podium__item--2 .podium__rank { color: var(--ink-muted); }
 .podium__item--3 .podium__rank { color: var(--ink-faint); }
 
@@ -2291,7 +2497,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family:   var(--font-display);
   font-size:     1.25rem;
   font-weight:   700;
-  color:         var(--ochre);
+  color:         var(--ochre-text);
   overflow:      hidden;
 }
 .podium__item--1 .podium__avatar { width: 64px; height: 64px; border-color: var(--ochre); }
@@ -2309,7 +2515,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-size:   1rem;
   font-weight: 700;
-  color:       var(--ochre);
+  color:       var(--ochre-text);
 }
 
 .leaderboard-table {
@@ -2338,7 +2544,7 @@ h1, h2, h3, h4, h5, h6 {
 .leaderboard__score {
   font-family: var(--font-display);
   font-weight: 700;
-  color:       var(--ochre);
+  color:       var(--ochre-text);
 }
 
 /* ============================================================
@@ -2556,7 +2762,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:    600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color:          var(--ochre);
+  color:          var(--ochre-text);
   margin-bottom:  12px;
 }
 
@@ -2605,7 +2811,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:    600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color:          var(--ochre);
+  color:          var(--ochre-text);
   margin-bottom:  4px;
 }
 
@@ -2856,7 +3062,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .streak-flame-sparks span {
   position: absolute;
-  color: var(--ochre);
+  color: var(--ochre-text);
   font-size: 11px;
   line-height: 1;
   opacity: 0;
@@ -2976,12 +3182,12 @@ h1, h2, h3, h4, h5, h6 {
   background: radial-gradient(circle, #FFFDF8 0%, #F5E8CE 100%);
   border-color: var(--ochre);
   box-shadow: 0 0 12px rgba(183, 110, 22, 0.35);
-  color: var(--ochre);
+  color: var(--ochre-text);
   transform: scale(1.05);
 }
 
 .streak-day--active .streak-day__name {
-  color: var(--ochre);
+  color: var(--ochre-text);
   font-weight: 700;
 }
 
@@ -3001,7 +3207,7 @@ h1, h2, h3, h4, h5, h6 {
 .streak-day--today:not(.streak-day--active) .streak-day__circle {
   border: 2px dashed var(--ochre);
   background: var(--ochre-light);
-  color: var(--ochre);
+  color: var(--ochre-text);
   animation: todayRingPulse 2s infinite ease-in-out;
 }
 
@@ -3371,9 +3577,6 @@ h1, h2, h3, h4, h5, h6 {
   .btn {
     min-height: 44px;
   }
-  .btn-sm {
-    min-height: 36px;
-  }
   .tabs {
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x proximity;
@@ -3381,7 +3584,6 @@ h1, h2, h3, h4, h5, h6 {
   }
   .tab {
     scroll-snap-align: start;
-    min-height: 40px;
   }
 }
 
@@ -3848,7 +4050,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-size: 2.2rem;
   font-weight: 700;
-  color: var(--ochre);
+  color: var(--ochre-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4401,13 +4603,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* 3. Daraja Nishonlari (Level Badges) */
 .badge-level-1 { background: var(--paper-alt); color: var(--ink); border: 1px solid var(--divider); }
-.badge-level-2 { background: rgba(183, 110, 22, 0.08); color: var(--ochre); border: 1px solid rgba(183, 110, 22, 0.3); }
+.badge-level-2 { background: rgba(183, 110, 22, 0.08); color: var(--ochre-text); border: 1px solid rgba(183, 110, 22, 0.3); }
 .badge-level-3 { background: rgba(45, 106, 79, 0.1); color: var(--success); border: 1px solid rgba(45, 106, 79, 0.3); }
 .badge-level-4 { background: rgba(30, 90, 160, 0.1); color: #1e5aa0; border: 1px solid rgba(30, 90, 160, 0.3); }
 [data-theme="dark"] .badge-level-4 { color: #8ab4f8; }
-.badge-level-5 { background: rgba(183, 110, 22, 0.15); color: var(--ochre); border: 1.5px solid var(--ochre); font-weight: 700; }
+.badge-level-5 { background: rgba(183, 110, 22, 0.15); color: var(--ochre-text); border: 1.5px solid var(--ochre); font-weight: 700; }
 .badge-level-6 { background: rgba(23, 54, 45, 0.15); color: var(--ink); border: 1.5px solid var(--ink); font-weight: 700; }
-.badge-level-7 { background: linear-gradient(135deg, var(--paper-alt), rgba(183, 110, 22, 0.15)); color: var(--ochre); border: 1.5px solid var(--ochre); font-weight: 700; }
+.badge-level-7 { background: linear-gradient(135deg, var(--paper-alt), rgba(183, 110, 22, 0.15)); color: var(--ochre-text); border: 1.5px solid var(--ochre); font-weight: 700; }
 .badge-level-8 {
   background: linear-gradient(135deg, #17362D, #2D6A4F);
   color: #FEF3C7;
@@ -4476,7 +4678,7 @@ h1, h2, h3, h4, h5, h6 {
 .mission-card__reward {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--ochre);
+  color: var(--ochre-text);
   background: rgba(183, 110, 22, 0.1);
   padding: 2px 7px;
   border-radius: 9999px;
@@ -4529,7 +4731,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .result-chip--gold {
   border-color: rgba(183, 110, 22, 0.4);
-  color: var(--ochre);
+  color: var(--ochre-text);
   background: rgba(183, 110, 22, 0.08);
   font-weight: 700;
 }

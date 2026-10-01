@@ -62,9 +62,13 @@ export async function render(container, { params, user }) {
               <span class="quiz-counter" id="progress-text" aria-live="polite">1 / ?</span>
             </div>
 
-            <div id="quiz-timer" aria-live="polite" aria-label="Qolgan vaqt"
+            <!-- The countdown is not a live region: with aria-live="polite" a
+                 screen reader announced every one of the 30 ticks and drowned
+                 out the question text. Threshold warnings are announced once
+                 each from the tick handler instead. -->
+            <div id="quiz-timer" aria-label="Qolgan vaqt" role="timer"
                  style="display:flex;align-items:center;gap:4px;font-family:var(--font-display);font-size:1.125rem;font-weight:700;color:var(--ink);padding:4px 12px;border:1.5px solid var(--divider);border-radius:var(--radius-md);background:var(--surface);transition:border-color .15s ease,color .15s ease;">
-              <span id="timer-value">30</span>
+              <span id="timer-value" aria-hidden="true">30</span>
               <span style="font-size:0.75rem;color:var(--ink-muted);">s</span>
             </div>
 
@@ -81,7 +85,7 @@ export async function render(container, { params, user }) {
           <div class="quiz-surface" id="quiz-question-wrap">
             <p class="label" id="quiz-book-name" style="margin-bottom:16px;"></p>
             <p class="quiz-question" id="quiz-question" aria-live="polite"></p>
-            <div class="quiz-options" id="quiz-options" role="list"></div>
+            <div class="quiz-options" id="quiz-options"></div>
             <div class="explanation-panel" id="quiz-explanation"
                  aria-live="polite" hidden></div>
             <div id="quiz-next-wrap" hidden style="margin-top:20px;">
@@ -143,6 +147,21 @@ export async function render(container, { params, user }) {
         nextBtn.click();
         return;
       }
+    }
+
+    // The radiogroup needs left/right arrow navigation to move between options,
+    // which is the expected interaction for `role="radio"`.
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      const optBtns = Array.from(document.querySelectorAll('.quiz-option:not(:disabled)'));
+      if (optBtns.length === 0) return;
+      e.preventDefault();
+      const currentIdx = optBtns.indexOf(document.activeElement);
+      const delta = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? 1 : -1;
+      const nextIdx = currentIdx === -1
+        ? 0
+        : (currentIdx + delta + optBtns.length) % optBtns.length;
+      try { optBtns[nextIdx].focus({ preventScroll: true }); } catch {}
+      return;
     }
 
     const keyMap = { '1': 0, '2': 1, '3': 2, '4': 3, 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
@@ -235,10 +254,18 @@ function _onQuestion({ question, index, total, timeLeft }) {
   if (nextWrap) nextWrap.hidden = true;
 
   const options = _getOptions(question);
+  // `role="listitem"` on a <button> cancelled the native button semantics, so
+  // screen readers announced the options as list entries rather than as
+  // pressable controls. The container is a radiogroup and each option is a
+  // radio, which also makes the single-choice nature explicit.
+  optionsEl.setAttribute('role', 'radiogroup');
+  optionsEl.setAttribute('aria-label', 'Javob variantlari');
   optionsEl.innerHTML = options.map((opt, i) => `
     <button
       class="quiz-option"
-      role="listitem"
+      type="button"
+      role="radio"
+      aria-checked="false"
       data-value="${escapeHtml(String(opt))}"
       aria-label="Variant ${String.fromCharCode(65 + i)}: ${escapeHtml(String(opt))}"
     >
@@ -270,6 +297,8 @@ function _onQuestion({ question, index, total, timeLeft }) {
   }
 }
 
+let _announcedTimerThresholds = new Set();
+
 function _onTick(timeLeft) {
   const val   = document.getElementById('timer-value');
   const timer = document.getElementById('quiz-timer');
@@ -280,6 +309,30 @@ function _onTick(timeLeft) {
     timer.style.borderColor = isCritical ? 'var(--error)' : isWarn ? 'var(--warning)' : 'var(--divider)';
     timer.style.color       = isCritical ? 'var(--error)' : isWarn ? 'var(--warning)' : 'var(--ink)';
   }
+
+  // Announce only when a threshold is crossed, not on every tick.
+  const threshold = timeLeft === 10 ? 10 : timeLeft === 5 ? 5 : null;
+  if (threshold !== null && !_announcedTimerThresholds.has(threshold)) {
+    _announcedTimerThresholds.add(threshold);
+    _announce(`${threshold} sekund qoldi`);
+  }
+}
+
+/**
+ * Briefly surfaces a message in a dedicated polite live region so screen
+ * readers hear it once without the visual layout shifting.
+ */
+function _announce(message) {
+  let region = document.getElementById('quiz-live-region');
+  if (!region) {
+    region = document.createElement('div');
+    region.id = 'quiz-live-region';
+    region.setAttribute('role', 'status');
+    region.setAttribute('aria-live', 'polite');
+    region.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    document.body.appendChild(region);
+  }
+  region.textContent = message;
 }
 
 function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation, isOffline }) {
@@ -288,6 +341,7 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation, isOf
     const val = btn.dataset.value;
     if (selectedOption !== null && String(val) === String(selectedOption)) {
       btn.classList.add('selected');
+      btn.setAttribute('aria-checked', 'true');
     }
     if (correctAnswer !== undefined && correctAnswer !== null) {
       if (String(val) === String(correctAnswer)) {
@@ -326,7 +380,7 @@ function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation, isOf
     const nextBtn = document.getElementById('next-btn');
     if (nextBtn) {
       nextBtn.disabled = false;
-      nextBtn.innerHTML = `Keyingi savolga o'tish →`;
+      nextBtn.innerHTML = `Keyingi savolga o'tish ${svgIcon('arrow-right', 16, 'margin-left:6px;')}`;
       nextBtn.onclick = () => {
         nextBtn.disabled = true;
         nextWrap.hidden = true;

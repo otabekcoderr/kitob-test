@@ -6,8 +6,24 @@
 // ========================================================================
 
 import { setCorsHeaders, sendJson, slugify, sanitizeQuestionForClient } from './_utils.js';
-import { getSupabaseAnon } from './_supabase.js';
+import { getSupabaseAnon, extractBearerToken, verifyAuthUser } from './_supabase.js';
+import { issueQuizSession } from './_session.js';
 import { questions as staticQuestions, books as staticBooks } from '../js/data.js';
+
+/**
+ * Best-effort identity resolution for session binding. Never rejects: a
+ * missing or invalid token simply yields an anonymous session.
+ */
+async function resolveOptionalUser(req) {
+  const token = extractBearerToken(req);
+  if (!token) return null;
+  try {
+    const { user } = await verifyAuthUser(token);
+    return user || null;
+  } catch {
+    return null;
+  }
+}
 
 export default async function handler(req, res) {
   // 1. Configure CORS & Security Headers
@@ -153,12 +169,27 @@ export default async function handler(req, res) {
       });
     }
 
-    // 11. Deliver sanitized envelope matching PROJECT.md interface contract
+    // 11. Issue a server-signed session so POST /api/quiz-submit can verify
+    //     timing and question-set integrity without trusting the client.
+    let sessionToken = null;
+    try {
+      const sessionUser = await resolveOptionalUser(req);
+      sessionToken = issueQuizSession({
+        bookId: canonicalBookId,
+        questionIds: sanitizedQuestions.map(q => q.id),
+        userId: sessionUser?.id || null
+      });
+    } catch (sessionErr) {
+      console.warn('[api/quiz] Session issuance skipped:', sessionErr.message);
+    }
+
+    // 12. Deliver sanitized envelope matching interface contract
     return sendJson(res, 200, {
       success: true,
       bookId: targetId,
       total: sanitizedQuestions.length,
-      questions: sanitizedQuestions
+      questions: sanitizedQuestions,
+      sessionToken
     });
 
   } catch (err) {

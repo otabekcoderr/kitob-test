@@ -206,7 +206,11 @@ function _bookCardHTML(book, user) {
         const bM = mData[String(book.id)];
         if (bM && bM.bestPercentage > 0) {
           const tier = evaluateMasteryTier(bM.bestPercentage);
-          masteryBadge = `<span class="badge badge-mastery ${tier.colorClass}" title="${tier.tier} (${bM.bestPercentage}%)">${tier.emoji} ${bM.bestPercentage}%</span>`;
+          // bestPercentage comes from localStorage, so it is coerced before
+          // interpolation; tier.emoji is a code constant but escaped anyway to
+          // keep the convention consistent.
+          const bestPct = Math.max(0, Math.min(100, Math.round(Number(bM.bestPercentage) || 0)));
+          masteryBadge = `<span class="badge badge-mastery ${escapeHtml(tier.colorClass)}" title="${escapeHtml(tier.tier)} (${bestPct}%)">${escapeHtml(tier.emoji)} ${bestPct}%</span>`;
         }
       }
     } catch {}

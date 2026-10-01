@@ -9,11 +9,16 @@
 import { setCorsHeaders, sendJson, slugify, getTashkentDateStrings } from './_utils.js';
 import { getUserLevel, calculateProgressionXP } from './_progression.js';
 import { getSupabaseAnon, getSupabaseAdmin, extractBearerToken, verifyAuthUser } from './_supabase.js';
+import { verifyQuizSession, evaluatePace, fingerprintQuestions } from './_session.js';
 import { questions as staticQuestions, books as staticBooks } from '../js/data.js';
 
 // In-memory rate limiting cache to prevent double-click / rapid replay race conditions
 const SUBMISSION_COOLDOWN_MS = 2000;
 const _recentSubmissions = new Map(); // key: userId -> timestamp
+
+// Maximum questions in one exam. Mirrors the cap applied by GET /api/quiz and
+// is the denominator used for the score percentage.
+const EXAM_QUESTION_LIMIT = 10;
 
 function checkSubmissionRateLimit(userId) {
   if (!userId) return true;
@@ -82,7 +87,13 @@ export default async function handler(req, res) {
       answers: rawAnswers = [],
       quizStartTime,
       penalty: rawPenalty = 0,
-      isDaily = false
+      isDaily = false,
+      // Client-declared prior state. Only honoured for anonymous attempts,
+      // where nothing is persisted; for authenticated users the `profiles`
+      // row is the single source of truth (a client could otherwise inflate
+      // its own streak and XP).
+      currentStreak: rawCurrentStreak = 0,
+      lastQuizDate: rawLastQuizDate = null
     } = body;
 
     // 5. Validate bookId
@@ -111,10 +122,14 @@ export default async function handler(req, res) {
       });
     }
 
-    // 7. Anti-cheat speed check
-    if (quizStartTime && typeof quizStartTime === 'number') {
+    // 7. Anti-cheat session is parsed here but fully validated in step 9.5,
+    //    after identity is known, so the user-binding check has something to
+    //    compare against. The legacy client-supplied `quizStartTime` is kept
+    //    only as a weak best-effort replay guard: the client clock is
+    //    attacker-controlled, so it can never prove legitimacy.
+    if (!body.sessionToken && typeof quizStartTime === 'number') {
       const elapsedMs = Date.now() - quizStartTime;
-      if (rawAnswers.length >= 5 && elapsedMs > 0 && elapsedMs < 2000) {
+      if (rawAnswers.length >= 5 && elapsedMs >= 0 && elapsedMs < 2000) {
         return sendJson(res, 400, {
           success: false,
           error: 'Test topshirish vaqti shubhali darajada qisqa. Avtomatlashtirilgan so\'rovlar taqiqlanadi.',
@@ -151,9 +166,71 @@ export default async function handler(req, res) {
       }
     }
 
-    // 10. Load Authoritative Questions (js/data.js + Supabase)
+    // 9.5 Session validation (server-authoritative timing + question binding)
     const targetBookId = String(bookId).trim();
     const targetBookSlug = slugify(targetBookId);
+
+    const sessionCheck = verifyQuizSession(body.sessionToken);
+    let sessionVerified = false;
+    let sessionPace = null;
+
+    if (sessionCheck.ok) {
+      const { payload } = sessionCheck;
+
+      if (slugify(String(payload.bid)) !== targetBookSlug) {
+        return sendJson(res, 400, {
+          success: false,
+          error: 'Test sessiyasi boshqa kitobga tegishli.',
+          code: 'SESSION_BOOK_MISMATCH'
+        });
+      }
+
+      if (authenticatedUser && payload.uid && payload.uid !== authenticatedUser.id) {
+        return sendJson(res, 403, {
+          success: false,
+          error: 'Test sessiyasi boshqa foydalanuvchiga tegishli.',
+          code: 'SESSION_USER_MISMATCH'
+        });
+      }
+
+      // The delivered question set is signed, so a caller cannot submit
+      // answers for questions it was never served.
+      if (Array.isArray(payload.qids) && payload.qids.length > 0) {
+        if (fingerprintQuestions(payload.qids) !== payload.fp) {
+          return sendJson(res, 400, {
+            success: false,
+            error: 'Test sessiyasi tasdiqlanmadi.',
+            code: 'SESSION_TAMPERED'
+          });
+        }
+
+        const delivered = new Set(payload.qids.map(String));
+        const foreign = rawAnswers.filter(a => {
+          const id = a?.questionId ?? a?.id;
+          return id !== undefined && !delivered.has(String(id));
+        });
+        if (foreign.length > 0) {
+          return sendJson(res, 400, {
+            success: false,
+            error: 'Yuborilgan savollar ushbu testga tegishli emas.',
+            code: 'QUESTION_SET_MISMATCH'
+          });
+        }
+      }
+
+      sessionPace = evaluatePace(payload, rawAnswers.length);
+      if (sessionPace.suspicious) {
+        return sendJson(res, 400, {
+          success: false,
+          error: 'Test topshirish vaqti shubhali darajada qisqa. Avtomatlashtirilgan so\'rovlar taqiqlanadi.',
+          code: 'SPEED_HACK_DETECTED'
+        });
+      }
+
+      sessionVerified = true;
+    }
+
+    // 10. Load Authoritative Questions (js/data.js + Supabase)
 
     // Resolve canonical book details
     let canonicalBookId = targetBookId;
@@ -221,7 +298,20 @@ export default async function handler(req, res) {
     }
 
     const authQuestions = Array.from(authMap.values());
-    const totalQuestions = rawAnswers.length > 0 ? rawAnswers.length : authQuestions.length;
+
+    // BL-8 fix: the denominator must be the authoritative exam length, never
+    // the number of answers the client chose to send. Previously
+    // `rawAnswers.length` let a caller answer one question correctly, submit
+    // it alone, and receive 100% plus the full 25 XP accuracy bonus.
+    //
+    // The exam length is capped at EXAM_QUESTION_LIMIT because that is what
+    // GET /api/quiz delivers. Capping matters here: js/data.js and Supabase
+    // use different question id schemes (`q_otkan-kunlar_1` vs `q-ot-1`), so
+    // authMap legitimately holds ~20 entries for a 10-question book and an
+    // uncapped count would halve every percentage.
+    const totalQuestions = authQuestions.length > 0
+      ? Math.min(authQuestions.length, EXAM_QUESTION_LIMIT)
+      : Math.min(rawAnswers.length, EXAM_QUESTION_LIMIT);
 
     // 11. Authoritative Grading Engine
     let rawScore = 0;
@@ -366,7 +456,18 @@ export default async function handler(req, res) {
 
     const dbClient = getSupabaseAdmin(token);
 
+    if (!authenticatedUser) {
+      // Anonymous practice attempt: nothing is written, so the client-declared
+      // streak can be used for the preview without affecting any stored data.
+      oldStreak = Math.max(0, Number(rawCurrentStreak) || 0);
+      lastQuizDate = typeof rawLastQuizDate === 'string' && rawLastQuizDate ? rawLastQuizDate : null;
+    }
+
     if (authenticatedUser && dbClient) {
+      // BL-1 fix: distinguish "row genuinely does not exist yet" from
+      // "read failed". Treating a transient read failure as a fresh profile
+      // made every write start from zero, wiping accumulated score and streak.
+      let readSucceeded = false;
       try {
         const { data: prof, error: profErr } = await dbClient
           .from('profiles')
@@ -374,16 +475,37 @@ export default async function handler(req, res) {
           .eq('id', authenticatedUser.id)
           .maybeSingle();
 
-        if (!profErr && prof) {
-          profileData = prof;
-          const stats = (prof.stats && typeof prof.stats === 'object') ? prof.stats : {};
-          oldScore = Number(prof.score ?? stats.totalScore ?? stats.score ?? 0);
-          oldStreak = Number(prof.streak ?? stats.currentStreak ?? 0);
-          oldMaxStreak = Number(stats.maxStreak || oldStreak || 0);
-          lastQuizDate = prof.last_quiz_date || stats.lastQuizDate || null;
+        if (!profErr) {
+          readSucceeded = true;
+          if (prof) {
+            profileData = prof;
+            const stats = (prof.stats && typeof prof.stats === 'object') ? prof.stats : {};
+            oldScore = Number(prof.score ?? stats.totalScore ?? stats.score ?? 0);
+            oldStreak = Number(prof.streak ?? stats.currentStreak ?? 0);
+            oldMaxStreak = Number(stats.maxStreak || oldStreak || 0);
+            lastQuizDate = prof.last_quiz_date || stats.lastQuizDate || null;
+          }
+        } else {
+          console.error('[api/quiz-submit] Profile read failed:', profErr.message);
         }
       } catch (e) {
-        console.warn('[api/quiz-submit] Profile retrieval warning:', e.message);
+        console.error('[api/quiz-submit] Profile read threw:', e.message);
+      }
+
+      if (!readSucceeded) {
+        // Refuse to persist rather than overwrite unknown state with zeros.
+        return sendJson(res, 503, {
+          success: false,
+          error: 'Natijani saqlash vaqtida vaqtinchalik xatolik yuz berdi. Iltimos, birozdan keyin qayta urinib ko\'ring.',
+          code: 'PROFILE_UNAVAILABLE',
+          // The graded result is still returned so the client can show it as an
+          // unverified practice attempt instead of silently discarding it.
+          score: finalScore,
+          rawScore,
+          total: totalQuestions,
+          percentage,
+          persisted: false
+        });
       }
     }
 
@@ -418,6 +540,7 @@ export default async function handler(req, res) {
     const isLevelUp = newLevel.level > oldLevel.level;
 
     // 14. Commit Database Mutations (if authenticated)
+    let persisted = false;
     if (authenticatedUser && dbClient) {
       try {
         const existingStats = (profileData?.stats && typeof profileData.stats === 'object') ? profileData.stats : {};
@@ -441,20 +564,9 @@ export default async function handler(req, res) {
           testsCompleted
         };
 
-        // Update profiles table
-        const { error: updateError } = await dbClient
-          .from('profiles')
-          .update({
-            score: newScore,
-            streak: newStreak,
-            last_quiz_date: todayStr,
-            stats: updatedStats
-          })
-          .eq('id', authenticatedUser.id);
-
-        if (updateError && !profileData) {
-          // Attempt upsert if profile row did not exist yet
-          await dbClient.from('profiles').upsert({
+        if (!profileData) {
+          // Brand-new user: no row to compare against, so create it directly.
+          const { error: insertError } = await dbClient.from('profiles').upsert({
             id: authenticatedUser.id,
             score: newScore,
             streak: newStreak,
@@ -462,6 +574,44 @@ export default async function handler(req, res) {
             stats: updatedStats,
             created_at: new Date().toISOString()
           }, { onConflict: 'id' });
+
+          if (insertError) {
+            throw new Error(insertError.message);
+          }
+        } else {
+          // BL-3 fix: compare-and-swap on the previously observed score. Two
+          // concurrent submissions on different lambda instances would
+          // otherwise both compute `oldScore + earnedXP` from the same base,
+          // and the second write would silently erase the first one's XP.
+          const { error: updateError, data: updatedRows } = await dbClient
+            .from('profiles')
+            .update({
+              score: newScore,
+              streak: newStreak,
+              last_quiz_date: todayStr,
+              stats: updatedStats
+            })
+            .eq('id', authenticatedUser.id)
+            .eq('score', oldScore)
+            .select('id');
+
+          if (updateError) {
+            throw new Error(updateError.message);
+          }
+
+          if (Array.isArray(updatedRows) && updatedRows.length === 0) {
+            // Score moved underneath us — a concurrent submission won the race.
+            console.warn('[api/quiz-submit] Optimistic lock conflict for user', authenticatedUser.id);
+            return sendJson(res, 409, {
+              success: false,
+              error: 'Natijani saqlashda moslik xatosi yuz berdi. Iltimos, qayta urinib ko\'ring.',
+              code: 'PROFILE_WRITE_CONFLICT',
+              score: finalScore,
+              total: totalQuestions,
+              percentage,
+              persisted: false
+            });
+          }
         }
 
         // Insert audit log row into quiz_results
@@ -485,6 +635,7 @@ export default async function handler(req, res) {
 
         await dbClient.from('quiz_results').insert(auditPayload);
 
+        persisted = true;
       } catch (dbErr) {
         console.error('[api/quiz-submit] Database persistence error:', dbErr.message);
       }
@@ -494,7 +645,7 @@ export default async function handler(req, res) {
     return sendJson(res, 200, {
       success: true,
       authenticated: Boolean(authenticatedUser),
-      persisted: Boolean(authenticatedUser),
+      persisted,
       score: finalScore,
       rawScore,
       total: totalQuestions,
@@ -513,6 +664,9 @@ export default async function handler(req, res) {
       currentStreak: newStreak,
       newStreak,
       newScore,
+      // Anti-cheat provenance so the client can label the attempt honestly.
+      sessionVerified,
+      elapsedMs: sessionPace ? sessionPace.elapsedMs : null,
       answers: verifiedAnswers
     });
 

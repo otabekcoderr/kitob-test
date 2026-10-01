@@ -21,13 +21,13 @@ export async function render(container, { params, user }) {
 
         <!-- Vaqt filtrlari (Barchasi, Haftalik, Oylik) -->
         <div class="leaderboard-tabs animate-fade-in" style="display:flex;justify-content:center;gap:8px;margin-bottom:32px;" role="tablist" aria-label="Reyting davri">
-          <button type="button" class="btn btn-sm btn-primary lb-period-tab active" data-period="all">
+          <button type="button" class="btn btn-sm btn-primary lb-period-tab active" id="lb-tab-all" role="tab" aria-selected="true" aria-controls="lb-podium" tabindex="0" data-period="all">
             ${svgIcon('trophy', 13, 'margin-right:4px;')} Barchasi
           </button>
-          <button type="button" class="btn btn-sm btn-outline lb-period-tab" data-period="weekly">
+          <button type="button" class="btn btn-sm btn-outline lb-period-tab" id="lb-tab-weekly" role="tab" aria-selected="false" aria-controls="lb-podium" tabindex="-1" data-period="weekly">
             ${svgIcon('bolt', 13, 'margin-right:4px;')} Haftalik
           </button>
-          <button type="button" class="btn btn-sm btn-outline lb-period-tab" data-period="monthly">
+          <button type="button" class="btn btn-sm btn-outline lb-period-tab" id="lb-tab-monthly" role="tab" aria-selected="false" aria-controls="lb-podium" tabindex="-1" data-period="monthly">
             ${svgIcon('calendar', 13, 'margin-right:4px;')} Oylik
           </button>
         </div>
@@ -104,21 +104,55 @@ export async function render(container, { params, user }) {
   }
 
   // Filtr tugmalarini ulash
-  const tabBtns = container.querySelectorAll('.lb-period-tab');
+  const tabBtns = Array.from(container.querySelectorAll('.lb-period-tab'));
+
+  const activatePeriod = (period, { focus = false } = {}) => {
+    tabBtns.forEach(b => {
+      const isMatch = b.getAttribute('data-period') === period;
+      b.classList.toggle('btn-primary', isMatch);
+      b.classList.toggle('active', isMatch);
+      b.classList.toggle('btn-outline', !isMatch);
+      b.setAttribute('aria-selected', String(isMatch));
+      b.setAttribute('tabindex', isMatch ? '0' : '-1');
+      if (isMatch && focus) {
+        try { b.focus({ preventScroll: true }); } catch {}
+      }
+    });
+    const panel = document.getElementById('lb-podium');
+    if (panel) panel.setAttribute('role', 'tabpanel');
+  };
+
   tabBtns.forEach(btn => {
     const handler = () => {
-      const period = btn.getAttribute('data-period');
-      tabBtns.forEach(b => {
-        b.classList.remove('btn-primary', 'active');
-        b.classList.add('btn-outline');
-      });
-      btn.classList.remove('btn-outline');
-      btn.classList.add('btn-primary', 'active');
-      updateLeaderboardView(period);
+      activatePeriod(btn.getAttribute('data-period'));
+      updateLeaderboardView(btn.getAttribute('data-period'));
     };
     btn.addEventListener('click', handler);
     _cleanup.push(() => btn.removeEventListener('click', handler));
   });
+
+  // Arrow-key navigation for the tablist.
+  const onPeriodKeyDown = (e) => {
+    if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+    const idx = tabBtns.indexOf(e.target);
+    if (idx === -1) return;
+    e.preventDefault();
+    let next;
+    if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = tabBtns.length - 1;
+    else if (e.key === 'ArrowRight') next = (idx + 1) % tabBtns.length;
+    else next = (idx - 1 + tabBtns.length) % tabBtns.length;
+
+    const period = tabBtns[next]?.getAttribute('data-period');
+    if (!period) return;
+    activatePeriod(period, { focus: true });
+    currentPeriod = period;
+    updateLeaderboardView(period);
+  };
+
+  const tablistEl = container.querySelector('[role="tablist"]');
+  tablistEl?.addEventListener('keydown', onPeriodKeyDown);
+  _cleanup.push(() => tablistEl?.removeEventListener('keydown', onPeriodKeyDown));
 
   try {
     const rawLeaders = await getLeaderboard(50);

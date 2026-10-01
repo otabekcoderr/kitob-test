@@ -427,11 +427,31 @@ function _slugify(text) {
     .replace(/^-+|-+$/g, '');
 }
 
+/**
+ * Savollarni ochiq (public) oynadan o'qish uchun ustunlar ro'yxati.
+ * Javob kaliti (`correctAnswer`/`correct_answer`) va izoh (`explanation`)
+ * ataylab kiritilmagan — ular `question_keys` jadvalida, faqat serverda.
+ * BMT: `select('*')` brauzerga butun javob kalitlarini yuborib yuborardi.
+ */
+const PUBLIC_QUESTION_COLUMNS = 'id, bookId, book_id, question, text, options, variants, choices, a, b, c, d';
+
 function _formatQuestion(q) {
   if (!q) return null;
   const opts = Array.isArray(q.options) ? q.options : (Array.isArray(q.variants) ? q.variants : []);
 
+  // Ochiq so'rovda javob kaliti kelmaydi. `js/quiz.js` uni faqat oflayn
+  // mashg'ulot rejimida ishlatadi, shuning uchun ochiq yo'l bo'sh qoladi.
   let correctAns = q.correct_answer ?? q.correctAnswer ?? q.answer;
+  if (correctAns === undefined && (Array.isArray(opts) && opts.length > 0)) {
+    // `a`/`b`/`c`/`d` shaklidagi legacy variantlarni kengaytirish
+    if (q.a && q.b && q.c && q.d) {
+      const legacy = [q.a, q.b, q.c, q.d];
+      const idx = correctAns !== undefined ? Number(correctAns) : -1;
+      if (Number.isInteger(idx) && idx >= 0 && idx < legacy.length) {
+        correctAns = legacy[idx];
+      }
+    }
+  }
   if (typeof correctAns === 'number' && opts[correctAns] !== undefined) {
     correctAns = opts[correctAns];
   }
@@ -440,7 +460,7 @@ function _formatQuestion(q) {
     id: q.id,
     book_id: q.book_id ?? q.bookId,
     question: q.question ?? q.text ?? '',
-    options: opts,
+    options: opts.length > 0 ? opts : (q.a && q.b && q.c && q.d ? [q.a, q.b, q.c, q.d] : []),
     correct_answer: String(correctAns ?? ''),
     explanation: q.explanation || '',
   };
@@ -640,7 +660,10 @@ async function _syncQuestionsInBackground(bookId, localQs = []) {
   try {
     const targetId = sanitizeIdentifier(String(bookId));
     const targetSlug = sanitizeIdentifier(_slugify(bookId));
-    let query = supabase.from('questions').select('*');
+    // Explicit column list: `select('*')` would ship answer keys and
+    // explanations to the browser and defeat the server-side sanitization
+    // in api/_utils.js:sanitizeQuestionForClient.
+    let query = supabase.from('questions').select(PUBLIC_QUESTION_COLUMNS);
     const searchIds = Array.from(new Set([targetId, targetSlug].filter(Boolean)));
     if (searchIds.length > 1) {
       query = query.in('bookId', searchIds);
@@ -710,7 +733,7 @@ export async function getQuestions(bookId, forceRefresh = false) {
   try {
     const safeTargetId = sanitizeIdentifier(targetId);
     const safeTargetSlug = sanitizeIdentifier(targetSlug);
-    let query = supabase.from('questions').select('*');
+    let query = supabase.from('questions').select(PUBLIC_QUESTION_COLUMNS);
     const searchIds = Array.from(new Set([safeTargetId, safeTargetSlug].filter(Boolean)));
     if (searchIds.length > 1) {
       query = query.in('bookId', searchIds);
@@ -765,7 +788,10 @@ export async function fetchQuizQuestions(bookId) {
           return {
             questions: data.questions,
             isOffline: false,
-            total: data.total || data.questions.length
+            total: data.total || data.questions.length,
+            // Server-signed anti-cheat session; submitted back on /api/quiz-submit
+            // so timing is measured server-side instead of trusting the browser.
+            sessionToken: typeof data.sessionToken === 'string' ? data.sessionToken : null
           };
         }
       }
@@ -788,7 +814,8 @@ export async function fetchQuizQuestions(bookId) {
   return {
     questions: sanitizedLocal,
     isOffline: true,
-    total: sanitizedLocal.length
+    total: sanitizedLocal.length,
+    sessionToken: null
   };
 }
 

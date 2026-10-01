@@ -36,7 +36,7 @@ export async function render(container, { params, user }) {
   container.innerHTML = `
     <div class="page" id="book-detail-page">
       <div class="container container--md">
-        <a href="#books" class="back-link animate-fade-in">← Kitoblarga qaytish</a>
+        <a href="#books" class="back-link animate-fade-in">${svgIcon('arrow-left', 14, 'margin-right:5px;')} Kitoblarga qaytish</a>
         <div id="book-content" class="animate-slide-up">
           ${_skeletonHTML()}
         </div>
@@ -118,9 +118,10 @@ function _renderBook(contentEl, book, questions, user) {
               class="book-detail__fav-btn"
               aria-label="${isFav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish'}"
               title="${isFav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish'}"
-              style="margin-left:auto;background:none;border:1px solid var(--divider);border-radius:var(--radius-sm);padding:4px 10px;cursor:pointer;font-size:0.875rem;color:var(--ink-muted);display:inline-flex;align-items:center;gap:5px;"
+              aria-pressed="${isFav ? 'true' : 'false'}"
+              style="margin-left:auto;background:none;border:1px solid var(--divider);border-radius:var(--radius-sm);padding:8px 14px;min-height:44px;cursor:pointer;font-size:0.875rem;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px;"
             >
-              <span id="fav-icon">${isFav ? '♥' : '♡'}</span>
+              <span id="fav-icon">${svgIcon('heart', 15)}</span>
               <span id="fav-label" style="font-size:0.75rem;">${isFav ? 'Sevimli' : 'Qo\'shish'}</span>
             </button>
           </div>
@@ -269,9 +270,15 @@ function _bindEvents(container, book, user) {
       const added = _toggleFavorite(book.id);
       const iconEl = container.querySelector('#fav-icon') || document.getElementById('fav-icon');
       const labelEl = container.querySelector('#fav-label') || document.getElementById('fav-label');
-      if (iconEl) iconEl.textContent = added ? '♥' : '♡';
+      if (iconEl) iconEl.innerHTML = svgIcon('heart', 15);
       if (labelEl) labelEl.textContent = added ? 'Sevimli' : 'Qo\'shish';
       favBtn.setAttribute('aria-label', added ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish');
+      favBtn.setAttribute('aria-pressed', added ? 'true' : 'false');
+      if (added) {
+        favBtn.style.color = 'var(--error)';
+      } else {
+        favBtn.style.color = 'var(--ink-muted)';
+      }
     };
     favBtn.addEventListener('click', onFav);
     _cleanup.push(() => favBtn.removeEventListener('click', onFav));

@@ -555,19 +555,26 @@ describe('Tier 1.6: vercel.json Routing Rules & Security Headers', () => {
     assert(foundHeaders.has('referrer-policy'), 'Must define Referrer-Policy header');
   });
 
-  test('[T1.6.5] vercel.json / production spec allows POST method and Authorization in CORS headers', () => {
+  test('[T1.6.5] CORS policy is enforced by the API layer, not by a static wildcard in vercel.json', () => {
+    // CORS is intentionally NOT declared in vercel.json: a static
+    // `Access-Control-Allow-Origin` on every response would also be applied to
+    // HTML pages, while the real policy is per-request and origin-aware in
+    // api/_utils.js:setCorsHeaders. This test guards that separation.
     const headers = vercelConfig.headers || [];
-    let allowMethods = '';
     headers.forEach(h => {
       (h.headers || []).forEach(header => {
-        if (header.key && header.key.toLowerCase() === 'access-control-allow-methods') {
-          allowMethods = header.value;
-        }
+        assert(
+          header.key && header.key.toLowerCase() !== 'access-control-allow-origin',
+          'vercel.json must not hardcode Access-Control-Allow-Origin; it is owned by api/_utils.js'
+        );
       });
     });
 
-    // In current or updated config, check CORS configuration
-    assert(allowMethods.length > 0, 'Access-Control-Allow-Methods header must be configured');
+    // The API module must own it and must restrict origins.
+    const utilsSrc = fs.readFileSync(path.join(projectRoot, 'api', '_utils.js'), 'utf8');
+    assert(utilsSrc.includes('ALLOWED_ORIGINS'), 'api/_utils.js must define an explicit ALLOWED_ORIGINS allowlist');
+    assert(utilsSrc.includes('Access-Control-Allow-Origin'), 'api/_utils.js must set Access-Control-Allow-Origin');
+    assert(utilsSrc.includes('Access-Control-Allow-Methods'), 'api/_utils.js must set Access-Control-Allow-Methods');
   });
 });
 
@@ -912,27 +919,32 @@ describe('Tier 2.5: Authentication & Token Boundaries', () => {
     assertEqual(res.statusCode, 401, 'Corrupted token must return 401 Unauthorized');
   });
 
-  test('[T2.5.4] Valid JWT token successfully authenticates submission for profile persistence', async () => {
+  test('[T2.5.4] Structurally valid but unverifiable JWT is rejected (no forged persistence)', async () => {
     const submitHandler = await getSubmitHandler();
     const payload = {
       bookId: 'otkan-kunlar',
       answers: [{ questionId: 'q_otkan-kunlar_1', selectedOption: 0 }],
     };
 
-    // Valid mock JWT token format
-    const mockJwt = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.valid_signature_token_mock';
+    // A well-formed JWT with a fabricated signature. The server must call
+    // Supabase Auth to verify it rather than trusting the shape, so this
+    // request has to be rejected instead of being treated as authenticated.
+    const forgedJwt = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.valid_signature_token_mock';
     const req = createMockReq({
       method: 'POST',
       url: '/api/quiz-submit',
-      headers: { Authorization: mockJwt },
+      headers: { Authorization: forgedJwt },
       body: payload,
     });
     const res = createMockRes();
 
     await submitHandler(req, res);
-    assertEqual(res.statusCode, 200);
+    assertEqual(res.statusCode, 401, 'Unverifiable token must be rejected with 401');
+
+    // And the failure must not fall through to any persistence path.
     const data = res._getJson();
-    assertEqual(data.authenticated, true, 'Valid token must be marked authenticated');
+    assertEqual(data.success, false, 'Rejected submission must report failure');
+    assert(!('persisted' in data), 'Rejected submission must not claim persistence');
   });
 
   test('[T2.5.5] Injected userId in payload body ignored in favor of authenticated user identity', async () => {
@@ -1235,12 +1247,13 @@ describe('Tier 4: Real-World Application Scenarios', () => {
       selectedOption: idx % q.options.length,
     }));
 
-    // Step 4: Student submits test to POST /api/quiz-submit
-    const mockJwt = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHVkZW50XzEwMSJ9.signature_mock';
+    // Step 4: Student submits the test. The graded flow is exercised as a guest:
+    // a real Supabase session token is required for persistence and cannot be
+    // minted in an offline test run. Token verification itself is covered by
+    // T2.5.x, where forged tokens must be rejected.
     const submitReq = createMockReq({
       method: 'POST',
       url: '/api/quiz-submit',
-      headers: { Authorization: mockJwt },
       body: {
         bookId: 'otkan-kunlar',
         answers: answersPayload,

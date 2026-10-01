@@ -156,15 +156,19 @@ function _finishProgressBar() {
 }
 
 /**
- * Bo'sh vaqtda barcha asosiy marshrutlarni oldindan xotiraga yuklab qo'yadi.
+ * Bo'sh vaqtda asosiy marshrutlarni oldindan xotiraga yuklab qo'yadi.
+ *
+ * The admin route is deliberately excluded: it is a dense curation surface that
+ * almost no visitor ever opens, yet eagerly loading it pulled its whole module
+ * graph (and through it `js/data.js`) into every session.
  */
 function _preloadRoutes() {
   const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200));
   idle(() => {
     ROUTES.forEach(r => {
-      if (r.path !== '404' && !_moduleCache.has(r)) {
-        r.load().then(m => _moduleCache.set(r, m)).catch(() => {});
-      }
+      if (r.path === '404' || r.adminOnly) return;
+      if (_moduleCache.has(r)) return;
+      r.load().then(m => _moduleCache.set(r, m)).catch(() => {});
     });
   });
 }
@@ -480,7 +484,10 @@ function _buildNavbarHTML() {
 
   return `
     <!-- Mobil Topbar: faqat mobilda (<= 768px) ko'rinadi -->
-    <div class="mobile-topbar" role="banner">
+    <!-- No role="banner": index.html already exposes a <header role="banner"> and
+     this bar is visible at the same time on narrow viewports, so two banner
+     landmarks were announced. It is a secondary nav strip inside the page. -->
+<div class="mobile-topbar">
       <a href="#home" class="mobile-topbar__logo" aria-label="Kitobchi.uz — Bosh sahifa">
         <span class="mobile-topbar__mark" aria-hidden="true">${LOGO_SVG}</span>
         <span class="mobile-topbar__name">Kitobchi<span style="color:var(--ochre);">.uz</span></span>

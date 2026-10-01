@@ -20,15 +20,37 @@ export async function render(container, { params, user: initialUser }) {
   }
 
   const user = getCurrentUser() || initialUser;
-  const { score, total, percentage, penalty, bookId, bookTitle } = result;
-  const correctCount = result.correctCount ?? result.rawScore ?? score ?? 0;
+
+  // `result` is read back from sessionStorage/localStorage, so every scalar is
+  // attacker-writable (DevTools or a crafted response body). Coerce to a safe
+  // number and clamp before it reaches innerHTML or an inline style value.
+  const toSafeInt = (v, fallback = 0) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? Math.trunc(n) : fallback;
+  };
+  const toSafePct = (v) => Math.max(0, Math.min(100, toSafeInt(v, 0)));
+
+  const score      = toSafeInt(result.score, 0);
+  const total      = toSafeInt(result.total, 0);
+  const percentage = toSafePct(result.percentage);
+  const penalty    = Math.max(0, Math.min(100, toSafeInt(result.penalty, 0)));
+  const bookId     = String(result.bookId || '');
+  const bookTitle  = String(result.bookTitle || '');
+
+  const correctCount = toSafeInt(result.correctCount ?? result.rawScore ?? score, 0);
   const wrongCount   = Math.max(0, (total ?? 0) - correctCount);
   const isPassed     = percentage >= 60;
   const isOnline     = navigator.onLine;
 
   const xpEarned          = result.xpEarned ?? 0;
   const xpBreakdown       = result.xpBreakdown ?? { base: 15, accuracyBonus: 0, speedBonus: 0, dailyBonus: 0, streakBonus: 0 };
-  const userLevel         = result.newLevel || getUserLevel(user?.score || 0);
+  const userLevelRaw      = result.newLevel || getUserLevel(user?.score || 0);
+  // progressPct lands inside an inline `width:` value, so it is clamped to a
+  // plain percentage before interpolation.
+  const userLevel         = {
+    ...userLevelRaw,
+    progressPct: Math.max(0, Math.min(100, Number(userLevelRaw?.progressPct) || 0)),
+  };
   const isLevelUp         = Boolean(result.isLevelUp);
   const missionsCompleted = Array.isArray(result.missionsCompleted) ? result.missionsCompleted : [];
 
@@ -71,7 +93,7 @@ export async function render(container, { params, user: initialUser }) {
 
           <!-- Sarlavha -->
           <h1 style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:8px;">
-            ${feedback.title}
+            ${escapeHtml(feedback.title)}
           </h1>
           <p style="font-size:0.9375rem;color:var(--ink-muted);max-width:42ch;margin:0 auto 20px;line-height:1.65;">
             ${escapeHtml(feedback.desc)}
@@ -192,7 +214,7 @@ export async function render(container, { params, user: initialUser }) {
                   Daraja ${nextUnlock.unlockReq.level} · Qulfdan chiqarish uchun yana <strong>${nextUnlock.xpNeeded} XP</strong>
                 </div>
                 <div style="height:5px;background:var(--divider);border-radius:3px;margin-top:6px;overflow:hidden;">
-                  <div style="width:${nextUnlock.progressPct}%;height:100%;background:var(--ochre);border-radius:3px;"></div>
+                  <div style="width:${Math.max(0, Math.min(100, Number(nextUnlock.progressPct) || 0))}%;height:100%;background:var(--ochre);border-radius:3px;"></div>
                 </div>
               </div>
               <a href="#books" class="btn btn-sm btn-outline" style="flex-shrink:0;">Kutubxona</a>
@@ -228,25 +250,29 @@ export async function render(container, { params, user: initialUser }) {
                 <span>${svgIcon('pencil', 18)}</span> Savollar va xatolar tahlili
               </h2>
               <div class="result-filter-tabs" role="tablist" aria-label="Savollarni filtrlash">
-                <button type="button" class="result-filter-tab active" data-review-filter="all">
+                <button type="button" class="result-filter-tab active" id="rf-tab-all" role="tab" aria-selected="true" aria-controls="result-questions-list" tabindex="0" data-review-filter="all">
                   Barchasi (${userAnswers.length})
                 </button>
-                <button type="button" class="result-filter-tab" data-review-filter="mistakes">
+                <button type="button" class="result-filter-tab" id="rf-tab-mistakes" role="tab" aria-selected="false" aria-controls="result-questions-list" tabindex="-1" data-review-filter="mistakes">
                   Xatolar (${wrongAnswers.length})
                 </button>
-                <button type="button" class="result-filter-tab" data-review-filter="correct">
+                <button type="button" class="result-filter-tab" id="rf-tab-correct" role="tab" aria-selected="false" aria-controls="result-questions-list" tabindex="-1" data-review-filter="correct">
                   To'g'ri (${correctAnswers.length})
                 </button>
               </div>
             </div>
 
-            <div id="result-questions-list">
+            <div id="result-questions-list" role="tabpanel" aria-labelledby="rf-tab-all">
               ${userAnswers.map((ans, idx) => {
                 const qNum = idx + 1;
                 const isCorrect = Boolean(ans.isCorrect);
                 const cardClass = isCorrect ? 'result-question-card--correct' : 'result-question-card--wrong';
                 const badgeClass = isCorrect ? 'result-question-badge--correct' : 'result-question-badge--wrong';
-                const badgeText = isCorrect ? "✓ To'g'ri" : "✕ Noto'g'ri";
+                // Vector icons instead of glyph characters: DESIGN.md forbids
+                // decorative symbols in favour of the currentColor icon set.
+                const badgeText = isCorrect
+                  ? `${svgIcon('check', 13, 'margin-right:3px;')} To'g'ri`
+                  : `${svgIcon('x', 13, 'margin-right:3px;')} Noto'g'ri`;
                 const filterType = isCorrect ? 'correct' : 'mistakes';
 
                 const questionText = ans.question || ans.questionText || '';
@@ -268,17 +294,17 @@ export async function render(container, { params, user: initialUser }) {
                         const isOptionCorrect = (correctText !== null && correctText !== undefined && String(optText) === String(correctText)) || (optIdx === ans.correctOptionIndex);
 
                         let optClass = '';
-                        let optIcon = '○';
+                        let optIcon = svgIcon('circle', 13);
 
                         if (isSelected && isCorrect) {
                           optClass = 'result-option-item--user-correct';
-                          optIcon = '✓';
+                          optIcon = svgIcon('check', 13);
                         } else if (isSelected && !isCorrect) {
                           optClass = 'result-option-item--user-wrong';
-                          optIcon = '✕';
+                          optIcon = svgIcon('x', 13);
                         } else if (isOptionCorrect && !isCorrect) {
                           optClass = 'result-option-item--correct-answer';
-                          optIcon = '✓';
+                          optIcon = svgIcon('check', 13);
                         }
 
                         return `
@@ -291,12 +317,12 @@ export async function render(container, { params, user: initialUser }) {
                         `;
                       }).join('') : `
                         <div class="result-option-item ${isCorrect ? 'result-option-item--user-correct' : 'result-option-item--user-wrong'}">
-                          <span>${isCorrect ? '✓' : '✕'}</span>
+                          <span>${isCorrect ? svgIcon('check', 13) : svgIcon('x', 13)}</span>
                           <span>Sizning javobingiz: <strong>${escapeHtml(String(selectedText ?? 'Belgilanmagan'))}</strong></span>
                         </div>
                         ${!isCorrect && correctText ? `
                           <div class="result-option-item result-option-item--correct-answer">
-                            <span>✓</span>
+                            <span>${svgIcon('check', 13)}</span>
                             <span>To'g'ri javob: <strong>${escapeHtml(String(correctText))}</strong></span>
                           </div>
                         ` : ''}
@@ -366,7 +392,7 @@ export async function render(container, { params, user: initialUser }) {
           ` : ''}
 
           <button id="level-up-continue-btn" class="btn btn-primary" style="width:100%;padding:12px;font-size:1rem;font-weight:600;">
-            Mutolaani davom ettirish ➔
+            Mutolaani davom ettirish ${svgIcon('arrow-right', 16, 'margin-left:6px;')}
           </button>
         </div>
       </div>
@@ -378,41 +404,111 @@ export async function render(container, { params, user: initialUser }) {
     const modalEl = document.getElementById('level-up-modal');
     const closeBtn = document.getElementById('level-up-continue-btn');
     if (closeBtn && modalEl) {
+      // `aria-modal="true"` was declared but not enforced: focus was never
+      // moved into the dialog, Tab escaped to the page behind it, and Escape
+      // did nothing (the project had no Escape handling at all). Keyboard
+      // users were either stranded in the dialog or able to walk past it.
+      const previouslyFocused = document.activeElement;
+      const pageEl = document.getElementById('app');
+
       const closeModal = () => {
+        if (pageEl) pageEl.removeAttribute('inert');
         modalEl.style.opacity = '0';
         modalEl.style.transition = 'opacity 0.3s ease';
         setTimeout(() => {
           if (modalEl.parentNode) modalEl.parentNode.removeChild(modalEl);
         }, 300);
+        try { previouslyFocused?.focus?.({ preventScroll: true }); } catch {}
+        document.removeEventListener('keydown', onModalKeyDown, true);
       };
+
+      function onModalKeyDown(e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeModal();
+          return;
+        }
+        if (e.key !== 'Tab') return;
+        // Keep focus inside the dialog.
+        const focusables = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last  = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+
+      if (pageEl) pageEl.setAttribute('inert', '');
       closeBtn.addEventListener('click', closeModal);
-      _cleanup.push(() => closeBtn.removeEventListener('click', closeModal));
+      document.addEventListener('keydown', onModalKeyDown, true);
+      _cleanup.push(() => {
+        closeBtn.removeEventListener('click', closeModal);
+        document.removeEventListener('keydown', onModalKeyDown, true);
+        if (pageEl) pageEl.removeAttribute('inert');
+      });
+
+      try { closeBtn.focus({ preventScroll: true }); } catch {}
     }
   }
 
   // Savollar tahlili filtri
   if (userAnswers.length > 0) {
-    const filterTabs = container.querySelectorAll('[data-review-filter]');
+    const filterTabs = Array.from(container.querySelectorAll('[data-review-filter]'));
     const cards = container.querySelectorAll('.result-question-card');
 
-    filterTabs.forEach(tab => {
-      const handler = () => {
-        const filter = tab.getAttribute('data-review-filter');
-        filterTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+    const applyFilter = (filter) => {
+      filterTabs.forEach(t => {
+        const isMatch = t.getAttribute('data-review-filter') === filter;
+        t.classList.toggle('active', isMatch);
+        t.setAttribute('aria-selected', String(isMatch));
+        t.setAttribute('tabindex', isMatch ? '0' : '-1');
+      });
 
-        cards.forEach(card => {
-          const type = card.getAttribute('data-type');
-          if (filter === 'all' || filter === type) {
-            card.style.display = '';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      };
+      const panel = document.getElementById('result-questions-list');
+      if (panel) panel.setAttribute('aria-labelledby', `rf-tab-${filter}`);
+
+      cards.forEach(card => {
+        const type = card.getAttribute('data-type');
+        if (filter === 'all' || filter === type) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    };
+
+    filterTabs.forEach(tab => {
+      const handler = () => applyFilter(tab.getAttribute('data-review-filter'));
       tab.addEventListener('click', handler);
       _cleanup.push(() => tab.removeEventListener('click', handler));
     });
+
+    // Arrow-key navigation for the tablist.
+    const onFilterKeyDown = (e) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+      const idx = filterTabs.indexOf(e.target);
+      if (idx === -1) return;
+      e.preventDefault();
+      let next;
+      if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = filterTabs.length - 1;
+      else if (e.key === 'ArrowRight') next = (idx + 1) % filterTabs.length;
+      else next = (idx - 1 + filterTabs.length) % filterTabs.length;
+
+      const filter = filterTabs[next]?.getAttribute('data-review-filter');
+      if (!filter) return;
+      applyFilter(filter);
+      try { filterTabs[next].focus({ preventScroll: true }); } catch {}
+    };
+
+    const filterList = container.querySelector('[role="tablist"][aria-label="Savollarni filtrlash"]');
+    filterList?.addEventListener('keydown', onFilterKeyDown);
+    _cleanup.push(() => filterList?.removeEventListener('keydown', onFilterKeyDown));
   }
 
   // Adabiy zarhal zarrachalar (literary golden confetti) animatsiyasini ishga tushirish

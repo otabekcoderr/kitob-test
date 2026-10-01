@@ -77,8 +77,12 @@ export function calculateProgressionXP({ finalScore = 0, total = 10, percentage 
   let grossXP = baseXP;
 
   // 2. Accuracy tier bonuses
+  //    total > 0 sharti: bo'sh/noto'g'ri yuborilgan test 100% accuracy
+  //    bonusiga ega bo'lishi mumkin emas (BL-8 exploit).
   let accuracyXP = 0;
-  if (percentage === 100) {
+  if (total <= 0) {
+    accuracyXP = 0;
+  } else if (percentage === 100) {
     accuracyXP = 25; // Mukammal natija (100%)
   } else if (percentage >= 90) {
     accuracyXP = 15; // A'lo natija (90%+)

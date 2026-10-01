@@ -92,9 +92,9 @@ export async function render(container, { params, user }) {
                   type="button"
                   id="toggle-password"
                   class="btn-icon"
-                  style="position: absolute; right: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--ink-muted); background: none; border: none; cursor: pointer;"
+                  style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--ink-muted); background: none; border: none; cursor: pointer;"
                   aria-label="Parolni ko'rsatish"
-                  tabindex="-1"
+                  aria-pressed="false"
                 >${EYE_SVG}</button>
               </div>
               <span class="input-error" id="password-error" role="alert" aria-live="polite"></span>
@@ -180,6 +180,7 @@ function _bindEvents() {
     confirmEl.type        = isText ? 'password' : 'text';
     toggleBtn.innerHTML   = isText ? EYE_SVG : EYE_OFF_SVG;
     toggleBtn.setAttribute('aria-label', isText ? 'Parolni ko\'rsatish' : 'Parolni yashirish');
+    toggleBtn.setAttribute('aria-pressed', isText ? 'false' : 'true');
   };
   toggleBtn.addEventListener('click', onToggle);
   _cleanup.push(() => toggleBtn.removeEventListener('click', onToggle));
@@ -305,9 +306,14 @@ function _showGlobalError(el, message) {
 }
 
 function _addStyles() {
-  if (document.getElementById('auth-page-styles')) return;
+  // A page-specific id: login.js and register.js used to share the
+  // `auth-page-styles` id, so whichever page mounted first suppressed the
+  // other's stylesheet for the rest of the session (visiting login before
+  // register left the password-strength meter unstyled).
+  const STYLE_ID = 'register-page-styles';
+  if (document.getElementById(STYLE_ID)) return;
   const style = document.createElement('style');
-  style.id = 'auth-page-styles';
+  style.id = STYLE_ID;
   style.textContent = `
     .auth-card {
       padding: 40px;

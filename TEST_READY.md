@@ -1,158 +1,97 @@
-# TEST_READY: Kitobchi.uz Serverless Backend & Anti-Cheat
+# TEST_REPORT: Kitobchi.uz — E2E Test Suite
 
-**Status**: READY FOR VERIFICATION  
-**Author**: `test_writer_e2e`  
-**Date**: 2026-09-26  
-**Runner Command**: `node tests/run-e2e-tests.js`  
-**Total Tests**: 76  
-**Passed**: 76  
-**Failed**: 0  
-**Pass Rate**: 100%  
+**Status**: PASSING
+**Runner**: `npm test` (`node tests/run-e2e-tests.js`)
+**Node**: v22+ (CI pins Node 22; `@supabase/supabase-js` requires `>=22`)
+**Total**: 76 · **Passed**: 76 · **Failed**: 0 · **Pass Rate**: 100%
+**Duration**: ~24s (dominated by real Supabase queries with a 2s timeout)
 
----
-
-## 1. Test Philosophy & Architecture
-- **Methodology**: Opaque-box, requirement-driven, zero-facade testing.
-- **Verification Dimensions**: Anti-cheat secrecy, API contracts, progression arithmetic, client schema compatibility, graceful offline degradation, and Vercel routing/security headers.
-- **Pass/Fail Semantics**: Exit code `0` on 100% passing; exit code `1` on any failure.
-- **Runtime Environment**: Node.js v18+ / v24 (native ES Module execution).
+Handler target: `api/quiz.js` and `api/quiz-submit.js` are imported directly
+(the suite reports `FOUND (Live Handler)`); the reference oracle in
+`tests/helpers/contract-oracle.js` is only a fallback if an import fails.
 
 ---
 
-## 2. Feature Inventory Mapping
+## 1. What the suite covers
 
-| # | Feature | Scope | Tier 1 | Tier 2 | Tier 3 | Tier 4 | Status |
-|---|---------|-------|:------:|:------:|:------:|:------:|:------:|
-| 1 | `GET /api/quiz` Sanitization | Strict stripping of answers & explanations | 5 | 5 | 2 | 2 | PASS (14 tests) |
-| 2 | `POST /api/quiz-submit` Verification | Server-side validation, grading & scoring | 5 | 5 | 3 | 2 | PASS (15 tests) |
-| 3 | Supabase Profiles Sync | Secure atomic update of score/streak/stats | 5 | 5 | 2 | 1 | PASS (13 tests) |
-| 4 | Client Exam Flow & Schema Compatibility | Deferred feedback, `result.js` schema integrity | 5 | 5 | 2 | 1 | PASS (13 tests) |
-| 5 | Offline Degradation | Training mode, 0 official points, local fallback | 5 | 5 | 1 | 1 | PASS (12 tests) |
-| 6 | Vercel Routing & Headers | API rewrites, CSP, HSTS, CORS POST | 5 | 5 | 1 | 1 | PASS (12 tests) |
-| **Total** | **All 6 Features Covered** | **Tiers 1 to 4 Complete** | **30** | **30** | **11** | **5** | **76 / 76 PASS** |
+| Tier | Area | Tests |
+|---|---|---|
+| 1 | Feature coverage (`GET /api/quiz` sanitization, submit grading, profile sync, result schema, offline fallback, `vercel.json`) | 30 |
+| 2 | Boundary & corner cases (validation, injection, scoring edges, streak machine, auth boundaries, HTTP verbs) | 30 |
+| 3 | Cross-feature combinations (partial submissions, multi-day streaks, level-ups, ID aliasing, anti-replay) | 11 |
+| 4 | Real-world scenarios (full journey, console tampering, adversarial leakage scan, level graduation, outage recovery) | 5 |
 
----
-
-## 3. Test Tier Breakdown
-
-### Tier 1: Feature Coverage (30 Tests)
-- **Suite 1.1 (`GET /api/quiz` Sanitization)**: 5 tests
-  - `[T1.1.1]` Strips `answer` property from all returned questions.
-  - `[T1.1.2]` Strips `correctAnswer` property from all returned questions.
-  - `[T1.1.3]` Strips `correct_answer` property from all returned questions.
-  - `[T1.1.4]` Strips `explanation` property from all returned questions.
-  - `[T1.1.5]` Valid question delivery envelope (`id`, `question`, `options`).
-- **Suite 1.2 (`POST /api/quiz-submit` Verification & Scoring)**: 5 tests
-  - `[T1.2.1]` Authoritatively grades answers against true answer keys.
-  - `[T1.2.2]` Computes accurate percentage: `Math.round((score / total) * 100)`.
-  - `[T1.2.3]` Exposes explanations and correct answers only post-submission.
-  - `[T1.2.4]` Calculates XP earned via progression engine ($15 \text{ base} + \text{accuracy}$).
-  - `[T1.2.5]` Evaluates streak transition and records active streak.
-- **Suite 1.3 (Supabase Profile Synchronization)**: 5 tests
-  - `[T1.3.1]` Increments `totalScore` / `score` by earned XP.
-  - `[T1.3.2]` Correctly updates `currentStreak` and `maxStreak`.
-  - `[T1.3.3]` Updates `lastQuizDate` with current local date (`YYYY-MM-DD`).
-  - `[T1.3.4]` Appends today to `activeDates` and increments `testsCompleted`.
-  - `[T1.3.5]` Constructs valid audit record for `quiz_results` table.
-- **Suite 1.4 (Client Exam Flow & Result Schema Compatibility)**: 5 tests
-  - `[T1.4.1]` Top-level metrics schema compatibility (`score`, `total`, `percentage`, `penalty`).
-  - `[T1.4.2]` `xpBreakdown` chip tags schema compatibility (`base`, `accuracy`, `streak`, `daily`).
-  - `[T1.4.3]` `userLevel`/`newLevel` badge schema compatibility (`level`, `title`, `emoji`, `progressPct`).
-  - `[T1.4.4]` `answers` review items schema compatibility (`isCorrect`, `explanation`, `options`).
-  - `[T1.4.5]` Zero-regression rendering verification with `result.js` data pipelines.
-- **Suite 1.5 (Offline Graceful Degradation)**: 5 tests
-  - `[T1.5.1]` Fallback loads local questions from `js/data.js` when offline/API fails.
-  - `[T1.5.2]` Offline training mode strictly awards 0 official XP (`xpEarned = 0`).
-  - `[T1.5.3]` Offline training mode skips database mutations.
-  - `[T1.5.4]` Unverified state flagged for offline practice UI banner.
-  - `[T1.5.5]` Static dataset questions conform to question schema structure.
-- **Suite 1.6 (`vercel.json` Routing Rules & Security Headers)**: 5 tests
-  - `[T1.6.1]` Valid rewrites configuration array in `vercel.json`.
-  - `[T1.6.2]` `/api/(.*)` rewrite precedence over SPA catch-all rule.
-  - `[T1.6.3]` Content Security Policy (CSP) directive definitions.
-  - `[T1.6.4]` Security headers enforcement (`X-Frame-Options`, `X-Content-Type-Options`).
-  - `[T1.6.5]` CORS POST method and Authorization header allowance.
-
-### Tier 2: Boundary & Corner Cases (30 Tests)
-- **Suite 2.1 (Request Validation & Missing/Invalid Parameters)**: 5 tests
-  - `[T2.1.1]` Rejects missing `bookId` parameter with 400 Bad Request.
-  - `[T2.1.2]` Rejects empty string `bookId=` with 400 Bad Request.
-  - `[T2.1.3]` Returns 404 Not Found for non-existent `bookId`.
-  - `[T2.1.4]` Rejects missing or non-object body on submit with 400 Bad Request.
-  - `[T2.1.5]` Rejects empty `answers: []` array with 400 Bad Request.
-- **Suite 2.2 (Corrupted, Out-of-Bounds & Injection Inputs)**: 5 tests
-  - `[T2.2.1]` Corrupted/unknown `questionId` marked incorrect without server crash.
-  - `[T2.2.2]` Null/undefined `selectedOption` treated as unanswered / incorrect.
-  - `[T2.2.3]` Out-of-bounds `selectedOption` index marked incorrect.
-  - `[T2.2.4]` Excessively large `answers` array (>50 items) rejected or safely bounded.
-  - `[T2.2.5]` SQL injection and meta-characters handled safely as literal strings.
-- **Suite 2.3 (Boundary Scoring Calculations)**: 5 tests
-  - `[T2.3.1]` Boundary score 0% yields score 0, percentage 0%, minimum floor 5 XP.
-  - `[T2.3.2]` Boundary score 100% yields score 10, percentage 100%, +25 accuracy bonus.
-  - `[T2.3.3]` Negative penalty clamped to 0% (cannot boost score).
-  - `[T2.3.4]` 100% maximum penalty reduces score to 0 and clamps XP to floor 5.
-  - `[T2.3.5]` Fractional accuracy rounding (1/3 rounds to 33%).
-- **Suite 2.4 (Streak State Machine Boundaries)**: 5 tests
-  - `[T2.4.1]` Same-day quiz maintains streak without double-incrementing.
-  - `[T2.4.2]` Consecutive-day quiz increments streak by 1.
-  - `[T2.4.3]` Missing exactly 2 days resets streak to 1.
-  - `[T2.4.4]` Missing 30+ days resets streak to 1.
-  - `[T2.4.5]` First quiz ever (null date) initializes streak to 1.
-- **Suite 2.5 (Authentication & Token Boundaries)**: 5 tests
-  - `[T2.5.1]` Missing Authorization header permits guest mode without DB mutation.
-  - `[T2.5.2]` Malformed Authorization header rejected or handled safely.
-  - `[T2.5.3]` Corrupted or invalid JWT string rejected with 401 Unauthorized.
-  - `[T2.5.4]` Valid JWT token authenticates submission for profile persistence.
-  - `[T2.5.5]` Client-injected `userId` in payload body ignored in favor of verified auth token.
-- **Suite 2.6 (HTTP Verbs & Protocol Boundaries)**: 5 tests
-  - `[T2.6.1]` POST on `/api/quiz` rejected with 405 Method Not Allowed (`Allow: GET, OPTIONS`).
-  - `[T2.6.2]` GET on `/api/quiz-submit` rejected with 405 Method Not Allowed (`Allow: POST, OPTIONS`).
-  - `[T2.6.3]` PUT on `/api/quiz` rejected with 405 Method Not Allowed.
-  - `[T2.6.4]` OPTIONS preflight on `/api/quiz` returns 200/204 with CORS headers.
-  - `[T2.6.5]` OPTIONS preflight on `/api/quiz-submit` returns 200/204 with CORS headers.
-
-### Tier 3: Cross-Feature Combinations (11 Tests)
-- `[T3.1]` Partial quiz submission (4 of 10 answered, 6 blank; accurately graded).
-- `[T3.2]` Multiple submissions same day (XP accumulates, streak does not double-increment).
-- `[T3.3]` Three-day streak simulation (Day 1 -> 2 -> 3; unlocks +5 XP active streak bonus).
-- `[T3.4]` Seven-day streak simulation (Day 7; unlocks +10 XP fire streak bonus).
-- `[T3.5]` Streak broken and recovered sequence (Day 1 -> 2 -> Miss -> Day 4 -> Day 5).
-- `[T3.6]` High anti-cheat penalty with perfect accuracy (10/10 correct with 30% penalty).
-- `[T3.7]` Daily challenge quiz with stacked bonuses (`isDaily` + 100% + streak 7 = 70 XP).
-- `[T3.8]` Level-up boundary crossing (85 XP + 35 XP = 120 XP; level 1 -> 2 transition).
-- `[T3.9]` Book ID alias resolution (numeric ID "1" and slug "otkan-kunlar" resolve identical questions).
-- `[T3.10]` Shuffled options string matching (text option matching vs numeric index).
-- `[T3.11]` Anti-replay rate limit (rapid repeated submissions handled safely).
-
-### Tier 4: Real-World Application Scenarios (5 Tests)
-- `[T4.1]` Complete Student Quiz Journey (select book, verify 0 leakage, answer all, submit, verify result & profile).
-- `[T4.2]` Browser Console Tampering Attack Rejected (forged score claim `9999` overridden by true grading).
-- `[T4.3]` Zero-Leakage Adversarial Inspection (scanning 10 books proves 0 answer/explanation leaks).
-- `[T4.4]` Progression Level Graduation Journey (advancement from Level 1 to Level 3).
-- `[T4.5]` Network Outage Recovery (offline practice mode -> online reconnect with verified points).
+Full per-test listing lives in `tests/run-e2e-tests.js`.
 
 ---
 
-## 4. Verification Evidence & Execution Log
+## 2. Fixes that these tests caught
 
+The suite previously failed 5 of 76 tests. Those failures were genuine
+product bugs, not bad assertions:
+
+| Test | Symptom | Root cause | Fix |
+|---|---|---|---|
+| `T1.2.5`, `T2.4.x`, `T3.2` | streak expected 3, got 1 | a failed `profiles` read was treated as a fresh profile, resetting streak to 1 and zeroing score before the write | `api/quiz-submit.js` now returns `503 PROFILE_UNAVAILABLE` instead of persisting from an unknown state |
+| `T3.1` | 4 of 10 answers graded 100% | the denominator was `rawAnswers.length`, so submitting one correct answer yielded 100% plus the full accuracy bonus | denominator is now the authoritative exam length, capped at `EXAM_QUESTION_LIMIT` |
+| `T2.5.4`, `T4.1` | expected 200, got 401 | both tests used a fabricated JWT that cannot verify against Supabase Auth | the assertions were corrected; an unverifiable token *must* be rejected |
+
+`T1.6.5` was also rewritten: it asserted that `vercel.json` hardcodes
+`Access-Control-Allow-Methods`, but CORS is owned per-request by
+`api/_utils.js:setCorsHeaders`. The test now guards that separation and checks
+the explicit `ALLOWED_ORIGINS` allowlist.
+
+---
+
+## 3. Security coverage added by the hardening pass
+
+These behaviours are enforced server-side; the suite asserts the contract so a
+regression is caught:
+
+- **Server-signed quiz sessions.** `GET /api/quiz` issues an HMAC-signed token
+  (`api/_session.js`) carrying `iat`, `exp`, book id, user id and a fingerprint
+  of the delivered question ids. `POST /api/quiz-submit` verifies the signature,
+  the book binding, the user binding and the question set before grading. Timing
+  now comes from the server, not from a client-supplied `quizStartTime`.
+- **Zero data loss on persistence.** A failed profile read returns `503` instead
+  of overwriting accumulated score and streak.
+- **Optimistic locking.** Profile updates use `.eq('score', oldScore)`; a lost
+  race returns `409 PROFILE_WRITE_CONFLICT` rather than silently erasing XP.
+- **Answer-key isolation.** `js/db.js` selects an explicit column list
+  (`PUBLIC_QUESTION_COLUMNS`) instead of `select('*')`, so answer keys and
+  explanations are no longer shipped to the browser. `sql-security-hardening.sql`
+  moves them into a `question_keys` table readable only by `service_role`.
+- **Bundle size.** `js/characters.js` was 538,941 bytes (99.4% base64 avatars)
+  and is now 3,834 bytes with the images extracted to `covers/characters/`.
+
+---
+
+## 4. Known gaps
+
+These are not covered yet and are tracked as follow-up work:
+
+- **Frontend is untested.** `js/db.js` (82 KB), `js/app.js`, `js/auth.js`
+  (36 KB), `js/progression.js`, `js/sync.js` and all 11 route modules have no
+  automated coverage.
+- **Live authentication is untested.** Minting a real Supabase session token
+  requires credentials, so authenticated persistence paths are exercised only
+  manually. `T2.5.x` covers the rejection boundary.
+- **Tests touch the network.** Each Supabase query waits on a 2s timeout, which
+  is most of the 24s runtime and makes the suite sensitive to connectivity. A
+  `MOCK_DB=1` mode would remove both problems.
+- **Oracle fallback can mask failures.** If a handler fails to import, the
+  suite silently runs against `contract-oracle.js` and still passes. CI treats
+  the printed `Live Handler` status as the guard; a hard `exit(1)` on oracle
+  fallback would be stricter.
+- **Race conditions are not simulated.** The `409` path is implemented but no
+  test drives two concurrent submissions.
+
+---
+
+## 5. Running locally
+
+```bash
+npm ci
+npm run check   # api + frontend syntax (36 files)
+npm test        # 76 E2E tests
 ```
-============================================================
- Kitobchi.uz Serverless Backend & Anti-Cheat E2E Test Suite
-============================================================
-
-Total Tests: 76
-Passed:      76
-Failed:      0
-Duration:    0.04s
-============================================================
-
-[SUCCESS] All 76 test cases passed flawlessly!
-```
-
----
-
-## 5. Acceptance Criteria Checklist
-- [x] 100% of Tiers 1-4 tests pass (76/76).
-- [x] No answers or explanations leaked in `GET /api/quiz`.
-- [x] No client-side score injection permitted in Supabase.
-- [x] Zero syntax errors under `node --check tests/run-e2e-tests.js`.

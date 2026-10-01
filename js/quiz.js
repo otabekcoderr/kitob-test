@@ -259,6 +259,9 @@ async function _finishQuiz(forceZero = false) {
       selectedOption: ans.selectedOption
     })),
     quizStartTime: state.startTime,
+    // Server-signed session from GET /api/quiz. Lets the backend measure
+    // elapsed time itself instead of trusting the browser clock.
+    sessionToken: state.sessionToken,
     penalty: penaltyRate,
     isDaily: state.isDaily
   };
@@ -363,12 +366,14 @@ export async function startQuiz(config, callbacks = {}) {
     isDaily:      !!config.isDaily,
     userAnswers:  [],
     isOffline:    false,
+    sessionToken: null,
   });
 
   try {
     // 1. Savollarni xavfsiz yuklash (/api/quiz orqali)
-    const { questions: raw, isOffline } = await fetchQuizQuestions(bookId);
+    const { questions: raw, isOffline, sessionToken } = await fetchQuizQuestions(bookId);
     state.isOffline = Boolean(isOffline);
+    state.sessionToken = sessionToken || null;
 
     if (!raw || raw.length === 0) {
       if (typeof onError === 'function') {

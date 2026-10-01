@@ -1,0 +1,21 @@
+# Vercel CLI faqat .vercelignore faylini hurmat qiladi — .gitignore emas.
+# Bu fayl yo'q bo'lsa, quyidagi fayllar production build'ga tushib,
+# /pages/admin.js kabi ichki modullar ochiq URL orqali serve qilinadi.
+
+# Eski/nazoratdan chiqmaydigan nusxalar (js/pages/ bilan aralashib ketmasin)
+pages/
+scratch/
+.agents/
+.ide/
+
+# Testlar va infratuzilma
+tests/
+
+# SQL va hujjatlar
+sql-*.sql
+TEST_READY.md
+AUDIT.md
+.project-manifest.json
+
+# Lokal konfiguratsiya
+.vscode/
