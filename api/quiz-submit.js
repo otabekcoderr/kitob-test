@@ -471,7 +471,13 @@ export default async function handler(req, res) {
       try {
         const { data: prof, error: profErr } = await dbClient
           .from('profiles')
-          .select('id, score, streak, stats, last_quiz_date')
+          // The live `profiles` table only has id, username, full_name, avatar,
+          // avatar_image, avatar_char_id, is_admin, stats, created_at. There are
+          // no `score` / `streak` / `last_quiz_date` columns, so selecting them
+          // made every authenticated submission fail with
+          // "column profiles.score does not exist". All progression state lives
+          // in the `stats` jsonb blob.
+          .select('id, stats')
           .eq('id', authenticatedUser.id)
           .maybeSingle();
 
@@ -480,10 +486,10 @@ export default async function handler(req, res) {
           if (prof) {
             profileData = prof;
             const stats = (prof.stats && typeof prof.stats === 'object') ? prof.stats : {};
-            oldScore = Number(prof.score ?? stats.totalScore ?? stats.score ?? 0);
-            oldStreak = Number(prof.streak ?? stats.currentStreak ?? 0);
+            oldScore = Number(stats.totalScore ?? stats.score ?? stats.avgScore ?? 0);
+            oldStreak = Number(stats.currentStreak ?? 0);
             oldMaxStreak = Number(stats.maxStreak || oldStreak || 0);
-            lastQuizDate = prof.last_quiz_date || stats.lastQuizDate || null;
+            lastQuizDate = stats.lastQuizDate || null;
           }
         } else {
           console.error('[api/quiz-submit] Profile read failed:', profErr.message);
@@ -568,9 +574,6 @@ export default async function handler(req, res) {
           // Brand-new user: no row to compare against, so create it directly.
           const { error: insertError } = await dbClient.from('profiles').upsert({
             id: authenticatedUser.id,
-            score: newScore,
-            streak: newStreak,
-            last_quiz_date: todayStr,
             stats: updatedStats,
             created_at: new Date().toISOString()
           }, { onConflict: 'id' });
@@ -579,20 +582,20 @@ export default async function handler(req, res) {
             throw new Error(insertError.message);
           }
         } else {
-          // BL-3 fix: compare-and-swap on the previously observed score. Two
-          // concurrent submissions on different lambda instances would
+          // BL-3 fix: compare-and-swap on the previously observed total score.
+          // Two concurrent submissions on different lambda instances would
           // otherwise both compute `oldScore + earnedXP` from the same base,
           // and the second write would silently erase the first one's XP.
+          //
+          // The CAS predicate reads `stats->>'totalScore'` because the live
+          // table has no dedicated score column.
           const { error: updateError, data: updatedRows } = await dbClient
             .from('profiles')
             .update({
-              score: newScore,
-              streak: newStreak,
-              last_quiz_date: todayStr,
               stats: updatedStats
             })
             .eq('id', authenticatedUser.id)
-            .eq('score', oldScore)
+            .eq('stats->>totalScore', String(oldScore))
             .select('id');
 
           if (updateError) {

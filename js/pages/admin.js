@@ -1087,10 +1087,24 @@ function _bindUserEvents(users) {
         // Supabase da yangilash
         if (isSupabaseOnline()) {
           try {
-            await supabase.from('profiles').update({
-              is_admin: targetRole === 'admin',
-              role: targetRole
-            }).eq('id', userId);
+            // Faqat `is_admin`. `role` ustuni `profiles` jadvalida umuman
+            // yo'q — uni yuborish "column profiles.role does not exist"
+            // xatosiga va butun operatsiyaning muvaffaqiyatsizligiga
+            // olib kelardi. Role frontend'dan o'zgartirilmaydi: `is_admin`
+            // ustuniga UPDATE huquqi authenticated roli uchun bekor
+            // qilingan (sql-security-hardening.sql, BOLIM 2).
+            const { error: roleErr } = await supabase
+              .from('profiles')
+              .update({ is_admin: targetRole === 'admin' })
+              .eq('id', userId);
+
+            if (roleErr) {
+              showNotification(
+                `Rolni saqlab bo'lmadi: ${roleErr.message}`,
+                'error',
+                6000
+              );
+            }
           } catch (e) {
             console.warn('[admin] Supabase profile role update fallback:', e);
           }

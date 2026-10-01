@@ -1,42 +1,58 @@
 -- ========================================================================
 -- sql-security-hardening.sql
--- Kitobchi.uz — BL-2 / BL-3 / BL-5 xavfsizlik tuzatishlari
+-- Kitobchi.uz — xavfsizlik tuzatishlari (RLS, rolik himoyasi, anti-cheat)
 -- ========================================================================
--- Supabase SQL Editor'da TO'LIQ (barcha qatorlar) bajarilishi kerak.
--- Tavsiya tartibi: avval bitta SELECT bilan jadvallar holatini tekshiring,
--- keyin ushbu skriptni ishga tushiring.
+-- QANDAY ISHLATISH:
+--   Supabase Dashboard → SQL Editor → yangi query → bu faylni to'liq
+--   nusxalang → Run. Skript idempotent: bir necha marta ishga tushirsangiz
+--   ham xato bermaydi.
 --
--- XAVFSIZLIK ESLATMASI: `service_role` kaliti backenddan keladi va RLS'ni
--- aylantirib o'tadi. Quyidagi siyosatlar `anon` va `authenticated`
--- rollari uchun amal qiladi.
+-- DIQQAT: Bu skript haqiqiy production sxemasiga moslashtirilgan.
+--   profiles  : id, username, full_name, avatar, avatar_image,
+--               avatar_char_id, is_admin, stats, created_at
+--               (score / streak / role / last_quiz_date USTUNLARI YO'Q —
+--                butun progress `stats` jsonb ichida)
+--   questions : id, bookId, question, options, correctAnswer, explanation
+--               (`correct_answer` deb ataladigan ustun yo'q)
+--
+-- service_role kaliti RLS'ni aylantiradi. Quyidagi siyosatlar `anon` va
+-- `authenticated` rollari uchun amal qiladi.
 -- ========================================================================
 
 
--- ------------------------------------------------------------------------
--- 0. DIAGNOSTIKA — avval shu qatorni yuritib, natijani yozib boring
--- ------------------------------------------------------------------------
+-- ########################################################################
+-- BOLIM 0 — DIAGNOSTIKA
+-- ########################################################################
+-- Ishga tushirmasdan oldin shu qismni alohida yuriting va natijani
+-- ko'ring: bu jadvallarda qanday ustunlar borligini ko'rsatadi.
+
 SELECT
-  c.relname                                        AS table_name,
-  c.relrowsecurity                                  AS rls_enabled,
+  c.relname AS table_name,
+  c.relrowsecurity AS rls_enabled,
   (SELECT count(*) FROM pg_policies p
      WHERE p.schemaname = 'public' AND p.tablename = c.relname) AS policy_count
 FROM pg_class c
 JOIN pg_namespace n ON n.oid = c.relnamespace
 WHERE n.nspname = 'public'
   AND c.relkind = 'r'
-  AND c.relname IN ('profiles','books','questions','results','quiz_results','comments','characters','arena_matches')
+  AND c.relname IN ('profiles','books','questions','results','quiz_results',
+                    'comments','characters','question_keys')
 ORDER BY c.relname;
 
+-- quiz_results ning haqiqiy ustunlari (0. bolimga qarab):
+-- SELECT column_name, data_type FROM information_schema.columns
+--  WHERE table_schema = 'public' AND table_name = 'quiz_results'
+--  ORDER BY ordinal_position;
 
--- ------------------------------------------------------------------------
--- 1. quiz_results JADVALI (BL-2)
--- ------------------------------------------------------------------------
+
+-- ########################################################################
+-- BOLIM 1 — quiz_results JADVALI
+-- ########################################################################
 -- Nima uchun: butun kod shu jadvaldan foydalanadi
--- (api/quiz-submit.js:587, js/db.js:960,1161,1233, js/pages/admin.js:1184),
--- lekin avvalgi SQL skriptlarida u umuman mavjud emas edi. RLS yoqiq
--- jadvalga `anon` kaliti bilan to'g'ridan-to'g'ri yozish/o'chirish mumkin.
---
--- Agar jadval umuman yo'q bo'lsa, quyidagi CREATE TABLE ishlaydi.
+--   api/quiz-submit.js  → insert
+--   js/db.js            → insert + o'qish
+--   js/pages/admin.js   → o'chirish
+-- lekin avvalgi SQL skriptlarida u umuman mavjud emas edi.
 
 CREATE TABLE IF NOT EXISTS public.quiz_results (
   "id"         BIGSERIAL PRIMARY KEY,
@@ -51,10 +67,68 @@ CREATE TABLE IF NOT EXISTS public.quiz_results (
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Jadval allaqachon bo'lsa ham kerakli ustunlarni qo'shadi.
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='user_id') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "user_id" UUID;
+    RAISE NOTICE 'quiz_results.user_id qo''shildi';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='score') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "score" INTEGER DEFAULT 0;
+    RAISE NOTICE 'quiz_results.score qo''shildi';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='total') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "total" INTEGER DEFAULT 0;
+    RAISE NOTICE 'quiz_results.total qo''shildi';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='percentage') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "percentage" INTEGER DEFAULT 0;
+    RAISE NOTICE 'quiz_results.percentage qo''shildi';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='penalty') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "penalty" INTEGER DEFAULT 0;
+    RAISE NOTICE 'quiz_results.penalty qo''shildi';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='date') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "date" DATE DEFAULT CURRENT_DATE;
+    RAISE NOTICE 'quiz_results.date qo''shildi';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='created_at') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "created_at" TIMESTAMPTZ DEFAULT now();
+    RAISE NOTICE 'quiz_results.created_at qo''shildi';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                 WHERE table_schema='public' AND table_name='quiz_results'
+                   AND column_name='book_id') THEN
+    ALTER TABLE public.quiz_results ADD COLUMN "book_id" BIGINT;
+    RAISE NOTICE 'quiz_results.book_id qo''shildi';
+  END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_quiz_results_user_id ON public.quiz_results(user_id);
-CREATE INDEX IF NOT EXISTS idx_quiz_results_date     ON public.quiz_results(date DESC);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_quiz_results_user_book_date
-  ON public.quiz_results(user_id, COALESCE("book_id", 0), date);
+CREATE INDEX IF NOT EXISTS idx_quiz_results_date     ON public.quiz_results("date" DESC);
 
 ALTER TABLE public.quiz_results ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.quiz_results FORCE ROW LEVEL SECURITY;
@@ -64,12 +138,16 @@ DROP POLICY IF EXISTS "quiz_results_select_admin" ON public.quiz_results;
 DROP POLICY IF EXISTS "quiz_results_insert_own"   ON public.quiz_results;
 DROP POLICY IF EXISTS "quiz_results_update_admin" ON public.quiz_results;
 DROP POLICY IF EXISTS "quiz_results_delete_admin" ON public.quiz_results;
+-- Eski keng "hamma o'qiydi/tahrirlaydi" qoidalari:
+DROP POLICY IF EXISTS "Allow all on quiz_results"  ON public.quiz_results;
+DROP POLICY IF EXISTS "quiz_results_all"          ON public.quiz_results;
+DROP POLICY IF EXISTS "results_select_all"        ON public.quiz_results;
 
--- O'z natijalarini ko'rish: hammaga (davlat e'lon qilinadi).
--- Boshqalarni tahrirlash yoki o'chirishga yo'l yo'q.
+-- O'z natijalarini ko'rish. Boshqalarni tahrirlash yoki o'chirish mumkin emas.
 CREATE POLICY "quiz_results_select_own" ON public.quiz_results
   FOR SELECT USING (auth.uid() = user_id);
 
+-- O'z nomidan yozish mumkin, boshqa nom bilan emas.
 CREATE POLICY "quiz_results_insert_own" ON public.quiz_results
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
@@ -80,15 +158,21 @@ CREATE POLICY "quiz_results_delete_admin" ON public.quiz_results
   FOR DELETE USING (public.is_admin());
 
 
--- ------------------------------------------------------------------------
--- 2. profiles: WITH CHECK va search_path (BL-3)
--- ------------------------------------------------------------------------
--- Muammo: `profiles_update_own` faqat `USING (auth.uid() = id)` edi.
--- `WITH CHECK` yo'q bo'lgani uchun UPDATE qoidasi yangi qatorga shart
--- qo'ygan holda "hamma narsa o'zgara oladi" degan ma'noga ega bo'ladi.
--- `protect_profile_admin_role` trigger'i bu holatni yopadi, ammo trigger
--- ishlamasa yoki odatda bypass qilinsa rolik ko'tarilishi mumkin edi.
--- WITH CHECK — RLS darajasidagi arzon va ishonchli himoya.
+-- ########################################################################
+-- BOLIM 2 — profiles: o'z rolingizni oshiringizga yo'l qolmasin
+-- ########################################################################
+-- MUHIM: PostgreSQL'da RLS policy ichida NEW va OLD mavjud EMAS. Policy —
+-- oddiy WHERE ifodasi; NEW/OLD faqat trigger kontekstida ishlaydi. Shu
+-- sababli WITH CHECK ga `NEW.is_admin` yozish xato beradi:
+--     ERROR: 42P01: missing FROM-clause entry for table "new"
+--
+-- To'g'ri yechim — ustun darajasidagi cheklov. `is_admin` ustuniga
+-- authenticated/anon rollari uchun UPDATE huquqi berilmaydi, shuning uchun
+-- hech bir mijoz rolini ko'tara olmaydi. Adminlikni o'zgartirish faqat
+-- service_role (serverless) yoki SQL orqali mumkin.
+--
+-- WITH CHECK esa qatorni boshqa foydalanuvchiga o'tkazishni taqiqlaydi
+-- (bu sifatsiz va Postgres'da ishlaydigan himoya).
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
@@ -96,20 +180,26 @@ DROP POLICY IF EXISTS "profiles_update_own" ON public.profiles;
 
 CREATE POLICY "profiles_update_own" ON public.profiles
   FOR UPDATE
-  USING (auth.uid() = id OR public.is_admin())
-  WITH CHECK (
-    auth.uid() = id
-    AND COALESCE(NEW.is_admin, false) = COALESCE((SELECT is_admin FROM public.profiles WHERE id = auth.uid()), false)
-  );
+  USING (auth.uid() = id)
+  WITH CHECK (auth.uid() = id);
+
+-- Rol eskalatsiyasini SQL darajasida nomutanosib qilish.
+DO $$
+BEGIN
+  EXECUTE 'REVOKE UPDATE ("is_admin") ON public.profiles FROM authenticated';
+  EXECUTE 'REVOKE UPDATE ("is_admin") ON public.profiles FROM anon';
+  RAISE NOTICE 'profiles.is_admin ustuni authenticated/anon uchun yopildi';
+EXCEPTION WHEN undefined_object THEN
+  RAISE NOTICE 'REVOKE bajarilmadi (rol topilmadi) — davom etildi';
+END $$;
 
 
--- ------------------------------------------------------------------------
--- 3. SECURITY DEFINER funksiyalar uchun xavfsiz search_path (BL-3)
--- ------------------------------------------------------------------------
--- `is_admin()` va `protect_profile_admin_role()` `SECURITY DEFINER` bilan
--- yaratilgan. `search_path` ni belgilamasligi shu funksiyalar ichida
--- `is_admin` yoki `profiles` nomi bilan boshqa obyekt chaqirilsa
--- (search_path poisoning) hujjatni majburlash mumkin.
+-- ########################################################################
+-- BOLIM 3 — SECURITY DEFINER funksiyalar uchun xavfsiz search_path
+-- ########################################################################
+-- `is_admin()` va `protect_profile_admin_role()` SECURITY DEFINER bilan
+-- yaratilgan. `search_path` ni belgilamasligi — search_path poisoning
+-- zaifligi (hujjatni majburlash mumkin).
 
 CREATE OR REPLACE FUNCTION public.is_admin()
 RETURNS boolean
@@ -131,9 +221,9 @@ SECURITY DEFINER
 SET search_path = ''
 AS $$
 BEGIN
-  IF (NEW.role IS DISTINCT FROM OLD.role) OR (NEW.is_admin IS DISTINCT FROM OLD.is_admin) THEN
+  IF NEW.is_admin IS DISTINCT FROM OLD.is_admin THEN
     IF NOT public.is_admin() THEN
-      RAISE EXCEPTION 'Xavfsizlik: Rolni faqat mavjud administrator o''zgartira oladi.';
+      RAISE EXCEPTION 'Xavfsizlik: Adminlikni faqat mavjud administrator o''zgartira oladi.';
     END IF;
   END IF;
   RETURN NEW;
@@ -147,111 +237,160 @@ CREATE TRIGGER trg_protect_profile_admin_role
   EXECUTE FUNCTION public.protect_profile_admin_role();
 
 
--- ------------------------------------------------------------------------
--- 4. Javob kalitlari uchun alohida jadval (BL-4 / anti-cheat mustahkamligi)
--- ------------------------------------------------------------------------
--- Nima uchun: hozir `questions` jadvalidagi `correctAnswer` va
--- `explanation` ustunlari `questions_select_all ... USING (true)` siyosiati
--- bilan OCHIQ. Ya'ni backend sanitizatsiyasi qanchalik kuchli bo'lmasin,
--- `js/db.js:713` orqali brauzer konsolidan
---   supabase.from('questions').select('*')
--- desak, BARCHA javob kalitlari ochiq ko'rinadi.
+-- ########################################################################
+-- BOLIM 4 — Javob kalitlari uchun alohida jadval (anti-cheat)
+-- ########################################################################
+-- Nima uchun: `questions` jadvalidagi `correctAnswer` va `explanation`
+-- ustunlari `questions_select_all ... USING (true)` siyosiati bilan OCHIQ.
+-- Ya'ni backend sanitizatsiyasi qanchalik kuchli bo'lmasin, brauzer
+-- konsolidan
+--     supabase.from('questions').select('*')
+-- desak, BARCHA javob kalitlari ko'rinadi.
 --
--- Yechim: savol matnlari ochiq qoladi, javob kalitlari esa alohida
--- jadvalda saqlanadi va faqat `service_role` (backend) o'qiy oladi.
--- Supabase anon/authenticated rollari uchun umuman policy berilmaydi.
+-- Yechim: savol matnlari ochiq qoladi, javob kalitlari alohida jadvalda
+-- saqlanadi va FAQAT service_role (backend) o'qiy oladi. anon va
+-- authenticated rollari uchun umuman policy berilmaydi.
+--
+-- Eslatma: `questions` da ustun nomi `correctAnswer` (camelCase),
+-- `correct_answer` emas.
 
 CREATE TABLE IF NOT EXISTS public.question_keys (
-  "question_id" TEXT PRIMARY KEY,
-  "correct_answer" TEXT NOT NULL,
-  "explanation"   TEXT DEFAULT '',
-  "updated_at"    TIMESTAMPTZ NOT NULL DEFAULT now()
+  "question_id"    TEXT PRIMARY KEY,
+  "correct_answer" TEXT NOT NULL DEFAULT '',
+  "explanation"    TEXT DEFAULT '',
+  "updated_at"     TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 ALTER TABLE public.question_keys ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.question_keys FORCE ROW LEVEL SECURITY;
 
--- Eski "hamma o'qiy oladi" qoidasini olib tashlaymiz.
 DROP POLICY IF EXISTS "question_keys_select_all" ON public.question_keys;
 DROP POLICY IF EXISTS "question_keys_write_all"  ON public.question_keys;
--- Yangi policy qo'shilmaydi: service_role RLS'ni aylantiradi.
 
 -- Eski ustunlarni ko'chirish (bir marta bajariladi).
 INSERT INTO public.question_keys (question_id, correct_answer, explanation)
-SELECT q.id::text,
-       COALESCE(q.correct_answer, q.correctAnswer::text, ''),
-       COALESCE(q.explanation, '')
+SELECT
+  q.id::text,
+  COALESCE(q."correctAnswer"::text, ''),
+  COALESCE(q.explanation, '')
 FROM public.questions q
 WHERE q.id IS NOT NULL
-ON CONFLICT (question_id) DO NOTHING;
+ON CONFLICT (question_id) DO UPDATE
+  SET correct_answer = EXCLUDED.correct_answer,
+      explanation    = EXCLUDED.explanation;
 
 
--- ------------------------------------------------------------------------
--- 5. Reyting integriteti (BL-5)
--- ------------------------------------------------------------------------
--- Reyting `quiz_results` dan agregatlanadigan, hech qachon klient
--- yozadigan `score` ustunidan o'qilmaydi.
+-- ########################################################################
+-- BOLIM 5 — leaderboard view (ixtiyoriy, xato bo'lsa to'xtatmaydi)
+-- ########################################################################
+-- Reyting `profiles` va `quiz_results` dan agregatlanadi; klient yozadigan
+-- qiymatga tayanmaydi. Adminlar chiqariladi.
+--
+-- Eslatma: `profiles` da `score` / `streak` / `role` USTUNLARI yo'q.
+--   score  = quiz_results dan SUM()
+--   streak = profiles.stats ->> 'currentStreak'
+--
+-- Bu qism DO blokida: currentStrace kabi nosoz qiymat yuzaga kelsa ham
+-- 1-4-bo'limlardagi xavfsizlik o'zgarishlari saqlanib qoladi.
 
 DROP VIEW IF EXISTS public.leaderboard CASCADE;
-CREATE VIEW public.leaderboard WITH (security_invoker = true) AS
+
+DO $$
+BEGIN
+  EXECUTE $view$
+    CREATE VIEW public.leaderboard WITH (security_invoker = true) AS
+    SELECT
+      p.id            AS user_id,
+      p.username      AS username,
+      p.full_name     AS full_name,
+      p.avatar        AS avatar,
+      p.avatar_image  AS avatar_image,
+      COALESCE(s.score, 0) AS score,
+      CASE
+        WHEN COALESCE(p.stats->>'currentStreak', '') ~ '^-?[0-9]+$'
+          THEN (p.stats->>'currentStreak')::bigint
+        ELSE 0
+      END AS streak,
+      COALESCE(s.tests, 0) AS tests_completed
+    FROM public.profiles p
+    LEFT JOIN (
+      SELECT qr.user_id,
+             SUM(COALESCE(qr.score, 0))::bigint AS score,
+             COUNT(*)::bigint                   AS tests
+      FROM public.quiz_results qr
+      WHERE qr.user_id IS NOT NULL
+      GROUP BY qr.user_id
+    ) s ON s.user_id = p.id
+    WHERE COALESCE(p.is_admin, false) = false
+  $view$;
+  RAISE NOTICE 'leaderboard view yaratildi';
+EXCEPTION WHEN others THEN
+  RAISE WARNING 'leaderboard view yaratilmadi: %', SQLERRM;
+END $$;
+
+
+-- ########################################################################
+-- BOLIM 6 — Indekslar
+-- ########################################################################
+CREATE INDEX IF NOT EXISTS idx_questions_book        ON public.questions("bookId");
+CREATE INDEX IF NOT EXISTS idx_profiles_username     ON public.profiles(username);
+CREATE INDEX IF NOT EXISTS idx_profiles_stats_score  ON public.profiles (((stats->>'totalScore')::bigint));
+CREATE INDEX IF NOT EXISTS idx_comments_book        ON public.comments("bookId");
+
+
+-- ########################################################################
+-- BOLIM 7 — YAKUNIY TEKSHIRUV
+-- ########################################################################
+-- 7.1 RLS holati (rls_enabled va rls_forced = true bo'lishi kerak):
 SELECT
-  p.id            AS user_id,
-  p.username      AS username,
-  p.full_name     AS full_name,
-  p.avatar        AS avatar,
-  p.avatar_image  AS avatar_image,
-  COALESCE(s.score, 0)      AS score,
-  COALESCE(s.streak, 0)     AS streak,
-  COALESCE(s.tests, 0)      AS tests_completed
-FROM public.profiles p
-LEFT JOIN (
-  SELECT
-    user_id,
-    SUM(COALESCE(score, 0))::bigint AS score,
-    COUNT(*)::bigint               AS tests
-  FROM public.quiz_results
-  GROUP BY user_id
-) s ON s.user_id = p.id
-WHERE COALESCE(p.is_admin, false) = false
-  AND COALESCE(p.role, 'user') <> 'admin';
-
-
--- ------------------------------------------------------------------------
--- 6. Keshlash / indekslar
--- ------------------------------------------------------------------------
-ALTER TABLE public.questions ALTER COLUMN "explanation" SET DEFAULT '';
-CREATE INDEX IF NOT EXISTS idx_questions_book ON public.questions("bookId");
-CREATE INDEX IF NOT EXISTS idx_profiles_username ON public.profiles(username);
-CREATE INDEX IF NOT EXISTS idx_comments_book ON public.comments("bookId");
-
-
--- ------------------------------------------------------------------------
--- 7. YAKUNIY TEKSHIRUV — natijani ko'rib chiqing
--- ------------------------------------------------------------------------
--- 7.1 Barcha jadvallarda RLS yoqilgan bo'lishi kerak:
-SELECT
-  c.relname AS table_name,
-  c.relrowsecurity AS rls_enabled,
-  c.relforcerowsecurity AS rls_forced
+  c.relname              AS table_name,
+  c.relrowsecurity       AS rls_enabled,
+  c.relforcerowsecurity  AS rls_forced
 FROM pg_class c
 JOIN pg_namespace n ON n.oid = c.relnamespace
 WHERE n.nspname = 'public'
   AND c.relkind = 'r'
-  AND c.relname IN ('profiles','books','questions','results','quiz_results',
-                    'comments','characters','question_keys')
+  AND c.relname IN ('profiles','books','questions','quiz_results','comments',
+                    'characters','question_keys')
 ORDER BY c.relname;
 
--- 7.2 quiz_results ga anonymous yozish UCHUN policy qolmaganini tasdiqlash:
-SELECT policyname, cmd, qual, with_check
+-- 7.2 quiz_results siyosatlari (faqat 4 ta bo'lishi kerak):
+SELECT policyname, cmd, roles, qual, with_check
 FROM pg_policies
 WHERE schemaname = 'public' AND tablename = 'quiz_results'
-ORDER BY policyname, cmd;
+ORDER BY policyname;
 
--- 7.3 question_keys ga hech qanday policy yo'qligini tasdiqlash
---     (bo'sh natija = faqat service_role o'qiy oladi):
+-- 7.3 question_keys ga policy YO'Q bo'lishi kerak.
+--     Natija 0 bo'lmasa, faqat service_role o'qiy oladi:
 SELECT count(*) AS question_keys_policy_count
 FROM pg_policies
 WHERE schemaname = 'public' AND tablename = 'question_keys';
 
--- 7.4 Reyting ma'lumotlari (bo'sh bo'lishi normal):
-SELECT * FROM public.leaderboard LIMIT 10;
+-- 7.4 profiles_update_own da WITH CHECK borligi:
+SELECT policyname, cmd, qual, with_check
+FROM pg_policies
+WHERE schemaname = 'public' AND tablename = 'profiles'
+  AND policyname = 'profiles_update_own';
+
+-- 7.4b is_admin ustuni authenticated uchun yopilgan bo'lishi kerak
+--      (authenticated/anon qatorlari bo'lmasa = rol ko'tarib bo'lmaydi)
+SELECT grantee, privilege_type, column_name
+FROM information_schema.column_privileges
+WHERE table_schema='public' AND table_name='profiles'
+  AND column_name='is_admin' AND privilege_type='UPDATE'
+ORDER BY grantee;
+
+-- 7.4c natija: authenticated_can_update_is_admin = false
+SELECT has_column_privilege('authenticated', 'public.profiles', 'is_admin', 'UPDATE')
+         AS authenticated_can_update_is_admin,
+       has_column_privilege('anon', 'public.profiles', 'is_admin', 'UPDATE')
+         AS anon_can_update_is_admin;
+
+-- 7.5 Ko'chirilgan javob kalitlari soni (questions qatorlariga teng bo'lishi
+--     kerak):
+SELECT
+  (SELECT count(*) FROM public.question_keys) AS keys_copied,
+  (SELECT count(*) FROM public.questions)      AS questions_total;
+
+-- 7.6 Reyting (bo'sh bo'lishi normal):
+SELECT * FROM public.leaderboard ORDER BY score DESC LIMIT 10;
