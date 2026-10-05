@@ -242,10 +242,15 @@ function _initFocusReconciliation() {
             broadcastSyncEvent('PROFILE_UPDATE', updated);
           }
         } else if (freshProfile === null && !error) {
-          // Foydalanuvchi hisobi serverdan o'chirilgan bo'lsa, eskirgan sessiyani toza tozalash
-          console.info('[sync] Foydalanuvchi hisobi serverda mavjud emas, sessiya yangilandi.');
-          localStorage.removeItem('kitobchi_user');
-          window.dispatchEvent(new CustomEvent('kitobchi_auth_sync', { detail: { user: null } }));
+          // Faqat Supabase Auth da ham sessiya haqiqatan yo'q bo'lsa sessiyani tozalash
+          try {
+            const { data: sessionData } = await supabase.auth.getSession();
+            if (!sessionData?.session) {
+              console.info('[sync] Foydalanuvchi hisobi serverda mavjud emas, sessiya yangilandi.');
+              localStorage.removeItem('kitobchi_user');
+              window.dispatchEvent(new CustomEvent('kitobchi_auth_sync', { detail: { user: null } }));
+            }
+          } catch {}
         }
       } catch {}
     }

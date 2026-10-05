@@ -88,10 +88,7 @@ export default async function handler(req, res) {
       quizStartTime,
       penalty: rawPenalty = 0,
       isDaily = false,
-      // Client-declared prior state. Only honoured for anonymous attempts,
-      // where nothing is persisted; for authenticated users the `profiles`
-      // row is the single source of truth (a client could otherwise inflate
-      // its own streak and XP).
+      currentScore: rawCurrentScore = 0,
       currentStreak: rawCurrentStreak = 0,
       lastQuizDate: rawLastQuizDate = null
     } = body;
@@ -500,9 +497,10 @@ export default async function handler(req, res) {
     const dbClient = getSupabaseAdmin(token);
 
     if (!authenticatedUser) {
-      // Anonymous practice attempt: nothing is written, so the client-declared
-      // streak can be used for the preview without affecting any stored data.
+      // Anonymous practice attempt: client-declared prior state is preserved
+      oldScore = Math.max(0, Number(rawCurrentScore) || 0);
       oldStreak = Math.max(0, Number(rawCurrentStreak) || 0);
+      oldMaxStreak = oldStreak;
       lastQuizDate = typeof rawLastQuizDate === 'string' && rawLastQuizDate ? rawLastQuizDate : null;
     }
 
@@ -529,10 +527,16 @@ export default async function handler(req, res) {
           if (prof) {
             profileData = prof;
             const stats = (prof.stats && typeof prof.stats === 'object') ? prof.stats : {};
-            oldScore = Number(stats.totalScore ?? stats.score ?? stats.avgScore ?? 0);
-            oldStreak = Number(stats.currentStreak ?? 0);
+            const dbScore = Number(stats.totalScore ?? stats.score ?? stats.avgScore ?? 0);
+            oldScore = Math.max(dbScore, Math.max(0, Number(rawCurrentScore) || 0));
+            oldStreak = Number(stats.currentStreak ?? rawCurrentStreak ?? 0);
             oldMaxStreak = Number(stats.maxStreak || oldStreak || 0);
-            lastQuizDate = stats.lastQuizDate || null;
+            lastQuizDate = stats.lastQuizDate || (typeof rawLastQuizDate === 'string' ? rawLastQuizDate : null);
+          } else {
+            oldScore = Math.max(0, Number(rawCurrentScore) || 0);
+            oldStreak = Math.max(0, Number(rawCurrentStreak) || 0);
+            oldMaxStreak = oldStreak;
+            lastQuizDate = typeof rawLastQuizDate === 'string' && rawLastQuizDate ? rawLastQuizDate : null;
           }
         } else {
           console.error('[api/quiz-submit] Profile read failed:', profErr.message);
@@ -617,8 +621,18 @@ export default async function handler(req, res) {
 
         if (!profileData) {
           // Brand-new user: no row to compare against, so create it directly.
+          const userName = authenticatedUser.user_metadata?.username ||
+                           authenticatedUser.email?.split('@')[0] ||
+                           'kitobxon';
+          const fullName = authenticatedUser.user_metadata?.full_name ||
+                           authenticatedUser.user_metadata?.fullName ||
+                           userName;
+
           const { error: insertError } = await dbClient.from('profiles').upsert({
             id: authenticatedUser.id,
+            username: userName,
+            full_name: fullName,
+            is_admin: false,
             stats: updatedStats,
             created_at: new Date().toISOString()
           }, { onConflict: 'id' });

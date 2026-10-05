@@ -17,6 +17,7 @@ import {
 } from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
 import { broadcastSyncEvent } from './sync.js';
+import { getUserLevel } from './progression.js';
 import { books as localBooks } from './books-catalog.js';
 import { characters as staticCharacters } from './characters.js';
 import { today, yesterday, formatDate, toLocalDateString, daysBetween, getBookCoverUrl, sanitizeQueryInput, sanitizeIdentifier } from './utils.js';
@@ -1129,17 +1130,34 @@ export async function submitQuizAnswers(payload) {
         if (data && data.success) {
           // Mahalliy kesh va profil ma'lumotlarini darhol yangilash
           const activeUser = user || getCurrentUser();
-          if (activeUser && data.newScore !== undefined) {
+          const earnedXP = Number(data.xpEarned || 0);
+
+          let finalScore = Number(data.newScore !== undefined ? data.newScore : earnedXP);
+
+          if (activeUser) {
             try {
+              const previousScore = Number(activeUser.score || 0);
+              // Authoritative accumulation:
+              // Never allow a newScore that is smaller than previousScore + earnedXP to regress the user
+              finalScore = (data.authenticated && data.persisted && data.newScore !== undefined)
+                ? Math.max(Number(data.newScore), previousScore + earnedXP)
+                : (data.newScore !== undefined && Number(data.newScore) > previousScore)
+                  ? Number(data.newScore)
+                  : (previousScore + earnedXP);
+
+              const accumulatedStreak = data.newStreak !== undefined
+                ? data.newStreak
+                : (activeUser.streak || 1);
+
               const updatedUser = {
                 ...activeUser,
-                score: data.newScore,
-                streak: data.newStreak !== undefined ? data.newStreak : (activeUser.streak || 1),
+                score: finalScore,
+                streak: accumulatedStreak,
                 stats: {
                   ...(activeUser.stats || {}),
-                  totalScore: data.newScore,
-                  score: data.newScore,
-                  currentStreak: data.newStreak !== undefined ? data.newStreak : (activeUser.streak || 1),
+                  totalScore: finalScore,
+                  score: finalScore,
+                  currentStreak: accumulatedStreak,
                   lastQuizDate: data.date || today()
                 }
               };
@@ -1153,6 +1171,26 @@ export async function submitQuizAnswers(payload) {
                 broadcastSyncEvent('PROFILE_UPDATE', updatedUser);
               } catch {}
             } catch {}
+          } else {
+            // Guest progression:
+            try {
+              const prevGuestScore = Number(localStorage.getItem('kitobchi_guest_score')) || 0;
+              finalScore = (data.newScore !== undefined && Number(data.newScore) > prevGuestScore)
+                ? Number(data.newScore)
+                : (prevGuestScore + earnedXP);
+              localStorage.setItem('kitobchi_guest_score', String(finalScore));
+              localStorage.setItem('kitobchi_guest_streak', String(data.newStreak || 1));
+              localStorage.setItem('kitobchi_guest_last_quiz_date', today());
+            } catch {}
+          }
+
+          // Ensure result data returned and cached in sessionStorage has finalScore and accurate level
+          const calculatedLevel = getUserLevel(finalScore);
+          data.newScore = finalScore;
+          data.userLevel = calculatedLevel;
+          data.newLevel = calculatedLevel;
+          if (data.oldLevel) {
+            data.isLevelUp = calculatedLevel.level > data.oldLevel.level;
           }
 
           // Keshni tozalash

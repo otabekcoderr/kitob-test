@@ -44,18 +44,25 @@ export async function render(container, { params, user: initialUser }) {
 
   const xpEarned          = toSafeInt(result.xpEarned, 0);
   const xpBreakdown       = result.xpBreakdown ?? { base: 15, accuracyBonus: 0, speedBonus: 0, dailyBonus: 0, streakBonus: 0 };
-  const currentTotalXP    = (result.newScore !== undefined && result.newScore !== null)
-    ? toSafeInt(result.newScore, 0)
-    : (toSafeInt(user?.score, 0) + xpEarned);
 
-  const userLevelRaw      = result.newLevel || getUserLevel(currentTotalXP);
+  const guestScore = (typeof localStorage !== 'undefined' && !user)
+    ? (Number(localStorage.getItem('kitobchi_guest_score')) || 0)
+    : 0;
+  const userScore = user ? toSafeInt(user.score, 0) : guestScore;
+
+  // Aniq hisoblangan jami XP (hech qachon avvalgi ball + olingan XP dan kam bo'lmaydi)
+  const currentTotalXP = (result.newScore !== undefined && result.newScore !== null && toSafeInt(result.newScore, 0) >= userScore)
+    ? toSafeInt(result.newScore, 0)
+    : (userScore + xpEarned);
+
+  const userLevelRaw      = getUserLevel(currentTotalXP);
   // progressPct lands inside an inline `width:` value, so it is clamped to a
   // plain percentage before interpolation.
   const userLevel         = {
     ...userLevelRaw,
     progressPct: Math.max(0, Math.min(100, Number(userLevelRaw?.progressPct) || 0)),
   };
-  const isLevelUp         = Boolean(result.isLevelUp);
+  const isLevelUp         = Boolean(result.isLevelUp) || (userLevel.level > (result.oldLevel?.level || (userScore > xpEarned ? getUserLevel(userScore - xpEarned).level : 1)));
   const missionsCompleted = Array.isArray(result.missionsCompleted) ? result.missionsCompleted : [];
 
   // Kitoblar ro'yxatini yuklash (keyingi qulfdan chiqadigan asarni aniqlash uchun)

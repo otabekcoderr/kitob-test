@@ -249,7 +249,14 @@ async function _finishQuiz(forceZero = false) {
   _disableAntiCheat();
 
   const totalQuestions = state.questions.length;
-  const penaltyRate = forceZero ? 100 : state.penaltyTotal;
+  const curUser = getCurrentUser();
+  const guestScore = typeof localStorage !== 'undefined' ? (Number(localStorage.getItem('kitobchi_guest_score')) || 0) : 0;
+  const guestStreak = typeof localStorage !== 'undefined' ? (Number(localStorage.getItem('kitobchi_guest_streak')) || 0) : 0;
+  const guestDate = typeof localStorage !== 'undefined' ? localStorage.getItem('kitobchi_guest_last_quiz_date') : null;
+
+  const currentScore = curUser ? Number(curUser.score || 0) : guestScore;
+  const currentStreak = curUser ? Number(curUser.streak || 0) : guestStreak;
+  const lastQuizDate = curUser?.lastQuizDate || guestDate || null;
 
   // 1. Javoblarni serverless backendga yuborish (/api/quiz-submit)
   const payload = {
@@ -263,7 +270,10 @@ async function _finishQuiz(forceZero = false) {
     // elapsed time itself instead of trusting the browser clock.
     sessionToken: state.sessionToken,
     penalty: penaltyRate,
-    isDaily: state.isDaily
+    isDaily: state.isDaily,
+    currentScore,
+    currentStreak,
+    lastQuizDate
   };
 
   let result = null;
