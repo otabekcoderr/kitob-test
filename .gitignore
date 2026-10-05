@@ -1,15 +1,48 @@
+# Scratch & Development Profiles
 scratch/
+chrome_*
+puppeteer_*
+test-results/
+
+# Environment & Secrets (Security Critical)
+.env
+.env.*
+!.env.example
+
+# IDE & Editor
 .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Agent Metadata
 .agents/
+
+# Logs & Temporary files
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tmp
+*.bak
+
+# OS Artifacts
 .DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# Root'da data.js yo'q — haqiqiy fayl js/data.js va u allaqachon kuzatiladi
+# Legacy root folders (untracked)
 /data.js
-
-# pages/ — js/pages/ ning eski nusxalari, hech qaerda import qilinmaydi.
-# .vercelignore ham uni bloklaydi.
 /pages/
 
+# Deployment & Dependencies
 .vercel
 node_modules/
+
+# Test Coverage
+coverage/
+.nyc_output/

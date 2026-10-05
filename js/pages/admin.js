@@ -17,8 +17,10 @@ import { escapeHtml,
          showNotification,
          setButtonLoading,
          truncate,
-         svgIcon }                 from '../utils.js';
-import * as localData            from '../data.js';
+         svgIcon,
+         isImageUrl }                 from '../utils.js';
+import { books as localBooks }       from '../books-catalog.js';
+import { characters as localCharacters } from '../characters.js';
 import { broadcastSyncEvent }    from '../sync.js';
 
 let _cleanup     = [];
@@ -311,7 +313,7 @@ async function _renderBooks(panel) {
   try {
     books = await getBooks(true);
   } catch {
-    books = localData.books || [];
+    books = localBooks || [];
   }
 
   panel.innerHTML = `
@@ -405,16 +407,16 @@ function _bookFormHTML(book = {}) {
         </div>
         <div class="input-group">
           <label for="bf-year">Yil</label>
-          <input id="bf-year" class="input" type="number" min="1000" max="2100" value="${book.year||''}">
+          <input id="bf-year" class="input" type="number" min="500" max="${new Date().getFullYear() + 5}" value="${book.year||''}">
         </div>
         <div class="input-group">
           <label for="bf-pages">Betlar soni</label>
-          <input id="bf-pages" class="input" type="number" min="1" value="${book.pages||''}">
+          <input id="bf-pages" class="input" type="number" min="1" max="10000" value="${book.pages||''}">
         </div>
         <div class="input-group" style="grid-column:1/-1">
           <label for="bf-cover">Muqova rasmi (URL yoki qurilmadan rasm)</label>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-            <input id="bf-cover" class="input" type="text" placeholder="https://... yoki fayl tanlang" value="${escapeHtml(cover)}" style="flex:1;min-width:200px">
+            <input id="bf-cover" class="input" type="text" maxlength="2048" placeholder="https://... yoki fayl tanlang" value="${escapeHtml(cover)}" style="flex:1;min-width:200px">
             <label class="btn btn-outline btn-sm" style="margin:0;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px">
               Rasm yuklash
               <input id="bf-cover-file" type="file" accept="image/*" style="display:none">
@@ -671,18 +673,41 @@ function _bindBookForm() {
     const saveBtn = document.getElementById('bf-save');
     setButtonLoading(saveBtn, true);
 
-    const id    = document.getElementById('bf-id')?.value;
+    const id       = document.getElementById('bf-id')?.value;
+    const yearVal  = document.getElementById('bf-year')?.value.trim();
+    const pagesVal = document.getElementById('bf-pages')?.value.trim();
     const data  = {
-      title:       document.getElementById('bf-title')?.value.trim(),
-      author:      document.getElementById('bf-author')?.value.trim(),
-      category:    document.getElementById('bf-category')?.value.trim(),
-      year:        parseInt(document.getElementById('bf-year')?.value) || null,
-      pages:       parseInt(document.getElementById('bf-pages')?.value) || null,
-      cover_url:   document.getElementById('bf-cover')?.value.trim(),
-      description: document.getElementById('bf-desc')?.value.trim(),
+      title:       document.getElementById('bf-title')?.value.trim() || '',
+      author:      document.getElementById('bf-author')?.value.trim() || '',
+      category:    document.getElementById('bf-category')?.value.trim() || '',
+      year:        yearVal !== '' ? parseInt(yearVal, 10) : null,
+      pages:       pagesVal !== '' ? parseInt(pagesVal, 10) : null,
+      cover_url:   document.getElementById('bf-cover')?.value.trim() || '',
+      description: document.getElementById('bf-desc')?.value.trim() || '',
     };
 
     try {
+      if (!data.title || data.title.length < 2) {
+        throw new Error("Kitob sarlavhasi kamida 2 ta belgidan iborat bo'lishi kerak");
+      }
+      if (!data.author || data.author.length < 2) {
+        throw new Error("Muallif ismi kamida 2 ta belgidan iborat bo'lishi kerak");
+      }
+      if (data.year !== null) {
+        const curYear = new Date().getFullYear();
+        if (isNaN(data.year) || data.year < 500 || data.year > curYear + 5) {
+          throw new Error(`Nashr yili 500 va ${curYear + 5} oralig'ida bo'lishi kerak`);
+        }
+      }
+      if (data.pages !== null) {
+        if (isNaN(data.pages) || data.pages < 1 || data.pages > 10000) {
+          throw new Error("Sahifalar soni 1 va 10 000 oralig'ida bo'lishi kerak");
+        }
+      }
+      if (data.cover_url && !isImageUrl(data.cover_url)) {
+        throw new Error("Muqova rasmi to'g'ri URL (https://...) yoki yuklangan rasm bo'lishi kerak");
+      }
+
       const res = await saveBook(data, id || null);
       if (!res.success) throw new Error(res.error || "Kitob saqlanmadi");
 
@@ -718,7 +743,7 @@ async function _renderQuestions(panel) {
   try {
     books = await getBooks();
   } catch {
-    books = localData.books || [];
+    books = localBooks || [];
   }
 
   let qs = [];
@@ -869,9 +894,9 @@ function _questionFormHTML(q = {}, bookOptions = '') {
       </div>
       ${opts.map((o, i) => `
         <div class="input-group">
-          <label for="qf-opt-${i}">Variant ${String.fromCharCode(65+i)} ${i===0?'*':''}</label>
+          <label for="qf-opt-${i}">Variant ${String.fromCharCode(65+i)} ${i < 2 ? '*' : ''}</label>
           <input id="qf-opt-${i}" class="input" type="text" maxlength="200"
-                 value="${escapeHtml(o)}" ${i===0?'required':''}>
+                 value="${escapeHtml(o)}" ${i < 2 ? 'required' : ''}>
         </div>
       `).join('')}
       <div class="input-group">
@@ -930,18 +955,43 @@ function _bindQuestionForm(existingId) {
     const saveBtn = document.getElementById('qf-save');
     setButtonLoading(saveBtn, true);
 
+    const bookVal = document.getElementById('qf-book')?.value.trim();
     const opts = [0,1,2,3]
       .map(i => document.getElementById(`qf-opt-${i}`)?.value.trim())
       .filter(Boolean);
 
+    const rawAnswer = document.getElementById('qf-answer')?.value.trim() || '';
+
     const data = {
-      book_id:        parseInt(document.getElementById('qf-book')?.value, 10) || document.getElementById('qf-book')?.value,
-      question:       document.getElementById('qf-text')?.value.trim(),
+      book_id:        /^\d+$/.test(bookVal) ? parseInt(bookVal, 10) : (bookVal || null),
+      question:       document.getElementById('qf-text')?.value.trim() || '',
       options:        opts,
-      correct_answer: document.getElementById('qf-answer')?.value.trim(),
+      correct_answer: rawAnswer,
     };
 
     try {
+      if (!data.book_id) {
+        throw new Error("Savol biriktiriladigan kitobni tanlang");
+      }
+      if (!data.question || data.question.length < 3) {
+        throw new Error("Savol matnini to'liq kiriting (kamida 3 belgi)");
+      }
+      if (opts.length < 2) {
+        throw new Error("Savol uchun kamida 2 ta variant (A va B) kiritilishi shart");
+      }
+      const uniqueOpts = new Set(opts.map(o => o.toLowerCase()));
+      if (uniqueOpts.size !== opts.length) {
+        throw new Error("Variantlar bir-birini takrorlamasligi kerak");
+      }
+      if (!data.correct_answer) {
+        throw new Error("To'g'ri javobni kiriting");
+      }
+      const matched = opts.find(o => o.trim().toLowerCase() === data.correct_answer.toLowerCase());
+      if (!matched) {
+        throw new Error("To'g'ri javob kiritilgan variantlardan biriga to'liq mos kelishi shart");
+      }
+      data.correct_answer = matched;
+
       const res = await saveQuestion(data, existingId || null);
       if (!res.success) throw new Error(res.error || "Savol saqlanmadi");
 
@@ -1350,14 +1400,14 @@ async function _renderCharacters(panel) {
   try {
     chars = await getCharacters();
   } catch {
-    chars = localData.characters || [];
+    chars = localCharacters || [];
   }
 
   let books = [];
   try {
     books = await getBooks();
   } catch {
-    books = localData.books || [];
+    books = localBooks || [];
   }
 
   const bookOptions = books.map(b =>
@@ -1562,14 +1612,21 @@ function _bindCharForm(existingId, chars = []) {
     }
 
     const payload = {
-      name:        document.getElementById('chf-name')?.value.trim(),
-      book_id:     /^\d+$/.test(bookVal) ? parseInt(bookVal, 10) : bookVal,
+      name:        document.getElementById('chf-name')?.value.trim() || '',
+      book_id:     /^\d+$/.test(bookVal) ? parseInt(bookVal, 10) : (bookVal || null),
       avatar:      document.getElementById('chf-avatar')?.value.trim() || '🎭',
       avatarImage: avatarImage,
-      description: document.getElementById('chf-desc')?.value.trim(),
+      description: document.getElementById('chf-desc')?.value.trim() || '',
     };
 
     try {
+      if (!payload.name || payload.name.length < 2) {
+        throw new Error("Personaj ismini to'liq kiriting (kamida 2 ta belgi)");
+      }
+      if (!payload.book_id) {
+        throw new Error("Tegishli kitobni tanlang");
+      }
+
       await saveCharacter(payload, existingId);
       showNotification(existingId ? 'Personaj yangilandi.' : "Personaj qo'shildi.", 'success');
       await _loadTab('characters');

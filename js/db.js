@@ -2,10 +2,10 @@
 // db.js — Ma'lumotlar bazasi bilan ishlash
 // ============================================================
 // Barcha Supabase so'rovlari shu yerda.
-// Tartib: avval Supabase, xato bo'lsa data.js fallback.
+// Tartib: avval Supabase, xato bo'lsa lokal metadata fallback.
 // Merge EMAS — biri ishlasa ikkinchisi chaqirilmaydi.
 //
-// Import qilinadi: supabase-client.js, auth.js, data.js
+// Import qilinadi: supabase-client.js, auth.js, books-catalog.js, characters.js
 // Bu fayldan import qilinadi: barcha sahifa skriptlari
 // ============================================================
 
@@ -16,7 +16,8 @@ import {
   markSupabaseFailure as _recordSupabaseFailure
 } from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
-import * as localData    from './data.js';
+import { books as localBooks } from './books-catalog.js';
+import { characters as staticCharacters } from './characters.js';
 import { today, yesterday, formatDate, toLocalDateString, daysBetween, getBookCoverUrl, sanitizeQueryInput, sanitizeIdentifier } from './utils.js';
 
 // ============================================================
@@ -122,7 +123,7 @@ async function runQuery(query, ms = TIMEOUT) {
 }
 
 // ============================================================
-// KITOBLAR (HYBRID PERSISTENCE: SUPABASE + LOCALSTORAGE + DATA.JS)
+// KITOBLAR (HYBRID PERSISTENCE: SUPABASE + LOCALSTORAGE + BOOKS-CATALOG.JS)
 // ============================================================
 
 function _getLocalCustomBooks() {
@@ -228,8 +229,8 @@ function _initLocalBooks() {
     }
   } catch {}
 
-  // 1. data.js dagi barcha tayyor kitoblar
-  (localData.books ?? []).forEach(b => {
+  // 1. books-catalog.js dagi barcha tayyor kitoblar
+  (localBooks ?? []).forEach(b => {
     if (!b || (!b.id && !b.title)) return;
     const idStr = String(b.id || _slugify(b.title));
     if (!deletedIds.includes(idStr)) {
@@ -609,45 +610,16 @@ function _getLocalQuestionsForBook(bookId) {
   const targetId = String(bookId);
   const targetSlug = _slugify(bookId);
 
-  let localList = [];
-  if (Array.isArray(localData.questions)) {
-    localList = localData.questions;
-  } else if (typeof localData.questions === 'object' && localData.questions !== null) {
-    if (Array.isArray(localData.questions[targetId])) {
-      localList = localData.questions[targetId];
-    } else if (Array.isArray(localData.questions[bookId])) {
-      localList = localData.questions[bookId];
-    } else {
-      localList = Object.values(localData.questions).flat();
-    }
-  }
-
-  const staticMatched = localList.filter(q => {
-    if (!q) return false;
-    const qBookId = String(q.bookId || q.book_id || '');
-    if (qBookId === String(bookId) || qBookId === targetId) return true;
-    if (_slugify(qBookId) === targetId || _slugify(qBookId) === targetSlug) return true;
-    return false;
-  }).map(_formatQuestion).filter(Boolean);
-
   const customQs = _getLocalCustomQuestions();
   const deletedQIds = _getDeletedQuestionIds().map(String);
 
   const qMap = new Map();
-  staticMatched.forEach(q => {
-    const qId = String(q.id);
-    if (!deletedQIds.includes(qId)) {
-      qMap.set(qId, { ...q });
-    }
-  });
-
   customQs.forEach(cq => {
     const qBookId = String(cq.book_id || cq.bookId || '');
     if (qBookId === String(bookId) || qBookId === targetId || _slugify(qBookId) === targetSlug) {
       const qId = String(cq.id);
       if (!deletedQIds.includes(qId)) {
-        const existing = qMap.get(qId) || {};
-        qMap.set(qId, { ...existing, ..._formatQuestion(cq) });
+        qMap.set(qId, _formatQuestion(cq));
       }
     }
   });
@@ -694,7 +666,7 @@ async function _syncQuestionsInBackground(bookId, localQs = []) {
 
 /**
  * Berilgan kitob uchun savollarni qaytaradi (Local-First: 0ms instant render).
- * data.js dagi 600 ta savol darhol ochiladi, tarmoq tufayli sahifa qotmaydi.
+ * Custom savollar darhol ochiladi, tarmoq tufayli sahifa qotmaydi.
  *
  * @param {string|number} bookId
  * @param {boolean} [forceRefresh=false]
@@ -714,7 +686,7 @@ export async function getQuestions(bookId, forceRefresh = false) {
     return _questionsCache.get(targetSlug);
   }
 
-  // 2. Lokal savollarni (data.js va localStorage) zudlik bilan olamiz (0ms)
+  // 2. Lokal savollarni (localStorage) zudlik bilan olamiz (0ms)
   const localQs = _getLocalQuestionsForBook(bookId);
 
   if (localQs.length > 0) {
@@ -2081,11 +2053,11 @@ export async function getStreakStatus(user, userResults = []) {
 // ============================================================
 
 /**
- * Barcha personajlarni qaytaradi (Supabase + localData + localStorage).
+ * Barcha personajlarni qaytaradi (Supabase + characters.js + localStorage).
  * @returns {Promise<object[]>}
  */
 function _initLocalCharacters() {
-  const staticChars = (localData.characters || []).map(c => ({
+  const staticChars = (staticCharacters || []).map(c => ({
     id: c.id,
     name: c.name,
     book_id: c.bookId ?? c.book_id ?? '',
@@ -2106,7 +2078,7 @@ function _initLocalCharacters() {
   staticChars.forEach(c => charMap.set(String(c.id), c));
   customChars.forEach(c => charMap.set(String(c.id), { ...(charMap.get(String(c.id)) || {}), ...c }));
 
-  const allBooks = localData.books || [];
+  const allBooks = localBooks || [];
   return Array.from(charMap.values()).map(c => {
     if (!c.bookTitle && c.book_id) {
       const b = allBooks.find(x => String(x.id) === String(c.book_id));

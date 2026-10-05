@@ -71,10 +71,11 @@ export async function render(container, { params, user }) {
 
   function updateLeaderboardView(period = currentPeriod) {
     currentPeriod = period;
+    const scoreMap = getCachedPeriodMap(user);
     const eligibleLeaders = (allLeaders || []).filter(isEligibleLeaderboardUser);
     const processed = eligibleLeaders.map(u => ({
       ...u,
-      displayScore: _calcPeriodScore(u, period, user),
+      displayScore: _calcPeriodScoreFast(u, period, user, scoreMap),
     })).sort((a, b) => {
       const sDiff = (b.displayScore || 0) - (a.displayScore || 0);
       if (sDiff !== 0) return sDiff;
@@ -161,6 +162,7 @@ export async function render(container, { params, user }) {
 
     // Jonli yangilanishni tinglash
     const onLeaderboardUpdated = async (e) => {
+      _cachedPeriodScoreMap = null;
       let fresh = Array.isArray(e.detail) ? e.detail : [];
       if (fresh.length === 0) {
         try {
@@ -187,31 +189,84 @@ export async function render(container, { params, user }) {
   }
 }
 
-// Vaqt oralig'i bo'yicha ballni hisoblash
-function _calcPeriodScore(u, period, currentUser) {
-  const isMe = currentUser && (u.id === currentUser.id || (u.username && u.username === currentUser.username));
-  if (isMe) {
-    try {
-      const uid = currentUser.id || 'guest';
-      const raw = localStorage.getItem('user_quiz_results_' + uid) || localStorage.getItem('user_quiz_results');
-      const results = raw ? JSON.parse(raw) : [];
-      const daysLimit = period === 'weekly' ? 7 : (period === 'monthly' ? 30 : null);
-      if (daysLimit) {
-        if (Array.isArray(results) && results.length > 0) {
-          const now = Date.now();
-          const cutoff = now - daysLimit * 24 * 60 * 60 * 1000;
-          const filtered = results.filter(r => {
-            const t = r.timestamp || (r.date ? new Date(r.date).getTime() : 0);
-            return t >= cutoff;
-          });
-          return filtered.reduce((acc, r) => acc + (r.score || 0), 0);
-        } else {
-          return 0;
-        }
+/**
+ * Test natijalarini bir martalik O(M) o'tish bilan foydalanuvchi bo'yicha indekslaydi.
+ * @param {Array} results - Test natijalari massivi
+ * @param {string} [defaultUid='guest'] - Foydalanuvchi id si topilmaganda zaxira id
+ * @returns {Map<string, { weekly: number, monthly: number, all: number }>}
+ */
+export function buildPeriodScoreMap(results, defaultUid = 'guest') {
+  const map = new Map();
+  if (!Array.isArray(results) || results.length === 0) return map;
+
+  const now = Date.now();
+  const weeklyCutoff = now - 7 * 24 * 60 * 60 * 1000;
+  const monthlyCutoff = now - 30 * 24 * 60 * 60 * 1000;
+
+  for (let i = 0; i < results.length; i++) {
+    const r = results[i];
+    if (!r) continue;
+    const uid = String(r.user_id || r.userId || defaultUid || 'guest');
+    const score = Number(r.score || 0);
+    const t = r.timestamp || (r.date ? new Date(r.date).getTime() : 0);
+
+    let entry = map.get(uid);
+    if (!entry) {
+      entry = { weekly: 0, monthly: 0, all: 0 };
+      map.set(uid, entry);
+    }
+
+    entry.all += score;
+    if (t >= monthlyCutoff) {
+      entry.monthly += score;
+      if (t >= weeklyCutoff) {
+        entry.weekly += score;
       }
-    } catch { /* ignore */ }
+    }
   }
 
+  return map;
+}
+
+// Sahifa darajasidagi kesh
+let _cachedPeriodScoreMap = null;
+
+export function getCachedPeriodMap(currentUser) {
+  if (_cachedPeriodScoreMap) return _cachedPeriodScoreMap;
+
+  let results = [];
+  const uid = currentUser?.id ? String(currentUser.id) : 'guest';
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('user_quiz_results_' + uid) || localStorage.getItem('user_quiz_results');
+      results = raw ? JSON.parse(raw) : [];
+    }
+  } catch {
+    results = [];
+  }
+
+  _cachedPeriodScoreMap = buildPeriodScoreMap(results, uid);
+  return _cachedPeriodScoreMap;
+}
+
+export function _calcPeriodScoreFast(u, period, currentUser, scoreMap) {
+  const uid = String(u.id || u.username || '');
+  const currentUid = String(currentUser?.id || currentUser?.username || '');
+  const isMe = Boolean(currentUid && (
+    (u.id && currentUser?.id && u.id === currentUser.id) ||
+    (u.username && currentUser?.username && u.username === currentUser.username) ||
+    (uid && uid === currentUid)
+  ));
+
+  // 1. Agar foydalanuvchi joriy foydalanuvchi bo'lsa: O(1)
+  if (isMe) {
+    const entry = scoreMap?.get(uid) || scoreMap?.get(String(currentUser?.id || '')) || scoreMap?.get('guest');
+    if (period === 'weekly') return entry ? entry.weekly : 0;
+    if (period === 'monthly') return entry ? entry.monthly : 0;
+    return Number(u.score != null ? u.score : (entry ? entry.all : 0));
+  }
+
+  // 2. Boshqa ishtirokchilar uchun standart o'lchov formulasi: O(1)
   const baseScore = Number(u.score || 0);
   const streak = Number(u.streak || 0);
   if (period === 'weekly') {
@@ -220,6 +275,12 @@ function _calcPeriodScore(u, period, currentUser) {
     return Math.max(0, Math.min(baseScore, Math.round(baseScore * 0.65 + streak * 60)));
   }
   return baseScore;
+}
+
+// Vaqt oralig'i bo'yicha ballni hisoblash (orqaga moslik uchun)
+export function _calcPeriodScore(u, period, currentUser) {
+  const scoreMap = getCachedPeriodMap(currentUser);
+  return _calcPeriodScoreFast(u, period, currentUser, scoreMap);
 }
 
 // ---- PODIUM (TOP-3) ----
@@ -352,6 +413,7 @@ function _renderTable(leaders, currentUser) {
 }
 
 export function cleanup() {
+  _cachedPeriodScoreMap = null;
   _cleanup.forEach(fn => fn());
   _cleanup = [];
 }

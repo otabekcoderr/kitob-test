@@ -19,28 +19,9 @@ function _coverPlaceholder(book) {
 
 export async function render(container, { params, user }) {
   _currentUser = user;
-
-  try {
-    _allBooks = await getBooks();
-  } catch {
-    _allBooks = [];
-  }
-
   const userLevel = getUserLevel(_currentUser?.score || 0);
-  const isStudentPreview = (typeof localStorage !== 'undefined' && localStorage.getItem('kitobchi_preview_mode') === 'student');
-  const isAdmin = _currentUser && (_currentUser.role === 'admin' && _currentUser.isAdmin === true);
 
-  let unlockedCount = 0;
-  let lockedCount = 0;
-  _allBooks.forEach(b => {
-    const u = isBookUnlocked(b, _currentUser);
-    if (u.isUnlocked && (!u.isAdminBypass || !isStudentPreview)) {
-      unlockedCount++;
-    } else {
-      lockedCount++;
-    }
-  });
-
+  // 1. ZUDLIK BILAN (0ms) SAHIFA SKELETONINI VA KARKASINI CHIQARISH
   container.innerHTML = `
     <div class="page" id="books-page">
       <div class="container">
@@ -51,7 +32,7 @@ export async function render(container, { params, user }) {
         </div>
 
         <!-- Geymifikatsiya va Daraja Holati Banneri -->
-        <div class="books-gamification-banner card animate-slide-up" style="margin-bottom:24px;padding:18px 22px;border:1.5px solid var(--ochre);background:var(--paper-alt);border-radius:var(--radius-lg);">
+        <div class="books-gamification-banner card animate-slide-up" id="books-hero-banner" style="margin-bottom:24px;padding:18px 22px;border:1.5px solid var(--ochre);background:var(--paper-alt);border-radius:var(--radius-lg);">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
             <!-- Chap tomon: Foydalanuvchi darajasi va progress -->
             <div style="display:flex;align-items:center;gap:14px;min-width:240px;flex:1;">
@@ -76,34 +57,24 @@ export async function render(container, { params, user }) {
               </div>
             </div>
 
-            <!-- O'ng tomon: Kitoblar qulf statistikasi va Admin rejimi tugmasi -->
-            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-              <div class="gamification-stat-pill" style="display:flex;gap:10px;background:var(--surface);padding:8px 14px;border-radius:var(--radius-md);border:1px solid var(--divider);font-size:0.8125rem;">
-                <span style="color:var(--success);font-weight:700;">${svgIcon('unlock', 13, 'margin-right:3px;')}${unlockedCount} ta ochiq</span>
-                <span style="color:var(--divider);">|</span>
-                <span style="color:var(--ochre);font-weight:700;">${svgIcon('lock', 13, 'margin-right:3px;')}${lockedCount} ta qulflangan</span>
-              </div>
-
-              ${isAdmin ? `
-                <button id="btn-toggle-preview-mode" class="btn btn-sm ${isStudentPreview ? 'btn-primary' : 'btn-outline'}" style="display:inline-flex;align-items:center;gap:6px;" title="O'quvchi va admin ko'rinishlari orasida almashish">
-                  ${isStudentPreview ? `${svgIcon('book', 13)} O'quvchi ko'rinishi (Faol)` : `${svgIcon('crown', 13)} Admin ko'rinishi`}
-                </button>
-              ` : ''}
+            <!-- O'ng tomon: Kitoblar qulf statistikasi (Boshlang'ich skelet pill) -->
+            <div id="books-stats-slot" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <div class="skeleton" style="width:160px;height:34px;border-radius:var(--radius-md);"></div>
             </div>
           </div>
         </div>
 
         <!-- Holat filtrlari (Ochiq / Qulflangan / Mastery) -->
         <div class="tabs books-status-tabs" id="status-tabs" role="tablist" aria-label="Holat bo'yicha" style="margin-bottom:16px;">
-          <button class="tab tab--active status-tab" role="tab" data-status="all" aria-selected="true">Barchasi (${_allBooks.length})</button>
-          <button class="tab status-tab" role="tab" data-status="unlocked" aria-selected="false">${svgIcon('unlock', 13, 'margin-right:3px;')}Ochiq (${unlockedCount})</button>
-          <button class="tab status-tab" role="tab" data-status="locked" aria-selected="false">${svgIcon('lock', 13, 'margin-right:3px;')}Qulflangan (${lockedCount})</button>
-          ${user ? `<button class="tab status-tab" role="tab" data-status="mastery" aria-selected="false">${svgIcon('trophy', 13, 'margin-right:3px;')}Mening Mastery'm</button>` : ''}
+          <button class="tab tab--active status-tab" role="tab" id="tab-all-books" data-status="all" aria-selected="true">Barchasi</button>
+          <button class="tab status-tab" role="tab" id="tab-unlocked-books" data-status="unlocked" aria-selected="false">${svgIcon('unlock', 13, 'margin-right:3px;')}Ochiq</button>
+          <button class="tab status-tab" role="tab" id="tab-locked-books" data-status="locked" aria-selected="false">${svgIcon('lock', 13, 'margin-right:3px;')}Qulflangan</button>
+          ${user ? `<button class="tab status-tab" role="tab" id="tab-mastery-books" data-status="mastery" aria-selected="false">${svgIcon('trophy', 13, 'margin-right:3px;')}Mening Mastery'm</button>` : ''}
         </div>
 
         <!-- Qidiruv va qiyinlik filtri -->
-        <div class="books-filter-bar" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;align-items:flex-end;">
-          <div style="flex:1;min-width:200px;">
+        <div class="books-filter-bar">
+          <div>
             <label class="label" for="books-search">Qidirish</label>
             <input
               id="books-search"
@@ -112,15 +83,13 @@ export async function render(container, { params, user }) {
               placeholder="Kitob nomi yoki muallif..."
               aria-label="Kitob qidirish"
               style="margin-top:6px;"
+              disabled
             >
           </div>
           <div>
             <label class="label" for="books-difficulty">Qiyinlik</label>
-            <select id="books-difficulty" class="input" style="margin-top:6px;min-width:140px;">
+            <select id="books-difficulty" class="input" style="margin-top:6px;min-width:140px;" disabled>
               <option value="">Barchasi</option>
-              <option value="Oson">Oson</option>
-              <option value="O'rta">O'rta</option>
-              <option value="Qiyin">Qiyin</option>
             </select>
           </div>
         </div>
@@ -135,10 +104,15 @@ export async function render(container, { params, user }) {
           <button class="tab cat-tab" role="tab" data-category="mumtoz"      aria-selected="false">Mumtoz meros</button>
         </div>
 
-        <!-- Natija soni -->
-        <p id="books-count" style="font-size:0.8125rem;color:var(--ink-muted);margin-bottom:20px;"></p>
+        <!-- Natija soni va yuklanish indikatori -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <p id="books-count" style="font-size:0.8125rem;color:var(--ink-muted);margin:0;">
+            <span class="spinner spinner--sm" style="display:inline-block;vertical-align:middle;margin-right:6px;"></span>
+            Kitoblar katalogi yuklanmoqda...
+          </p>
+        </div>
 
-        <!-- Kitoblar gridi -->
+        <!-- Kitoblar gridi (8 ta jonli pulsatsiyalanuvchi skelet) -->
         <div class="grid grid-auto" id="books-grid">
           ${_skeletonBookCards(8)}
         </div>
@@ -147,8 +121,95 @@ export async function render(container, { params, user }) {
     </div>
   `;
 
+  // 2. ASINXRON TARZDA KITOBLARNI YUKLASH VA PROGRESSIV GIDRATSIYA
+  await _fetchAndHydrateBooks(container, { params, user, userLevel });
+}
+
+async function _fetchAndHydrateBooks(container, { params, user, userLevel }) {
+  const grid = document.getElementById('books-grid');
+  const countEl = document.getElementById('books-count');
+
+  try {
+    _allBooks = await getBooks();
+  } catch (err) {
+    console.error('[books] Yuklashda xato:', err);
+    if (grid) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1;">
+          <div class="empty-state__icon">${svgIcon('alert', 44)}</div>
+          <p class="empty-state__title">Kitoblar katalogini yuklab bo'lmadi</p>
+          <p class="empty-state__desc">Internet aloqasini tekshiring yoki qayta urinib ko'ring.</p>
+          <button id="books-retry-btn" class="btn btn-primary" style="margin-top:14px;">Qayta yuklash</button>
+        </div>
+      `;
+      if (countEl) countEl.textContent = '';
+      document.getElementById('books-retry-btn')?.addEventListener('click', () => {
+        if (grid) grid.innerHTML = _skeletonBookCards(8);
+        if (countEl) countEl.innerHTML = `<span class="spinner spinner--sm" style="display:inline-block;vertical-align:middle;margin-right:6px;"></span> Qayta yuklanmoqda...`;
+        _fetchAndHydrateBooks(container, { params, user, userLevel });
+      });
+    }
+    return;
+  }
+
+  // Statistika hisoblash
+  const isStudentPreview = (typeof localStorage !== 'undefined' && localStorage.getItem('kitobchi_preview_mode') === 'student');
+  const isAdmin = _currentUser && (_currentUser.role === 'admin' && _currentUser.isAdmin === true);
+
+  let unlockedCount = 0;
+  let lockedCount = 0;
+  _allBooks.forEach(b => {
+    const u = isBookUnlocked(b, _currentUser);
+    if (u.isUnlocked && (!u.isAdminBypass || !isStudentPreview)) {
+      unlockedCount++;
+    } else {
+      lockedCount++;
+    }
+  });
+
+  // Geymifikatsiya stats pill va admin rejimi tugmasi
+  const statsSlot = document.getElementById('books-stats-slot');
+  if (statsSlot) {
+    statsSlot.innerHTML = `
+      <div class="gamification-stat-pill" style="display:flex;gap:10px;background:var(--surface);padding:8px 14px;border-radius:var(--radius-md);border:1px solid var(--divider);font-size:0.8125rem;">
+        <span style="color:var(--success);font-weight:700;">${svgIcon('unlock', 13, 'margin-right:3px;')}${unlockedCount} ta ochiq</span>
+        <span style="color:var(--divider);">|</span>
+        <span style="color:var(--ochre);font-weight:700;">${svgIcon('lock', 13, 'margin-right:3px;')}${lockedCount} ta qulflangan</span>
+      </div>
+
+      ${isAdmin ? `
+        <button id="btn-toggle-preview-mode" class="btn btn-sm ${isStudentPreview ? 'btn-primary' : 'btn-outline'}" style="display:inline-flex;align-items:center;gap:6px;" title="O'quvchi va admin ko'rinishlari orasida almashish">
+          ${isStudentPreview ? `${svgIcon('book', 13)} O'quvchi ko'rinishi (Faol)` : `${svgIcon('crown', 13)} Admin ko'rinishi`}
+        </button>
+      ` : ''}
+    `;
+  }
+
+  // Status tablaridagi sonlarni yangilash
+  const tabAll = document.getElementById('tab-all-books');
+  const tabUnlocked = document.getElementById('tab-unlocked-books');
+  const tabLocked = document.getElementById('tab-locked-books');
+  if (tabAll) tabAll.textContent = `Barchasi (${_allBooks.length})`;
+  if (tabUnlocked) tabUnlocked.innerHTML = `${svgIcon('unlock', 13, 'margin-right:3px;')}Ochiq (${unlockedCount})`;
+  if (tabLocked) tabLocked.innerHTML = `${svgIcon('lock', 13, 'margin-right:3px;')}Qulflangan (${lockedCount})`;
+
+  // Inputlarni faollashtirish
+  const searchInput = document.getElementById('books-search');
+  const diffSelect = document.getElementById('books-difficulty');
+  if (searchInput) searchInput.disabled = false;
+  if (diffSelect) {
+    diffSelect.disabled = false;
+    diffSelect.innerHTML = `
+      <option value="">Barchasi</option>
+      <option value="Oson">Oson</option>
+      <option value="O'rta">O'rta</option>
+      <option value="Qiyin">Qiyin</option>
+    `;
+  }
+
+  // Kitoblar kartalarini chizish va hodisalarni ulash
   _renderBooks(_getFilteredBooks());
-  _bindEvents(container, { params, user });
+  _bindEvents(container, { params, user, userLevel });
 }
 
 function _renderBooks(books) {

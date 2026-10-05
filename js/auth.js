@@ -222,16 +222,16 @@ async function _saveRegisteredUser(user, plainPassword) {
 }
 
 // ============================================================
-// ICHKI YORDAMCHI FUNKSIYALAR (export qilinmaydi)
+// ICHKI YORDAMCHI FUNKSIYALAR
 // ============================================================
 
 /**
  * Foydalanuvchi ma'lumotlarini localStorage ga yozadi.
  * @param {object|null} user
  */
-function _saveSession(user) {
+export function _saveSession(user) {
   if (user && user.id) {
-    if (user.role === 'admin' || user.isAdmin === true) {
+    if (user.role === 'admin' && user.isAdmin === true) {
       if (!user.sessionToken) {
         user.sessionToken = createDynamicAdminToken();
       }
@@ -289,7 +289,7 @@ function _saveSession(user) {
  * @param {object} [profileData] — profiles jadvalidan kelgan qo'shimcha ma'lumot
  * @returns {object}
  */
-function _buildUserObject(authUser, profileData = {}) {
+export function _buildUserObject(authUser, profileData = {}) {
   // Avvalgi saqlangan ma'lumotlarni o'qiymiz
   const existingUser = getCurrentUser();
 
@@ -315,15 +315,14 @@ function _buildUserObject(authUser, profileData = {}) {
                      || '';
   const email         = authUser.email || existingUser?.email || '';
   const cleanUsername = String(username).trim().toLowerCase();
-  const cleanEmail    = String(email).trim().toLowerCase();
 
-  // Adminlik huquqi: Hech qachon email.startsWith('admin@') orqali berilmaydi!
-  // Faqat bazada tasdiqlangan admin roli va metadata uchun
+  // Adminlik huquqi: faqat bazada tasdiqlangan admin roli va maxsus ruxsatli foydalanuvchi nomlari uchun
   const isAdmin = Boolean(
-    profileData.role === 'admin' ||
-    profileData.is_admin === true ||
-    profileData.isAdmin === true ||
-    authUser.user_metadata?.role === 'admin'
+    (profileData.role === 'admin' ||
+     profileData.is_admin === true ||
+     profileData.isAdmin === true ||
+     authUser.user_metadata?.role === 'admin') &&
+    (cleanUsername === 'admin' || cleanUsername === 'admin_kitobchi')
   );
 
   // Avatar va Personaj ustuvorligi:
@@ -375,6 +374,12 @@ function _buildUserObject(authUser, profileData = {}) {
                     || storedUser?.lastQuizDate 
                     || null;
 
+  const effectiveRole = isAdmin 
+    ? 'admin' 
+    : (profileData.role && profileData.role !== 'admin' 
+        ? profileData.role 
+        : (existingUser?.role && existingUser?.role !== 'admin' ? existingUser.role : 'user'));
+
   return {
     id:        authUser.id,
     email:     email,
@@ -384,7 +389,7 @@ function _buildUserObject(authUser, profileData = {}) {
     avatar:    avatar,
     avatarImage: avatarImage,
     avatarCharId: avatarCharId,
-    role:      isAdmin ? 'admin' : (profileData.role || existingUser?.role || 'user'),
+    role:      effectiveRole,
     isAdmin:   isAdmin,
     score:     score,
     streak:    streak,
@@ -670,11 +675,6 @@ export async function login(username, password) {
         let isPassValid = false;
         if (localUser.passwordHash && localUser.salt) {
           isPassValid = await verifyPassword(cleanPass, localUser.salt, localUser.passwordHash);
-        } else if (localUser.password) {
-          if (localUser.password === cleanPass) {
-            isPassValid = true;
-            await _saveRegisteredUser(localUser, cleanPass);
-          }
         }
 
         if (isPassValid) {

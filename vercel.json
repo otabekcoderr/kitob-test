@@ -1,6 +1,14 @@
 {
+  "redirects": [
+    {
+      "source": "/js/data.js",
+      "destination": "/index.html",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/js/data.js", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "functions": {

@@ -1181,7 +1181,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .page-loader__spinner {
-  display: none !important;
+  display: none;
 }
 
 .empty-state {
@@ -2030,8 +2030,8 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100% !important;
-    height: calc(58px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 100%;
+    height: calc(58px + env(safe-area-inset-bottom, 0px));
     padding-bottom: env(safe-area-inset-bottom, 0px);
     flex-direction: row;
     border-right: none;
@@ -2049,7 +2049,7 @@ h1, h2, h3, h4, h5, h6 {
     pointer-events: none;
   }
   body.in-quiz .page {
-    padding-bottom: 24px !important;
+    padding-bottom: 24px;
   }
 
   .navbar__inner {
@@ -2087,7 +2087,7 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
     padding: 6px 2px;
-    font-size: 0.6875rem !important; /* 11px */
+    font-size: 0.6875rem; /* 11px */
     font-weight: 600;
     gap: 3px;
     min-height: 48px;
@@ -2113,14 +2113,14 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .nav__link-label {
-    opacity: 1 !important;
-    font-size: 0.6875rem !important;
+    opacity: 1;
+    font-size: 0.6875rem;
     letter-spacing: 0.02em;
     white-space: nowrap;
   }
 
   .nav__link--active {
-    color: var(--ochre-text) !important;
+    color: var(--ochre-text);
     background: var(--ochre-light);
     font-weight: 700;
   }
@@ -2134,14 +2134,14 @@ h1, h2, h3, h4, h5, h6 {
 
   /* Page padding */
   .page {
-    padding-left: 0 !important;
-    padding-top: 16px !important;
-    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-left: 0;
+    padding-top: 16px;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   }
 
   .footer {
-    padding-left: 0 !important;
-    margin-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-left: 0;
+    margin-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   }
 
   .grid-2, .grid-3, .grid-4 {
@@ -2150,16 +2150,16 @@ h1, h2, h3, h4, h5, h6 {
 
   /* Kitoblar griti mobilda har doim nafis 2 ustunli vitrina! */
   .grid-auto {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
   .container {
-    padding: 0 16px !important;
+    padding: 0 16px;
   }
 
   .card {
-    padding: 16px !important;
+    padding: 16px;
   }
 }
 
@@ -3722,11 +3722,24 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Kitoblar sahifasi filtri */
+.books-filter-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  align-items: flex-end;
+}
+.books-filter-bar > div {
+  flex: 1;
+  min-width: 200px;
+}
+
 /* Kitoblar kartasi va vitrina */
 @media (max-width: 600px) {
   .grid-auto {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
   .book-card {
     border-radius: var(--radius-md);
@@ -3750,7 +3763,7 @@ h1, h2, h3, h4, h5, h6 {
     text-overflow: ellipsis;
   }
   .book-card__desc {
-    display: none !important;
+    display: none;
   }
   .book-card__footer {
     padding: 8px 10px;
@@ -3760,42 +3773,47 @@ h1, h2, h3, h4, h5, h6 {
     padding: 1px 6px;
   }
   .books-filter-bar {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 12px !important;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
   .books-filter-bar > div {
-    width: 100% !important;
-    min-width: 100% !important;
+    width: 100%;
+    min-width: 100%;
   }
   #books-search, #books-difficulty {
     width: 100%;
   }
   .books-status-tabs,
   .books-category-tabs {
-    display: flex !important;
-    overflow-x: auto !important;
-    flex-wrap: nowrap !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-    padding-bottom: 6px !important;
-    margin-bottom: 14px !important;
-    gap: 8px !important;
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    gap: 8px;
   }
   .books-status-tabs::-webkit-scrollbar,
   .books-category-tabs::-webkit-scrollbar {
-    display: none !important;
+    display: none;
   }
   .books-status-tabs .status-tab,
   .books-category-tabs .cat-tab {
-    flex-shrink: 0 !important;
-    white-space: nowrap !important;
-    padding: 6px 12px !important;
-    font-size: 0.8125rem !important;
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 0.8125rem;
   }
 }
 
 /* Kitob tafsiloti (Book Detail) */
+#start-quiz-btn {
+  width: 100%;
+  max-width: 280px;
+}
+
 @media (max-width: 600px) {
   .book-detail__top {
     flex-direction: column;
@@ -3811,18 +3829,18 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 100%;
   }
   .book-detail__badges-row {
-    justify-content: center !important;
+    justify-content: center;
   }
   .book-detail__fav-btn {
-    margin-left: 0 !important;
+    margin-left: 0;
   }
   .book-locked-box,
   .book-detail__locked-box {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 16px 14px !important;
-    box-sizing: border-box !important;
-    margin: 0 auto !important;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px 14px;
+    box-sizing: border-box;
+    margin: 0 auto;
     text-align: left;
   }
   .book-detail__cover-wrap {
@@ -3837,8 +3855,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.45rem;
   }
   #start-quiz-btn {
-    max-width: 100% !important;
-    width: 100% !important;
+    max-width: 100%;
+    width: 100%;
   }
   .book-detail__desc {
     padding: 16px;
@@ -3849,8 +3867,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Test jarayoni (Quiz) */
 @media (max-width: 600px) {
   #quiz-header {
-    gap: 8px !important;
-    margin-bottom: 18px !important;
+    gap: 8px;
+    margin-bottom: 18px;
   }
   .quiz-question {
     font-size: 1.1rem;
@@ -3886,7 +3904,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
   }
   #next-btn {
-    width: 100% !important;
+    width: 100%;
     min-height: 48px;
     font-size: 1rem;
     font-weight: 700;
@@ -3962,6 +3980,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Natija sahifasi (Result Page) */
+.result-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 480px) {
   .result-score-ring {
     width: 100px;
@@ -3972,10 +3997,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.75rem;
   }
   .result-stats-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, 1fr);
   }
   .result-stats-grid > div {
-    border-left: none !important;
+    border-left: none;
     border-top: 1px solid var(--divider);
   }
   .result-stats-grid > div:nth-child(odd) {
@@ -3986,11 +4011,11 @@ h1, h2, h3, h4, h5, h6 {
     border-top: none;
   }
   .result-actions {
-    flex-direction: column !important;
-    width: 100% !important;
+    flex-direction: column;
+    width: 100%;
   }
   .result-actions .btn {
-    width: 100% !important;
+    width: 100%;
     justify-content: center;
   }
 }
@@ -4174,15 +4199,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .profile-tabs .tab.tab--active {
-  color: #fff !important;
-  background: var(--ochre) !important;
+  color: #fff;
+  background: var(--ochre);
   box-shadow: 0 2px 8px rgba(183, 110, 22, 0.35);
 }
 
 .profile-tabs .tab.tab--active svg,
 .profile-tabs .tab.tab--active span {
-  color: #fff !important;
-  stroke: #fff !important;
+  color: #fff;
+  stroke: #fff;
 }
 
 /* Avatar upload zone & dropzone */
@@ -4319,8 +4344,8 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
   }
   .character-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
   .character-card {
     padding: 12px 10px;

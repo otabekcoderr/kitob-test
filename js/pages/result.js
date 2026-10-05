@@ -230,7 +230,7 @@ export async function render(container, { params, user: initialUser }) {
           </div>
 
           <!-- Boshqaruv tugmalari -->
-          <div class="result-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <div class="result-actions">
             ${bookId
               ? `<a href="#book?id=${escapeHtml(String(bookId))}" class="btn btn-outline">Qaytadan urinish</a>
                  <a href="#books" class="btn btn-primary">Barcha kitoblar</a>`

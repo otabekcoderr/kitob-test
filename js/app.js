@@ -425,30 +425,23 @@ function _buildNavbarHTML() {
     profile:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
   };
 
-  const isAdmin = user && (user.role === 'admin' && user.isAdmin === true);
+  const isAdmin = Boolean(user && (user.role === 'admin' && user.isAdmin === true));
 
-  const adminLink = isAdmin
-    ? `<li>
-        <a href="#admin" class="nav__link nav__admin-link" data-path="admin">
-          <span class="nav__link-icon">${ICONS.admin}</span>
-          <span class="nav__link-label">Admin</span>
-        </a>
-      </li>`
-    : '';
+  const adminLink = `
+    <li id="nav-item-admin" style="${isAdmin ? '' : 'display:none;'}">
+      <a href="#admin" class="nav__link nav__admin-link" data-path="admin">
+        <span class="nav__link-icon">${ICONS.admin}</span>
+        <span class="nav__link-label">Admin</span>
+      </a>
+    </li>`;
 
-  const mobileProfileLink = user
-    ? `<li class="nav__item--mobile-only">
-        <a href="#profile" class="nav__link" data-path="profile">
-          <span class="nav__link-icon">${ICONS.profile}</span>
-          <span class="nav__link-label">Profil</span>
-        </a>
-      </li>`
-    : `<li class="nav__item--mobile-only">
-        <a href="#login" class="nav__link" data-path="login">
-          <span class="nav__link-icon">${ICONS.profile}</span>
-          <span class="nav__link-label">Kirish</span>
-        </a>
-      </li>`;
+  const mobileProfileLink = `
+    <li class="nav__item--mobile-only" id="nav-item-mobile-profile">
+      <a href="#${user ? 'profile' : 'login'}" class="nav__link" data-path="${user ? 'profile' : 'login'}" id="nav-mobile-profile-link">
+        <span class="nav__link-icon">${ICONS.profile}</span>
+        <span class="nav__link-label" id="nav-mobile-profile-label">${user ? 'Profil' : 'Kirish'}</span>
+      </a>
+    </li>`;
 
   // Auth — profil yoki kirish/ro'yxat
   let avatarHTML = '';
@@ -572,34 +565,64 @@ function _buildNavbarHTML() {
   `;
 }
 
+let _navbarMounted = false;
+
 /**
- * Navbar ni DOM ga yozadi va hodisalarni ulaydi.
+ * Navbar ni DOM ga bir marta yozadi va hodisalarni ulaydi.
  */
 function _mountNavbar() {
   const navEl = document.getElementById('navbar');
-  if (!navEl) return;
+  if (!navEl || _navbarMounted) return;
 
   navEl.innerHTML = _buildNavbarHTML();
+  _navbarMounted = true;
+
   _applyTheme(_getSavedTheme());
 
-  // Tema toggle (desktop va mobil)
+  // Tema toggle (desktop va mobil) — faqat bir marta ulanadi
   document.getElementById('theme-toggle')
     ?.addEventListener('click', _toggleTheme);
   document.getElementById('mobile-theme-toggle')
     ?.addEventListener('click', _toggleTheme);
-
-  // Logout
-  _bindLogoutBtn();
-
-  // Hamburger
-  _bindHamburger();
 }
 
 /**
- * Navbar auth qismini yangilaydi (login/logout o'zgarganida).
+ * Navbar holatini DOM ni to'liq buzmasdan selektiv yangilaydi.
  */
 function _updateNavbar() {
-  _mountNavbar();
+  if (!_navbarMounted) {
+    _mountNavbar();
+  }
+
+  const user = getCurrentUser();
+  const isAdmin = Boolean(user && (user.role === 'admin' && user.isAdmin === true));
+
+  // 1. Admin linkini ko'rsatish / yashirish (DOM ni buzmasdan)
+  const adminItem = document.getElementById('nav-item-admin');
+  if (adminItem) {
+    adminItem.style.display = isAdmin ? '' : 'none';
+  }
+
+  // 2. Mobil profil / kirish tugmasini yangilash
+  const mobileProfileLink = document.getElementById('nav-mobile-profile-link');
+  const mobileProfileLabel = document.getElementById('nav-mobile-profile-label');
+  if (mobileProfileLink && mobileProfileLabel) {
+    const targetPath = user ? 'profile' : 'login';
+    mobileProfileLink.setAttribute('href', `#${targetPath}`);
+    mobileProfileLink.setAttribute('data-path', targetPath);
+    mobileProfileLabel.textContent = user ? 'Profil' : 'Kirish';
+  }
+
+  // 3. Desktop auth blokini (profil vs kirish tugmalari) faqat o'zgarganida yangilash
+  const navAuth = document.getElementById('nav-auth');
+  if (navAuth) {
+    const newAuthHTML = _buildAuthLinksHTML(user);
+    if (navAuth.innerHTML.trim() !== newAuthHTML.trim()) {
+      navAuth.innerHTML = newAuthHTML;
+    }
+  }
+
+  // 4. Joriy faol havolani belgilash
   const { path } = _parseHash();
   _setActiveNavLink(path);
 }
@@ -645,16 +668,6 @@ function _buildAuthLinksHTML(user) {
   `;
 }
 
-function _bindLogoutBtn() {
-  // Chiqish tugmasi faqat profil sahifasi ichida joylashtirildi
-}
-
-/**
- * Sidebar endi CSS :hover bilan ishlaydi — JS kerak emas.
- */
-function _bindHamburger() {
-  // CSS :hover sidebar ochadi/yopadi — qo'shimcha JS shart emas
-}
 
 /**
  * Joriy sahifaga mos nav havolasini aktiv qiladi.
@@ -701,16 +714,14 @@ function _watchAuth() {
 // 7. ILOVANI ISHGA TUSHURISH
 // ============================================================
 
-const SESSION_KEY = 'kitobchi_user';
-
 /**
  * Supabase sessiyasini tekshirib, localStorage ni yangilaydi.
- * Bu getCurrentUser() birinchi sahifada to'g'ri ishlashi uchun zarur.
+ * auth.js dagi yagona _buildUserObject va _saveSession dan foydalanadi.
  */
 async function _syncSession() {
   try {
     const { supabase } = await import('./supabase-client.js');
-    const { _fetchProfile } = await import('./auth.js');
+    const { _fetchProfile, _buildUserObject, _saveSession, getCurrentUser } = await import('./auth.js');
 
     let isTimedOut = false;
     const result = await Promise.race([
@@ -735,7 +746,7 @@ async function _syncSession() {
         return;
       }
       if (!isTimedOut && result?.error === null) {
-        localStorage.removeItem(SESSION_KEY);
+        _saveSession(null);
       }
       return;
     }
@@ -746,58 +757,9 @@ async function _syncSession() {
       profile = await _fetchProfile(session.user.id);
     } catch { /* ignore */ }
 
-    // Mavjud foydalanuvchi ma'lumotlarini o'qiymiz
-    const existingRaw = localStorage.getItem(SESSION_KEY);
-    let existingUser = null;
-    try {
-      if (existingRaw) existingUser = JSON.parse(existingRaw);
-    } catch { /* ignore */ }
-
-    let storedUser = null;
-    try {
-      const allRaw = localStorage.getItem('kitobchi_all_users');
-      if (allRaw) {
-        const all = JSON.parse(allRaw);
-        storedUser = all[session.user.id] || null;
-      }
-    } catch { /* ignore */ }
-
-    let charData = null;
-    try {
-      const charRaw = localStorage.getItem(`kitobchi_user_character_${session.user.id}`);
-      if (charRaw) charData = JSON.parse(charRaw);
-    } catch { /* ignore */ }
-
-    const cleanUsername = String(profile?.username || session.user.user_metadata?.username || existingUser?.username || '').trim().toLowerCase();
-    const isAdmin = (profile?.role === 'admin' || profile?.is_admin === true) && (cleanUsername === 'admin' || cleanUsername === 'admin_kitobchi');
-    const stats = profile?.stats || {};
-
-    const userObj = {
-      id:           session.user.id,
-      email:        session.user.email        || '',
-      fullName:     profile?.full_name        || session.user.user_metadata?.full_name  || existingUser?.fullName || 'Foydalanuvchi',
-      username:     profile?.username         || session.user.user_metadata?.username   || existingUser?.username || '',
-      avatar:       charData?.avatar          || existingUser?.avatar || storedUser?.avatar || (profile?.avatar_image && (profile.avatar_image.startsWith('http') || profile.avatar_image.startsWith('data:image/')) ? profile.avatar_image : null) || (profile?.avatar_url && (profile.avatar_url.startsWith('http') || profile.avatar_url.startsWith('data:image/')) ? profile.avatar_url : null) || session.user.user_metadata?.avatar || '🎭',
-      avatarImage:  charData?.avatarImage !== undefined ? charData.avatarImage : (existingUser?.avatarImage !== undefined ? existingUser?.avatarImage : (storedUser?.avatarImage || session.user.user_metadata?.avatarImage || profile?.avatar_image || null)),
-      avatarCharId: charData?.avatarCharId !== undefined ? charData.avatarCharId : (existingUser?.avatarCharId !== undefined ? existingUser?.avatarCharId : (storedUser?.avatarCharId || session.user.user_metadata?.avatarCharId || profile?.avatar_char_id || null)),
-      role:         isAdmin ? 'admin' : (profile?.role || existingUser?.role || 'user'),
-      isAdmin:      isAdmin,
-      score:        stats.totalScore !== undefined && stats.totalScore !== null
-                      ? Number(stats.totalScore)
-                      : (stats.score !== undefined && stats.score !== null
-                        ? Number(stats.score)
-                        : Math.max(existingUser?.score || 0, storedUser?.score || 0, profile?.score || stats.avgScore || stats.bestScore || 0)),
-      streak:       stats.currentStreak !== undefined && stats.currentStreak !== null
-                      ? Number(stats.currentStreak)
-                      : (profile?.streak !== undefined && profile?.streak !== null
-                        ? Number(profile.streak)
-                        : (existingUser?.streak !== undefined
-                          ? Number(existingUser.streak)
-                          : (storedUser?.streak !== undefined ? Number(storedUser.streak) : 0))),
-      lastQuizDate: stats.lastQuizDate || profile?.last_quiz_date || existingUser?.lastQuizDate || storedUser?.lastQuizDate || null,
-    };
-
-    localStorage.setItem(SESSION_KEY, JSON.stringify(userObj));
+    // auth.js dagi yagona funksiya orqali obyekt quriladi va sessiya saqlanadi
+    const userObj = _buildUserObject(session.user, profile || {});
+    _saveSession(userObj);
     _updateNavbar();
 
   } catch (err) {
@@ -826,6 +788,11 @@ async function _init() {
   _mountNavbar();
   _applyTheme(_getSavedTheme());
   _watchAuth();
+
+  const footerYearEl = document.getElementById('footer-year');
+  if (footerYearEl) {
+    footerYearEl.textContent = String(new Date().getFullYear() || '2026');
+  }
 
   // Multi-tab va cross-device sinxronizatsiya
   try {

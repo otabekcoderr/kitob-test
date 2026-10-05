@@ -161,7 +161,7 @@ function _renderBook(contentEl, book, questions, user) {
                           <span><strong>Admin ruxsati:</strong> Ushbu asar aslida <strong>${u.requiredLevel}-daraja (${u.requiredXP} XP)</strong> talab qiladi. Admin sifatida testni sinab ko'rishingiz mumkin.</span>
                         </div>
                       ` : ''}
-                      <button id="start-quiz-btn" class="btn btn-primary btn-lg" data-book-id="${escapeHtml(String(book.id))}" style="width:100%;max-width:280px;">
+                      <button id="start-quiz-btn" class="btn btn-primary btn-lg" data-book-id="${escapeHtml(String(book.id))}">
                         Bilimingizni tekshiring
                       </button>
                     `;

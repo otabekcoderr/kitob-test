@@ -15,5 +15,5 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   var yearEl = document.getElementById('footer-year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear() || '2026');
 });
