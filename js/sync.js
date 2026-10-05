@@ -214,8 +214,13 @@ function _initFocusReconciliation() {
 
     const cur = getCurrentUser();
     if (cur && cur.id) {
+      // Offline yoki lokal foydalanuvchilarni Supabase dan so'ramaymiz
+      if (cur.offlineSession || String(cur.id).startsWith('local_') || String(cur.id).startsWith('admin-')) {
+        return;
+      }
+
       try {
-        const { data: freshProfile } = await supabase
+        const { data: freshProfile, error } = await supabase
           .from('profiles')
           .select('id, username, full_name, avatar, avatar_image, stats')
           .eq('id', cur.id)
@@ -236,9 +241,11 @@ function _initFocusReconciliation() {
             window.dispatchEvent(new CustomEvent('kitobchi_profile_updated', { detail: updated }));
             broadcastSyncEvent('PROFILE_UPDATE', updated);
           }
-        } else if (freshProfile === null) {
-          // Foydalanuvchi bazadan o'chirilgan bo'lsa
-          console.warn('[sync] Foydalanuvchi hisobi serverda topilmadi.');
+        } else if (freshProfile === null && !error) {
+          // Foydalanuvchi hisobi serverdan o'chirilgan bo'lsa, eskirgan sessiyani toza tozalash
+          console.info('[sync] Foydalanuvchi hisobi serverda mavjud emas, sessiya yangilandi.');
+          localStorage.removeItem('kitobchi_user');
+          window.dispatchEvent(new CustomEvent('kitobchi_auth_sync', { detail: { user: null } }));
         }
       } catch {}
     }

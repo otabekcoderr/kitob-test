@@ -5,9 +5,7 @@
 // Client-side bundle ga kirmaydi.
 // ============================================================
 
-import { books } from './books-catalog.js';
-
-export { books };
+export { books } from './books-metadata.js';
 
 export const questions = [
   {

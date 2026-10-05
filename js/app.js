@@ -510,6 +510,31 @@ function _buildNavbarHTML() {
           <span class="navbar__logo-text">Kitobchi<span style="color:var(--ochre);">.uz</span></span>
         </a>
 
+        <!-- Planshet va desktop uchun menyuni ochish / yopish tugmasi -->
+        <div class="sidebar-toggle-wrap">
+          <button
+            id="sidebar-toggle-btn"
+            class="sidebar-toggle-btn"
+            type="button"
+            aria-label="Menyuni ochish yoki yopish"
+            aria-expanded="false"
+            title="Menyu (kengaytirish / yopish)"
+          >
+            <span class="sidebar-toggle-icon" id="sidebar-toggle-icon" aria-hidden="true">
+              <svg class="icon-hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+              <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" style="display:none;">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </span>
+            <span class="sidebar-toggle-text" id="sidebar-toggle-text">Menyu</span>
+          </button>
+        </div>
+
         <!-- Navigatsiya havolalar -->
         <ul class="nav__links" id="nav-links" role="list">
           <li>
@@ -568,6 +593,60 @@ function _buildNavbarHTML() {
 let _navbarMounted = false;
 
 /**
+ * Planshet va desktop uchun yon menyu toggle boshqaruvi.
+ */
+function _bindSidebarToggle() {
+  const toggleBtn = document.getElementById('sidebar-toggle-btn');
+  const navbarEl = document.querySelector('.navbar');
+  const backdropEl = document.getElementById('sidebar-backdrop');
+  if (!toggleBtn || !navbarEl) return;
+
+  const toggleSidebar = (forceState) => {
+    const isOpen = typeof forceState === 'boolean'
+      ? forceState
+      : !navbarEl.classList.contains('sidebar--open');
+
+    navbarEl.classList.toggle('sidebar--open', isOpen);
+    document.body.classList.toggle('sidebar-pinned', isOpen);
+    toggleBtn.setAttribute('aria-expanded', String(isOpen));
+
+    const iconHam = toggleBtn.querySelector('.icon-hamburger');
+    const iconClose = toggleBtn.querySelector('.icon-close');
+    const toggleText = document.getElementById('sidebar-toggle-text');
+
+    if (iconHam && iconClose) {
+      iconHam.style.display = isOpen ? 'none' : 'block';
+      iconClose.style.display = isOpen ? 'block' : 'none';
+    }
+    if (toggleText) {
+      toggleText.textContent = isOpen ? 'Yopish' : 'Menyu';
+    }
+    if (backdropEl) {
+      backdropEl.classList.toggle('sidebar-backdrop--active', isOpen);
+    }
+  };
+
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleSidebar();
+  });
+
+  if (backdropEl) {
+    backdropEl.addEventListener('click', () => toggleSidebar(false));
+  }
+
+  // Sahifa o'zgarganda menyuni yopish
+  window.addEventListener('hashchange', () => toggleSidebar(false));
+
+  // Escape tugmasi bilan yopish
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navbarEl.classList.contains('sidebar--open')) {
+      toggleSidebar(false);
+    }
+  });
+}
+
+/**
  * Navbar ni DOM ga bir marta yozadi va hodisalarni ulaydi.
  */
 function _mountNavbar() {
@@ -584,6 +663,9 @@ function _mountNavbar() {
     ?.addEventListener('click', _toggleTheme);
   document.getElementById('mobile-theme-toggle')
     ?.addEventListener('click', _toggleTheme);
+
+  // Planshet va desktop uchun menyuni ochish / yopish hodisalari
+  _bindSidebarToggle();
 }
 
 /**

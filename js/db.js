@@ -5,7 +5,7 @@
 // Tartib: avval Supabase, xato bo'lsa lokal metadata fallback.
 // Merge EMAS — biri ishlasa ikkinchisi chaqirilmaydi.
 //
-// Import qilinadi: supabase-client.js, auth.js, books-catalog.js, characters.js
+// Modullar: supabase-client.js, auth.js, books-metadata.js, characters.js
 // Bu fayldan import qilinadi: barcha sahifa skriptlari
 // ============================================================
 
@@ -16,7 +16,8 @@ import {
   markSupabaseFailure as _recordSupabaseFailure
 } from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
-import { books as localBooks } from './books-catalog.js';
+import { books as localBooks }
+  from './books-metadata.js';
 import { characters as staticCharacters } from './characters.js';
 import { today, yesterday, formatDate, toLocalDateString, daysBetween, getBookCoverUrl, sanitizeQueryInput, sanitizeIdentifier } from './utils.js';
 
@@ -229,7 +230,7 @@ function _initLocalBooks() {
     }
   } catch {}
 
-  // 1. books-catalog.js dagi barcha tayyor kitoblar
+  // 1. books-metadata.js dagi barcha tayyor kitoblar
   (localBooks ?? []).forEach(b => {
     if (!b || (!b.id && !b.title)) return;
     const idStr = String(b.id || _slugify(b.title));

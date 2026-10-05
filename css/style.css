@@ -1289,30 +1289,30 @@ h1, h2, h3, h4, h5, h6 {
   transition:  width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Hover must not be the only way to reveal the labels.
-   On touch devices and in Windows high contrast there is no hover state, so
-   the sidebar stayed at 56px with every label at opacity 0 — the guest
-   "Kirish / Ro'yxatdan o'tish" links were unreachable, not merely hidden.
-   Width is now driven by a hover/focus-within capability query, and
-   `:focus-within` also opens it for keyboard users. */
+/* Desktop: sichqoncha bilan hover qilinganda yoki menyu ochilganda */
 @media (hover: hover) and (pointer: fine) {
-  .navbar:hover,
+  .navbar:hover {
+    width: var(--sidebar-w-open);
+  }
+}
+
+/* Planshet va desktopda menyu ochilganda */
+.navbar.sidebar--open {
+  width: var(--sidebar-w-open);
+}
+
+/* Planshetlarda (769px - 1024px) menyu ochilganda kontent ustiga qoplab chiqishi uchun soya */
+@media (min-width: 769px) and (max-width: 1024px) {
   .navbar.sidebar--open {
-    width: var(--sidebar-w-open);
+    box-shadow: 6px 0 28px rgba(17, 23, 20, 0.25);
   }
 }
 
-/* Without hover the sidebar is always expanded so no control is ever
-   unreachable. On narrow viewports the mobile bar takes over anyway. */
-@media (hover: none), (pointer: coarse) {
-  .navbar {
-    width: var(--sidebar-w-open);
-  }
-}
-
-@media (min-width: 769px) and (forced-colors: active) {
-  .navbar {
-    width: var(--sidebar-w-open);
+/* Desktopda foydalanuvchi menyuni doimiy qotirib qo'ysa (pinned), kontent siljiydi */
+@media (min-width: 1025px) {
+  body.sidebar-pinned .page,
+  body.sidebar-pinned .footer {
+    padding-left: var(--sidebar-w-open);
   }
 }
 
@@ -1387,6 +1387,87 @@ h1, h2, h3, h4, h5, h6 {
 .navbar:hover .navbar__logo-text,
 .navbar.sidebar--open .navbar__logo-text {
   opacity: 1;
+}
+
+/* --- Planshet & Desktop menyu toggle tugmasi --- */
+.sidebar-toggle-wrap {
+  padding: 0 8px;
+  margin-bottom: 6px;
+}
+
+.sidebar-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--paper-alt);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+
+.sidebar-toggle-btn:hover {
+  background: var(--ochre-light);
+  border-color: var(--ochre);
+  color: var(--ochre-text);
+}
+
+.sidebar-toggle-btn:active {
+  transform: scale(0.96);
+}
+
+.sidebar-toggle-icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.sidebar-toggle-text {
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.18s ease 0.06s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navbar:hover .sidebar-toggle-text,
+.navbar.sidebar--open .sidebar-toggle-text {
+  opacity: 1;
+}
+
+/* Fon qoraytirish qatlami (Backdrop overlay) */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(17, 23, 20, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: calc(var(--z-navbar) - 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  pointer-events: none;
+}
+
+.sidebar-backdrop--active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* --- Navigatsiya havolalar --- */
@@ -2060,8 +2141,8 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
   }
 
-  /* Logo yashirish desktop bar ichida */
-  .navbar__logo { display: none; }
+  /* Logo va yon panel toggle tugmasini mobil pastki barda yashirish */
+  .navbar__logo, .sidebar-toggle-wrap { display: none; }
 
   /* Nav links — gorizontal tab bar */
   .nav__links {
