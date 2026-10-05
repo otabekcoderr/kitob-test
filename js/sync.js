@@ -168,9 +168,13 @@ function _initSupabaseRealtime() {
         // Agar o'zimizning profilimiz boshqa qurilmada yangilangan bo'lsa
         if (cur && payload.new && payload.new.id === cur.id) {
           const stats = payload.new.stats || {};
+          // Hech qachon to'plangan ballni orqaga qaytarmaslik: realtime hodisasi
+          // eskirgan/past DB qiymatini (masalan 0) olib kelsa, mahalliy ballni
+          // yo'qotmaslik uchun eng katta qiymat saqlanadi.
+          const incomingScore = Number(stats.totalScore ?? stats.score ?? payload.new.score ?? 0);
           const updatedUser = {
             ...cur,
-            score: Number(stats.totalScore ?? stats.score ?? payload.new.score ?? cur.score),
+            score: Math.max(Number(cur.score || 0), Number.isFinite(incomingScore) ? incomingScore : 0),
             streak: Number(stats.currentStreak ?? payload.new.streak ?? cur.streak),
             avatar: payload.new.avatar || cur.avatar,
             avatarImage: payload.new.avatar_image || cur.avatarImage,

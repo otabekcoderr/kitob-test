@@ -249,6 +249,7 @@ async function _finishQuiz(forceZero = false) {
   _disableAntiCheat();
 
   const totalQuestions = state.questions.length;
+  const penaltyRate = Number(state.penaltyTotal || 0);
   const curUser = getCurrentUser();
   const guestScore = typeof localStorage !== 'undefined' ? (Number(localStorage.getItem('kitobchi_guest_score')) || 0) : 0;
   const guestStreak = typeof localStorage !== 'undefined' ? (Number(localStorage.getItem('kitobchi_guest_streak')) || 0) : 0;

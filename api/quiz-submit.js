@@ -675,7 +675,12 @@ export default async function handler(req, res) {
             if (!fetchErr && latestProf) {
               const freshStats = (latestProf.stats && typeof latestProf.stats === 'object') ? latestProf.stats : {};
               const freshScore = Number(freshStats.totalScore ?? freshStats.score ?? freshStats.avgScore ?? 0);
-              const resolvedScore = freshScore + earnedXP;
+              // Accumulate on the highest known score. `oldScore` already folds in
+              // the client-declared score (max(dbScore, rawCurrentScore)); if the DB
+              // row lagged behind a prior write, using freshScore alone would regress
+              // the user's total (e.g. return 15 instead of 40). Never lose earned XP.
+              const baselineScore = Math.max(freshScore, oldScore);
+              const resolvedScore = baselineScore + earnedXP;
 
               const resolvedDates = Array.isArray(freshStats.activeDates) ? [...freshStats.activeDates] : [];
               if (!resolvedDates.includes(todayStr)) {

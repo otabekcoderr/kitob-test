@@ -349,15 +349,20 @@ export function _buildUserObject(authUser, profileData = {}) {
   const stats = profileData.stats || {};
 
   // Ball: Birinchi navbatda umumiy ball (totalScore / score) olinadi
-  const score = stats.totalScore !== undefined && stats.totalScore !== null
+  const dbScore = stats.totalScore !== undefined && stats.totalScore !== null
     ? Number(stats.totalScore)
     : (stats.score !== undefined && stats.score !== null
       ? Number(stats.score)
-      : Math.max(
-          existingUser?.score || 0,
-          storedUser?.score || 0,
-          profileData.score || stats.avgScore || stats.bestScore || 0
-        ));
+      : (profileData.score || stats.avgScore || stats.bestScore || 0));
+
+  // XP faqat o'sadi (monoton). Agar DB qatori eskiroq bo'lsa (masalan oldingi
+  // yozuv saqlanmagan), mahalliy saqlangan to'plangan ballni yo'qotmaslik uchun
+  // eng katta qiymat olinadi — aks holda qayta yuklashda ball 0 ga tushib qoladi.
+  const score = Math.max(
+    Number(dbScore) || 0,
+    Number(existingUser?.score) || 0,
+    Number(storedUser?.score) || 0
+  );
 
   // Streak: currentStreak 0 bo'lsa ham 0 saqlanadi (hech qachon maxStreak bilan adashtirilmaydi)
   const streak = stats.currentStreak !== undefined && stats.currentStreak !== null
