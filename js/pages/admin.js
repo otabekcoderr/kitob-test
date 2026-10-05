@@ -19,8 +19,7 @@ import { escapeHtml,
          truncate,
          svgIcon,
          isImageUrl }                 from '../utils.js';
-import { books as localBooks }
-  from '../books-metadata.js';
+import { books as localBooks }       from '../books-catalog.js';
 import { characters as localCharacters } from '../characters.js';
 import { broadcastSyncEvent }    from '../sync.js';
 

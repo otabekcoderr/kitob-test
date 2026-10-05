@@ -3,9 +3,9 @@
 // ============================================================
 // Diqqat: Bu fayl faqat serverless API va test oracledan chaqiriladi.
 // Client-side bundle ga kirmaydi.
-// ============================================================
+import { books } from './books-catalog.js';
 
-export { books } from './books-metadata.js';
+export { books };
 
 export const questions = [
   {

@@ -42,9 +42,13 @@ export async function render(container, { params, user: initialUser }) {
   const isPassed     = percentage >= 60;
   const isOnline     = navigator.onLine;
 
-  const xpEarned          = result.xpEarned ?? 0;
+  const xpEarned          = toSafeInt(result.xpEarned, 0);
   const xpBreakdown       = result.xpBreakdown ?? { base: 15, accuracyBonus: 0, speedBonus: 0, dailyBonus: 0, streakBonus: 0 };
-  const userLevelRaw      = result.newLevel || getUserLevel(user?.score || 0);
+  const currentTotalXP    = (result.newScore !== undefined && result.newScore !== null)
+    ? toSafeInt(result.newScore, 0)
+    : (toSafeInt(user?.score, 0) + xpEarned);
+
+  const userLevelRaw      = result.newLevel || getUserLevel(currentTotalXP);
   // progressPct lands inside an inline `width:` value, so it is clamped to a
   // plain percentage before interpolation.
   const userLevel         = {
@@ -62,7 +66,17 @@ export async function render(container, { params, user: initialUser }) {
     allBooks = [];
   }
 
-  const nextUnlock = getNextUnlockTarget(allBooks, user);
+  const effectiveUser = user ? {
+    ...user,
+    score: currentTotalXP,
+    stats: {
+      ...(user.stats || {}),
+      totalScore: currentTotalXP,
+      score: currentTotalXP
+    }
+  } : null;
+
+  const nextUnlock = getNextUnlockTarget(allBooks, effectiveUser);
   const newlyUnlockedBooks = isLevelUp
     ? allBooks.filter(b => {
         const req = getBookUnlockReq(b);
@@ -165,12 +179,10 @@ export async function render(container, { params, user: initialUser }) {
               <div style="height:9px;background:var(--divider);border-radius:6px;overflow:hidden;position:relative;">
                 <div style="width:${userLevel.progressPct}%;height:100%;background:linear-gradient(90deg, var(--ochre), #e08e28);border-radius:6px;transition:width 1s ease-out;"></div>
               </div>
-              ${!userLevel.isMaxLevel && userLevel.remainingXP > 0 ? `
-                <div style="font-size:0.75rem;color:var(--ink-muted);margin-top:6px;display:flex;justify-content:space-between;">
-                  <span>Hozirgi XP: <strong>${user?.score ?? (userLevel.currentLevelXP || 0)} XP</strong></span>
-                  <span>Yana <strong>${userLevel.remainingXP} XP</strong> kerak</span>
-                </div>
-              ` : ''}
+              <div style="font-size:0.75rem;color:var(--ink-muted);margin-top:6px;display:flex;justify-content:space-between;">
+                <span>Hozirgi XP: <strong>${currentTotalXP} XP</strong></span>
+                <span>${!userLevel.isMaxLevel && userLevel.remainingXP > 0 ? `Yana <strong>${userLevel.remainingXP} XP</strong> kerak` : `Maksimal daraja`}</span>
+              </div>
             </div>
 
           </div>

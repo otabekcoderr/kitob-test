@@ -5,7 +5,7 @@
 // Tartib: avval Supabase, xato bo'lsa lokal metadata fallback.
 // Merge EMAS — biri ishlasa ikkinchisi chaqirilmaydi.
 //
-// Modullar: supabase-client.js, auth.js, books-metadata.js, characters.js
+// Modullar: supabase-client.js, auth.js, books-catalog.js, characters.js
 // Bu fayldan import qilinadi: barcha sahifa skriptlari
 // ============================================================
 
@@ -16,8 +16,8 @@ import {
   markSupabaseFailure as _recordSupabaseFailure
 } from './supabase-client.js';
 import { getCurrentUser } from './auth.js';
-import { books as localBooks }
-  from './books-metadata.js';
+import { broadcastSyncEvent } from './sync.js';
+import { books as localBooks } from './books-catalog.js';
 import { characters as staticCharacters } from './characters.js';
 import { today, yesterday, formatDate, toLocalDateString, daysBetween, getBookCoverUrl, sanitizeQueryInput, sanitizeIdentifier } from './utils.js';
 
@@ -1128,24 +1128,30 @@ export async function submitQuizAnswers(payload) {
         const data = await res.json();
         if (data && data.success) {
           // Mahalliy kesh va profil ma'lumotlarini darhol yangilash
-          if (user && data.newScore !== undefined) {
+          const activeUser = user || getCurrentUser();
+          if (activeUser && data.newScore !== undefined) {
             try {
               const updatedUser = {
-                ...user,
+                ...activeUser,
                 score: data.newScore,
-                streak: data.newStreak !== undefined ? data.newStreak : user.streak,
+                streak: data.newStreak !== undefined ? data.newStreak : (activeUser.streak || 1),
                 stats: {
-                  ...(user.stats || {}),
+                  ...(activeUser.stats || {}),
                   totalScore: data.newScore,
                   score: data.newScore,
-                  currentStreak: data.newStreak !== undefined ? data.newStreak : user.streak,
+                  currentStreak: data.newStreak !== undefined ? data.newStreak : (activeUser.streak || 1),
                   lastQuizDate: data.date || today()
                 }
               };
               localStorage.setItem('kitobchi_user', JSON.stringify(updatedUser));
               if (typeof window !== 'undefined') {
-                window.dispatchEvent(new CustomEvent('kitobchi_user_updated', { detail: updatedUser }));
+                window.dispatchEvent(new CustomEvent('kitobchi_profile_updated', { detail: updatedUser }));
+                window.dispatchEvent(new CustomEvent('kitobchi_auth_sync', { detail: { user: updatedUser } }));
+                window.dispatchEvent(new CustomEvent('kitobchi_leaderboard_updated'));
               }
+              try {
+                broadcastSyncEvent('PROFILE_UPDATE', updatedUser);
+              } catch {}
             } catch {}
           }
 
