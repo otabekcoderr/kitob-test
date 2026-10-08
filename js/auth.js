@@ -361,6 +361,7 @@ export function _buildUserObject(authUser, profileData = {}) {
   const score = Math.max(
     Number(dbScore) || 0,
     Number(existingUser?.score) || 0,
+    Number(existingUser?.stats?.totalScore) || 0,
     Number(storedUser?.score) || 0
   );
 
@@ -400,6 +401,13 @@ export function _buildUserObject(authUser, profileData = {}) {
     streak:    streak,
     lastQuizDate: lastQuizDate,
     createdAt: authUser.created_at || '',
+    stats: {
+      ...(stats || {}),
+      totalScore: score,
+      score: score,
+      currentStreak: streak,
+      lastQuizDate: lastQuizDate
+    },
   };
 }
 

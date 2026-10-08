@@ -50,10 +50,13 @@ export async function render(container, { params, user: initialUser }) {
     : 0;
   const userScore = user ? toSafeInt(user.score, 0) : guestScore;
 
-  // Aniq hisoblangan jami XP (hech qachon avvalgi ball + olingan XP dan kam bo'lmaydi)
-  const currentTotalXP = (result.newScore !== undefined && result.newScore !== null && toSafeInt(result.newScore, 0) >= userScore)
-    ? toSafeInt(result.newScore, 0)
-    : (userScore + xpEarned);
+  // Aniq hisoblangan jami XP (Single Source of Truth: DB/result.newScore)
+  const resultNewScore = toSafeInt(result.newScore, 0);
+  const resultOldScore = toSafeInt(result.oldScore, 0);
+  const guaranteedScore = resultOldScore + xpEarned;
+  const currentTotalXP = resultNewScore > 0
+    ? Math.max(resultNewScore, guaranteedScore)
+    : Math.max(guaranteedScore, userScore);
 
   const userLevelRaw      = getUserLevel(currentTotalXP);
   // progressPct lands inside an inline `width:` value, so it is clamped to a
@@ -82,6 +85,12 @@ export async function render(container, { params, user: initialUser }) {
       score: currentTotalXP
     }
   } : null;
+
+  if (effectiveUser) {
+    try {
+      localStorage.setItem('kitobchi_user', JSON.stringify(effectiveUser));
+    } catch {}
+  }
 
   const nextUnlock = getNextUnlockTarget(allBooks, effectiveUser);
   const newlyUnlockedBooks = isLevelUp

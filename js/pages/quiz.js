@@ -278,6 +278,7 @@ function _onQuestion({ question, index, total, timeLeft }) {
     btn.addEventListener('click', () => {
       const value = btn.dataset.value;
       _disableOptions();
+      btn.classList.add('selected');
       submitAnswer(value, _callbacks);
     }, { once: true });
   });
@@ -338,18 +339,23 @@ function _announce(message) {
 function _onAnswer({ isCorrect, correctAnswer, selectedOption, explanation, isOffline }) {
   // Tanlangan variantni belgilash
   document.querySelectorAll('.quiz-option').forEach(btn => {
-    const val = btn.dataset.value;
-    if (selectedOption !== null && String(val) === String(selectedOption)) {
+    const val = (btn.dataset.value || '').trim().toLowerCase();
+    const isSelected = selectedOption !== null && val === String(selectedOption).trim().toLowerCase();
+    const isThisCorrect = (correctAnswer !== undefined && correctAnswer !== null)
+      ? val === String(correctAnswer).trim().toLowerCase()
+      : false;
+
+    if (isSelected) {
       btn.classList.add('selected');
       btn.setAttribute('aria-checked', 'true');
-    }
-    if (correctAnswer !== undefined && correctAnswer !== null) {
-      if (String(val) === String(correctAnswer)) {
+      if (isCorrect === true) {
         btn.classList.add('correct');
-      }
-      if (selectedOption !== null && String(val) === String(selectedOption) && isCorrect === false) {
+      } else if (isCorrect === false) {
         btn.classList.add('wrong');
       }
+    }
+    if (isThisCorrect) {
+      btn.classList.add('correct');
     }
   });
 

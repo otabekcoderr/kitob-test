@@ -11,7 +11,7 @@
 // Import: db.js · auth.js · utils.js
 // ============================================================
 
-import { getQuestions, getBookById, saveQuizResult, updateStreakAndScore, fetchQuizQuestions, submitQuizAnswers } from './db.js';
+import { getQuestions, getBookById, saveQuizResult, updateStreakAndScore, fetchQuizQuestions, submitQuizAnswers, checkQuizAnswer } from './db.js';
 import { getCurrentUser }  from './auth.js';
 import {
   shuffle,
@@ -251,11 +251,28 @@ async function _finishQuiz(forceZero = false) {
   const totalQuestions = state.questions.length;
   const penaltyRate = Number(state.penaltyTotal || 0);
   const curUser = getCurrentUser();
+  let knownUserScore = 0;
+  if (curUser) {
+    knownUserScore = Math.max(
+      Number(curUser.score) || 0,
+      Number(curUser.stats?.totalScore) || 0,
+      Number(curUser.stats?.score) || 0
+    );
+    try {
+      const allRaw = localStorage.getItem('kitobchi_all_users');
+      if (allRaw) {
+        const all = JSON.parse(allRaw);
+        if (all[curUser.id]?.score) {
+          knownUserScore = Math.max(knownUserScore, Number(all[curUser.id].score) || 0);
+        }
+      }
+    } catch {}
+  }
   const guestScore = typeof localStorage !== 'undefined' ? (Number(localStorage.getItem('kitobchi_guest_score')) || 0) : 0;
   const guestStreak = typeof localStorage !== 'undefined' ? (Number(localStorage.getItem('kitobchi_guest_streak')) || 0) : 0;
   const guestDate = typeof localStorage !== 'undefined' ? localStorage.getItem('kitobchi_guest_last_quiz_date') : null;
 
-  const currentScore = curUser ? Number(curUser.score || 0) : guestScore;
+  const currentScore = Math.max(knownUserScore, guestScore);
   const currentStreak = curUser ? Number(curUser.streak || 0) : guestStreak;
   const lastQuizDate = curUser?.lastQuizDate || guestDate || null;
 
@@ -401,7 +418,20 @@ export async function startQuiz(config, callbacks = {}) {
     state.questions = shuffledQuestions.map((q, idx) => {
       // Faqat oflayn rejimda bo'lsagina mahalliy javob kalitlarini ajratamiz
       if (state.isOffline && (q._localCorrectAnswer !== undefined || q.correct_answer !== undefined || q.correctAnswer !== undefined)) {
-        const correctVal = String(q._localCorrectAnswer ?? q.correct_answer ?? q.correctAnswer ?? '');
+        const rawKey = q._localCorrectAnswer ?? q.correct_answer ?? q.correctAnswer;
+        const opts = Array.isArray(q.options) ? q.options : [];
+        let correctVal = '';
+        if (typeof rawKey === 'number' && rawKey >= 0 && rawKey < opts.length) {
+          correctVal = String(opts[rawKey]);
+        } else if (rawKey !== undefined && rawKey !== null) {
+          correctVal = String(rawKey).trim();
+          if (/^\d+$/.test(correctVal)) {
+            const num = parseInt(correctVal, 10);
+            if (num >= 0 && num < opts.length) {
+              correctVal = String(opts[num]);
+            }
+          }
+        }
         _secureAnswerKeys[idx] = correctVal;
         _secureExplanations[idx] = String(q._localExplanation ?? q.explanation ?? '');
       }
@@ -478,31 +508,60 @@ function _showQuestion(callbacks) {
  * @param {string|number} selectedOption — tanlangan javob
  * @param {object}        callbacks
  */
-export function submitAnswer(selectedOption, callbacks = {}) {
+/**
+ * Foydalanuvchi javob berganida chaqiriladi.
+ *
+ * @param {string|number} selectedOption — tanlangan javob
+ * @param {object}        callbacks
+ */
+export async function submitAnswer(selectedOption, callbacks = {}) {
   if (!state.isRunning || state.isFinished || !state.isAcceptingAnswer) return;
 
   _stopTimer();
-  _nextQuestion(selectedOption, callbacks);
+  await _nextQuestion(selectedOption, callbacks);
 }
 
 /**
  * Javobni tekshirib, keyingi savolga o'tkazadi.
  * @private
  */
-function _nextQuestion(selectedOption, callbacks) {
+async function _nextQuestion(selectedOption, callbacks) {
   const { onAnswer, onFinish } = callbacks;
   if (!state.isAcceptingAnswer) return;
   state.isAcceptingAnswer = false;
 
   const question       = state.questions[state.currentIndex];
-  const correctVal     = _secureAnswerKeys[state.currentIndex] || '';
-  const explanationVal = _secureExplanations[state.currentIndex] || '';
+  let correctVal     = _secureAnswerKeys[state.currentIndex] || '';
+  let explanationVal = _secureExplanations[state.currentIndex] || '';
 
   const isOffline = Boolean(state.isOffline);
-  const hasLocalKey = isOffline && Boolean(correctVal);
+  let isCorrect = null;
 
-  const isCorrect = hasLocalKey ? (selectedOption !== null &&
-                    String(selectedOption).trim().toLowerCase() === String(correctVal).trim().toLowerCase()) : null;
+  // 1. Agar xotirada javob kaliti mavjud bo'lsa (oflayn yoki kesh)
+  if (correctVal) {
+    isCorrect = selectedOption !== null &&
+      String(selectedOption).trim().toLowerCase() === String(correctVal).trim().toLowerCase();
+  } else if (selectedOption !== null && question?.id) {
+    // 2. Onlayn rejimda serverless /api/quiz-check orqali darhol tekshirish
+    try {
+      const checkRes = await checkQuizAnswer({
+        bookId: state.bookId,
+        questionId: question.id,
+        questionText: question.question || question.text || '',
+        selectedOption,
+        sessionToken: state.sessionToken
+      });
+      if (checkRes && checkRes.isCorrect !== null) {
+        isCorrect = Boolean(checkRes.isCorrect);
+        correctVal = checkRes.correctAnswer || '';
+        explanationVal = checkRes.explanation || '';
+        _secureAnswerKeys[state.currentIndex] = correctVal;
+        _secureExplanations[state.currentIndex] = explanationVal;
+      }
+    } catch (err) {
+      console.warn('[quiz] checkQuizAnswer error:', err);
+    }
+  }
 
   if (isCorrect === true) {
     state.score += 1;
@@ -515,7 +574,7 @@ function _nextQuestion(selectedOption, callbacks) {
 
   const opts = Array.isArray(question.options) ? question.options : [];
   const selectedIdx = opts.findIndex(o => String(o) === String(selectedOption));
-  const correctIdx = hasLocalKey ? opts.findIndex(o => String(o) === String(correctVal)) : null;
+  const correctIdx = correctVal ? opts.findIndex(o => String(o) === String(correctVal)) : null;
 
   // Savol va javoblar tahlili uchun to'liq saqlaymiz
   state.userAnswers.push({
@@ -526,19 +585,19 @@ function _nextQuestion(selectedOption, callbacks) {
     selectedOption: selectedOption,
     selectedText: selectedOption ? String(selectedOption) : null,
     selectedOptionIndex: selectedIdx >= 0 ? selectedIdx : null,
-    correctAnswer: hasLocalKey ? correctVal : null,
-    correctText: hasLocalKey ? correctVal : null,
+    correctAnswer: correctVal || null,
+    correctText: correctVal || null,
     correctOptionIndex: correctIdx !== null && correctIdx >= 0 ? correctIdx : null,
     isCorrect: isCorrect,
-    explanation: hasLocalKey ? explanationVal : null
+    explanation: explanationVal || null
   });
 
   if (typeof onAnswer === 'function') {
     onAnswer({
       isCorrect,
       selectedOption,
-      correctAnswer: hasLocalKey ? correctVal : null,
-      explanation:   hasLocalKey ? explanationVal : null,
+      correctAnswer: correctVal || null,
+      explanation:   explanationVal || null,
       score:         state.score,
       index:         state.currentIndex,
       isOffline:     state.isOffline,
@@ -547,11 +606,14 @@ function _nextQuestion(selectedOption, callbacks) {
 
   state.currentIndex += 1;
 
-  // Izohni o'qish yoki keyingi savolga silliq o'tish
+  // Izohni o'qish yoki keyingi savolga silliq o'tish:
+  // Javob tekshirilgan va izoh mavjud bo'lsa, foydalanuvchiga uni o'qish uchun 6s beramiz
+  // (foydalanuvchi "Keyingi savol" tugmasini bosib istalgan vaqtda darhol o'tishi mumkin)
+  const hasFeedback = (isCorrect !== null || Boolean(correctVal));
   _clearAdvanceTimer();
   _advanceTimer = setTimeout(() => {
     _proceedToNext(callbacks);
-  }, hasLocalKey ? 4500 : 700);
+  }, hasFeedback ? 6000 : 800);
 }
 
 let _advanceTimer = null;

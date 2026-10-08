@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node tests/run-e2e-tests.js",
     "check": "npm run check:api && npm run check:js",
-    "check:api": "node --check api/quiz.js api/quiz-submit.js api/_utils.js api/_progression.js api/_supabase.js api/_session.js",
+    "check:api": "node --check api/quiz.js api/quiz-submit.js api/quiz-check.js api/_utils.js api/_progression.js api/_supabase.js api/_session.js",
     "check:js": "node scripts/check-syntax.js"
   },
   "dependencies": {

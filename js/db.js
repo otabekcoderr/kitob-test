@@ -865,6 +865,96 @@ export async function fetchQuizQuestions(bookId) {
 }
 
 /**
+ * Test jarayonida har bir savol javobini serverless endpoint orqali darhol tekshiradi.
+ *
+ * @param {object} params
+ * @param {string} params.bookId
+ * @param {string} params.questionId
+ * @param {string|number} params.selectedOption
+ * @param {string|null} [params.sessionToken]
+ * @returns {Promise<{isCorrect: boolean|null, correctAnswer: string|null, correctOptionIndex: number|null, explanation: string}>}
+ */
+export async function checkQuizAnswer({ bookId, questionId, selectedOption, sessionToken = null, questionText = '' }) {
+  if (typeof fetch === 'function' && (typeof navigator === 'undefined' || navigator.onLine !== false)) {
+    try {
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 3500) : null;
+
+      const res = await fetch('/api/quiz-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ bookId, questionId, selectedOption, sessionToken, questionText }),
+        signal: controller ? controller.signal : undefined
+      });
+      if (timeoutId) clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success) {
+          return {
+            isCorrect: Boolean(data.isCorrect),
+            correctAnswer: data.correctAnswer || null,
+            correctOptionIndex: data.correctOptionIndex !== undefined ? data.correctOptionIndex : null,
+            explanation: data.explanation || ''
+          };
+        }
+      }
+    } catch (err) {
+      console.warn('[db] /api/quiz-check fetch failed, using fallback:', err.message);
+    }
+  }
+
+  // Fallback to local questions in localStorage or static catalog
+  const localQs = _getLocalQuestionsForBook(bookId);
+  const customQs = _getLocalCustomQuestions();
+  const allCandidates = [...localQs, ...customQs];
+  const targetId = String(questionId);
+  const cleanQText = questionText ? String(questionText).trim().toLowerCase() : '';
+
+  const found = allCandidates.find(q =>
+    String(q.id) === targetId ||
+    (cleanQText && String(q.question || q.text || '').trim().toLowerCase() === cleanQText)
+  );
+
+  if (found) {
+    const opts = Array.isArray(found.options) ? found.options : [];
+    const rawCorrect = found.correct_answer ?? found.correctAnswer ?? found._localCorrectAnswer;
+    let correctVal = '';
+    let correctIdx = null;
+
+    if (typeof rawCorrect === 'number' && rawCorrect >= 0 && rawCorrect < opts.length) {
+      correctIdx = rawCorrect;
+      correctVal = String(opts[correctIdx]);
+    } else if (rawCorrect !== undefined && rawCorrect !== null) {
+      correctVal = String(rawCorrect).trim();
+      correctIdx = opts.findIndex(opt => String(opt).trim().toLowerCase() === correctVal.toLowerCase());
+      if (correctIdx === -1 && /^\d+$/.test(correctVal)) {
+        const num = parseInt(correctVal, 10);
+        if (num >= 0 && num < opts.length) {
+          correctIdx = num;
+          correctVal = String(opts[num]);
+        }
+      }
+    }
+
+    const isCorrect = Boolean(
+      selectedOption !== null &&
+      correctVal &&
+      String(selectedOption).trim().toLowerCase() === correctVal.trim().toLowerCase()
+    );
+
+    return {
+      isCorrect,
+      correctAnswer: correctVal || null,
+      correctOptionIndex: correctIdx,
+      explanation: found.explanation || found._localExplanation || ''
+    };
+  }
+
+  return { isCorrect: null, correctAnswer: null, correctOptionIndex: null, explanation: '' };
+}
+
+/**
  * Savol qo'shadi yoki tahrirlaydi (Supabase + localStorage).
  */
 export async function saveQuestion(data, id = null) {
@@ -1132,19 +1222,28 @@ export async function submitQuizAnswers(payload) {
           const activeUser = user || getCurrentUser();
           const earnedXP = Number(data.xpEarned || 0);
 
-          let finalScore = Number(data.newScore !== undefined ? data.newScore : earnedXP);
+          let previousScore = 0;
+          if (activeUser) {
+            previousScore = Math.max(
+              Number(activeUser.score) || 0,
+              Number(activeUser.stats?.totalScore) || 0,
+              Number(activeUser.stats?.score) || 0,
+              Number(payload.currentScore) || 0
+            );
+          } else {
+            const guestScore = typeof localStorage !== 'undefined' ? (Number(localStorage.getItem('kitobchi_guest_score')) || 0) : 0;
+            previousScore = Math.max(guestScore, Number(payload.currentScore) || 0);
+          }
+
+          // Authoritative accumulation:
+          // Foydalanuvchining umumiy balli HECH QACHON avvalgi ball + olingan XP dan kam bo'lmasligi SHART!
+          const serverReported = Number(data.newScore);
+          const finalScore = (Number.isFinite(serverReported) && serverReported >= (previousScore + earnedXP))
+            ? serverReported
+            : (previousScore + earnedXP);
 
           if (activeUser) {
             try {
-              const previousScore = Number(activeUser.score || 0);
-              // Authoritative accumulation:
-              // Never allow a newScore that is smaller than previousScore + earnedXP to regress the user
-              finalScore = (data.authenticated && data.persisted && data.newScore !== undefined)
-                ? Math.max(Number(data.newScore), previousScore + earnedXP)
-                : (data.newScore !== undefined && Number(data.newScore) > previousScore)
-                  ? Number(data.newScore)
-                  : (previousScore + earnedXP);
-
               const accumulatedStreak = data.newStreak !== undefined
                 ? data.newStreak
                 : (activeUser.streak || 1);
@@ -1162,6 +1261,17 @@ export async function submitQuizAnswers(payload) {
                 }
               };
               localStorage.setItem('kitobchi_user', JSON.stringify(updatedUser));
+              // kitobchi_all_users dagi foydalanuvchi qatorini ham yangilash
+              try {
+                const allRaw = localStorage.getItem('kitobchi_all_users');
+                const all = allRaw ? JSON.parse(allRaw) : {};
+                if (all[activeUser.id]) {
+                  all[activeUser.id].score = finalScore;
+                  all[activeUser.id].streak = accumulatedStreak;
+                  localStorage.setItem('kitobchi_all_users', JSON.stringify(all));
+                }
+              } catch {}
+
               if (typeof window !== 'undefined') {
                 window.dispatchEvent(new CustomEvent('kitobchi_profile_updated', { detail: updatedUser }));
                 window.dispatchEvent(new CustomEvent('kitobchi_auth_sync', { detail: { user: updatedUser } }));
@@ -1174,10 +1284,6 @@ export async function submitQuizAnswers(payload) {
           } else {
             // Guest progression:
             try {
-              const prevGuestScore = Number(localStorage.getItem('kitobchi_guest_score')) || 0;
-              finalScore = (data.newScore !== undefined && Number(data.newScore) > prevGuestScore)
-                ? Number(data.newScore)
-                : (prevGuestScore + earnedXP);
               localStorage.setItem('kitobchi_guest_score', String(finalScore));
               localStorage.setItem('kitobchi_guest_streak', String(data.newStreak || 1));
               localStorage.setItem('kitobchi_guest_last_quiz_date', today());
@@ -1186,12 +1292,13 @@ export async function submitQuizAnswers(payload) {
 
           // Ensure result data returned and cached in sessionStorage has finalScore and accurate level
           const calculatedLevel = getUserLevel(finalScore);
+          const oldCalculatedLevel = getUserLevel(previousScore);
+          data.oldScore = previousScore;
           data.newScore = finalScore;
+          data.oldLevel = data.oldLevel || oldCalculatedLevel;
           data.userLevel = calculatedLevel;
           data.newLevel = calculatedLevel;
-          if (data.oldLevel) {
-            data.isLevelUp = calculatedLevel.level > data.oldLevel.level;
-          }
+          data.isLevelUp = Boolean(data.isLevelUp) || (calculatedLevel.level > oldCalculatedLevel.level);
 
           // Keshni tozalash
           _leaderboardCache = null;
